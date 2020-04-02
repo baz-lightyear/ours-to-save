@@ -5,8 +5,6 @@ import React from 'react';
 import Page from '../components/Page';
 import withData from '../lib/withData';
 
-Router.events.on('routeChangeComplete', url => gtag.pageview(url))
-
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {};

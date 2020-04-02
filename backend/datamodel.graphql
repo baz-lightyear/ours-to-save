@@ -3,18 +3,16 @@ type User {
   name: String!
   email: String! @unique
   password: String!
-  resetToken: String
-  resetTokenExpiry: Float
 }
 
 type Story {
-    id: ID! @id
-    title: String!
-    content: String
+  id: ID! @id
+  title: String!
+  content: String
 }
 
 type Initiative {
-    id: ID! @id
-    title: String!
-    description: String
+  id: ID! @id
+  title: String!
+  description: String
 }

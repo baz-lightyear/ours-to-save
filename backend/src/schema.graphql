@@ -1,6 +1,12 @@
 type Mutation {
+    createStory(title: String!, content: String!): Story
 }
 
 type Query {
+    stories: [Story]!
 }
 
+type Story {
+    title: String
+    content: String
+}

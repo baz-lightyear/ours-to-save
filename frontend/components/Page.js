@@ -6,14 +6,15 @@ import Meta from './Meta';
 
 
 const theme = {
-  yellow: '#FFF8D1',
-  black: '#333333',
-  grey: '#3A3A3A',
-  blue: '#3347FF',
-  lightgrey: '#E1E1E1',
-  offWhite: '#FFFDF2',
-  maxWidth: '1000px',
-  bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
+  yellow: '#f6feaa',
+  orange: '#fce694',
+  lightgreen: '#c7d5cf',
+  lightblue: '#C1DBE3',
+  darkgreen: '#395756',
+  offWhite: '#f9f9f9',
+  black: "#333333",
+  serif: 'Martel',
+  sansSerif: 'Poppins',
 };
 
 const StyledPage = styled.div`
@@ -25,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
     html {
         box-sizing: border-box;
         font-size: 16px;
+        font-family: ${theme.sansSerif}
     }
     *, *:before, *:after {
         box-sizing: inherit;
@@ -32,17 +34,10 @@ const GlobalStyle = createGlobalStyle`
     body {
         padding: 0;
         margin: 0;
-        font-size: 1.5rem;
-        line-height: 2;
+        font-size: 1rem;
     }
     a {
         text-decoration: none;
-        color: ${theme.black};
-    }
-    button {  
-        &:hover {
-            color: ${theme.blue}
-        }
     }
 `
 
