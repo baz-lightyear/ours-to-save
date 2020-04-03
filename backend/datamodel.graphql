@@ -9,6 +9,12 @@ type Story {
   id: ID! @id
   title: String!
   content: String
+  address: String
+  longitude: Float
+  latitude: Float
+  good: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Initiative {

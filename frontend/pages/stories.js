@@ -6,13 +6,16 @@ import Stories from '../components/Stories';
 
 const Container = styled.div`
     text-align: center;
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    padding-bottom: 1rem;
 `;
 
 class stories extends Component {
     render() {
         return (
             <Container>
-               here are the stories
                <Stories/>
                <CreateStory/>
             </Container>

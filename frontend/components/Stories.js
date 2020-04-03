@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Query} from 'react-apollo';
 import {STORIES_QUERY} from './Apollo';
+import Story from './Story';
 
 class Stories extends Component {
     render() {
@@ -9,10 +10,9 @@ class Stories extends Component {
                 {({ data, error, loading }) => {
                     if (loading) return <p>Loading...</p>;
                     if (error) return <p>Error: {error.message}</p>;
-                    console.log('here is the data')
                     return (
                         <div>
-                            {data.stories.map(story => <p>{story.title} - {story.content}</p>)}
+                            {data.stories.map(story => <Story story={story} key={story.id}/>)}
                         </div>
                     );
                 }}

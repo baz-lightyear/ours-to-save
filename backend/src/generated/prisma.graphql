@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/harrykingdon/demo/dev
-# timestamp: Thu Apr 02 2020 13:42:03 GMT+0100 (British Summer Time)
+# timestamp: Fri Apr 03 2020 15:18:15 GMT+0100 (British Summer Time)
 
 type AggregateInitiative {
   count: Int!
@@ -322,6 +322,10 @@ type Story implements Node {
   id: ID!
   title: String!
   content: String
+  address: String
+  longitude: Float
+  latitude: Float
+  good: String
 }
 
 """A connection to a list of items."""
@@ -338,6 +342,10 @@ input StoryCreateInput {
   id: ID
   title: String!
   content: String
+  address: String
+  longitude: Float
+  latitude: Float
+  good: String
 }
 
 """An edge in a connection."""
@@ -356,12 +364,24 @@ enum StoryOrderByInput {
   title_DESC
   content_ASC
   content_DESC
+  address_ASC
+  address_DESC
+  longitude_ASC
+  longitude_DESC
+  latitude_ASC
+  latitude_DESC
+  good_ASC
+  good_DESC
 }
 
 type StoryPreviousValues {
   id: ID!
   title: String!
   content: String
+  address: String
+  longitude: Float
+  latitude: Float
+  good: String
 }
 
 type StorySubscriptionPayload {
@@ -404,11 +424,19 @@ input StorySubscriptionWhereInput {
 input StoryUpdateInput {
   title: String
   content: String
+  address: String
+  longitude: Float
+  latitude: Float
+  good: String
 }
 
 input StoryUpdateManyMutationInput {
   title: String
   content: String
+  address: String
+  longitude: Float
+  latitude: Float
+  good: String
 }
 
 input StoryWhereInput {
@@ -540,6 +568,130 @@ input StoryWhereInput {
 
   """All values not ending with the given string."""
   content_not_ends_with: String
+  address: String
+
+  """All values that are not equal to given value."""
+  address_not: String
+
+  """All values that are contained in given list."""
+  address_in: [String!]
+
+  """All values that are not contained in given list."""
+  address_not_in: [String!]
+
+  """All values less than the given value."""
+  address_lt: String
+
+  """All values less than or equal the given value."""
+  address_lte: String
+
+  """All values greater than the given value."""
+  address_gt: String
+
+  """All values greater than or equal the given value."""
+  address_gte: String
+
+  """All values containing the given string."""
+  address_contains: String
+
+  """All values not containing the given string."""
+  address_not_contains: String
+
+  """All values starting with the given string."""
+  address_starts_with: String
+
+  """All values not starting with the given string."""
+  address_not_starts_with: String
+
+  """All values ending with the given string."""
+  address_ends_with: String
+
+  """All values not ending with the given string."""
+  address_not_ends_with: String
+  longitude: Float
+
+  """All values that are not equal to given value."""
+  longitude_not: Float
+
+  """All values that are contained in given list."""
+  longitude_in: [Float!]
+
+  """All values that are not contained in given list."""
+  longitude_not_in: [Float!]
+
+  """All values less than the given value."""
+  longitude_lt: Float
+
+  """All values less than or equal the given value."""
+  longitude_lte: Float
+
+  """All values greater than the given value."""
+  longitude_gt: Float
+
+  """All values greater than or equal the given value."""
+  longitude_gte: Float
+  latitude: Float
+
+  """All values that are not equal to given value."""
+  latitude_not: Float
+
+  """All values that are contained in given list."""
+  latitude_in: [Float!]
+
+  """All values that are not contained in given list."""
+  latitude_not_in: [Float!]
+
+  """All values less than the given value."""
+  latitude_lt: Float
+
+  """All values less than or equal the given value."""
+  latitude_lte: Float
+
+  """All values greater than the given value."""
+  latitude_gt: Float
+
+  """All values greater than or equal the given value."""
+  latitude_gte: Float
+  good: String
+
+  """All values that are not equal to given value."""
+  good_not: String
+
+  """All values that are contained in given list."""
+  good_in: [String!]
+
+  """All values that are not contained in given list."""
+  good_not_in: [String!]
+
+  """All values less than the given value."""
+  good_lt: String
+
+  """All values less than or equal the given value."""
+  good_lte: String
+
+  """All values greater than the given value."""
+  good_gt: String
+
+  """All values greater than or equal the given value."""
+  good_gte: String
+
+  """All values containing the given string."""
+  good_contains: String
+
+  """All values not containing the given string."""
+  good_not_contains: String
+
+  """All values starting with the given string."""
+  good_starts_with: String
+
+  """All values not starting with the given string."""
+  good_not_starts_with: String
+
+  """All values ending with the given string."""
+  good_ends_with: String
+
+  """All values not ending with the given string."""
+  good_not_ends_with: String
 }
 
 input StoryWhereUniqueInput {
@@ -557,8 +709,6 @@ type User implements Node {
   name: String!
   email: String!
   password: String!
-  resetToken: String
-  resetTokenExpiry: Float
 }
 
 """A connection to a list of items."""
@@ -576,8 +726,6 @@ input UserCreateInput {
   name: String!
   email: String!
   password: String!
-  resetToken: String
-  resetTokenExpiry: Float
 }
 
 """An edge in a connection."""
@@ -598,10 +746,6 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
-  resetToken_ASC
-  resetToken_DESC
-  resetTokenExpiry_ASC
-  resetTokenExpiry_DESC
 }
 
 type UserPreviousValues {
@@ -609,8 +753,6 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
-  resetToken: String
-  resetTokenExpiry: Float
 }
 
 type UserSubscriptionPayload {
@@ -654,16 +796,12 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
-  resetToken: String
-  resetTokenExpiry: Float
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
-  resetToken: String
-  resetTokenExpiry: Float
 }
 
 input UserWhereInput {
@@ -835,68 +973,6 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
-  resetToken: String
-
-  """All values that are not equal to given value."""
-  resetToken_not: String
-
-  """All values that are contained in given list."""
-  resetToken_in: [String!]
-
-  """All values that are not contained in given list."""
-  resetToken_not_in: [String!]
-
-  """All values less than the given value."""
-  resetToken_lt: String
-
-  """All values less than or equal the given value."""
-  resetToken_lte: String
-
-  """All values greater than the given value."""
-  resetToken_gt: String
-
-  """All values greater than or equal the given value."""
-  resetToken_gte: String
-
-  """All values containing the given string."""
-  resetToken_contains: String
-
-  """All values not containing the given string."""
-  resetToken_not_contains: String
-
-  """All values starting with the given string."""
-  resetToken_starts_with: String
-
-  """All values not starting with the given string."""
-  resetToken_not_starts_with: String
-
-  """All values ending with the given string."""
-  resetToken_ends_with: String
-
-  """All values not ending with the given string."""
-  resetToken_not_ends_with: String
-  resetTokenExpiry: Float
-
-  """All values that are not equal to given value."""
-  resetTokenExpiry_not: Float
-
-  """All values that are contained in given list."""
-  resetTokenExpiry_in: [Float!]
-
-  """All values that are not contained in given list."""
-  resetTokenExpiry_not_in: [Float!]
-
-  """All values less than the given value."""
-  resetTokenExpiry_lt: Float
-
-  """All values less than or equal the given value."""
-  resetTokenExpiry_lte: Float
-
-  """All values greater than the given value."""
-  resetTokenExpiry_gt: Float
-
-  """All values greater than or equal the given value."""
-  resetTokenExpiry_gte: Float
 }
 
 input UserWhereUniqueInput {
