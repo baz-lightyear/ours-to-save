@@ -5,10 +5,10 @@ import MarkerModal from './MarkerModal';
 
 const Container = styled.div`
     img {
-        height: 3rem;
+        height: 2rem;
         position: relative;
-        top: -3rem;
-        left: -1.5rem;
+        top: -2rem;
+        left: -1rem;
     }
     .show {
         visibility: visible; 
@@ -22,10 +22,10 @@ const Container = styled.div`
         padding: 4px;
         font-size: 12px;
         position: relative;
-        top: -64px;
+        top: -40px;
         left: -108px;
         background-color: ${props => props.theme.offWhite};
-        border: solid 2px ${props => props.theme.darkgreen};
+        border: solid 1px ${props => props.theme.black};
         text-align: center;
         z-index: 2;
     }

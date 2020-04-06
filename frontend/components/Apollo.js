@@ -35,8 +35,13 @@ const STORIES_QUERY = gql`
 const SINGLE_STORY_QUERY = gql`
   query SINGLE_STORY_QUERY($id: ID!) {
     story(id: $id) {
+      id
       title
       content
+      longitude
+      latitude
+      good
+      createdAt
     }
   }
 `;

@@ -7,7 +7,7 @@ import Stories from '../components/Stories';
 const Container = styled.div`
     text-align: center;
     width: 90%;
-    max-width: 1000px;
+    max-width: 800px;
     margin: auto;
     padding-bottom: 1rem;
 `;
@@ -17,7 +17,6 @@ class featured extends Component {
         return (
             <Container>
                <Stories/>
-               <CreateStory/>
             </Container>
         )
     }

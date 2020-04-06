@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
+import Moment from 'react-moment';
 import { SINGLE_STORY_QUERY } from './Apollo';
+import MapStoryShow from './MapStoryShow';
+import OtherArticles from './OtherArticles';
 
 const Container = styled.div`
     width: 90%;
     max-width: 700px;
     margin: auto;
+    min-height: calc(100vh - 125px);
+    font-family: ${props => props.theme.serif};
+    small {
+        font-family: ${props => props.theme.sansSerif};
+    }
+    padding: 1rem;
 `;
 
 class StoryShow extends Component {
@@ -24,8 +33,13 @@ class StoryShow extends Component {
                     const story = data.story;
                     return (
                         <Container>
-                            <h4>{story.title}</h4>
+                            <h1>{story.title}</h1>
+                            <small>Posted <Moment date={story.createdAt} format="Do MMM"/></small> 
                             <p>{story.content}</p>
+                            <div className="mapContainer">
+                                <MapStoryShow story={story}/>
+                            </div>
+                            <OtherArticles story={story}/>
                         </Container>
                     );
                 }}

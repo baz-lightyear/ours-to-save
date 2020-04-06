@@ -6,7 +6,7 @@ import Marker from './Marker';
 
 
 
-class Map extends Component {
+class MapStoryShow extends Component {
     mapOptions = { styles: [
       {
           "featureType": "administrative",
@@ -103,11 +103,11 @@ class Map extends Component {
                     if (loading) return null;
                     if (error) return null;
                     if (data) return (
-                        <div style={{ height: '80vh', width: '100%' }}>
+                        <div style={{ height: '400px', width: '100%' }}>
                             <GoogleMapReact
                                 bootstrapURLKeys={{ key: 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw' }}
-                                defaultCenter={{lat: data.stories[2].latitude, lng: data.stories[2].longitude }}
-                                defaultZoom={7}
+                                defaultCenter={{lat: this.props.story.latitude, lng: this.props.story.longitude }}
+                                defaultZoom={10}
                                 options={this.mapOptions}
                             >
                                 {data.stories.map(story => <Marker lng={story.longitude} lat={story.latitude} key={story.id} story={story}/>)}                               
@@ -120,4 +120,4 @@ class Map extends Component {
     }
 }
 
-export default Map;
+export default MapStoryShow;

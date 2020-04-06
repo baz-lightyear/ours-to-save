@@ -6,12 +6,12 @@ import Meta from './Meta';
 
 
 const theme = {
-  yellow: '#f6feaa',
-  orange: '#fce694',
+  yellow: '#FFEFCA',
+  orange: '#FABD7C',
   lightgreen: '#c7d5cf',
   lightblue: '#C1DBE3',
-  darkgreen: '#395756',
-  offWhite: '#f9f9f9',
+  green: '#329094',
+  offWhite: '#FEF8EA',
   black: "#333333",
   serif: 'Martel',
   sansSerif: 'Poppins',
@@ -44,11 +44,14 @@ const GlobalStyle = createGlobalStyle`
 const Footer = styled.div`
   width: 100%;
   text-align: right;
-  background-color: ${theme.lightgreen};
+  background-color: ${theme.green};
+  margin: 0;
   a {
-    color: ${theme.darkgreen};
-    margin: 0;
-    margin-right: 2rem;
+    color: ${theme.offWhite};
+  }
+  span {
+    padding-right: 2rem;
+    color: ${theme.offWhite};
   }
 `;
 
@@ -61,7 +64,7 @@ class Page extends Component {
                 <Header />
                 {this.props.children}
                 <Footer>
-                  <a href="https://harrykingdon.com" target="_blank">- Baz</a>
+                  <span><a href="https://harrykingdon.com" target="_blank">- Baz</a> & Floss</span>
                 </Footer>
             </StyledPage>
             <GlobalStyle/>

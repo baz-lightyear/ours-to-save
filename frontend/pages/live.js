@@ -8,7 +8,7 @@ import CreateStory from '../components/CreateStory';
 const Container = styled.div`
     text-align: left;
     width: 90%;
-    max-width: 720px;
+    max-width: 800px;
     margin: auto;
     .mapContainer {
         margin: 2rem 0;
