@@ -6,9 +6,9 @@ import CreateStory from '../components/CreateStory';
 
 
 const Container = styled.div`
-    text-align: center;
+    text-align: left;
     width: 90%;
-    max-width: 1000px;
+    max-width: 720px;
     margin: auto;
     .mapContainer {
         margin: 2rem 0;
@@ -23,7 +23,7 @@ class map extends Component {
                     <Map/>
                 </div>
                 <CreateStory/>
-                <h2>Top posts</h2>
+                <h2>Recent posts</h2>
                 <Stories/>
             </Container>
         )

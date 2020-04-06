@@ -4,6 +4,7 @@ type Mutation {
 
 type Query {
     stories: [Story]!
+    story(id: ID!): Story
 }
 
 type Story {
@@ -13,4 +14,5 @@ type Story {
     good: String
     longitude: Float
     latitude: Float
+    createdAt: String
 }

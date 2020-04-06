@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/harrykingdon/demo/dev
-# timestamp: Fri Apr 03 2020 15:18:15 GMT+0100 (British Summer Time)
+# timestamp: Fri Apr 03 2020 23:10:42 GMT+0100 (British Summer Time)
 
 type AggregateInitiative {
   count: Int!
@@ -17,6 +17,8 @@ type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
 }
+
+scalar DateTime
 
 type Initiative implements Node {
   id: ID!
@@ -326,6 +328,8 @@ type Story implements Node {
   longitude: Float
   latitude: Float
   good: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -372,6 +376,10 @@ enum StoryOrderByInput {
   latitude_DESC
   good_ASC
   good_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type StoryPreviousValues {
@@ -382,6 +390,8 @@ type StoryPreviousValues {
   longitude: Float
   latitude: Float
   good: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type StorySubscriptionPayload {
@@ -692,6 +702,50 @@ input StoryWhereInput {
 
   """All values not ending with the given string."""
   good_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
 }
 
 input StoryWhereUniqueInput {

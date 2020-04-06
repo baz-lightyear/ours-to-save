@@ -27,9 +27,18 @@ const STORIES_QUERY = gql`
       longitude
       latitude
       good
+      createdAt
     }
   }
 `;
 
-export { CREATE_STORY_MUTATION };
-export { STORIES_QUERY };
+const SINGLE_STORY_QUERY = gql`
+  query SINGLE_STORY_QUERY($id: ID!) {
+    story(id: $id) {
+      title
+      content
+    }
+  }
+`;
+
+export { CREATE_STORY_MUTATION, STORIES_QUERY, SINGLE_STORY_QUERY };

@@ -12,7 +12,7 @@ class Stories extends Component {
                     if (error) return <p>Error: {error.message}</p>;
                     return (
                         <div>
-                            {data.stories.map(story => <Story story={story} key={story.id}/>)}
+                            {data.stories.sort((a, b) => {a.createdAt-b.createdAt}).reverse().map(story => <Story story={story} key={story.id}/>)}
                         </div>
                     );
                 }}

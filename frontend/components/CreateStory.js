@@ -10,13 +10,23 @@ const Form = styled.form`
         background-color: ${props => props.theme.darkgreen};
         padding: 0 1rem;
         color: ${props => props.theme.lightgreen};
-        p {
+        h3 {
             margin: 0;
         }
     }
+    .show {
+        height: fit-content;
+        transition: all 1s cubic-bezier(0.075,0.82,0.165,1);
+        padding: 1rem;
+    }
+    .hide {
+        height: 0px; 
+        overflow: hidden;
+        padding: 0rem 1rem;
+        transition: all 1s cubic-bezier(0.075,0.82,0.165,1);
+    }
     fieldset {
         background-color: ${props => props.theme.lightgreen};
-        padding: 1rem;
         margin: 0;
         border: none;
         display: flex;
@@ -24,7 +34,6 @@ const Form = styled.form`
         input, textarea {
             border: none;
             background-color: #e4efe9;
-            /* border-bottom: solid 2px ${props => props.theme.darkgreen}; */
             margin-bottom: 1rem;
             width: 100%;
             font-family: ${props => props.theme.serif};
@@ -39,6 +48,7 @@ const Form = styled.form`
         }
         #title {
             font-size: 2rem;
+            font-weight: 700;
         }
         #content {
             font-size: 1rem;
@@ -112,8 +122,12 @@ class CreateStory extends Component {
         title: '',
         content: '',
         address: '',
-        good: 'good'
+        good: 'good',
+        show: 'hide'
     };
+    toggleShow = () => {
+        this.state.show === 'show' ? this.setState({show: 'hide'}) : this.setState({show: 'show'});
+    }
     good = () => {
         this.setState({good: "good"})
     }
@@ -135,15 +149,15 @@ class CreateStory extends Component {
                             e.preventDefault();
                             await createStory();
                             Router.push({
-                                pathname: '/map',
+                                pathname: '/live',
                             });
                             this.setState({ title: "", content: "", address: ""})
                         }}
                     >
-                        <div className="formTitle">
-                            <p>Add a post</p>
+                        <div className="formTitle" onClick={this.toggleShow}>
+                            <h3>{this.state.show === "show" ? "-" : "+"} Add a post</h3>
                         </div>
-                        <fieldset disabled={loading} aria-busy={loading}>
+                        <fieldset disabled={loading} aria-busy={loading} className={this.state.show}>
                             <label htmlFor="title">
                                 Think of a snappy title: 
                             </label>

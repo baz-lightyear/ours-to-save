@@ -41,6 +41,17 @@ const GlobalStyle = createGlobalStyle`
     }
 `
 
+const Footer = styled.div`
+  width: 100%;
+  text-align: right;
+  background-color: ${theme.lightgreen};
+  a {
+    color: ${theme.darkgreen};
+    margin: 0;
+    margin-right: 2rem;
+  }
+`;
+
 class Page extends Component {
   render() {
     return (
@@ -49,6 +60,9 @@ class Page extends Component {
                 <Meta />
                 <Header />
                 {this.props.children}
+                <Footer>
+                  <a href="https://harrykingdon.com" target="_blank">- Baz</a>
+                </Footer>
             </StyledPage>
             <GlobalStyle/>
         </ThemeProvider>

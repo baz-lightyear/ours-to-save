@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
 import MarkerModal from './MarkerModal';
 
@@ -17,8 +18,9 @@ const Container = styled.div`
     }
     p {
         width: 200px;
+        font-family: ${props => props.theme.serif};
         padding: 4px;
-        font-size: 16px;
+        font-size: 12px;
         position: relative;
         top: -64px;
         left: -108px;
@@ -42,7 +44,14 @@ class Marker extends Component {
     render() {
         return (
             <Container>
-                <img src={this.props.story.good === "good" ? "goodMarker.png" : "badMarker.png"} alt="marker" onMouseEnter={this.show} onMouseLeave={this.hide}/>
+                <Link href={{pathname: '/story', query: { id: this.props.story.id }}}>
+                    <img 
+                        src={this.props.story.good === "good" ? "goodMarker.png" : "badMarker.png"} 
+                        alt="marker" 
+                        onMouseEnter={this.show} 
+                        onMouseLeave={this.hide}
+                    />
+                </Link>
                 <div className={this.state.show}><p>{this.props.story.title}</p></div>
             </Container>
         );

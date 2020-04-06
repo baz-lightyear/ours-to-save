@@ -12,7 +12,7 @@ const Container = styled.div`
     padding-bottom: 1rem;
 `;
 
-class stories extends Component {
+class featured extends Component {
     render() {
         return (
             <Container>
@@ -24,4 +24,4 @@ class stories extends Component {
 }
 
 
-export default stories;
+export default featured;

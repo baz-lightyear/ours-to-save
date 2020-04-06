@@ -36,7 +36,7 @@ const Header = () => (
     <Container>
       <div className="flex">
         <div className="logo">
-          <Link href="/landing">
+          <Link href="/">
             <a>
               <img src="/flossfist.png" alt="logo"/>
               ours to save
@@ -44,11 +44,11 @@ const Header = () => (
           </Link>
         </div>
         <div className="links">
-          <Link href="/map">
-            <a>map</a>
+          <Link href="/live">
+            <a>live</a>
           </Link>
-          <Link href="/stories">
-            <a>stories</a>
+          <Link href="/featured">
+            <a>featured</a>
           </Link>
           <Link href="/initiatives">
             <a>initiatives</a>
