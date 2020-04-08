@@ -85,7 +85,7 @@ class index extends Component {
                     <div className="textWrapper">
                         <h1>It's ours to save.</h1>
                         <p><em>Ours to Save</em> is a new journalism initiative focused exclusively on the climate crisis. We provide crowdsourced, breaking climate news from all over the world. </p>
-                        <div className="link"><Link href="/live"><a>see it in action</a></Link></div> 
+                        <div className="link"><Link href="/map"><a>see it in action</a></Link></div> 
                     </div>
                 </div>
                 <div className="imgDiv">

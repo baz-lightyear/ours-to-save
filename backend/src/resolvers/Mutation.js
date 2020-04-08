@@ -10,6 +10,10 @@ const Mutation = {
         .then(data => {
             return data.results[0].geometry.location 
         })
+
+        if (args.author === "") {
+            args.author = "Anonymous"
+        }
         const story = await ctx.db.mutation.createStory(
             {
                 data: {

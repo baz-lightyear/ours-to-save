@@ -15,6 +15,7 @@ type Story {
   good: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+  author: String
 }
 
 type Initiative {

@@ -1,5 +1,5 @@
 type Mutation {
-    createStory(title: String!, content: String!, address: String!, good: String): Story
+    createStory(title: String!, content: String!, address: String!, good: String, author: String): Story
 }
 
 type Query {
@@ -15,4 +15,5 @@ type Story {
     longitude: Float
     latitude: Float
     createdAt: String
+    author: String
 }

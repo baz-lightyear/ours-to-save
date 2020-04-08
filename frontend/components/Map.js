@@ -103,7 +103,7 @@ class Map extends Component {
                     if (loading) return null;
                     if (error) return null;
                     if (data) return (
-                        <div style={{ height: '80vh', width: '100%' }}>
+                        <div style={{ height: '70vh', width: '100%' }}>
                             <GoogleMapReact
                                 bootstrapURLKeys={{ key: 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw' }}
                                 defaultCenter={{lat: data.stories[2].latitude, lng: data.stories[2].longitude }}

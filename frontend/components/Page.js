@@ -20,6 +20,13 @@ const theme = {
 const StyledPage = styled.div`
   background: ${props => props.theme.offWhite};
   color: ${props => props.theme.black};
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  .flexGrow {
+    flex-grow: 1;
+  }
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -62,9 +69,9 @@ class Page extends Component {
             <StyledPage>
                 <Meta />
                 <Header />
-                {this.props.children}
+                <span className="flexGrow">{this.props.children}</span>
                 <Footer>
-                  <span><a href="https://harrykingdon.com" target="_blank">- Baz</a> & Floss</span>
+                  <span><a href="https://harrykingdon.com" target="_blank">- Baz</a> & <a href="https://twitter.com/flossiewild">Floss</a></span>
                 </Footer>
             </StyledPage>
             <GlobalStyle/>

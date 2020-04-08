@@ -6,12 +6,14 @@ const CREATE_STORY_MUTATION = gql`
     $content: String!
     $address: String!
     $good: String!
+    $author: String
   ) {
     createStory(
       title: $title
       content: $content
       address: $address
       good: $good
+      author: $author
     ) {
       title
     }
@@ -27,6 +29,7 @@ const STORIES_QUERY = gql`
       longitude
       latitude
       good
+      author
       createdAt
     }
   }
@@ -42,6 +45,7 @@ const SINGLE_STORY_QUERY = gql`
       latitude
       good
       createdAt
+      author
     }
   }
 `;

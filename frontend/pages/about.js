@@ -31,6 +31,15 @@ const Container = styled.div`
             margin: 3rem 0rem 3rem 3rem;
             background-size: cover;
         }
+        @media (max-width: 780px) {
+            flex-direction: column;
+            .text {
+                width: 100%;
+            }
+            .imgDiv {
+                margin: 3rem;
+            }
+        }
     }
     .section2 {
         display: flex;
@@ -44,6 +53,16 @@ const Container = styled.div`
             margin: 3rem 3rem 3rem 0rem;
             background-size: cover;
         }
+        @media (max-width: 780px) {
+            flex-direction: column-reverse;
+            text-align: left;
+            .text {
+                width: 100%;
+            }
+            .imgDiv {
+                margin: 3rem;
+            }
+        }
     }
     .section3 {
         display: flex;
@@ -55,6 +74,15 @@ const Container = styled.div`
             width: 300px;
             margin: 3rem 0rem 3rem 3rem;
             background-size: cover;
+        }
+        @media (max-width: 780px) {
+            flex-direction: column;
+            .text {
+                width: 100%;
+            }
+            .imgDiv {
+                margin: 3rem;
+            }
         }
     }
     .section4 {
@@ -69,6 +97,16 @@ const Container = styled.div`
             margin: 3rem 3rem 3rem 0rem;
             background-size: cover;
         }
+        @media (max-width: 780px) {
+            flex-direction: column-reverse;
+            text-align: left;
+            .text {
+                width: 100%;
+            }
+            .imgDiv {
+                margin: 3rem;
+            }
+        }
     }
 `;
 
@@ -79,7 +117,7 @@ class about extends Component {
                 <h1>About us</h1>
                 <div className="section1">
                     <div className="text">
-                        <h3>Who we are</h3>
+                        <h3>Who are we?</h3>
                         <p>Climate change is already happening. But there are a lot of people already on the case. <br/><br/>
                         Inspired by the impact of rolling news coverage during the covid-19 pandemic, we want to replicate this level of urgency for another crisis – one that’s just around the corner, but that we still largely have the power to prevent. <br/><br/>
                         We want to make it easier to visualise where we’re making progress and where we’re failing, and therefore possible to hold the powerful to account and lift up those fighting back from the grassroots. <br/><br/>
@@ -91,7 +129,7 @@ class about extends Component {
                 <div className="section2">
                     <div className="imgDiv"></div>
                     <div className="text">
-                        <h3>How it works</h3>
+                        <h3>How does it work?</h3>
                         <p>Our climate map is free for all to access. You can scroll over the pins, checking out stories from your neighbourhood and much further afield. <br/><br/>
 
 On our news page you’ll find in-depth investigations of the issues raised on the map, features and op-eds by prominent and emerging journalists, and the back catalogue of all our pins and stories. <br/><br/>

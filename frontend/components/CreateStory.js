@@ -121,7 +121,8 @@ class CreateStory extends Component {
         content: '',
         address: '',
         good: 'good',
-        show: 'hide'
+        show: 'hide',
+        author: ''
     };
     toggleShow = () => {
         this.state.show === 'show' ? this.setState({show: 'hide'}) : this.setState({show: 'show'});
@@ -147,9 +148,9 @@ class CreateStory extends Component {
                             e.preventDefault();
                             await createStory();
                             Router.push({
-                                pathname: '/live',
+                                pathname: '/map',
                             });
-                            this.setState({ title: "", content: "", address: ""})
+                            this.setState({ title: "", content: "", address: "", author: ""})
                         }}
                     >
                         <div className="formTitle" onClick={this.toggleShow}>
@@ -195,6 +196,17 @@ class CreateStory extends Component {
                                     value={this.state.address}
                                     onChange={this.handleChange}
                                 />
+                                <label htmlFor="author">
+                                    Your name (default "anonymous")
+                                </label>
+                                <input
+                                    type="text"
+                                    id="author"
+                                    name="author"
+                                    placeholder=""
+                                    value={this.state.author}
+                                    onChange={this.handleChange}
+                                />
                                 <label id="good" htmlFor="good">
                                     Is this good news or bad?
                                 </label>
@@ -206,6 +218,7 @@ class CreateStory extends Component {
                                     <input type="checkbox"/>
                                     <label for="interestedInFeature">check this box if you're interested in submitting a full-length feature article</label>
                                 </div>
+                                <small>By submitting this post I promise that it is true (to the best of my knoweldge) and respectful (I care about sharing stories, not fighting keyboard wars)</small>
                         
                                 <div style={{textAlign: "left"}}>
                                     <button id="submit" type="submit">submit post</button>

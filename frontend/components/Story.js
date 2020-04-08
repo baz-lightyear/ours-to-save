@@ -28,8 +28,8 @@ class Story extends Component {
         return (
             <Container>
                 <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><h4><a>{this.props.story.title}</a></h4></Link>    
-                <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM"/></small> 
-                <p>{this.props.story.content}</p>
+                <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM"/> by {this.props.story.author}</small> 
+                <p>{this.props.story.content.substring(0, 120)}{this.props.story.content.length > 120 ? "..." : ""}</p>
             </Container>
         );
     }
