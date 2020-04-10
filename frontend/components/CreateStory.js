@@ -2,115 +2,92 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import Router from 'next/router';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
+import Error from './Error';
+
 import {CREATE_STORY_MUTATION, STORIES_QUERY} from './Apollo';
 
 const Form = styled.form`
-    text-align: left;
-    border-bottom: 4px solid ${props => props.theme.green};
-    .formTitle {
-        background-color: ${props => props.theme.green};
-        padding: 0 1rem;
-        color: ${props => props.theme.offWhite};
-        h3 {
-            margin: 0;
+    input, textarea {
+        width: 100%;
+        font-family: ${props => props.theme.serif};
+        opacity: 0.5;
+        border: none;
+        border-bottom: 4px solid ${props => props.theme.green};
+        margin-bottom: 1rem;
+        background-color: #9fc8ca59;
+        &:focus {
+            outline: none;
+            opacity: 1;
         }
     }
-    .show {
-        height: fit-content;
-        transition: all 1s cubic-bezier(0.075,0.82,0.165,1);
-        padding: 1rem;
+    #title {
+        font-size: 1.5rem;
+        font-weight: 700;
     }
-    .hide {
-        height: 0px; 
-        overflow: hidden;
-        padding: 0rem 1rem;
-        transition: all 1s cubic-bezier(0.075,0.82,0.165,1);
-    }
-    fieldset {
-        background-color: ${props => props.theme.offWhite};
-        margin: 0;
+    #file {
+        background-color: transparent;
+        font-family: ${props => props.theme.sansSerif};
         border: none;
+    }
+    #image {
+        display: block;
+        margin: auto;
+        margin-bottom: 1rem;
+    }
+    textarea {
+        height: 15rem;
+    }
+    .morality {
         display: flex;
-        flex-direction: column;
-        input, textarea {
-            border: none;
-            border-bottom: solid 2px ${props => props.theme.green};
-            background-color: #ffffff;
-            opacity: 40%;
+        justify-content: space-between;
+        div {
+            width: 33%;
+            cursor: pointer;
+            text-align: center;
+            padding: 8px;
+            height: 6rem;
+            display: flex;
+            align-items: center;
+            background-color: ${props => props.theme.green};
+            border-radius: 4px;
+            opacity: 0.5;
             margin-bottom: 1rem;
-            width: 100%;
-            font-family: ${props => props.theme.serif};
-            color: ${props => props.theme.darkgreen};
+            &.middleMorality {
+                margin: 1rem;
+            }
+            p {
+                font-size: 1rem;
+                width: 100%;
+                margin-bottom: 0;
+                color: white;
+            }
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+        .clicked {
+            opacity: 1 !important;
+        }
+    }
+    .submit {
+        text-align: center;
+        #submit {
+            background-color: transparent;
+            border: none;
+            font-family: ${props => props.theme.sansSerif};
+            border: solid 2px ${props => props.theme.green};
+            color: ${props => props.theme.green};
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+            &:hover {
+                border-color: ${props => props.theme.black};
+                color: ${props => props.theme.black};
+            }
             &:focus {
                 outline: none;
             }
-        }
-        textarea {
-            height: 9rem;
-            width: 100%;
-        }
-        #title {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-        #content {
-            font-size: 1rem;
-        }
-        #address {
-            font-size: 1rem;
-        }
-        .flex {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0.5rem 0;
-            input {
-                width: auto;
-                margin: 0 1rem;
-                font-size: 2rem;
-            }
-        }
-    }
-    .buttons {
-        display: flex;
-        div {
-            margin-top: 1rem;
-            border: none;
-            background-color: transparent;
-            border: solid 2px ${props => props.theme.green};
-            color: ${props => props.theme.green};
-            font-family: ${props => props.theme.sansSerif};
-            text-align: center;
-            padding: 0 1rem;
-            border-radius: 4px;
-            font-size: 1rem;
-            margin-right: 1rem;
-            &:hover, &.selected {
-                border: solid 2px ${props => props.theme.black};
-                color: ${props => props.theme.black};
-            }
-        }
-        #goodButton {
-            margin-right: 1rem;
-        }
-        #badButton {
-        }
-    }
-    #submit {
-        border: none;
-        background-color: transparent;
-        border: solid 2px ${props => props.theme.green};
-        color: ${props => props.theme.green};
-        font-family: ${props => props.theme.sansSerif};
-        border-radius: 4px;
-        margin: auto;
-        margin-top: 1rem;
-        padding: 0.5rem 2rem;
-        font-size: 1rem;
-        font-weight: 700;
-        &:hover {
-            border: solid 2px ${props => props.theme.black};
-            color: ${props => props.theme.black};
         }
     }
 `;
@@ -120,24 +97,42 @@ class CreateStory extends Component {
         title: '',
         content: '',
         address: '',
-        good: 'good',
-        show: 'hide',
-        author: ''
+        morality: '',
+        author: '',
+        interestedInFeatureEmail: '',
+        image: ''
     };
-    toggleShow = () => {
-        this.state.show === 'show' ? this.setState({show: 'hide'}) : this.setState({show: 'show'});
-    }
-    good = () => {
-        this.setState({good: "good"})
-    }
-    bad = () => {
-        this.setState({good: "bad"})
-    }
+    setMoralityGood = () => {
+        this.setState({morality: "good"})
+    };
+    setMoralityBad = () => {
+        this.setState({morality: "bad"})
+    };
+    setMoralityBetween = () => {
+        this.setState({morality: "inbetween"})
+    };
     handleChange = e => {
         const { name, type, value } = e.target;
         const val = type === 'number' ? parseFloat(value) : value;
         this.setState({ [name]: val });
       };
+    closeModal = () => {
+        this.props.closeModal()
+    }
+    uploadFile = async e => {
+        const files = e.target.files;
+        const data = new FormData();
+        data.append('file', files[0])
+        data.append('upload_preset', 'ourstosave');
+        const res = await fetch('https://api.cloudinary.com/v1_1/bazkingdon/image/upload', {
+            method: 'POST',
+            body: data,
+        });
+        const file = await res.json();
+        this.setState({
+            image: file.secure_url,
+        });
+    };
     render() {
         return (
             <Mutation mutation={CREATE_STORY_MUTATION} variables={this.state} refetchQueries={[{ query: STORIES_QUERY }]}>
@@ -147,21 +142,23 @@ class CreateStory extends Component {
                         onSubmit={async e => {
                             e.preventDefault();
                             await createStory();
+                            Swal.fire({
+                                title: 'Thanks for submitting',
+                                text: "Once your post is reviewed you'll be able to see it on the map",
+                                icon: 'success',
+                                confirmButtonColor: '#329094'
+                            })
+                            this.setState({ title: "", content: "", address: "", author: "", morality: "", interestedInFeatureEmail: ""})
+                            this.closeModal()
                             Router.push({
                                 pathname: '/map',
                             });
-                            this.setState({ title: "", content: "", address: "", author: ""})
                         }}
                     >
-                        <div className="formTitle" onClick={this.toggleShow}>
-                            <h3>{this.state.show === "show" ? "-" : "+"} Add a post</h3>
-                        </div>
-                        <div className={this.state.show}>
-
+                        <div>
                             <fieldset disabled={loading} aria-busy={loading} >
-                                <label htmlFor="title">
-                                    Think of a snappy title: 
-                                </label>
+                                <label htmlFor="title">What happened?<super>*</super></label>
+                                <br/>
                                 <input
                                     type="text"
                                     id="title"
@@ -171,9 +168,9 @@ class CreateStory extends Component {
                                     value={this.state.title}
                                     onChange={this.handleChange}
                                 />
-                                <label htmlFor="content">
-                                    Content of your post: 
-                                </label>
+                                <br/>
+                                <label htmlFor="content">Share some of the details:<super>*</super></label>
+                                <br/>
                                 <textarea
                                     type="text"
                                     id="content"
@@ -183,47 +180,72 @@ class CreateStory extends Component {
                                     value={this.state.content}
                                     onChange={this.handleChange}
                                 ></textarea>
-                                <label htmlFor="address">
-                                    Where did this happen?
+                                <div className="morality">
+                                    <div onClick={this.setMoralityGood} className={this.state.morality === "good" ? "clicked" : ""}><p>This is good news</p></div>
+                                    <div onClick={this.setMoralityBad} id="middleMorality" className={this.state.morality === "bad" ? "clicked" : ""}><p>This is bad news</p></div>
+                                    <div onClick={this.setMoralityBetween} className={this.state.morality === "inbetween" ? "clicked" : ""}><p>This is somewhere in between</p></div>
+                                </div>
+                                <label htmlFor="file">
+                                    Add a picture, if you like
                                 </label>
-                                <small>(Try to include a postcode if you can - it's easier for us to find it)</small>
+                                <br/>
+                                <input
+                                    type="file"
+                                    id="file"
+                                    name="file"
+                                    placeholder="Upload an image"
+                                    onChange={this.uploadFile}
+                                />
+                                {this.state.image && (
+                                <img width="100" src={this.state.image} alt="Upload Preview" id="image"/>
+                                )}
+                                <label htmlFor="address">Where did this happen?<super>*</super>
+                                    <br/>
+                                    <small>Try to include a postcode / zipcode if you can - it's easier for us to find it</small>
+                                </label>
+                                <br/>
                                 <input
                                     type="text"
                                     id="address"
                                     name="address"
-                                    placeholder=""
+                                    placeholder="e.g. Bristol, UK, BS1 1DB"
                                     required
                                     value={this.state.address}
                                     onChange={this.handleChange}
                                 />
+                                <br/>
                                 <label htmlFor="author">
-                                    Your name (default "anonymous")
+                                    Your name:
+                                    <br/>
+                                    <small>Defaults to "Anonymous"</small>
                                 </label>
+                                <br/>
                                 <input
                                     type="text"
                                     id="author"
                                     name="author"
-                                    placeholder=""
+                                    placeholder="Anonymous"
                                     value={this.state.author}
                                     onChange={this.handleChange}
                                 />
-                                <label id="good" htmlFor="good">
-                                    Is this good news or bad?
-                                </label>
-                                <div className="buttons">
-                                    <div id="goodButton" onClick={this.good} className={this.state.good === "good" ? "selected" : null}>Good</div>
-                                    <div id="badButton" onClick={this.bad} className={this.state.good === "good" ? null : "selected"}>Bad</div>
-                                </div>
-                                <div style={{display: "flex"}}>
-                                    <input type="checkbox"/>
-                                    <label for="interestedInFeature">check this box if you're interested in submitting a full-length feature article</label>
-                                </div>
-                                <small>By submitting this post I promise that it is true (to the best of my knoweldge) and respectful (I care about sharing stories, not fighting keyboard wars)</small>
-                        
-                                <div style={{textAlign: "left"}}>
+                                <br/>
+                                <label for="interestedInFeatureEmail">Add your email, if you're interested in submitting a full-length feature article</label>
+                                <br/>
+                                <input
+                                    type="text"
+                                    id="interestedInFeatureEmail"
+                                    name="interestedInFeatureEmail"
+                                    placeholder="e.g. florence@ourstosave.com"
+                                    value={this.state.interestedInFeatureEmail}
+                                    onChange={this.handleChange}
+                                />
+                                <div className="submit">
                                     <button id="submit" type="submit">submit post</button>
+                                    <br/>
+                                    <small>By submitting this post I promise that it is true (to the best of my knowledge) and is written in a respectful tone.</small>
                                 </div>
                             </fieldset>
+                            <Error error={error} />
                         </div> 
                     </Form>
                 )}

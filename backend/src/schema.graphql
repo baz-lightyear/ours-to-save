@@ -1,19 +1,32 @@
 type Mutation {
-    createStory(title: String!, content: String!, address: String!, good: String, author: String): Story
+    createStory(title: String!, content: String!, address: String!, morality: String, author: String, interestedInFeatureEmail: String, image: String): Story
 }
 
 type Query {
     stories: [Story]!
     story(id: ID!): Story
+    features: [Feature]!
 }
 
 type Story {
     id: ID
     title: String
     content: String
-    good: String
+    morality: String
     longitude: Float
     latitude: Float
     createdAt: String
     author: String
+    interestedInFeatureEmail: String
+    image: String
+}
+
+type Feature {
+  id: ID
+  title: String
+  content: String
+  createdAt: String
+  updatedAt: String
+  author: String
+  images: [String] 
 }

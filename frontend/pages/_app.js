@@ -4,6 +4,8 @@ import { ApolloProvider } from 'react-apollo';
 import React from 'react';
 import Page from '../components/Page';
 import withData from '../lib/withData';
+import '../lib/bootstrap.min.css';
+
 
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {

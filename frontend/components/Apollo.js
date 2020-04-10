@@ -5,15 +5,19 @@ const CREATE_STORY_MUTATION = gql`
     $title: String!
     $content: String!
     $address: String!
-    $good: String!
+    $morality: String!
     $author: String
+    $interestedInFeatureEmail: String
+    $image: String
   ) {
     createStory(
       title: $title
       content: $content
       address: $address
-      good: $good
+      morality: $morality
       author: $author
+      image: $image
+      interestedInFeatureEmail: $interestedInFeatureEmail
     ) {
       title
     }
@@ -28,9 +32,10 @@ const STORIES_QUERY = gql`
       content
       longitude
       latitude
-      good
+      morality
       author
       createdAt
+      image
     }
   }
 `;
@@ -43,11 +48,25 @@ const SINGLE_STORY_QUERY = gql`
       content
       longitude
       latitude
-      good
+      morality
       createdAt
       author
+      image
     }
   }
 `;
 
-export { CREATE_STORY_MUTATION, STORIES_QUERY, SINGLE_STORY_QUERY };
+const FEATURES_QUERY = gql`
+  query FEATURES_QUERY {
+    features {
+      id
+      title
+      content
+      author
+      createdAt
+      images
+    }
+  }
+`;
+
+export { CREATE_STORY_MUTATION, STORIES_QUERY, SINGLE_STORY_QUERY, FEATURES_QUERY };

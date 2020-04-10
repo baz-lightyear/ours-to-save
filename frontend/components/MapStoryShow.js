@@ -107,7 +107,7 @@ class MapStoryShow extends Component {
                             <GoogleMapReact
                                 bootstrapURLKeys={{ key: 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw' }}
                                 defaultCenter={{lat: this.props.story.latitude, lng: this.props.story.longitude }}
-                                defaultZoom={10}
+                                defaultZoom={13}
                                 options={this.mapOptions}
                             >
                                 {data.stories.map(story => <Marker lng={story.longitude} lat={story.latitude} key={story.id} story={story}/>)}                               

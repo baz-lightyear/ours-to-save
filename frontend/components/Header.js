@@ -25,12 +25,15 @@ const Container = styled.div`
     font-size: 1.5rem;
     a {
       color: ${props => props.theme.offWhite};
+      &:hover {
+        opacity: 0.7;
+      }
     }
     img {
       height: 1.5rem;
       padding-right: 1rem;
       position: relative;
-      bottom: -4px;
+      top: -1px;
     }
   }
   .links {
@@ -40,6 +43,9 @@ const Container = styled.div`
       margin: 0 1rem;
       font-size: 1.5rem;
       color: ${props => props.theme.offWhite};
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
   @media (min-width: 780px) {
@@ -59,6 +65,7 @@ const Container = styled.div`
         .burgerDiv {
           background-color: ${props => props.theme.green};
           width: 140px;
+          height: 80px;
           text-align: right;
           padding: 1rem;
           position: relative;
@@ -140,11 +147,11 @@ class Header extends Component {
             <Link href="/news">
               <a>news</a>
             </Link>
-            <Link href="/supportUs">
-              <a>support us</a>
-            </Link>
             <Link href="/about">
               <a>about</a>
+            </Link>
+            <Link href="/supportUs">
+              <a>support us</a>
             </Link>
           </div>
           <div className='mobileBurger' onClick={this.toggle}>
@@ -159,11 +166,11 @@ class Header extends Component {
                 <Link href="/news">
                   <a>news</a>
                 </Link>
-                <Link href="/supportUs">
-                  <a>support us</a>
-                </Link>
                 <Link href="/about">
                   <a>about</a>
+                </Link>
+                <Link href="/supportUs">
+                  <a>support us</a>
                 </Link>
               </div>
             </div>

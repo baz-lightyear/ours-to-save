@@ -4,21 +4,33 @@ import Link from 'next/link';
 import Moment from 'react-moment';
 
 const Container = styled.div`
-    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-family: ${props => props.theme.serif};
     /* border-bottom: solid 1px ${props => props.theme.lightgreen}; */
     border-top: solid 1px ${props => props.theme.lightgreen};
-    h4 {
-        margin-bottom: 0;
+    .text {
+        text-align: left;
+        h4 {
+            margin-bottom: 0;
+        }
+        small {
+            font-family: ${props => props.theme.sansSerif};
+            color: ${props => props.theme.green}
+        }
+        a {
+            &:hover {
+                color: ${props => props.theme.green};
+                cursor: pointer;
+            }
+        }
     }
-    small {
-        font-family: ${props => props.theme.sansSerif};
-        color: ${props => props.theme.green}
-    }
-    a {
-        &:hover {
-            color: ${props => props.theme.green};
-            cursor: pointer;
+    .image {
+        width: 100px;
+        text-align: center;
+        img {
+            height: 80px;
         }
     }
 `;
@@ -27,9 +39,14 @@ class Story extends Component {
     render() {
         return (
             <Container>
-                <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><h4><a>{this.props.story.title}</a></h4></Link>    
-                <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM"/> by {this.props.story.author}</small> 
-                <p>{this.props.story.content.substring(0, 120)}{this.props.story.content.length > 120 ? "..." : ""}</p>
+                <div className="text">
+                    <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><h4><a>{this.props.story.title}</a></h4></Link>    
+                    <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM"/> by {this.props.story.author}</small> 
+                    <p>{this.props.story.content.substring(0, 120)}{this.props.story.content.length > 120 ? "..." : ""}</p>
+                </div>
+                <div className="image">
+                    <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><a>{this.props.story.image && <img src={this.props.story.image}alt={this.props.title}/>}</a></Link>    
+                </div>
             </Container>
         );
     }

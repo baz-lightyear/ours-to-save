@@ -26,7 +26,7 @@ const Container = styled.div`
         }
     }
     @media (min-width: 851px) {
-        min-height: calc(100vh - 105px);
+        min-height: calc(100vh - 125px);
         .text {
             width: 67%;
             .textWrapper {
@@ -41,6 +41,7 @@ const Container = styled.div`
                 }
                 .link {
                     margin-top: 6rem;
+                    margin-bottom: 2rem;
                 }
             }
         }
@@ -84,7 +85,7 @@ class index extends Component {
                 <div className="text">
                     <div className="textWrapper">
                         <h1>It's ours to save.</h1>
-                        <p><em>Ours to Save</em> is a new journalism initiative focused exclusively on the climate crisis. We provide crowdsourced, breaking climate news from all over the world. </p>
+                        <p><em>Ours to Save</em> is a new journalism initiative focused exclusively on the climate crisis. Our interactive map displays crowdsourced, breaking climate news from all over the world. </p>
                         <div className="link"><Link href="/map"><a>see it in action</a></Link></div> 
                     </div>
                 </div>

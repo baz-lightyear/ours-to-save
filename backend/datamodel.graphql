@@ -12,10 +12,22 @@ type Story {
   address: String
   longitude: Float
   latitude: Float
-  good: String
+  morality: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   author: String
+  interestedInFeatureEmail: String
+  image: String
+}
+
+type Feature {
+  id: ID! @id
+  title: String!
+  content: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  author: String
+  images: [String] @scalarList(strategy: RELATION)
 }
 
 type Initiative {

@@ -8,7 +8,7 @@ const Container = styled.div`
     font-family: ${props => props.theme.serif};
     h1 {
         text-align: center;
-        color: ${props => props.theme.green};
+        /* color: ${props => props.theme.green}; */
         margin-bottom: 0px;
     }
     .text {

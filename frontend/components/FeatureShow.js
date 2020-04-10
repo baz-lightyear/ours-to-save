@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import Moment from 'react-moment';
-import { SINGLE_STORY_QUERY } from './Apollo';
-import MapStoryShow from './MapStoryShow';
+import { SINGLE_FEATURE_QUERY } from './Apollo';
 import OtherArticles from './OtherArticles';
 
 const Container = styled.div`
@@ -42,11 +41,11 @@ const Container = styled.div`
     }
 `;
 
-class StoryShow extends Component {
+class FeatureShow extends Component {
     render() {
         return (
             <Query
-                query={SINGLE_STORY_QUERY}
+                query={SINGLE_FEATURE_QUERY}
                 variables={{
                 id: this.props.id,
                 }}
@@ -54,23 +53,19 @@ class StoryShow extends Component {
                 {({ error, loading, data }) => {
                     if (error) return <p>error</p>;
                     if (loading) return <p>Loading...</p>;
-                    const story = data.story;
+                    const feature = data.feature;
                     return (
                         <Container>
-                            <h1>{story.title}</h1>
-                            <small>Posted <Moment date={story.createdAt} format="Do MMM"/> by {story.author}</small>
+                            <h1>{feature.title}</h1>
+                            <small>Posted <Moment date={feature.createdAt} format="Do MMM"/> by {feature.author}</small>
                             <br/>
-                            {story.image && <img id="image" src={story.image} alt={story.title} />}
-                            <p>{story.content}</p>
+                            <p>{feature.content}</p>
                             <div className="sharing">
                                 <p>Share: </p>
                                 <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false"><img src="twitterBlue.png" alt="twitter logo"/></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-                                <div class="fb-share-button" data-href={`https://ourstosave.com/story?id=${story.id}`} data-layout="button" data-size="small"><a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fourstosave.com%2Fstory%3Fid%${story.id}&amp;src=sdkpreparse`} class="fb-xfbml-parse-ignore"><img src="facebookBlue.png" alt="facebook logo"/></a></div>
+                                <div class="fb-share-button" data-href={`https://ourstosave.com/feature?id=${feature.id}`} data-layout="button" data-size="small"><a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fourstosave.com%2Ffeature%3Fid%${feature.id}&amp;src=sdkpreparse`} class="fb-xfbml-parse-ignore"><img src="facebookBlue.png" alt="facebook logo"/></a></div>
                             </div>
-                            <div className="mapContainer">
-                                <MapStoryShow story={story}/>
-                            </div>
-                            <OtherArticles story={story}/>
+                            <OtherArticles feature={feature}/>
                         </Container>
                     );
                 }}
@@ -79,4 +74,4 @@ class StoryShow extends Component {
     }
 }
 
-export default StoryShow;
+export default FeatureShow;
