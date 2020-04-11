@@ -100,7 +100,7 @@ class Map extends Component {
         return (
             <Query query={STORIES_QUERY}>
                 {({ data, error, loading }) => {
-                    if (loading) return null;
+                    if (loading) return <img src="loading.gif" alt="loading" height="50"/>;
                     if (error) return null;
                     if (data) return (
                         <div style={{ height: '70vh', width: '100%' }}>

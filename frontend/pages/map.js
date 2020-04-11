@@ -31,6 +31,7 @@ class map extends Component {
                 <h2>Recent posts</h2>
                 <Stories/>
                 <CreateStoryModal/>
+                <br/>
             </Container>
         )
     }

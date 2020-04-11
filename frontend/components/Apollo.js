@@ -26,7 +26,7 @@ const CREATE_STORY_MUTATION = gql`
 
 const STORIES_QUERY = gql`
   query STORIES_QUERY {
-    stories {
+    stories(where: {approved: true}, orderBy: createdAt_DESC) {
       id
       title
       content

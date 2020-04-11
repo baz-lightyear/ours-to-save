@@ -3,7 +3,7 @@ type Mutation {
 }
 
 type Query {
-    stories: [Story]!
+    stories(where: StoryWhereInput, orderBy: StoryOrderByInput): [Story]!
     story(id: ID!): Story
     features: [Feature]!
 }
@@ -29,4 +29,12 @@ type Feature {
   updatedAt: String
   author: String
   images: [String] 
+}
+
+enum StoryOrderByInput {
+  createdAt_DESC
+}
+
+input StoryWhereInput {
+  approved: Boolean
 }

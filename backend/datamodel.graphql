@@ -18,6 +18,7 @@ type Story {
   author: String
   interestedInFeatureEmail: String
   image: String
+  approved: Boolean
 }
 
 type Feature {

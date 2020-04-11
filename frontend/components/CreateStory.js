@@ -35,6 +35,10 @@ const Form = styled.form`
         margin: auto;
         margin-bottom: 1rem;
     }
+    #loading {
+        display: block;
+        margin: auto;
+    }
     textarea {
         height: 15rem;
     }
@@ -100,7 +104,8 @@ class CreateStory extends Component {
         morality: '',
         author: '',
         interestedInFeatureEmail: '',
-        image: ''
+        image: '',
+        loading: false
     };
     setMoralityGood = () => {
         this.setState({morality: "good"})
@@ -120,6 +125,7 @@ class CreateStory extends Component {
         this.props.closeModal()
     }
     uploadFile = async e => {
+        this.setState({loading: true})
         const files = e.target.files;
         const data = new FormData();
         data.append('file', files[0])
@@ -131,6 +137,7 @@ class CreateStory extends Component {
         const file = await res.json();
         this.setState({
             image: file.secure_url,
+            loading: false
         });
     };
     render() {
@@ -186,16 +193,16 @@ class CreateStory extends Component {
                                     <div onClick={this.setMoralityBetween} className={this.state.morality === "inbetween" ? "clicked" : ""}><p>This is somewhere in between</p></div>
                                 </div>
                                 <label htmlFor="file">
-                                    Add a picture, if you like
+                                    If you like, add a picture (you can drag and drop)
                                 </label>
                                 <br/>
                                 <input
                                     type="file"
                                     id="file"
                                     name="file"
-                                    placeholder="Upload an image"
                                     onChange={this.uploadFile}
                                 />
+                                {this.state.loading &&  <img src="loading.gif" alt="loading" width="50px" id="loading"/>}
                                 {this.state.image && (
                                 <img width="100" src={this.state.image} alt="Upload Preview" id="image"/>
                                 )}

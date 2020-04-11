@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/harrykingdon/demo/dev
-# timestamp: Fri Apr 10 2020 17:16:06 GMT+0100 (British Summer Time)
+# timestamp: Sat Apr 11 2020 11:54:41 GMT+0100 (British Summer Time)
 
 type AggregateFeature {
   count: Int!
@@ -686,6 +686,7 @@ type Story implements Node {
   author: String
   interestedInFeatureEmail: String
   image: String
+  approved: Boolean
 }
 
 """A connection to a list of items."""
@@ -709,6 +710,7 @@ input StoryCreateInput {
   author: String
   interestedInFeatureEmail: String
   image: String
+  approved: Boolean
 }
 
 """An edge in a connection."""
@@ -745,6 +747,8 @@ enum StoryOrderByInput {
   interestedInFeatureEmail_DESC
   image_ASC
   image_DESC
+  approved_ASC
+  approved_DESC
 }
 
 type StoryPreviousValues {
@@ -760,6 +764,7 @@ type StoryPreviousValues {
   author: String
   interestedInFeatureEmail: String
   image: String
+  approved: Boolean
 }
 
 type StorySubscriptionPayload {
@@ -809,6 +814,7 @@ input StoryUpdateInput {
   author: String
   interestedInFeatureEmail: String
   image: String
+  approved: Boolean
 }
 
 input StoryUpdateManyMutationInput {
@@ -821,6 +827,7 @@ input StoryUpdateManyMutationInput {
   author: String
   interestedInFeatureEmail: String
   image: String
+  approved: Boolean
 }
 
 input StoryWhereInput {
@@ -1240,6 +1247,10 @@ input StoryWhereInput {
 
   """All values not ending with the given string."""
   image_not_ends_with: String
+  approved: Boolean
+
+  """All values that are not equal to given value."""
+  approved_not: Boolean
 }
 
 input StoryWhereUniqueInput {

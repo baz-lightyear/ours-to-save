@@ -8,11 +8,11 @@ class Stories extends Component {
         return (
             <Query query={STORIES_QUERY}>
                 {({ data, error, loading }) => {
-                    if (loading) return <p>Loading...</p>;
+                    if (loading) return <><p>Loading...</p><img src="loading.gif" alt="loading" height="50"/></>;
                     if (error) return <p>Error: {error.message}</p>;
                     return (
                         <div>
-                            {data.stories.sort((a, b) => {a.createdAt-b.createdAt}).reverse().map(story => <Story story={story} key={story.id}/>)}
+                            {data.stories.map(story => <Story story={story} key={story.id}/>)}
                         </div>
                     );
                 }}

@@ -1,0 +1,5 @@
+How to push to production
+
+1. Push prisma if you've changed the db
+1.1. Change backend/variables.env to production prisma endpoint
+1.2. Run '$ npm run deploy' from backend

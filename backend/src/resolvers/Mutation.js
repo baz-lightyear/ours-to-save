@@ -19,7 +19,8 @@ const Mutation = {
                 data: {
                     ...args,
                     longitude: location.lng,
-                    latitude: location.lat
+                    latitude: location.lat,
+                    approved: false
                 },
             },
             info

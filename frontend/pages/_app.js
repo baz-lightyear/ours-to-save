@@ -4,7 +4,11 @@ import { ApolloProvider } from 'react-apollo';
 import React from 'react';
 import Page from '../components/Page';
 import withData from '../lib/withData';
+import * as gtag from '../lib/gtag'
+
 import '../lib/bootstrap.min.css';
+
+Router.events.on('routeChangeComplete', url => gtag.pageview(url))
 
 
 class MyApp extends App {

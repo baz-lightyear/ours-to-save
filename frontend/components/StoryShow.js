@@ -58,7 +58,7 @@ class StoryShow extends Component {
                     return (
                         <Container>
                             <h1>{story.title}</h1>
-                            <small>Posted <Moment date={story.createdAt} format="Do MMM"/> by {story.author}</small>
+                            <small>Posted <Moment date={story.createdAt} format="Do MMM YYYY"/> by {story.author}</small>
                             <br/>
                             {story.image && <img id="image" src={story.image} alt={story.title} />}
                             <p>{story.content}</p>

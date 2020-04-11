@@ -57,7 +57,7 @@ class FeatureShow extends Component {
                     return (
                         <Container>
                             <h1>{feature.title}</h1>
-                            <small>Posted <Moment date={feature.createdAt} format="Do MMM"/> by {feature.author}</small>
+                            <small>Posted <Moment date={feature.createdAt} format="Do MMM YYYY"/> by {feature.author}</small>
                             <br/>
                             <p>{feature.content}</p>
                             <div className="sharing">
