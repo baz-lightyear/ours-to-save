@@ -65,7 +65,7 @@ class StoryShow extends Component {
                             <div className="sharing">
                                 <p>Share: </p>
                                 <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false"><img src="twitterBlue.png" alt="twitter logo"/></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-                                <div class="fb-share-button" data-href={`https://ourstosave.com/story?id=${story.id}`} data-layout="button" data-size="small"><a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fourstosave.com%2Fstory%3Fid%${story.id}&amp;src=sdkpreparse`} class="fb-xfbml-parse-ignore"><img src="facebookBlue.png" alt="facebook logo"/></a></div>
+                                <div class="fb-share-button" data-href={`https://ourstosave.com/story?id=${story.id}`} data-layout="button" data-size="small"><a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fourstosave.com%2Fstory%3Fid=${story.id}&amp;src=sdkpreparse`} class="fb-xfbml-parse-ignore"><img src="facebookBlue.png" alt="facebook logo"/></a></div>
                             </div>
                             <div className="mapContainer">
                                 <MapStoryShow story={story}/>

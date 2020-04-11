@@ -106,7 +106,7 @@ class Map extends Component {
                         <div style={{ height: '70vh', width: '100%' }}>
                             <GoogleMapReact
                                 bootstrapURLKeys={{ key: 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw' }}
-                                defaultCenter={{lat: data.stories[2].latitude, lng: data.stories[2].longitude }}
+                                defaultCenter={{lat: data.stories[0].latitude, lng: data.stories[0].longitude }}
                                 defaultZoom={7}
                                 options={this.mapOptions}
                             >
