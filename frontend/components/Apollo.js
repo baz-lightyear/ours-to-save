@@ -61,12 +61,37 @@ const FEATURES_QUERY = gql`
     features {
       id
       title
-      content
+      subtitle
       author
+      paragraphs {
+        image
+      }
       createdAt
-      images
     }
   }
 `;
 
-export { CREATE_STORY_MUTATION, STORIES_QUERY, SINGLE_STORY_QUERY, FEATURES_QUERY };
+const SINGLE_FEATURE_QUERY = gql`
+  query SINGLE_FEATURE_QUERY($id: ID!) {
+    feature(id: $id) {
+      id
+      title
+      subtitle
+      createdAt
+      author
+      bio
+      paragraphs {
+        id
+        text
+        image
+      }
+      featureLinks {
+        id
+        title
+        ref
+      }
+    }
+  }
+`;
+
+export { CREATE_STORY_MUTATION, STORIES_QUERY, SINGLE_STORY_QUERY, FEATURES_QUERY, SINGLE_FEATURE_QUERY };

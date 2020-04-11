@@ -1,11 +1,19 @@
 # source: https://eu1.prisma.sh/harrykingdon/demo/dev
-# timestamp: Sat Apr 11 2020 11:54:41 GMT+0100 (British Summer Time)
+# timestamp: Sat Apr 11 2020 19:15:26 GMT+0100 (British Summer Time)
 
 type AggregateFeature {
   count: Int!
 }
 
+type AggregateFeatureLink {
+  count: Int!
+}
+
 type AggregateInitiative {
+  count: Int!
+}
+
+type AggregateParagraph {
   count: Int!
 }
 
@@ -27,11 +35,13 @@ scalar DateTime
 type Feature implements Node {
   id: ID!
   title: String!
-  content: String
+  subtitle: String
+  featureLinks(where: FeatureLinkWhereInput, orderBy: FeatureLinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FeatureLink!]
+  paragraphs(where: ParagraphWhereInput, orderBy: ParagraphOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Paragraph!]
   createdAt: DateTime!
   updatedAt: DateTime!
   author: String
-  images: [String!]!
+  bio: String
 }
 
 """A connection to a list of items."""
@@ -44,16 +54,14 @@ type FeatureConnection {
   aggregate: AggregateFeature!
 }
 
-input FeatureCreateimagesInput {
-  set: [String!]
-}
-
 input FeatureCreateInput {
   id: ID
   title: String!
-  content: String
+  subtitle: String
   author: String
-  images: FeatureCreateimagesInput
+  bio: String
+  featureLinks: FeatureLinkCreateManyInput
+  paragraphs: ParagraphCreateManyInput
 }
 
 """An edge in a connection."""
@@ -65,29 +73,433 @@ type FeatureEdge {
   cursor: String!
 }
 
+type FeatureLink implements Node {
+  id: ID!
+  ref: String
+  title: String
+}
+
+"""A connection to a list of items."""
+type FeatureLinkConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FeatureLinkEdge]!
+  aggregate: AggregateFeatureLink!
+}
+
+input FeatureLinkCreateInput {
+  id: ID
+  ref: String
+  title: String
+}
+
+input FeatureLinkCreateManyInput {
+  create: [FeatureLinkCreateInput!]
+  connect: [FeatureLinkWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type FeatureLinkEdge {
+  """The item at the end of the edge."""
+  node: FeatureLink!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum FeatureLinkOrderByInput {
+  id_ASC
+  id_DESC
+  ref_ASC
+  ref_DESC
+  title_ASC
+  title_DESC
+}
+
+type FeatureLinkPreviousValues {
+  id: ID!
+  ref: String
+  title: String
+}
+
+input FeatureLinkScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FeatureLinkScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FeatureLinkScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FeatureLinkScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  ref: String
+
+  """All values that are not equal to given value."""
+  ref_not: String
+
+  """All values that are contained in given list."""
+  ref_in: [String!]
+
+  """All values that are not contained in given list."""
+  ref_not_in: [String!]
+
+  """All values less than the given value."""
+  ref_lt: String
+
+  """All values less than or equal the given value."""
+  ref_lte: String
+
+  """All values greater than the given value."""
+  ref_gt: String
+
+  """All values greater than or equal the given value."""
+  ref_gte: String
+
+  """All values containing the given string."""
+  ref_contains: String
+
+  """All values not containing the given string."""
+  ref_not_contains: String
+
+  """All values starting with the given string."""
+  ref_starts_with: String
+
+  """All values not starting with the given string."""
+  ref_not_starts_with: String
+
+  """All values ending with the given string."""
+  ref_ends_with: String
+
+  """All values not ending with the given string."""
+  ref_not_ends_with: String
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+}
+
+type FeatureLinkSubscriptionPayload {
+  mutation: MutationType!
+  node: FeatureLink
+  updatedFields: [String!]
+  previousValues: FeatureLinkPreviousValues
+}
+
+input FeatureLinkSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FeatureLinkSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FeatureLinkSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FeatureLinkSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: FeatureLinkWhereInput
+}
+
+input FeatureLinkUpdateDataInput {
+  ref: String
+  title: String
+}
+
+input FeatureLinkUpdateInput {
+  ref: String
+  title: String
+}
+
+input FeatureLinkUpdateManyDataInput {
+  ref: String
+  title: String
+}
+
+input FeatureLinkUpdateManyInput {
+  create: [FeatureLinkCreateInput!]
+  connect: [FeatureLinkWhereUniqueInput!]
+  set: [FeatureLinkWhereUniqueInput!]
+  disconnect: [FeatureLinkWhereUniqueInput!]
+  delete: [FeatureLinkWhereUniqueInput!]
+  update: [FeatureLinkUpdateWithWhereUniqueNestedInput!]
+  updateMany: [FeatureLinkUpdateManyWithWhereNestedInput!]
+  deleteMany: [FeatureLinkScalarWhereInput!]
+  upsert: [FeatureLinkUpsertWithWhereUniqueNestedInput!]
+}
+
+input FeatureLinkUpdateManyMutationInput {
+  ref: String
+  title: String
+}
+
+input FeatureLinkUpdateManyWithWhereNestedInput {
+  where: FeatureLinkScalarWhereInput!
+  data: FeatureLinkUpdateManyDataInput!
+}
+
+input FeatureLinkUpdateWithWhereUniqueNestedInput {
+  where: FeatureLinkWhereUniqueInput!
+  data: FeatureLinkUpdateDataInput!
+}
+
+input FeatureLinkUpsertWithWhereUniqueNestedInput {
+  where: FeatureLinkWhereUniqueInput!
+  update: FeatureLinkUpdateDataInput!
+  create: FeatureLinkCreateInput!
+}
+
+input FeatureLinkWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FeatureLinkWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FeatureLinkWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FeatureLinkWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  ref: String
+
+  """All values that are not equal to given value."""
+  ref_not: String
+
+  """All values that are contained in given list."""
+  ref_in: [String!]
+
+  """All values that are not contained in given list."""
+  ref_not_in: [String!]
+
+  """All values less than the given value."""
+  ref_lt: String
+
+  """All values less than or equal the given value."""
+  ref_lte: String
+
+  """All values greater than the given value."""
+  ref_gt: String
+
+  """All values greater than or equal the given value."""
+  ref_gte: String
+
+  """All values containing the given string."""
+  ref_contains: String
+
+  """All values not containing the given string."""
+  ref_not_contains: String
+
+  """All values starting with the given string."""
+  ref_starts_with: String
+
+  """All values not starting with the given string."""
+  ref_not_starts_with: String
+
+  """All values ending with the given string."""
+  ref_ends_with: String
+
+  """All values not ending with the given string."""
+  ref_not_ends_with: String
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+}
+
+input FeatureLinkWhereUniqueInput {
+  id: ID
+}
+
 enum FeatureOrderByInput {
   id_ASC
   id_DESC
   title_ASC
   title_DESC
-  content_ASC
-  content_DESC
+  subtitle_ASC
+  subtitle_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
   author_ASC
   author_DESC
+  bio_ASC
+  bio_DESC
 }
 
 type FeaturePreviousValues {
   id: ID!
   title: String!
-  content: String
+  subtitle: String
   createdAt: DateTime!
   updatedAt: DateTime!
   author: String
-  images: [String!]!
+  bio: String
 }
 
 type FeatureSubscriptionPayload {
@@ -127,22 +539,20 @@ input FeatureSubscriptionWhereInput {
   node: FeatureWhereInput
 }
 
-input FeatureUpdateimagesInput {
-  set: [String!]
-}
-
 input FeatureUpdateInput {
   title: String
-  content: String
+  subtitle: String
   author: String
-  images: FeatureUpdateimagesInput
+  bio: String
+  featureLinks: FeatureLinkUpdateManyInput
+  paragraphs: ParagraphUpdateManyInput
 }
 
 input FeatureUpdateManyMutationInput {
   title: String
-  content: String
+  subtitle: String
   author: String
-  images: FeatureUpdateimagesInput
+  bio: String
 }
 
 input FeatureWhereInput {
@@ -234,46 +644,46 @@ input FeatureWhereInput {
 
   """All values not ending with the given string."""
   title_not_ends_with: String
-  content: String
+  subtitle: String
 
   """All values that are not equal to given value."""
-  content_not: String
+  subtitle_not: String
 
   """All values that are contained in given list."""
-  content_in: [String!]
+  subtitle_in: [String!]
 
   """All values that are not contained in given list."""
-  content_not_in: [String!]
+  subtitle_not_in: [String!]
 
   """All values less than the given value."""
-  content_lt: String
+  subtitle_lt: String
 
   """All values less than or equal the given value."""
-  content_lte: String
+  subtitle_lte: String
 
   """All values greater than the given value."""
-  content_gt: String
+  subtitle_gt: String
 
   """All values greater than or equal the given value."""
-  content_gte: String
+  subtitle_gte: String
 
   """All values containing the given string."""
-  content_contains: String
+  subtitle_contains: String
 
   """All values not containing the given string."""
-  content_not_contains: String
+  subtitle_not_contains: String
 
   """All values starting with the given string."""
-  content_starts_with: String
+  subtitle_starts_with: String
 
   """All values not starting with the given string."""
-  content_not_starts_with: String
+  subtitle_not_starts_with: String
 
   """All values ending with the given string."""
-  content_ends_with: String
+  subtitle_ends_with: String
 
   """All values not ending with the given string."""
-  content_not_ends_with: String
+  subtitle_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -358,6 +768,52 @@ input FeatureWhereInput {
 
   """All values not ending with the given string."""
   author_not_ends_with: String
+  bio: String
+
+  """All values that are not equal to given value."""
+  bio_not: String
+
+  """All values that are contained in given list."""
+  bio_in: [String!]
+
+  """All values that are not contained in given list."""
+  bio_not_in: [String!]
+
+  """All values less than the given value."""
+  bio_lt: String
+
+  """All values less than or equal the given value."""
+  bio_lte: String
+
+  """All values greater than the given value."""
+  bio_gt: String
+
+  """All values greater than or equal the given value."""
+  bio_gte: String
+
+  """All values containing the given string."""
+  bio_contains: String
+
+  """All values not containing the given string."""
+  bio_not_contains: String
+
+  """All values starting with the given string."""
+  bio_starts_with: String
+
+  """All values not starting with the given string."""
+  bio_not_starts_with: String
+
+  """All values ending with the given string."""
+  bio_ends_with: String
+
+  """All values not ending with the given string."""
+  bio_not_ends_with: String
+  featureLinks_every: FeatureLinkWhereInput
+  featureLinks_some: FeatureLinkWhereInput
+  featureLinks_none: FeatureLinkWhereInput
+  paragraphs_every: ParagraphWhereInput
+  paragraphs_some: ParagraphWhereInput
+  paragraphs_none: ParagraphWhereInput
 }
 
 input FeatureWhereUniqueInput {
@@ -603,26 +1059,38 @@ type Mutation {
   createStory(data: StoryCreateInput!): Story!
   createFeature(data: FeatureCreateInput!): Feature!
   createInitiative(data: InitiativeCreateInput!): Initiative!
+  createParagraph(data: ParagraphCreateInput!): Paragraph!
+  createFeatureLink(data: FeatureLinkCreateInput!): FeatureLink!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateStory(data: StoryUpdateInput!, where: StoryWhereUniqueInput!): Story
   updateFeature(data: FeatureUpdateInput!, where: FeatureWhereUniqueInput!): Feature
   updateInitiative(data: InitiativeUpdateInput!, where: InitiativeWhereUniqueInput!): Initiative
+  updateParagraph(data: ParagraphUpdateInput!, where: ParagraphWhereUniqueInput!): Paragraph
+  updateFeatureLink(data: FeatureLinkUpdateInput!, where: FeatureLinkWhereUniqueInput!): FeatureLink
   deleteUser(where: UserWhereUniqueInput!): User
   deleteStory(where: StoryWhereUniqueInput!): Story
   deleteFeature(where: FeatureWhereUniqueInput!): Feature
   deleteInitiative(where: InitiativeWhereUniqueInput!): Initiative
+  deleteParagraph(where: ParagraphWhereUniqueInput!): Paragraph
+  deleteFeatureLink(where: FeatureLinkWhereUniqueInput!): FeatureLink
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertStory(where: StoryWhereUniqueInput!, create: StoryCreateInput!, update: StoryUpdateInput!): Story!
   upsertFeature(where: FeatureWhereUniqueInput!, create: FeatureCreateInput!, update: FeatureUpdateInput!): Feature!
   upsertInitiative(where: InitiativeWhereUniqueInput!, create: InitiativeCreateInput!, update: InitiativeUpdateInput!): Initiative!
+  upsertParagraph(where: ParagraphWhereUniqueInput!, create: ParagraphCreateInput!, update: ParagraphUpdateInput!): Paragraph!
+  upsertFeatureLink(where: FeatureLinkWhereUniqueInput!, create: FeatureLinkCreateInput!, update: FeatureLinkUpdateInput!): FeatureLink!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyStories(data: StoryUpdateManyMutationInput!, where: StoryWhereInput): BatchPayload!
   updateManyFeatures(data: FeatureUpdateManyMutationInput!, where: FeatureWhereInput): BatchPayload!
   updateManyInitiatives(data: InitiativeUpdateManyMutationInput!, where: InitiativeWhereInput): BatchPayload!
+  updateManyParagraphs(data: ParagraphUpdateManyMutationInput!, where: ParagraphWhereInput): BatchPayload!
+  updateManyFeatureLinks(data: FeatureLinkUpdateManyMutationInput!, where: FeatureLinkWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyStories(where: StoryWhereInput): BatchPayload!
   deleteManyFeatures(where: FeatureWhereInput): BatchPayload!
   deleteManyInitiatives(where: InitiativeWhereInput): BatchPayload!
+  deleteManyParagraphs(where: ParagraphWhereInput): BatchPayload!
+  deleteManyFeatureLinks(where: FeatureLinkWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -652,19 +1120,480 @@ type PageInfo {
   endCursor: String
 }
 
+type Paragraph implements Node {
+  id: ID!
+  text: String
+  image: String
+  index: Int
+}
+
+"""A connection to a list of items."""
+type ParagraphConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ParagraphEdge]!
+  aggregate: AggregateParagraph!
+}
+
+input ParagraphCreateInput {
+  id: ID
+  text: String
+  image: String
+  index: Int
+}
+
+input ParagraphCreateManyInput {
+  create: [ParagraphCreateInput!]
+  connect: [ParagraphWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type ParagraphEdge {
+  """The item at the end of the edge."""
+  node: Paragraph!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ParagraphOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  image_ASC
+  image_DESC
+  index_ASC
+  index_DESC
+}
+
+type ParagraphPreviousValues {
+  id: ID!
+  text: String
+  image: String
+  index: Int
+}
+
+input ParagraphScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ParagraphScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ParagraphScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ParagraphScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
+  image: String
+
+  """All values that are not equal to given value."""
+  image_not: String
+
+  """All values that are contained in given list."""
+  image_in: [String!]
+
+  """All values that are not contained in given list."""
+  image_not_in: [String!]
+
+  """All values less than the given value."""
+  image_lt: String
+
+  """All values less than or equal the given value."""
+  image_lte: String
+
+  """All values greater than the given value."""
+  image_gt: String
+
+  """All values greater than or equal the given value."""
+  image_gte: String
+
+  """All values containing the given string."""
+  image_contains: String
+
+  """All values not containing the given string."""
+  image_not_contains: String
+
+  """All values starting with the given string."""
+  image_starts_with: String
+
+  """All values not starting with the given string."""
+  image_not_starts_with: String
+
+  """All values ending with the given string."""
+  image_ends_with: String
+
+  """All values not ending with the given string."""
+  image_not_ends_with: String
+  index: Int
+
+  """All values that are not equal to given value."""
+  index_not: Int
+
+  """All values that are contained in given list."""
+  index_in: [Int!]
+
+  """All values that are not contained in given list."""
+  index_not_in: [Int!]
+
+  """All values less than the given value."""
+  index_lt: Int
+
+  """All values less than or equal the given value."""
+  index_lte: Int
+
+  """All values greater than the given value."""
+  index_gt: Int
+
+  """All values greater than or equal the given value."""
+  index_gte: Int
+}
+
+type ParagraphSubscriptionPayload {
+  mutation: MutationType!
+  node: Paragraph
+  updatedFields: [String!]
+  previousValues: ParagraphPreviousValues
+}
+
+input ParagraphSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ParagraphSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ParagraphSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ParagraphSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ParagraphWhereInput
+}
+
+input ParagraphUpdateDataInput {
+  text: String
+  image: String
+  index: Int
+}
+
+input ParagraphUpdateInput {
+  text: String
+  image: String
+  index: Int
+}
+
+input ParagraphUpdateManyDataInput {
+  text: String
+  image: String
+  index: Int
+}
+
+input ParagraphUpdateManyInput {
+  create: [ParagraphCreateInput!]
+  connect: [ParagraphWhereUniqueInput!]
+  set: [ParagraphWhereUniqueInput!]
+  disconnect: [ParagraphWhereUniqueInput!]
+  delete: [ParagraphWhereUniqueInput!]
+  update: [ParagraphUpdateWithWhereUniqueNestedInput!]
+  updateMany: [ParagraphUpdateManyWithWhereNestedInput!]
+  deleteMany: [ParagraphScalarWhereInput!]
+  upsert: [ParagraphUpsertWithWhereUniqueNestedInput!]
+}
+
+input ParagraphUpdateManyMutationInput {
+  text: String
+  image: String
+  index: Int
+}
+
+input ParagraphUpdateManyWithWhereNestedInput {
+  where: ParagraphScalarWhereInput!
+  data: ParagraphUpdateManyDataInput!
+}
+
+input ParagraphUpdateWithWhereUniqueNestedInput {
+  where: ParagraphWhereUniqueInput!
+  data: ParagraphUpdateDataInput!
+}
+
+input ParagraphUpsertWithWhereUniqueNestedInput {
+  where: ParagraphWhereUniqueInput!
+  update: ParagraphUpdateDataInput!
+  create: ParagraphCreateInput!
+}
+
+input ParagraphWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ParagraphWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ParagraphWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ParagraphWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
+  image: String
+
+  """All values that are not equal to given value."""
+  image_not: String
+
+  """All values that are contained in given list."""
+  image_in: [String!]
+
+  """All values that are not contained in given list."""
+  image_not_in: [String!]
+
+  """All values less than the given value."""
+  image_lt: String
+
+  """All values less than or equal the given value."""
+  image_lte: String
+
+  """All values greater than the given value."""
+  image_gt: String
+
+  """All values greater than or equal the given value."""
+  image_gte: String
+
+  """All values containing the given string."""
+  image_contains: String
+
+  """All values not containing the given string."""
+  image_not_contains: String
+
+  """All values starting with the given string."""
+  image_starts_with: String
+
+  """All values not starting with the given string."""
+  image_not_starts_with: String
+
+  """All values ending with the given string."""
+  image_ends_with: String
+
+  """All values not ending with the given string."""
+  image_not_ends_with: String
+  index: Int
+
+  """All values that are not equal to given value."""
+  index_not: Int
+
+  """All values that are contained in given list."""
+  index_in: [Int!]
+
+  """All values that are not contained in given list."""
+  index_not_in: [Int!]
+
+  """All values less than the given value."""
+  index_lt: Int
+
+  """All values less than or equal the given value."""
+  index_lte: Int
+
+  """All values greater than the given value."""
+  index_gt: Int
+
+  """All values greater than or equal the given value."""
+  index_gte: Int
+}
+
+input ParagraphWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   stories(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Story]!
   features(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Feature]!
   initiatives(where: InitiativeWhereInput, orderBy: InitiativeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Initiative]!
+  paragraphs(where: ParagraphWhereInput, orderBy: ParagraphOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Paragraph]!
+  featureLinks(where: FeatureLinkWhereInput, orderBy: FeatureLinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FeatureLink]!
   user(where: UserWhereUniqueInput!): User
   story(where: StoryWhereUniqueInput!): Story
   feature(where: FeatureWhereUniqueInput!): Feature
   initiative(where: InitiativeWhereUniqueInput!): Initiative
+  paragraph(where: ParagraphWhereUniqueInput!): Paragraph
+  featureLink(where: FeatureLinkWhereUniqueInput!): FeatureLink
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   storiesConnection(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection!
   featuresConnection(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureConnection!
   initiativesConnection(where: InitiativeWhereInput, orderBy: InitiativeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): InitiativeConnection!
+  paragraphsConnection(where: ParagraphWhereInput, orderBy: ParagraphOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ParagraphConnection!
+  featureLinksConnection(where: FeatureLinkWhereInput, orderBy: FeatureLinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureLinkConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -1262,6 +2191,8 @@ type Subscription {
   story(where: StorySubscriptionWhereInput): StorySubscriptionPayload
   feature(where: FeatureSubscriptionWhereInput): FeatureSubscriptionPayload
   initiative(where: InitiativeSubscriptionWhereInput): InitiativeSubscriptionPayload
+  paragraph(where: ParagraphSubscriptionWhereInput): ParagraphSubscriptionPayload
+  featureLink(where: FeatureLinkSubscriptionWhereInput): FeatureLinkSubscriptionPayload
 }
 
 type User implements Node {

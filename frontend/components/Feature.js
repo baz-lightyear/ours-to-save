@@ -5,7 +5,38 @@ import Moment from 'react-moment';
 
 
 const Container = styled.div`
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: ${props => props.theme.serif};
+    border-top: solid 1px ${props => props.theme.lightgreen};
+    .text {
+        text-align: left;
+        h2 {
+            margin: 0;
+        }
+        small {
+            font-family: ${props => props.theme.sansSerif};
+            color: ${props => props.theme.green}
+        }
+        a {
+            &:hover {
+                color: ${props => props.theme.green};
+                cursor: pointer;
+            }
+        }
+        .author {
+            text-align: right;
+            margin-bottom: 0;
+            margin-top: 1rem;
+            font-size: 12px;
+        }
+        img {
+            width: 100%;
+            margin: 1rem 0;
+            cursor: pointer;
+        }
+    }
 `;
 
 class Feature extends Component {
@@ -13,9 +44,11 @@ class Feature extends Component {
         return (
             <Container>
                 <div className="text">
-                    <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}><h4><a>{this.props.feature.title}</a></h4></Link>    
-                    <small>Posted <Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/> by {this.props.feature.author}</small> 
-                    <p>{this.props.feature.content.substring(0, 120)}{this.props.feature.content.length > 120 ? "..." : ""}</p>
+                    <p className="author"><em>{this.props.feature.author}</em></p> 
+                    <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}><h2><a>{this.props.feature.title}</a></h2></Link>    
+                    <p>{this.props.feature.subtitle}</p>
+                    <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></small>
+                    <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}><img src={this.props.feature.paragraphs[0].image} alt=""/></Link>
                 </div>
             </Container>
         );

@@ -11,6 +11,15 @@ const Query = {
                 info
             );
         return story
+    },
+    async feature(parent, args, ctx, info) {
+        const feature = await ctx.db.query.feature(
+                {
+                    where: { id: args.id },
+                },
+                info
+            );
+        return feature
     }
 };
 

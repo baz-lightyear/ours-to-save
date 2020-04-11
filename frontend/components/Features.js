@@ -12,7 +12,7 @@ class Features extends Component {
                 if (error) return <p>Error: {error.message}</p>;
                 return (
                     <div>
-                        {data.features.sort((a, b) => {a.createdAt-b.createdAt}).reverse().map(feature => <Fearture feature={feature} key={feature.id}/>)}
+                        {data.features.map(feature => <Feature feature={feature} key={feature.id}/>)}
                     </div>
                 );
             }}

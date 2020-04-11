@@ -6,6 +6,7 @@ type Query {
     stories(where: StoryWhereInput, orderBy: StoryOrderByInput): [Story]!
     story(id: ID!): Story
     features: [Feature]!
+    feature(id: ID!): Feature
 }
 
 type Story {
@@ -22,14 +23,29 @@ type Story {
 }
 
 type Feature {
-  id: ID
-  title: String
-  content: String
+  id: ID! 
+  title: String!
+  subtitle: String
+  featureLinks: [FeatureLink] 
+  paragraphs: [Paragraph] 
   createdAt: String
-  updatedAt: String
   author: String
-  images: [String] 
+  bio: String
 }
+
+type FeatureLink {
+  id: ID! 
+  ref: String
+  title: String
+}
+
+type Paragraph {
+  id: ID!
+  text: String
+  image: String
+  index: Int
+}
+
 
 enum StoryOrderByInput {
   createdAt_DESC

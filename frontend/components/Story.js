@@ -40,11 +40,15 @@ const Container = styled.div`
     }
     @media (max-width: 650px) {
         flex-direction: column;
+        margin-bottom: 1rem;
+        .text {
+            width: 100%;
+        }
         .image {
             width: 100%;
         }
         img {
-            margin: 1rem 0;
+            margin-top: 1rem;
             height: 100px !important;
             max-width: 140px !important;
         }
