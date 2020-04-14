@@ -2,6 +2,24 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import Moment from 'react-moment';
+import {
+    EmailShareButton,
+    FacebookShareButton,
+    InstapaperShareButton,
+    LinkedinShareButton,
+    RedditShareButton,
+    TwitterShareButton,
+    WhatsappShareButton,
+} from "react-share";
+import {
+    EmailIcon,
+    FacebookIcon,
+    InstapaperIcon,
+    LinkedinIcon,
+    RedditIcon,
+    TwitterIcon,
+    WhatsappIcon,
+} from "react-share";
 import { SINGLE_STORY_QUERY } from './Apollo';
 import MapStoryShow from './MapStoryShow';
 import OtherArticles from './OtherArticles';
@@ -16,25 +34,16 @@ const Container = styled.div`
         font-family: ${props => props.theme.sansSerif};
     }
     .sharing {
-        display: flex;
-        justify-content: center;
-        p {
-            margin: none;
-            margin-right: 1rem;
-            font-family: ${props => props.theme.sansSerif};
-        }
-        a {
-            margin-right: 1rem;
-            opacity: 0.9;
-            &:hover {
-                opacity: 1;
-            }
-            img {
-                height: 1rem;
+        text-align: center;
+        .icons {
+            margin-bottom: 1rem;
+            svg {
+                height: 2rem;
+                width: 2rem;
+                margin: 4px;
             }
         }
     }
-    padding: 1rem;
     #image {
         display: block;
         margin: 2rem auto;
@@ -64,8 +73,14 @@ class StoryShow extends Component {
                             <p>{story.content}</p>
                             <div className="sharing">
                                 <p>Share: </p>
-                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false"><img src="twitterBlue.png" alt="twitter logo"/></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-                                <div class="fb-share-button" data-href={`https://ourstosave.com/story?id=${story.id}`} data-layout="button" data-size="small"><a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fourstosave.com%2Fstory%3Fid=${story.id}&amp;src=sdkpreparse`} class="fb-xfbml-parse-ignore"><img src="facebookBlue.png" alt="facebook logo"/></a></div>
+                                <div className="icons">
+                                    <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
+                                    <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
+                                    <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
+                                    <LinkedinShareButton url={window.location.href}><LinkedinIcon></LinkedinIcon></LinkedinShareButton>
+                                    <RedditShareButton url={window.location.href}><RedditIcon></RedditIcon></RedditShareButton>
+                                    <WhatsappShareButton url={window.location.href}><WhatsappIcon></WhatsappIcon></WhatsappShareButton>
+                                </div>
                             </div>
                             <div className="mapContainer">
                                 <MapStoryShow story={story}/>

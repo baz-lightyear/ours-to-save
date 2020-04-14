@@ -93,7 +93,7 @@ class Page extends Component {
         <ThemeProvider theme={theme}>
             <StyledPage>
                 <Meta />
-                
+
                 {/* This is for sharing on facebook */}
                 <div id="fb-root"></div>
                 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>
@@ -101,8 +101,8 @@ class Page extends Component {
                 <Header />
                 <span className="flexGrow">{this.props.children}</span>
                 <Footer>
-                  <span className="socialLinks"><a href="https://twitter.com/ourstosave" target="_blank"><img className="twitter" src="twitter.png" alt="twitter logo"/></a><a href="" target="_blank"><img src="facebook.png" alt="facebook logo"/></a></span>
-                  <span className="authors"><a href="https://harrykingdon.com" target="_blank">- Baz</a> & <a href="https://twitter.com/flossiewild" >Floss</a></span>
+                  <span className="socialLinks"><a href="https://twitter.com/ourstosave" target="_blank"><img className="twitter" src="twitter.png" alt="twitter logo"/></a><a href="https://www.facebook.com/ourstosave" target="_blank"><img src="facebook.png" alt="facebook logo"/></a></span>
+                  <span className="authors">- Baz & <a href="https://twitter.com/flossiewild" >Floss</a></span>
                 </Footer>
             </StyledPage>
             <GlobalStyle/>

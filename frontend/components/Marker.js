@@ -50,7 +50,7 @@ class Marker extends Component {
                 <img 
                     src={this.props.story.morality === "good" ? "goodMarker.png" : this.props.story.morality === "bad" ? "badMarker.png" : "inbetweenMarker.png"} 
                     alt="marker" 
-                    onMouseEnter={this.show} 
+                    onMouseOver={this.show} 
                 />
                 <Link href={{pathname: '/story', query: { id: this.props.story.id }}}>
                     <div className={this.state.show}><p>{this.props.story.title}<br/><small>click to learn more</small></p></div>

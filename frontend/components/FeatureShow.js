@@ -2,6 +2,24 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import Moment from 'react-moment';
+import {
+    EmailShareButton,
+    FacebookShareButton,
+    InstapaperShareButton,
+    LinkedinShareButton,
+    RedditShareButton,
+    TwitterShareButton,
+    WhatsappShareButton,
+} from "react-share";
+import {
+    EmailIcon,
+    FacebookIcon,
+    InstapaperIcon,
+    LinkedinIcon,
+    RedditIcon,
+    TwitterIcon,
+    WhatsappIcon,
+} from "react-share";
 import { SINGLE_FEATURE_QUERY } from './Apollo';
 import OtherArticles from './OtherArticles';
 
@@ -25,9 +43,6 @@ const Container = styled.div`
         margin-bottom: 2rem;
     }
     .links {
-        border-top: solid 1px ${props => props.theme.green};
-        padding-top: 2rem;
-        margin-top: 2rem;
         font-family: ${props => props.theme.sansSerif};
         font-weight: 700;
     }
@@ -42,29 +57,20 @@ const Container = styled.div`
         margin-top: 2rem;
         text-align: right;
     }
-    #top-sharing {
-        padding-bottom: 1rem;
-        border-bottom: solid 1px ${props => props.theme.green};
-    }
     #bottomSharing {
-        padding-bottom: 1rem;
-        margin-bottom: 2rem;
+        border-bottom: solid 2px ${props => props.theme.green};
+        border-top: solid 2px ${props => props.theme.green};
+        padding-top: 1rem;
+        margin-top: 2rem;
     }
     .sharing {
-        display: flex;
-        justify-content: flex-end;
-        p {
-            margin-bottom: 0;
-            font-family: ${props => props.theme.sansSerif};
-        }
-        a {
-            margin-left: 1rem;
-            opacity: 0.9;
-            &:hover {
-                opacity: 1;
-            }
-            img {
-                height: 1rem;
+        text-align: center;
+        .icons {
+            margin-bottom: 1rem;
+            svg {
+                height: 2rem;
+                width: 2rem;
+                margin: 4px;
             }
         }
     }
@@ -97,10 +103,16 @@ class FeatureShow extends Component {
                             <h3 className="subtitle"><em>{feature.subtitle}</em></h3>
                             <p className="date"><Moment date={feature.createdAt} format="Do MMM YYYY"/></p>
                             <p className="author">{feature.author}</p>
-                            <div className="sharing" id="top-sharing">
+                            <div className="sharing">
                                 <p>Share this article: </p>
-                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false"><img src="twitterBlue.png" alt="twitter logo"/></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-                                <div class="fb-share-button" data-href={`https://ourstosave.com/feature?id=${feature.id}`} data-layout="button" data-size="small"><a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fourstosave.com%feature%3Fid=${feature.id}&amp;src=sdkpreparse`} class="fb-xfbml-parse-ignore"><img src="facebookBlue.png" alt="facebook logo"/></a></div>
+                                <div className="icons">
+                                    <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
+                                    <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
+                                    <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
+                                    <LinkedinShareButton url={window.location.href}><LinkedinIcon></LinkedinIcon></LinkedinShareButton>
+                                    <RedditShareButton url={window.location.href}><RedditIcon></RedditIcon></RedditShareButton>
+                                    <WhatsappShareButton url={window.location.href}><WhatsappIcon></WhatsappIcon></WhatsappShareButton>
+                                </div>
                             </div>
                             {feature.paragraphs.map(paragraph => {
                                 return (
@@ -121,8 +133,14 @@ class FeatureShow extends Component {
                             </ul>
                             <div className="sharing" id="bottomSharing">
                                 <p>Share this article: </p>
-                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false"><img src="twitterBlue.png" alt="twitter logo"/></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-                                <div class="fb-share-button" data-href={`https://ourstosave.com/feature?id=${feature.id}`} data-layout="button" data-size="small"><a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fourstosave.com%feature%3Fid=${feature.id}&amp;src=sdkpreparse`} class="fb-xfbml-parse-ignore"><img src="facebookBlue.png" alt="facebook logo"/></a></div>
+                                <div className="icons">
+                                    <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
+                                    <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
+                                    <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
+                                    <LinkedinShareButton url={window.location.href}><LinkedinIcon></LinkedinIcon></LinkedinShareButton>
+                                    <RedditShareButton url={window.location.href}><RedditIcon></RedditIcon></RedditShareButton>
+                                    <WhatsappShareButton url={window.location.href}><WhatsappIcon></WhatsappIcon></WhatsappShareButton>
+                                </div>
                             </div>
                             <OtherArticles story="1"/>
                         </Container>

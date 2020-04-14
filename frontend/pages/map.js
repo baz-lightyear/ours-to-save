@@ -10,12 +10,14 @@ const Container = styled.div`
         text-align: center;
         margin: 1rem 0;
     }
+    h2 {
+        margin-top: 56px;
+    }
     text-align: left;
     width: 90%;
     max-width: 800px;
     margin: auto;
     .mapContainer {
-        margin-bottom: 2rem;
     }
 `;
 
@@ -24,10 +26,10 @@ class map extends Component {
         return (
             <Container>
                 <h1>What in the world is happening?</h1>
+                <CreateStoryModal/>
                 <div className="mapContainer">
                     <Map/>
                 </div>
-                <CreateStoryModal/>
                 <h2>Recent posts</h2>
                 <Stories/>
                 <CreateStoryModal/>

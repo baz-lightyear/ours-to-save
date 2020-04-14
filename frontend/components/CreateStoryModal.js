@@ -31,7 +31,7 @@ function CreateStoryModal() {
     return (
       <Container>
         <button id="openModalButton" onClick={handleShow}>
-          + Submit a post
+          + add a pin
         </button>
   
         <Modal show={show} onHide={handleClose}>
