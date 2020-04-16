@@ -79,7 +79,7 @@ class StoryShow extends Component {
                                 <meta property="og:url"                content={`${window.location.href}/`} key="url"/>
                                 <meta property="og:title"              content={story.title} key="title"/>
                                 <meta property="og:description"        content={story.subtitle} key="description"/>
-                                <meta property="og:image"              content={story.paragraphs[0].image} key="image"/>
+                                <meta property="og:image"              content={story.image} key="image"/>
                                 <meta property="og:type"              content="article" key="type"/>
 
                             </Head>
