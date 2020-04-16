@@ -58,7 +58,7 @@ const SINGLE_STORY_QUERY = gql`
 
 const FEATURES_QUERY = gql`
   query FEATURES_QUERY {
-    features {
+    features(orderBy: createdAt_DESC) {
       id
       title
       subtitle

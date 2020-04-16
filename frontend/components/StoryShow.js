@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Head from 'next/head';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import Moment from 'react-moment';
@@ -37,10 +38,18 @@ const Container = styled.div`
         text-align: center;
         .icons {
             margin-bottom: 1rem;
+            button {
+                &:focus {
+                    outline: none;
+                }
+            }
             svg {
                 height: 2rem;
                 width: 2rem;
                 margin: 4px;
+                &:focus {
+                    outline: none;
+                }
             }
         }
     }
@@ -66,6 +75,12 @@ class StoryShow extends Component {
                     const story = data.story;
                     return (
                         <Container>
+                            <Head>
+                                <meta property="og:url"                content={window.location.href} key="url"/>
+                                <meta property="og:title"              content={story.title} key="title"/>
+                                <meta property="og:description"        content={story.subtitle} key="description"/>
+                                <meta property="og:image"              content={story.paragraphs[0].image} key="image"/>
+                            </Head>
                             <h1>{story.title}</h1>
                             <small>Posted <Moment date={story.createdAt} format="Do MMM YYYY"/> by {story.author}</small>
                             <br/>
@@ -77,9 +92,6 @@ class StoryShow extends Component {
                                     <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
                                     <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
                                     <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
-                                    <LinkedinShareButton url={window.location.href}><LinkedinIcon></LinkedinIcon></LinkedinShareButton>
-                                    <RedditShareButton url={window.location.href}><RedditIcon></RedditIcon></RedditShareButton>
-                                    <WhatsappShareButton url={window.location.href}><WhatsappIcon></WhatsappIcon></WhatsappShareButton>
                                 </div>
                             </div>
                             <div className="mapContainer">

@@ -16,7 +16,7 @@ class Features extends Component {
                     </div>
                 );
             }}
-        </Query>
+            </Query>
         );
     }
 }

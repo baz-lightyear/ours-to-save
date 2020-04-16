@@ -42,7 +42,10 @@ class Marker extends Component {
     }
     show = () => {
         this.setState({show: 'show'})
-        setTimeout(() => {this.setState({show: 'hide'})}, 3000);
+        // setTimeout(() => {this.setState({show: 'hide'})}, 3000);
+    }
+    hide = () => {
+        this.setState({show: 'hide'})
     }
     render() {
         return (
@@ -51,6 +54,7 @@ class Marker extends Component {
                     src={this.props.story.morality === "good" ? "goodMarker.png" : this.props.story.morality === "bad" ? "badMarker.png" : "inbetweenMarker.png"} 
                     alt="marker" 
                     onMouseOver={this.show} 
+                    onMouseLeave={this.hide}
                 />
                 <Link href={{pathname: '/story', query: { id: this.props.story.id }}}>
                     <div className={this.state.show}><p>{this.props.story.title}<br/><small>click to learn more</small></p></div>

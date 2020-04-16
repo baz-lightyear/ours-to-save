@@ -5,7 +5,7 @@ type Mutation {
 type Query {
     stories(where: StoryWhereInput, orderBy: StoryOrderByInput): [Story]!
     story(id: ID!): Story
-    features: [Feature]!
+    features(orderBy: FeatureOrderByInput): [Feature]!
     feature(id: ID!): Feature
 }
 
@@ -53,4 +53,8 @@ enum StoryOrderByInput {
 
 input StoryWhereInput {
   approved: Boolean
+}
+
+enum FeatureOrderByInput {
+  createdAt_DESC
 }

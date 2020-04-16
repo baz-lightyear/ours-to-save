@@ -92,7 +92,7 @@ class Page extends Component {
     return (
         <ThemeProvider theme={theme}>
             <StyledPage>
-                <Meta />
+                <Meta/>
 
                 {/* This is for sharing on facebook */}
                 <div id="fb-root"></div>
@@ -102,7 +102,6 @@ class Page extends Component {
                 <span className="flexGrow">{this.props.children}</span>
                 <Footer>
                   <span className="socialLinks"><a href="https://twitter.com/ourstosave" target="_blank"><img className="twitter" src="twitter.png" alt="twitter logo"/></a><a href="https://www.facebook.com/ourstosave" target="_blank"><img src="facebook.png" alt="facebook logo"/></a></span>
-                  <span className="authors">- Baz & <a href="https://twitter.com/flossiewild" >Floss</a></span>
                 </Footer>
             </StyledPage>
             <GlobalStyle/>

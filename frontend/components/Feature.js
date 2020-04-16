@@ -5,6 +5,7 @@ import Moment from 'react-moment';
 
 
 const Container = styled.div`
+    padding-bottom: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,6 +13,7 @@ const Container = styled.div`
     border-top: solid 1px ${props => props.theme.lightgreen};
     .text {
         text-align: left;
+        width: 100%;
         h2 {
             margin: 0;
         }

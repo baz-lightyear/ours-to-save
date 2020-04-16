@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-const Meta = () => (
+const Meta = (props) => (
   <Head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charSet="utf-8" />
@@ -24,10 +24,10 @@ const Meta = () => (
 
     {/* Facebook/WhatsApp/Instagram metatags */}
 
-    <meta property="og:url"                content="https://ourstosave.com" />
-    <meta property="og:title"              content="Ours to Save" />
-    <meta property="og:description"        content="Crowdsourced, breaking news on the climate - use our interactive map" />
-    <meta property="og:image"              content="https://images.unsplash.com/photo-1559294824-627e9738df81?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80" />
+    <meta property="og:url"                content="https://ourstosave.com" key="url"/>
+    <meta property="og:title"              content="Ours to Save" key="title"/>
+    <meta property="og:description"        content="Crowdsourced, breaking news on the climate - use our interactive map" key="description"/>
+    <meta property="og:image"              content="https://images.unsplash.com/photo-1559294824-627e9738df81?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80" key="image"/>
     <meta property="og:type"               content="website" />
     <meta property="og:locale" content="en_GB" />
 

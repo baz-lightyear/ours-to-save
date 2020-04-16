@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import Head from 'next/head';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import Moment from 'react-moment';
@@ -67,10 +68,18 @@ const Container = styled.div`
         text-align: center;
         .icons {
             margin-bottom: 1rem;
+            button {
+                &:focus {
+                    outline: none;
+                }
+            }
             svg {
                 height: 2rem;
                 width: 2rem;
                 margin: 4px;
+                &:focus {
+                    outline: none;
+                }
             }
         }
     }
@@ -85,6 +94,15 @@ const Container = styled.div`
 `;
 
 class FeatureShow extends Component {
+    setMetatags = (feature) => {
+        this.props.setMetatags({
+            url: window.location.href,
+            title: feature.title,
+            description: feature.subtitle,
+            image: feature.paragraphs[0].image
+        })
+    }
+
     render() {
         return (
             <Query
@@ -99,6 +117,12 @@ class FeatureShow extends Component {
                     const feature = data.feature
                     return (
                         <Container>
+                            <Head>
+                                <meta property="og:url"                content={window.location.href} key="url"/>
+                                <meta property="og:title"              content={feature.title} key="title"/>
+                                <meta property="og:description"        content={feature.subtitle} key="description"/>
+                                <meta property="og:image"              content={feature.paragraphs[0].image} key="image"/>
+                            </Head>
                             <h1>{feature.title}</h1>
                             <h3 className="subtitle"><em>{feature.subtitle}</em></h3>
                             <p className="date"><Moment date={feature.createdAt} format="Do MMM YYYY"/></p>
@@ -109,9 +133,6 @@ class FeatureShow extends Component {
                                     <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
                                     <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
                                     <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
-                                    <LinkedinShareButton url={window.location.href}><LinkedinIcon></LinkedinIcon></LinkedinShareButton>
-                                    <RedditShareButton url={window.location.href}><RedditIcon></RedditIcon></RedditShareButton>
-                                    <WhatsappShareButton url={window.location.href}><WhatsappIcon></WhatsappIcon></WhatsappShareButton>
                                 </div>
                             </div>
                             {feature.paragraphs.map(paragraph => {
@@ -137,9 +158,6 @@ class FeatureShow extends Component {
                                     <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
                                     <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
                                     <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
-                                    <LinkedinShareButton url={window.location.href}><LinkedinIcon></LinkedinIcon></LinkedinShareButton>
-                                    <RedditShareButton url={window.location.href}><RedditIcon></RedditIcon></RedditShareButton>
-                                    <WhatsappShareButton url={window.location.href}><WhatsappIcon></WhatsappIcon></WhatsappShareButton>
                                 </div>
                             </div>
                             <OtherArticles story="1"/>
