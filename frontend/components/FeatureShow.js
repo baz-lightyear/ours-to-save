@@ -94,15 +94,6 @@ const Container = styled.div`
 `;
 
 class FeatureShow extends Component {
-    setMetatags = (feature) => {
-        this.props.setMetatags({
-            url: window.location.href,
-            title: feature.title,
-            description: feature.subtitle,
-            image: feature.paragraphs[0].image
-        })
-    }
-
     render() {
         return (
             <Query
@@ -118,7 +109,7 @@ class FeatureShow extends Component {
                     return (
                         <Container>
                             <Head>
-                                <meta property="og:url"                content={`${window.location.href}/`} key="url"/>
+                                <meta property="og:url"                content={`https://ourstosave.com/feature?id=${feature.id}/`} key="url"/>
                                 <meta property="og:title"              content={feature.title} key="title"/>
                                 <meta property="og:description"        content={feature.subtitle} key="description"/>
                                 <meta property="og:image"              content={feature.paragraphs[0].image} key="image"/>
