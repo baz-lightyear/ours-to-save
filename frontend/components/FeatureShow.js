@@ -118,10 +118,12 @@ class FeatureShow extends Component {
                     return (
                         <Container>
                             <Head>
-                                <meta property="og:url"                content={window.location.href} key="url"/>
+                                <meta property="og:url"                content={`${window.location.href}/`} key="url"/>
                                 <meta property="og:title"              content={feature.title} key="title"/>
                                 <meta property="og:description"        content={feature.subtitle} key="description"/>
                                 <meta property="og:image"              content={feature.paragraphs[0].image} key="image"/>
+                                <meta property="og:type"              content="article" key="type"/>
+
                             </Head>
                             <h1>{feature.title}</h1>
                             <h3 className="subtitle"><em>{feature.subtitle}</em></h3>

@@ -76,10 +76,12 @@ class StoryShow extends Component {
                     return (
                         <Container>
                             <Head>
-                                <meta property="og:url"                content={window.location.href} key="url"/>
+                                <meta property="og:url"                content={`${window.location.href}/`} key="url"/>
                                 <meta property="og:title"              content={story.title} key="title"/>
                                 <meta property="og:description"        content={story.subtitle} key="description"/>
                                 <meta property="og:image"              content={story.paragraphs[0].image} key="image"/>
+                                <meta property="og:type"              content="article" key="type"/>
+
                             </Head>
                             <h1>{story.title}</h1>
                             <small>Posted <Moment date={story.createdAt} format="Do MMM YYYY"/> by {story.author}</small>

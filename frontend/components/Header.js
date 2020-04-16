@@ -164,7 +164,7 @@ class Header extends Component {
                   <a>map</a>
                 </Link>
                 <Link href="/news">
-                  <a>news</a>
+                  <a>features</a>
                 </Link>
                 <Link href="/about">
                   <a>about</a>
