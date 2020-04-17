@@ -3,25 +3,17 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import Moment from 'react-moment';
+import {Helmet} from 'react-helmet';
 import {
     EmailShareButton,
     FacebookShareButton,
-    InstapaperShareButton,
-    LinkedinShareButton,
-    RedditShareButton,
     TwitterShareButton,
-    WhatsappShareButton,
 } from "react-share";
 import {
     EmailIcon,
     FacebookIcon,
-    InstapaperIcon,
-    LinkedinIcon,
-    RedditIcon,
     TwitterIcon,
-    WhatsappIcon,
 } from "react-share";
-import { SINGLE_FEATURE_QUERY } from './Apollo';
 import OtherArticles from './OtherArticles';
 
 const Container = styled.div`
@@ -97,14 +89,14 @@ class FeatureShow extends Component {
     render() {
         return (
             <>
-                <Head>
-                    <meta property="og:url"                content={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`} key="url"/>
-                    <meta property="og:title"              content={this.props.feature.title} key="title"/>
-                    <meta property="og:description"        content={this.props.feature.subtitle} key="description"/>
-                    <meta property="og:image"              content={this.props.feature.paragraphs[0].image} key="image"/>
-                    <meta property="og:type"               content="article" key="type"/>
+                <Helmet>
+                    <meta property="og:url"                content={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}/>
+                    <meta property="og:title"              content={this.props.feature.title}/>
+                    <meta property="og:description"        content={this.props.feature.subtitle}/>
+                    <meta property="og:image"              content={this.props.feature.paragraphs[0].image}/>
+                    <meta property="og:type"               content="article"/>
                     <meta propery="hi" content="test"/>
-                </Head>
+                </Helmet>
                 <Container>
                     <h1>{this.props.feature.title}</h1>
                     <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>

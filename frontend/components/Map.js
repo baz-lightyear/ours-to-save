@@ -6,6 +6,7 @@ import fetch from 'isomorphic-unfetch';
 import {STORIES_QUERY} from './Apollo';
 import Marker from './Marker';
 
+
 const Form = styled.form`
 position: relative;
 top: 48px;

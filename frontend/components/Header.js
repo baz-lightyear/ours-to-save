@@ -4,7 +4,6 @@ import Router from 'next/router';
 import React, { Component } from 'react';
 import classNames from 'classnames'
 
-
 const Container = styled.div`
   .filler {
     height: 80px;

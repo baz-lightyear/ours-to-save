@@ -3,6 +3,7 @@ import {Query} from 'react-apollo';
 import {FEATURES_QUERY} from './Apollo';
 import Feature from './Feature';
 
+
 class Features extends Component {
     render() {
         return (
