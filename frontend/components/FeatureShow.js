@@ -102,6 +102,15 @@ class FeatureShow extends Component {
     }
     render() {
         return (
+            <>
+            <Head>
+                {/* in here, you need the url, the image, the description and the subtitle. and it needs to load instantly. hmm */}
+                <meta property="og:url"                content="https://www.ourstosave.com/feature?id=ck92gwbaa009k0705iafntpfq" key="url"/>
+                <meta property="og:title"              content="Test" key="title"/>
+                <meta property="og:description"        content="did it work" key="description"/>
+                <meta property="og:image"              content="https://res.cloudinary.com/bazkingdon/image/upload/v1587033225/Webp.net-resizeimage_1_vwtflp.jpg" key="image"/>
+                <meta property="og:type"               content="article" key="type"/>
+            </Head>
             <Query
                 query={SINGLE_FEATURE_QUERY}
                 variables={{
@@ -157,6 +166,7 @@ class FeatureShow extends Component {
                     );
                 }}
             </Query>
+            </>
         );
     }
 }
