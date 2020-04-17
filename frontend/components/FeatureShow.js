@@ -98,7 +98,7 @@ class FeatureShow extends Component {
         return (
             <>
                 <Head>
-                    <meta property="og:url"                content={`https://ourstosave.com/feature?id=${this.props.id}/`} key="url"/>
+                    <meta property="og:url"                content={`https://ourstosave.com/feature?id=${window.location.href}`} key="url"/>
                     <meta property="og:title"              content={this.props.title} key="title"/>
                     <meta property="og:description"        content={this.props.subtitle} key="description"/>
                     <meta property="og:image"              content={this.props.image} key="image"/>
