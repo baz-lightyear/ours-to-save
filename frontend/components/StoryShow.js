@@ -63,47 +63,34 @@ const Container = styled.div`
 class StoryShow extends Component {
     render() {
         return (
-            <Query
-                query={SINGLE_STORY_QUERY}
-                variables={{
-                id: this.props.id,
-                }}
-            >
-                {({ error, loading, data }) => {
-                    if (error) return <p>error</p>;
-                    if (loading) return <p>Loading...</p>;
-                    const story = data.story;
-                    return (
-                        <Container>
-                            <Head>
-                                <meta property="og:url"                content={`${window.location.href}/`} key="url"/>
-                                <meta property="og:title"              content={story.title} key="title"/>
-                                <meta property="og:description"        content={story.subtitle} key="description"/>
-                                <meta property="og:image"              content={story.image} key="image"/>
-                                <meta property="og:type"              content="article" key="type"/>
-
-                            </Head>
-                            <h1>{story.title}</h1>
-                            <small>Posted <Moment date={story.createdAt} format="Do MMM YYYY"/> by {story.author}</small>
-                            <br/>
-                            {story.image && <img id="image" src={story.image} alt={story.title} />}
-                            <p>{story.content}</p>
-                            <div className="sharing">
-                                <p>Share: </p>
-                                <div className="icons">
-                                    <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
-                                    <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
-                                    <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
-                                </div>
-                            </div>
-                            <div className="mapContainer">
-                                <MapStoryShow story={story}/>
-                            </div>
-                            <OtherArticles story={story}/>
-                        </Container>
-                    );
-                }}
-            </Query>
+            <>
+                <Head>
+                    <meta property="og:url"                content={`https://www.ourstosave.com/story?id=${this.props.story.id}/`} key="url"/>
+                    <meta property="og:title"              content={this.props.story.title} key="title"/>
+                    <meta property="og:description"        content={this.props.story.subtitle} key="description"/>
+                    <meta property="og:image"              content={this.props.story.image} key="image"/>
+                    <meta property="og:type"              content="article" key="type"/>
+                </Head>
+                <Container>
+                    <h1>{this.props.story.title}</h1>
+                    <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> by {this.props.story.author}</small>
+                    <br/>
+                    {this.props.story.image && <img id="image" src={this.props.story.image} alt={this.props.story.title} />}
+                    <p>{this.props.story.content}</p>
+                    <div className="sharing">
+                        <p>Share: </p>
+                        <div className="icons">
+                        <EmailShareButton url={window.location.href}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                        <FacebookShareButton url={window.location.href}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                        <TwitterShareButton url={window.location.href}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
+                        </div>
+                    </div>
+                    <div className="mapContainer">
+                        <MapStoryShow story={this.props.story}/>
+                    </div>
+                    <OtherArticles story={this.props.story}/>
+                </Container>
+            </>
         );
     }
 }

@@ -98,10 +98,10 @@ class FeatureShow extends Component {
         return (
             <>
                 <Head>
-                    <meta property="og:url"                content="https://www.ourstosave.com/feature?id=ck92gwbaa009k0705iafntpfq" key="url"/>
-                    <meta property="og:title"              content="Test" key="title"/>
-                    <meta property="og:description"        content="did it work" key="description"/>
-                    <meta property="og:image"              content="https://res.cloudinary.com/bazkingdon/image/upload/v1587033225/Webp.net-resizeimage_1_vwtflp.jpg" key="image"/>
+                    <meta property="og:url"                content={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`} key="url"/>
+                    <meta property="og:title"              content={this.props.feature.title} key="title"/>
+                    <meta property="og:description"        content={this.props.feature.subtitle} key="description"/>
+                    <meta property="og:image"              content={this.props.feature.paragraphs[0].image} key="image"/>
                     <meta property="og:type"               content="article" key="type"/>
                     <meta propery="hi" content="test"/>
                 </Head>
@@ -113,7 +113,6 @@ class FeatureShow extends Component {
                     <div className="sharing">
                         <p>Share this article: </p>
                         <div className="icons">
-                            <div class="fb-share-button" data-href="https://www.ourstosave.com/feature?id=ck92gwbaa009k0705iafntpfq" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.ourstosave.com%2Ffeature%3Fid%3Dck92gwbaa009k0705iafntpfq&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
                             <EmailShareButton url={window.location.href}><EmailIcon round={true}></EmailIcon></EmailShareButton>
                             <FacebookShareButton url={window.location.href}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
                             <TwitterShareButton url={window.location.href}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
@@ -139,9 +138,9 @@ class FeatureShow extends Component {
                     <div className="sharing" id="bottomSharing">
                         <p>Share this article: </p>
                         <div className="icons">
-                            <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
-                            <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
-                            <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
+                            <EmailShareButton url={window.location.href}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                            <FacebookShareButton url={window.location.href}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                            <TwitterShareButton url={window.location.href}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                         </div>
                     </div>
                     <OtherArticles story="1"/>
