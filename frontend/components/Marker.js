@@ -13,6 +13,7 @@ const Container = styled.div`
     }
     .show {
         visibility: visible; 
+        cursor: pointer;
     }
     .hide {
         visibility: hidden;
@@ -42,22 +43,19 @@ class Marker extends Component {
     }
     show = () => {
         this.setState({show: 'show'})
-        // setTimeout(() => {this.setState({show: 'hide'})}, 3000);
     }
     hide = () => {
         this.setState({show: 'hide'})
     }
     render() {
         return (
-            <Container>
+            <Container onMouseOver={this.show} onMouseLeave={this.hide}>
                 <img 
                     src={this.props.story.morality === "good" ? "goodMarker.png" : this.props.story.morality === "bad" ? "badMarker.png" : "inbetweenMarker.png"} 
                     alt="marker" 
-                    onMouseOver={this.show} 
-                    onMouseLeave={this.hide}
                 />
                 <Link href={{pathname: '/story', query: { id: this.props.story.id }}}>
-                    <div className={this.state.show}><p>{this.props.story.title}<br/><small>click to learn more</small></p></div>
+                        <div className={this.state.show}><p>{this.props.story.title}<br/><small>click to learn more</small></p></div>
                 </Link>
             </Container>
         );

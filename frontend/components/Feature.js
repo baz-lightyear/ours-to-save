@@ -47,7 +47,7 @@ class Feature extends Component {
             <Container>
                 <div className="text">
                     <p className="author"><em>{this.props.feature.author}</em></p> 
-                    <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}><h2><a>{this.props.feature.title}</a></h2></Link>    
+                    <Link href={{pathname: '/feature', query: { id: this.props.feature.id, title: this.props.feature.title, description: this.props.feature.subtitle, image: this.props.feature.paragraphs[0].image }}}><h2><a>{this.props.feature.title}</a></h2></Link>    
                     <p>{this.props.feature.subtitle}</p>
                     <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></small>
                     <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}><img src={this.props.feature.paragraphs[0].image} alt=""/></Link>

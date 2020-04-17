@@ -11,6 +11,8 @@ position: relative;
 top: 48px;
 text-align: center;
 z-index: 1;
+margin: auto;
+width: fit-content;
 @media (max-width: 600px) {
     text-align: left;
     margin-left: 1rem;
