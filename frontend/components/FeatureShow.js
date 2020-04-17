@@ -94,72 +94,69 @@ const Container = styled.div`
 `;
 
 class FeatureShow extends Component {
+    state = {
+        window: ''
+    }
+    componentDidMount() {
+
+    }
     render() {
         return (
-            <>
-                <Head>
-                    <meta property="og:url"                content={`https://ourstosave.com/feature?id=${window.location.href}`} key="url"/>
-                    <meta property="og:title"              content={this.props.title} key="title"/>
-                    <meta property="og:description"        content={this.props.subtitle} key="description"/>
-                    <meta property="og:image"              content={this.props.image} key="image"/>
-                    <meta property="og:type"              content="article" key="type"/>
-                </Head>
-                <Query
-                    query={SINGLE_FEATURE_QUERY}
-                    variables={{
-                    id: this.props.id,
-                    }}
-                >
-                    {({ error, loading, data }) => {
-                        if (error) return <p>error</p>;
-                        if (loading) return <p>Loading...</p>;
-                        const feature = data.feature
-                        return (
-                            <Container>
-                                <h1>{feature.title}</h1>
-                                <h3 className="subtitle"><em>{feature.subtitle}</em></h3>
-                                <p className="date"><Moment date={feature.createdAt} format="Do MMM YYYY"/></p>
-                                <p className="author">{feature.author}</p>
-                                <div className="sharing">
-                                    <p>Share this article: </p>
-                                    <div className="icons">
-                                        <div class="fb-share-button" data-href="https://www.ourstosave.com/feature?id=ck92gwbaa009k0705iafntpfq" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.ourstosave.com%2Ffeature%3Fid%3Dck92gwbaa009k0705iafntpfq&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
-                                        <EmailShareButton url={window.location.href}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                                        <FacebookShareButton url={window.location.href}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                                        <TwitterShareButton url={window.location.href}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                                    </div>
+            <Query
+                query={SINGLE_FEATURE_QUERY}
+                variables={{
+                id: this.props.id,
+                }}
+            >
+                {({ error, loading, data }) => {
+                    if (error) return <p>error</p>;
+                    if (loading) return <p>Loading...</p>;
+                    const feature = data.feature
+                    return (
+                        <Container>
+                            <h1>{feature.title}</h1>
+                            <h3 className="subtitle"><em>{feature.subtitle}</em></h3>
+                            <p className="date"><Moment date={feature.createdAt} format="Do MMM YYYY"/></p>
+                            <p className="author">{feature.author}</p>
+                            <div className="sharing">
+                                <p>Share this article: </p>
+                                <div className="icons">
+                                    <div class="fb-share-button" data-href="https://www.ourstosave.com/feature?id=ck92gwbaa009k0705iafntpfq" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.ourstosave.com%2Ffeature%3Fid%3Dck92gwbaa009k0705iafntpfq&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+                                    <EmailShareButton url={window.location.href}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                                    <FacebookShareButton url={window.location.href}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                                    <TwitterShareButton url={window.location.href}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                                 </div>
-                                {feature.paragraphs.map(paragraph => {
-                                    return (
-                                        <Fragment key={paragraph.id}>
-                                            {paragraph.image && <img src={paragraph.image} alt="image" className="image"/>}
-                                            <p className="paragraph" >{paragraph.text}</p>
-                                        </Fragment>
-                                    )
-                                })}
-                                <p className="bio"><em>{feature.bio}</em></p>
-                                <p className="links">Links:</p>
-                                <ul>
-                                {feature.featureLinks.map(link => {
-                                    return (
-                                        <li key={link.id}><a href={link.ref} className="link">{link.title}</a></li>
-                                    )
-                                })}
-                                </ul>
-                                <div className="sharing" id="bottomSharing">
-                                    <p>Share this article: </p>
-                                    <div className="icons">
-                                        <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
-                                        <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
-                                        <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
-                                    </div>
+                            </div>
+                            {feature.paragraphs.map(paragraph => {
+                                return (
+                                    <Fragment key={paragraph.id}>
+                                        {paragraph.image && <img src={paragraph.image} alt="image" className="image"/>}
+                                        <p className="paragraph" >{paragraph.text}</p>
+                                    </Fragment>
+                                )
+                            })}
+                            <p className="bio"><em>{feature.bio}</em></p>
+                            <p className="links">Links:</p>
+                            <ul>
+                            {feature.featureLinks.map(link => {
+                                return (
+                                    <li key={link.id}><a href={link.ref} className="link">{link.title}</a></li>
+                                )
+                            })}
+                            </ul>
+                            <div className="sharing" id="bottomSharing">
+                                <p>Share this article: </p>
+                                <div className="icons">
+                                    <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
+                                    <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
+                                    <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
                                 </div>
-                                <OtherArticles story="1"/>
-                            </Container>
-                        );
-                    }}
-                </Query>
-            </>
+                            </div>
+                            <OtherArticles story="1"/>
+                        </Container>
+                    );
+                }}
+            </Query>
         );
     }
 }
