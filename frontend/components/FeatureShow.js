@@ -94,78 +94,58 @@ const Container = styled.div`
 `;
 
 class FeatureShow extends Component {
-    state = {
-        window: ''
-    }
-    componentDidMount() {
-
-    }
     render() {
         return (
             <>
-            <Head>
-                {/* in here, you need the url, the image, the description and the subtitle. and it needs to load instantly. hmm */}
-                <meta property="og:url"                content="https://www.ourstosave.com/feature?id=ck92gwbaa009k0705iafntpfq" key="url"/>
-                <meta property="og:title"              content="Test" key="title"/>
-                <meta property="og:description"        content="did it work" key="description"/>
-                <meta property="og:image"              content="https://res.cloudinary.com/bazkingdon/image/upload/v1587033225/Webp.net-resizeimage_1_vwtflp.jpg" key="image"/>
-                <meta property="og:type"               content="article" key="type"/>
-            </Head>
-            <Query
-                query={SINGLE_FEATURE_QUERY}
-                variables={{
-                id: this.props.id,
-                }}
-            >
-                {({ error, loading, data }) => {
-                    if (error) return <p>error</p>;
-                    if (loading) return <p>Loading...</p>;
-                    const feature = data.feature
-                    return (
-                        <Container>
-                            <h1>{feature.title}</h1>
-                            <h3 className="subtitle"><em>{feature.subtitle}</em></h3>
-                            <p className="date"><Moment date={feature.createdAt} format="Do MMM YYYY"/></p>
-                            <p className="author">{feature.author}</p>
-                            <div className="sharing">
-                                <p>Share this article: </p>
-                                <div className="icons">
-                                    <div class="fb-share-button" data-href="https://www.ourstosave.com/feature?id=ck92gwbaa009k0705iafntpfq" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.ourstosave.com%2Ffeature%3Fid%3Dck92gwbaa009k0705iafntpfq&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
-                                    <EmailShareButton url={window.location.href}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                                    <FacebookShareButton url={window.location.href}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                                    <TwitterShareButton url={window.location.href}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                                </div>
-                            </div>
-                            {feature.paragraphs.map(paragraph => {
-                                return (
-                                    <Fragment key={paragraph.id}>
-                                        {paragraph.image && <img src={paragraph.image} alt="image" className="image"/>}
-                                        <p className="paragraph" >{paragraph.text}</p>
-                                    </Fragment>
-                                )
-                            })}
-                            <p className="bio"><em>{feature.bio}</em></p>
-                            <p className="links">Links:</p>
-                            <ul>
-                            {feature.featureLinks.map(link => {
-                                return (
-                                    <li key={link.id}><a href={link.ref} className="link">{link.title}</a></li>
-                                )
-                            })}
-                            </ul>
-                            <div className="sharing" id="bottomSharing">
-                                <p>Share this article: </p>
-                                <div className="icons">
-                                    <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
-                                    <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
-                                    <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
-                                </div>
-                            </div>
-                            <OtherArticles story="1"/>
-                        </Container>
-                    );
-                }}
-            </Query>
+                <Head>
+                    <meta property="og:url"                content="https://www.ourstosave.com/feature?id=ck92gwbaa009k0705iafntpfq" key="url"/>
+                    <meta property="og:title"              content="Test" key="title"/>
+                    <meta property="og:description"        content="did it work" key="description"/>
+                    <meta property="og:image"              content="https://res.cloudinary.com/bazkingdon/image/upload/v1587033225/Webp.net-resizeimage_1_vwtflp.jpg" key="image"/>
+                    <meta property="og:type"               content="article" key="type"/>
+                    <meta propery="hi" content="test"/>
+                </Head>
+                <Container>
+                    <h1>{this.props.feature.title}</h1>
+                    <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>
+                    <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
+                    <p className="author">{this.props.feature.author}</p>
+                    <div className="sharing">
+                        <p>Share this article: </p>
+                        <div className="icons">
+                            <div class="fb-share-button" data-href="https://www.ourstosave.com/feature?id=ck92gwbaa009k0705iafntpfq" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.ourstosave.com%2Ffeature%3Fid%3Dck92gwbaa009k0705iafntpfq&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+                            <EmailShareButton url={window.location.href}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                            <FacebookShareButton url={window.location.href}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                            <TwitterShareButton url={window.location.href}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
+                        </div>
+                    </div>
+                    {this.props.feature.paragraphs.map(paragraph => {
+                        return (
+                            <Fragment key={paragraph.id}>
+                                {paragraph.image && <img src={paragraph.image} alt="image" className="image"/>}
+                                <p className="paragraph" >{paragraph.text}</p>
+                            </Fragment>
+                        )
+                    })}
+                    <p className="bio"><em>{this.props.feature.bio}</em></p>
+                    <p className="links">Links:</p>
+                    <ul>
+                    {this.props.feature.featureLinks.map(link => {
+                        return (
+                            <li key={link.id}><a href={link.ref} className="link">{link.title}</a></li>
+                        )
+                    })}
+                    </ul>
+                    <div className="sharing" id="bottomSharing">
+                        <p>Share this article: </p>
+                        <div className="icons">
+                            <EmailShareButton url={window.location.href}><EmailIcon></EmailIcon></EmailShareButton>
+                            <FacebookShareButton url={window.location.href}><FacebookIcon></FacebookIcon></FacebookShareButton>
+                            <TwitterShareButton url={window.location.href}><TwitterIcon></TwitterIcon></TwitterShareButton>
+                        </div>
+                    </div>
+                    <OtherArticles story="1"/>
+                </Container>
             </>
         );
     }
