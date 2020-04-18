@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
-import {Helmet} from "react-helmet";
+import Head from 'next/head';
 import Header from './Header';
-import Meta from './Meta';
-
 
 const theme = {
   yellow: '#FFEFCA',
@@ -93,7 +91,7 @@ class Page extends Component {
     return (
         <ThemeProvider theme={theme}>
             <StyledPage>
-                <Helmet>
+                <Head>
                   <meta name="viewport" content="width=device-width, initial-scale=1" />
                   <meta charSet="utf-8" />
                   <meta name="application-name" content="Ours to save"/>
@@ -106,11 +104,11 @@ class Page extends Component {
 
                   {/* Facebook/WhatsApp/Instagram metatags */}
 
-                  <meta property="og:url"                content="https://ourstosave.com" key="url"/>
-                  <meta property="og:title"              content="Ours to Save" key="title"/>
-                  <meta property="og:description"        content="Crowdsourced, breaking news on the climate - use our interactive map" key="description"/>
-                  <meta property="og:image"              content="https://images.unsplash.com/photo-1559294824-627e9738df81?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80" key="image"/>
-                  <meta property="og:type"               content="website" key="type"/>
+                  <meta property="og:url"                content="https://ourstosave.com" key="og:url"/>
+                  <meta property="og:title"              content="Ours to Save" key="og:title"/>
+                  <meta property="og:description"        content="Crowdsourced, breaking news on the climate - use our interactive map" key="og:description"/>
+                  <meta property="og:image"              content="https://images.unsplash.com/photo-1559294824-627e9738df81?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80" key="og:image"/>
+                  <meta property="og:type"               content="website" key="og:type"/>
                   <meta property="og:locale" content="en_GB" />
 
                   {/* Favicons courtesy of faviconit */}
@@ -135,7 +133,7 @@ class Page extends Component {
                   <meta name="msapplication-TileColor" content="#FFFFFF"/>
                   <meta name="msapplication-TileImage" content="favicons/favicon-144.png"/>
                   <meta name="msapplication-config" content="favicons/browserconfig.xml"/>
-                </Helmet>
+                </Head>
                 
                 {/* This is for sharing on facebook */}
                 <div id="fb-root"></div>

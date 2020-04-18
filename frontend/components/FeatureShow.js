@@ -88,56 +88,46 @@ const Container = styled.div`
 class FeatureShow extends Component {
     render() {
         return (
-            <>
-                <Helmet>
-                    <meta property="og:url"                content={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}/>
-                    <meta property="og:title"              content={this.props.feature.title}/>
-                    <meta property="og:description"        content={this.props.feature.subtitle}/>
-                    <meta property="og:image"              content={this.props.feature.paragraphs[0].image}/>
-                    <meta property="og:type"               content="article"/>
-                    <meta propery="hi" content="test"/>
-                </Helmet>
-                <Container>
-                    <h1>{this.props.feature.title}</h1>
-                    <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>
-                    <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
-                    <p className="author">{this.props.feature.author}</p>
-                    <div className="sharing">
-                        <p>Share this article: </p>
-                        <div className="icons">
-                            <EmailShareButton url={window.location.href}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                            <FacebookShareButton url={window.location.href}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                            <TwitterShareButton url={window.location.href}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                        </div>
+            <Container>
+                <h1>{this.props.feature.title}</h1>
+                <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>
+                <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
+                <p className="author">{this.props.feature.author}</p>
+                <div className="sharing">
+                    <p>Share this article: </p>
+                    <div className="icons">
+                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                     </div>
-                    {this.props.feature.paragraphs.map(paragraph => {
-                        return (
-                            <Fragment key={paragraph.id}>
-                                {paragraph.image && <img src={paragraph.image} alt="image" className="image"/>}
-                                <p className="paragraph" >{paragraph.text}</p>
-                            </Fragment>
-                        )
-                    })}
-                    <p className="bio"><em>{this.props.feature.bio}</em></p>
-                    <p className="links">Links:</p>
-                    <ul>
-                    {this.props.feature.featureLinks.map(link => {
-                        return (
-                            <li key={link.id}><a href={link.ref} className="link">{link.title}</a></li>
-                        )
-                    })}
-                    </ul>
-                    <div className="sharing" id="bottomSharing">
-                        <p>Share this article: </p>
-                        <div className="icons">
-                            <EmailShareButton url={window.location.href}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                            <FacebookShareButton url={window.location.href}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                            <TwitterShareButton url={window.location.href}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                        </div>
+                </div>
+                {this.props.feature.paragraphs.map(paragraph => {
+                    return (
+                        <Fragment key={paragraph.id}>
+                            {paragraph.image && <img src={paragraph.image} alt="image" className="image"/>}
+                            <p className="paragraph" >{paragraph.text}</p>
+                        </Fragment>
+                    )
+                })}
+                <p className="bio"><em>{this.props.feature.bio}</em></p>
+                <p className="links">Links:</p>
+                <ul>
+                {this.props.feature.featureLinks.map(link => {
+                    return (
+                        <li key={link.id}><a href={link.ref} className="link">{link.title}</a></li>
+                    )
+                })}
+                </ul>
+                <div className="sharing" id="bottomSharing">
+                    <p>Share this article: </p>
+                    <div className="icons">
+                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                     </div>
-                    <OtherArticles story="1"/>
-                </Container>
-            </>
+                </div>
+                <OtherArticles story="1"/>
+            </Container>
         );
     }
 }

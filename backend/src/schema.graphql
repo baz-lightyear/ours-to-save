@@ -49,6 +49,7 @@ type Paragraph {
 
 enum StoryOrderByInput {
   createdAt_DESC
+  createdAt_ASC
 }
 
 input StoryWhereInput {
@@ -57,4 +58,5 @@ input StoryWhereInput {
 
 enum FeatureOrderByInput {
   createdAt_DESC
+  createdAt_ASC
 }

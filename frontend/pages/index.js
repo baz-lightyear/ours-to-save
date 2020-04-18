@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import fetch from 'isomorphic-unfetch';
+
 
 const Container = styled.div`
     display: flex;
@@ -78,7 +80,7 @@ const Container = styled.div`
     }
 `;
 
-class index extends Component {
+class index extends Component {    
     render() {
         return (
             <Container>
