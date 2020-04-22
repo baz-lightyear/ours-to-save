@@ -236,7 +236,7 @@ class CreateStory extends Component {
                                     onChange={this.handleChange}
                                 />
                                 <br/>
-                                <label for="interestedInFeatureEmail">Add your email, if you're interested in submitting a full-length feature article</label>
+                                <label for="interestedInFeatureEmail">Email (so we can stay in touch 💚)</label>
                                 <br/>
                                 <input
                                     type="text"

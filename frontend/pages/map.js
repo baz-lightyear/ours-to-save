@@ -25,7 +25,7 @@ class map extends Component {
     render() {
         return (
             <Container>
-                <h1>What in the world is happening?</h1>
+                <h1>Tell us what's happening</h1>
                 <CreateStoryModal/>
                 <div className="mapContainer">
                     <Map/>

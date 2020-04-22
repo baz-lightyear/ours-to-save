@@ -31,7 +31,8 @@ class feature extends Component {
         return (
             <>
                 <Head>
-                    <meta property="test" content="test"/>
+                    <meta name="twitter:card" content="summary" />
+                    <meta name="twitter:site" content="@ourstosave" />
                     <meta property="og:url"                content={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`} key='og:url'/>
                     <meta property="og:title"              content={this.props.feature.title} key='og:title'/>
                     <meta property="og:description"        content={this.props.feature.subtitle} key='og:description'/>

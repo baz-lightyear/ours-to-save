@@ -31,6 +31,8 @@ class story extends Component {
         return (
             <>
                 <Head>
+                    <meta name="twitter:card" content="summary" />
+                    <meta name="twitter:site" content="@ourstosave" />
                     <meta property="og:url"                content={`https://www.ourstosave.com/story?id=${this.props.story.id}`} key='og:url'/>
                     <meta property="og:title"              content={this.props.story.title} key='og:title'/>
                     <meta property="og:description"        content={this.props.story.content} key='og:description'/>

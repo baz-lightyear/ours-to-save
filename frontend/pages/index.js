@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
+import Subscribe from '../components/Subscribe';
 
 
 const Container = styled.div`
@@ -89,6 +90,7 @@ class index extends Component {
                         <h1>It's ours to save.</h1>
                         <p><em>Ours to Save</em> is a new journalism initiative focused exclusively on the climate crisis. Our interactive map displays crowdsourced, breaking climate news from all over the world. </p>
                         <div className="link"><Link href="/map"><a>see it in action</a></Link></div> 
+                        <Subscribe/>
                     </div>
                 </div>
                 <div className="imgDiv">

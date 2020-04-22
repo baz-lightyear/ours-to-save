@@ -110,7 +110,7 @@ class FeatureShow extends Component {
                     )
                 })}
                 <p className="bio"><em>{this.props.feature.bio}</em></p>
-                <p className="links">Links:</p>
+                {this.props.feature.featureLinks[0] && <p className="links">Links:</p>}
                 <ul>
                 {this.props.feature.featureLinks.map(link => {
                     return (

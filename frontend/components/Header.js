@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import Router from 'next/router';
 import React, { Component } from 'react';
-import classNames from 'classnames'
+import Subscribe from './Subscribe';
 
 const Container = styled.div`
   .filler {
@@ -152,6 +152,7 @@ class Header extends Component {
             <Link href="/supportUs">
               <a>support us</a>
             </Link>
+            <Subscribe/>
           </div>
           <div className='mobileBurger' onClick={this.toggle}>
             <div className="burgerDiv">
@@ -171,6 +172,7 @@ class Header extends Component {
                 <Link href="/supportUs">
                   <a>support us</a>
                 </Link>
+                <Subscribe/>
               </div>
             </div>
           </div>
