@@ -2,6 +2,7 @@ import App, {Container} from 'next/app';
 import Router from 'next/router'
 import { ApolloProvider } from 'react-apollo';
 import React from 'react';
+import 'draft-js/dist/Draft.css'
 import Page from '../components/Page';
 import withData from '../lib/withData';
 import * as gtag from '../lib/gtag'

@@ -1,6 +1,8 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { Prisma } = require('prisma-binding');
 require('dotenv').config({ path: 'variables.env' });
+const express = require('express');
+const bodyParser = require('body-parser');
 const Mutation = require('./resolvers/Mutation');
 const Query = require('./resolvers/Query');
 
@@ -23,6 +25,9 @@ const server = new GraphQLServer({
   },
   context: req => ({ ...req, db }),
 });
+
+server.express.use(bodyParser.json({ limit: '10mb' }));
+server.express.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 server.start(
   {

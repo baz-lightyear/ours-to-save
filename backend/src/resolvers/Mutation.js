@@ -26,8 +26,19 @@ const Mutation = {
             info
         );
         return story;
+    },
+    async createFeature(parent, args, ctx, info) {
+        const feature = await ctx.db.mutation.createFeature(
+            {
+                data: {
+                    ...args,
+                    approved: false
+                },
+            },
+            info
+        );
+        return feature;
     }
-
 };
 
 module.exports = Mutation;

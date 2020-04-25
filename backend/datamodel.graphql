@@ -23,27 +23,15 @@ type Story {
 
 type Feature {
   id: ID! @id
-  title: String!
+  title: String
   subtitle: String
-  featureLinks: [FeatureLink] @scalarList(strategy: RELATION)
-  paragraphs: [Paragraph] @scalarList(strategy: RELATION)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   author: String
   bio: String
-}
-
-type FeatureLink {
-  id: ID! @id
-  ref: String
-  title: String
-}
-
-type Paragraph {
-  id: ID! @id
-  text: String
-  image: String
-  index: Int
+  content: String
+  approved: Boolean
+  featuredImage: String
 }
 
 type Initiative {

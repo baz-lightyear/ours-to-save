@@ -19,7 +19,7 @@ class feature extends Component {
         const res = await fetch(`${url}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: `{ feature(id: "${id}") { id title subtitle createdAt author bio paragraphs { id text image } featureLinks { id title ref } }}` }),
+            body: JSON.stringify({ query: `{ feature(id: "${id}") { id title subtitle createdAt author bio content featuredImage}}` }),
         })
         
         const payload = await res.json()
@@ -36,7 +36,7 @@ class feature extends Component {
                     <meta property="og:url"                content={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`} key='og:url'/>
                     <meta property="og:title"              content={this.props.feature.title} key='og:title'/>
                     <meta property="og:description"        content={this.props.feature.subtitle} key='og:description'/>
-                    <meta property="og:image"              content={this.props.feature.paragraphs[0].image} key='og:image'/>
+                    <meta property="og:image"              content={this.props.feature.featuredImage} key='og:image'/>
                     <meta property="og:type"               content="article" key='og:type'/>
                 </Head>
                 <FeatureShow feature={this.props.feature}/>

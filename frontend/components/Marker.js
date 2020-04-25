@@ -63,11 +63,3 @@ class Marker extends Component {
 }
 
 export default Marker;
-
-// When I'm on a mobile,
-
-// i should tap a marker. and the box should appear
-
-// then when i tap the box, i should be taken through
-
-// if I tap elsewhere, the box goes away

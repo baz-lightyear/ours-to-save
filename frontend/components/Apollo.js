@@ -58,15 +58,13 @@ const SINGLE_STORY_QUERY = gql`
 
 const FEATURES_QUERY = gql`
   query FEATURES_QUERY {
-    features(orderBy: createdAt_DESC) {
+    features(where: {approved: true}, orderBy: createdAt_DESC) {
       id
       title
       subtitle
       author
-      paragraphs {
-        image
-      }
       createdAt
+      featuredImage
     }
   }
 `;
@@ -94,4 +92,12 @@ const SINGLE_FEATURE_QUERY = gql`
   }
 `;
 
-export { CREATE_STORY_MUTATION, STORIES_QUERY, SINGLE_STORY_QUERY, FEATURES_QUERY, SINGLE_FEATURE_QUERY };
+const CREATE_FEATURE_MUTATION = gql`
+  mutation CREATE_FEATURE_MUTATION($content: String!) {
+    createFeature( content: $content ) {
+      id
+    }
+  }
+`;
+
+export { CREATE_FEATURE_MUTATION, CREATE_STORY_MUTATION, STORIES_QUERY, SINGLE_STORY_QUERY, FEATURES_QUERY, SINGLE_FEATURE_QUERY };
