@@ -4,6 +4,7 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import Error from './Error';
+import StoryEditor from './StoryEditor';
 
 import {CREATE_STORY_MUTATION, STORIES_QUERY} from './Apollo';
 
@@ -38,9 +39,6 @@ const Form = styled.form`
     #loading {
         display: block;
         margin: auto;
-    }
-    textarea {
-        height: 15rem;
     }
     .morality {
         display: flex;
@@ -140,6 +138,10 @@ class CreateStory extends Component {
             loading: false
         });
     };
+    saveContent = string => {
+        console.log('saving to content in the parent')
+        this.setState({content: string})
+    }
     render() {
         return (
             <Mutation mutation={CREATE_STORY_MUTATION} variables={this.state} refetchQueries={[{ query: STORIES_QUERY }]}>
@@ -176,17 +178,13 @@ class CreateStory extends Component {
                                     onChange={this.handleChange}
                                 />
                                 <br/>
+
                                 <label htmlFor="content">Share some of the details:<super>*</super></label>
                                 <br/>
-                                <textarea
-                                    type="text"
-                                    id="content"
-                                    name="content"
-                                    placeholder=""
-                                    required
-                                    value={this.state.content}
-                                    onChange={this.handleChange}
-                                ></textarea>
+                                <small>It's great if you can refer to a source too.</small>
+
+                                <StoryEditor saveContent={this.saveContent}/>
+
                                 <div className="morality">
                                     <div onClick={this.setMoralityGood} className={this.state.morality === "good" ? "clicked" : ""}><p>This is good news</p></div>
                                     <div onClick={this.setMoralityBad} id="middleMorality" className={this.state.morality === "bad" ? "clicked" : ""}><p>This is bad news</p></div>
@@ -236,7 +234,7 @@ class CreateStory extends Component {
                                     onChange={this.handleChange}
                                 />
                                 <br/>
-                                <label for="interestedInFeatureEmail">Add your email, if you're interested in submitting a full-length feature article</label>
+                                <label for="interestedInFeatureEmail">Email (so we can stay in touch 💚)</label>
                                 <br/>
                                 <input
                                     type="text"

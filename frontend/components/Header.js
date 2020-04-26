@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import Router from 'next/router';
 import React, { Component } from 'react';
-import classNames from 'classnames'
+import Subscribe from './Subscribe';
 
 const Container = styled.div`
   .filler {
@@ -47,14 +47,14 @@ const Container = styled.div`
       }
     }
   }
-  @media (min-width: 780px) {
+  @media (min-width: 951px) {
     .flex {
       .mobileBurger {
         display: none;
       }
     }
   }
-  @media (max-width: 779px) {
+  @media (max-width: 950px) {
     .flex {
       .links {
         display: none;
@@ -96,18 +96,18 @@ const Container = styled.div`
               line-height: 2;
             }
           }
-          &.active {
-            transform: translateY(0px);
-            background-color: ${props => props.theme.yellow};
+          &.inactive {
+            transform: translateY(-198px);
+            background-color: transparent;
             transition-duration: 0.3s;
             position: absolute;
             z-index: 1;
             right: 0;
             text-align: right;
           }
-          &.inactive {
-            transform: translateY(-170px);
-            background-color: transparent;
+          &.active {
+            transform: translateY(0px);
+            background-color: ${props => props.theme.yellow};
             transition-duration: 0.3s;
             position: absolute;
             z-index: 1;
@@ -152,6 +152,7 @@ class Header extends Component {
             <Link href="/supportUs">
               <a>support us</a>
             </Link>
+            <Subscribe/>
           </div>
           <div className='mobileBurger' onClick={this.toggle}>
             <div className="burgerDiv">
@@ -171,6 +172,7 @@ class Header extends Component {
                 <Link href="/supportUs">
                   <a>support us</a>
                 </Link>
+                <Subscribe/>
               </div>
             </div>
           </div>

@@ -8,8 +8,9 @@ import Marker from './Marker';
 
 
 const Form = styled.form`
+height: 0px;
 position: relative;
-top: 48px;
+top: 1rem;
 text-align: center;
 z-index: 1;
 margin: auto;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
+import Subscribe from '../components/Subscribe';
 
 
 const Container = styled.div`

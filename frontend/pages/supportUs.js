@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import Swal from 'sweetalert2';
+
 
 const Container = styled.div`
     font-family: ${props => props.theme.serif};
@@ -35,6 +37,14 @@ const Container = styled.div`
 `;
 
 class supportUs extends Component {
+    handleClick = () => {
+        Swal.fire({
+            title: "We're not quite ready",
+            text: "Thanks for taking an interest in supporting us. Our Kickstarter campaign hasn't quite begun but if you'd like to keep up to date with all the latest updates from us, you can subscribe to our mailing list. Just hit the 'subscribe' button in the menu.",
+            icon: 'warning',
+            confirmButtonColor: '#329094'
+        })
+    }
     render() {
         return (
             <Container>
@@ -44,7 +54,7 @@ class supportUs extends Component {
                 <p>We want as many people as possible to see Ours to Save in the next few months, but we still have a lot of costs to cover, so external donations will be an enormous help in getting our feet off the ground.  If you’re able to donate, any amount - large or small - would mean the world. </p>
                 <p style={{textAlign: "center"}}>Thank you - we won’t be able to do it without you.</p>
                 <p style={{textAlign: "center"}}>Florence & Harry</p>
-                <div className="button"><a href="" target="_blank">donate now</a></div>
+                <div className="button"><a href="#" onClick={this.handleClick}>donate now</a></div>
             </Container>
         );
     }

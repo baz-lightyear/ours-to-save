@@ -50,7 +50,9 @@ class Feature extends Component {
                     <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}><h2><a>{this.props.feature.title}</a></h2></Link>    
                     <p>{this.props.feature.subtitle}</p>
                     <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></small>
-                    <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}><img src={this.props.feature.paragraphs[0].image} alt=""/></Link>
+                    <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
+                        <img src={this.props.feature.featuredImage} alt={this.props.feature.title}/>
+                    </Link>
                 </div>
             </Container>
         );

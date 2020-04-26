@@ -1,8 +1,6 @@
 type User {
   id: ID! @id
-  name: String!
-  email: String! @unique
-  password: String!
+  email: String @unique
 }
 
 type Story {
@@ -19,31 +17,25 @@ type Story {
   interestedInFeatureEmail: String
   image: String
   approved: Boolean
+  ourPick: Boolean
+  feature: Boolean
+  sponsored: Boolean
 }
 
 type Feature {
   id: ID! @id
-  title: String!
+  title: String
   subtitle: String
-  featureLinks: [FeatureLink] @scalarList(strategy: RELATION)
-  paragraphs: [Paragraph] @scalarList(strategy: RELATION)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   author: String
   bio: String
-}
-
-type FeatureLink {
-  id: ID! @id
-  ref: String
-  title: String
-}
-
-type Paragraph {
-  id: ID! @id
-  text: String
-  image: String
-  index: Int
+  content: String
+  approved: Boolean
+  featuredImage: String
+  address: String
+  longitude: Float
+  latitude: Float
 }
 
 type Initiative {

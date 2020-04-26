@@ -1,12 +1,19 @@
 type Mutation {
     createStory(title: String!, content: String!, address: String!, morality: String, author: String, interestedInFeatureEmail: String, image: String): Story
+    createFeature(content: String!, address: String!): Feature
+    createUser(email: String!): User
 }
 
 type Query {
     stories(where: StoryWhereInput, orderBy: StoryOrderByInput): [Story]!
     story(id: ID!): Story
-    features(orderBy: FeatureOrderByInput): [Feature]!
+    features(where: StoryWhereInput, orderBy: FeatureOrderByInput): [Feature]!
     feature(id: ID!): Feature
+}
+
+type User {
+  id: ID
+  email: String
 }
 
 type Story {
@@ -20,30 +27,22 @@ type Story {
     author: String
     interestedInFeatureEmail: String
     image: String
+    ourPick: Boolean
+    feature: Boolean
+    sponsored: Boolean
 }
 
 type Feature {
   id: ID! 
   title: String!
   subtitle: String
-  featureLinks: [FeatureLink] 
-  paragraphs: [Paragraph] 
   createdAt: String
   author: String
   bio: String
-}
-
-type FeatureLink {
-  id: ID! 
-  ref: String
-  title: String
-}
-
-type Paragraph {
-  id: ID!
-  text: String
-  image: String
-  index: Int
+  content: String
+  featuredImage: String
+  latitude: Float
+  longitude: Float
 }
 
 
@@ -59,4 +58,8 @@ input StoryWhereInput {
 enum FeatureOrderByInput {
   createdAt_DESC
   createdAt_ASC
+}
+
+input FeatureWhereInput {
+  approved: Boolean
 }

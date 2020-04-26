@@ -150,9 +150,9 @@ To pitch a longer feature, or if you’re interested in being listed on our init
                     <div className="imgDiv"></div>
                     <div className="text">
                         <h3>Just so you know –</h3>
-                        <p>The news on our map is primarily crowdsourced. It’s not moderated prior to publication at the moment, but we will eventually check the legitimacy of every piece of news, to the best of our ability and as quickly as we can, before it appears on the map. <br/><br/>
+                        <p>The news on our map is primarily crowdsourced. If you spot any errors please let us know. Fake news isn't going to help us beat climate change.<br/><br/>
 
-All of our features are edited and fact-checked before publication. If you spot any errors please let us know. Fake news isn’t going to help us beat climate change.</p>
+                        All of our features are edited before publication.</p>
                     </div>
                 </div>
             </Container>

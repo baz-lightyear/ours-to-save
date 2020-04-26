@@ -24,6 +24,14 @@ const CREATE_STORY_MUTATION = gql`
   }
 `;
 
+const CREATE_USER_MUTATION = gql`
+  mutation CREATE_USER_MUTATION($email: String!) {
+    createUser(email: $email) {
+      id
+    }
+  }
+`;
+
 const STORIES_QUERY = gql`
   query STORIES_QUERY {
     stories(where: {approved: true}, orderBy: createdAt_DESC) {
@@ -36,6 +44,9 @@ const STORIES_QUERY = gql`
       author
       createdAt
       image
+      ourPick
+      feature
+      sponsored
     }
   }
 `;
@@ -58,15 +69,13 @@ const SINGLE_STORY_QUERY = gql`
 
 const FEATURES_QUERY = gql`
   query FEATURES_QUERY {
-    features(orderBy: createdAt_DESC) {
+    features(where: {approved: true}, orderBy: createdAt_DESC) {
       id
       title
       subtitle
       author
-      paragraphs {
-        image
-      }
       createdAt
+      featuredImage
     }
   }
 `;
@@ -94,4 +103,19 @@ const SINGLE_FEATURE_QUERY = gql`
   }
 `;
 
-export { CREATE_STORY_MUTATION, STORIES_QUERY, SINGLE_STORY_QUERY, FEATURES_QUERY, SINGLE_FEATURE_QUERY };
+const CREATE_FEATURE_MUTATION = gql`
+  mutation CREATE_FEATURE_MUTATION($content: String! $address: String!) {
+    createFeature( content: $content address: $address ) {
+      id
+    }
+  }
+`;
+
+export { 
+  CREATE_FEATURE_MUTATION, 
+  CREATE_STORY_MUTATION, 
+  STORIES_QUERY, 
+  SINGLE_STORY_QUERY, 
+  FEATURES_QUERY, 
+  SINGLE_FEATURE_QUERY,
+  CREATE_USER_MUTATION };
