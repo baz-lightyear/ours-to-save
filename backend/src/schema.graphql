@@ -1,6 +1,7 @@
 type Mutation {
     createStory(title: String!, content: String!, address: String!, morality: String, author: String, interestedInFeatureEmail: String, image: String): Story
-    createFeature(content: String!): Feature
+    createFeature(content: String!, address: String!): Feature
+    createUser(email: String!): User
 }
 
 type Query {
@@ -8,6 +9,11 @@ type Query {
     story(id: ID!): Story
     features(where: StoryWhereInput, orderBy: FeatureOrderByInput): [Feature]!
     feature(id: ID!): Feature
+}
+
+type User {
+  id: ID
+  email: String
 }
 
 type Story {
@@ -32,6 +38,8 @@ type Feature {
   bio: String
   content: String
   featuredImage: String
+  latitude: Float
+  longitude: Float
 }
 
 

@@ -178,21 +178,12 @@ class CreateStory extends Component {
                                     onChange={this.handleChange}
                                 />
                                 <br/>
-                                {/* so in here, you want to render the textedit component, which will send up the content to the parent component which will add it to state... */}
 
                                 <label htmlFor="content">Share some of the details:<super>*</super></label>
                                 <br/>
+                                <small>It's great if you can refer to a source too.</small>
 
                                 <StoryEditor saveContent={this.saveContent}/>
-                                {/* <textarea
-                                    type="text"
-                                    id="content"
-                                    name="content"
-                                    placeholder=""
-                                    required
-                                    value={this.state.content}
-                                    onChange={this.handleChange}
-                                ></textarea> */}
 
                                 <div className="morality">
                                     <div onClick={this.setMoralityGood} className={this.state.morality === "good" ? "clicked" : ""}><p>This is good news</p></div>

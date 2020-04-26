@@ -15,6 +15,7 @@ import {
     TwitterIcon,
 } from "react-share";
 import OtherArticles from './OtherArticles';
+import MapStoryShow from './MapStoryShow';
 
 const Container = styled.div`
     width: 95%;
@@ -176,6 +177,7 @@ class FeatureShow extends Component {
                     }
                 })}
                 <p className="bio"><em>{this.props.feature.bio}</em></p>
+                <MapStoryShow story={this.props.feature}/>
                 <div className="sharing" id="bottomSharing">
                     <p>Share this article: </p>
                     <div className="icons">

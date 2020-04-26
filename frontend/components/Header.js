@@ -47,14 +47,14 @@ const Container = styled.div`
       }
     }
   }
-  @media (min-width: 780px) {
+  @media (min-width: 951px) {
     .flex {
       .mobileBurger {
         display: none;
       }
     }
   }
-  @media (max-width: 779px) {
+  @media (max-width: 950px) {
     .flex {
       .links {
         display: none;
@@ -96,18 +96,18 @@ const Container = styled.div`
               line-height: 2;
             }
           }
-          &.active {
-            transform: translateY(0px);
-            background-color: ${props => props.theme.yellow};
+          &.inactive {
+            transform: translateY(-198px);
+            background-color: transparent;
             transition-duration: 0.3s;
             position: absolute;
             z-index: 1;
             right: 0;
             text-align: right;
           }
-          &.inactive {
-            transform: translateY(-170px);
-            background-color: transparent;
+          &.active {
+            transform: translateY(0px);
+            background-color: ${props => props.theme.yellow};
             transition-duration: 0.3s;
             position: absolute;
             z-index: 1;

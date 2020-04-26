@@ -1,8 +1,6 @@
 type User {
   id: ID! @id
-  name: String!
-  email: String! @unique
-  password: String!
+  email: String @unique
 }
 
 type Story {
@@ -32,6 +30,9 @@ type Feature {
   content: String
   approved: Boolean
   featuredImage: String
+  address: String
+  longitude: Float
+  latitude: Float
 }
 
 type Initiative {

@@ -26,6 +26,8 @@ class map extends Component {
         return (
             <Container>
                 <h1>Tell us what's happening</h1>
+                <p>We made this for everyone. By crowdsourcing information on the climate crisis we can create a completely new kind of visual experience - a map that shows how widespread, local and current the climate crisis is.</p>
+                <p>So we ask you - yes, you! - to contribute and tell us what's been happening near you. It can be good news, bad news, or somewhere inbetween, just as long as it's focused on climate change.</p>
                 <CreateStoryModal/>
                 <div className="mapContainer">
                     <Map/>

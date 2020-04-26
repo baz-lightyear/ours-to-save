@@ -37,6 +37,10 @@ const Container = styled.div`
             max-width: 90%;
         }
     }
+    #address {
+        min-width: 50%;
+        margin: 1rem 0;
+    }
 `;
 
 const Leaf = ({ attributes, children, leaf }) => {
@@ -187,6 +191,7 @@ const FeatureEditor = (props) => {
             children: [{ text: "" }],
         },
     ])
+    const [address, setAddress] = useState()
     const editor = useMemo(
         () => withImages(withLinks(withHistory(withReact(createEditor())))),
         []
@@ -279,11 +284,15 @@ const FeatureEditor = (props) => {
 
     const uploadToDatabase = () => {
         const string = JSON.stringify(value)
-        createFeature({ variables: { content: string } });
+        createFeature({ variables: { content: string, address: address} });
         window.alert('Nice. Check it out in Prisma to see if it worked')
         Router.push({
             pathname: '/',
         });
+    }
+
+    const handleAddress = event => {
+        setAddress(event.target.value)
     }
 
     return (
@@ -308,6 +317,9 @@ const FeatureEditor = (props) => {
                     placeholder="go on!"
                 />
             </Slate>
+            <div>
+                <input type="text" id="address" placeholder="enter address ideally here with postcode" value={address} onChange={handleAddress}/>
+            </div>
             <button onClick={uploadToDatabase}>Upload to database</button>
         </Container>
     )

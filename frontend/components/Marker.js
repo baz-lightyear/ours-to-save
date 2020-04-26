@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import MarkerModal from './MarkerModal';
 
 const Container = styled.div`
     img {
