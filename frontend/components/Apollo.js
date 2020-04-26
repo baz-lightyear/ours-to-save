@@ -44,6 +44,9 @@ const STORIES_QUERY = gql`
       author
       createdAt
       image
+      ourPick
+      feature
+      sponsored
     }
   }
 `;

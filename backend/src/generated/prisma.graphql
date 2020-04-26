@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/harrykingdon/demo/dev
-# timestamp: Sun Apr 26 2020 00:17:38 GMT+0100 (British Summer Time)
+# timestamp: Sun Apr 26 2020 22:31:38 GMT+0100 (British Summer Time)
 
 type AggregateFeature {
   count: Int!
@@ -931,6 +931,9 @@ type Story implements Node {
   interestedInFeatureEmail: String
   image: String
   approved: Boolean
+  ourPick: Boolean
+  feature: Boolean
+  sponsored: Boolean
 }
 
 """A connection to a list of items."""
@@ -955,6 +958,9 @@ input StoryCreateInput {
   interestedInFeatureEmail: String
   image: String
   approved: Boolean
+  ourPick: Boolean
+  feature: Boolean
+  sponsored: Boolean
 }
 
 """An edge in a connection."""
@@ -993,6 +999,12 @@ enum StoryOrderByInput {
   image_DESC
   approved_ASC
   approved_DESC
+  ourPick_ASC
+  ourPick_DESC
+  feature_ASC
+  feature_DESC
+  sponsored_ASC
+  sponsored_DESC
 }
 
 type StoryPreviousValues {
@@ -1009,6 +1021,9 @@ type StoryPreviousValues {
   interestedInFeatureEmail: String
   image: String
   approved: Boolean
+  ourPick: Boolean
+  feature: Boolean
+  sponsored: Boolean
 }
 
 type StorySubscriptionPayload {
@@ -1059,6 +1074,9 @@ input StoryUpdateInput {
   interestedInFeatureEmail: String
   image: String
   approved: Boolean
+  ourPick: Boolean
+  feature: Boolean
+  sponsored: Boolean
 }
 
 input StoryUpdateManyMutationInput {
@@ -1072,6 +1090,9 @@ input StoryUpdateManyMutationInput {
   interestedInFeatureEmail: String
   image: String
   approved: Boolean
+  ourPick: Boolean
+  feature: Boolean
+  sponsored: Boolean
 }
 
 input StoryWhereInput {
@@ -1495,6 +1516,18 @@ input StoryWhereInput {
 
   """All values that are not equal to given value."""
   approved_not: Boolean
+  ourPick: Boolean
+
+  """All values that are not equal to given value."""
+  ourPick_not: Boolean
+  feature: Boolean
+
+  """All values that are not equal to given value."""
+  feature_not: Boolean
+  sponsored: Boolean
+
+  """All values that are not equal to given value."""
+  sponsored_not: Boolean
 }
 
 input StoryWhereUniqueInput {

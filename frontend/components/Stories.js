@@ -3,6 +3,7 @@ import {Query} from 'react-apollo';
 import styled from 'styled-components';
 import {STORIES_QUERY} from './Apollo';
 import Story from './Story';
+import PromotedStory from './PromotedStory';
 
 const Container = styled.div`
     .break {
@@ -32,6 +33,12 @@ const Container = styled.div`
             }
         }
     }
+    .bottomBreak {
+        margin-bottom: 1rem;
+    }
+    .hide {
+        display: none;
+    }
 `;
 
 class Stories extends Component {
@@ -44,59 +51,25 @@ class Stories extends Component {
                     return (
                         <Container>
                             {data.stories.slice(0, 3).map(story => <Story story={story} key={story.id}/>)}
-                            <div className="topBreak break">
+                            <div className="topBreak break hide">
                                 <h3>Our picks</h3>
                                 <div className="boxes">
-                                    <div className="box">
-                                        <h4>Title</h4>
-                                        <p>description that is really quite long and goes into a bit of detail but not quite enough to tell you the whole...</p>
-                                    </div>
-                                    <div className="box">
-                                        <h4>Title</h4>
-                                        <p>description that is really quite long and goes into a bit of detail but not quite enough to tell you the whole...</p>
-                                    </div>
-                                    <div className="box">
-                                        <h4>Title</h4>
-                                        <p>description that is really quite long and goes into a bit of detail but not quite enough to tell you the whole...</p>
-                                    </div>
+                                    {data.stories.filter(story => story.ourPick).map(story => <PromotedStory story={story} key={story.id}/>)}
                                 </div>
                             </div>
                             {data.stories.slice(3, 6).map(story => <Story story={story} key={story.id}/>)}
-                            <div className="midBreak break">
+                            <div className="midBreak break hide">
                                 <h3>Opinion & analysis</h3>
                                 <div className="boxes">
-                                    <div className="box">
-                                        <h4>Title</h4>
-                                        <p>description that is really quite long and goes into a bit of detail but not quite enough to tell you the whole...</p>
-                                    </div>
-                                    <div className="box">
-                                        <h4>Title</h4>
-                                        <p>description that is really quite long and goes into a bit of detail but not quite enough to tell you the whole...</p>
-                                    </div>
-                                    <div className="box">
-                                        <h4>Title</h4>
-                                        <p>description that is really quite long and goes into a bit of detail but not quite enough to tell you the whole...</p>
-                                        <small><em>sponsored content</em></small>
-                                    </div>
+                                    {data.stories.filter(story => story.feature).map(story => <PromotedStory story={story} key={story.id}/>)}
                                 </div>
                             </div>
                             {data.stories.slice(6, 9).map(story => <Story story={story} key={story.id}/>)}
-                            <div className="bottombreak break">
+                            <div className="bottomBreak break hide">
                                 <h3>Featured content</h3>
                                 <small><em>sponsored</em></small>
                                 <div className="boxes">
-                                    <div className="box">
-                                        <h4>Title</h4>
-                                        <p>description that is really quite long and goes into a bit of detail but not quite enough to tell you the whole...</p>
-                                    </div>
-                                    <div className="box">
-                                        <h4>Title</h4>
-                                        <p>description that is really quite long and goes into a bit of detail but not quite enough to tell you the whole...</p>
-                                    </div>
-                                    <div className="box">
-                                        <h4>Title</h4>
-                                        <p>description that is really quite long and goes into a bit of detail but not quite enough to tell you the whole...</p>
-                                    </div>
+                                    {data.stories.filter(story => story.sponsored).map(story => <PromotedStory story={story} key={story.id}/>)}
                                 </div>
                             </div>
                             {data.stories.slice(9, data.stories.length).map(story => <Story story={story} key={story.id}/>)}

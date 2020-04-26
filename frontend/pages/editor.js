@@ -17,7 +17,7 @@ const Container = styled.div`
 class editor extends Component {
     state = {
         password: '',
-        open: true
+        open: false
     }
     handleChange = event => {
         this.setState({password: event.target.value})

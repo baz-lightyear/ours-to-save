@@ -27,6 +27,9 @@ type Story {
     author: String
     interestedInFeatureEmail: String
     image: String
+    ourPick: Boolean
+    feature: Boolean
+    sponsored: Boolean
 }
 
 type Feature {

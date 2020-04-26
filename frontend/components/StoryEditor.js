@@ -43,6 +43,7 @@ const TextEditor = (props) => {
         return !!link
     }
     const insertLink = (editor, url) => {
+        console.log('hii')
         if (editor.selection) {
             wrapLink(editor, url)
         }
@@ -125,7 +126,7 @@ const TextEditor = (props) => {
     const LinkButton = () => {
         const editor = useSlate()
         return (
-            <div className="linkDiv">
+            <div className="linkDiv" style={{display: "none"}}>
                 <span
                     id="addLink"
                     active={isLinkActive(editor)}
