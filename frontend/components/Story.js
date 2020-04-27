@@ -65,7 +65,7 @@ class Story extends Component {
                 <div className="text">
                     <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><h4><a>{this.props.story.title}</a></h4></Link>    
                     <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> by {this.props.story.author}</small> 
-                    <p>{JSON.parse(this.props.story.content)[0].children[0].text.substring(0, 120)}{JSON.parse(this.props.story.content)[0].children[0].text.length > 120 ? "..." : ""}</p>
+                    <p>{this.props.story.content.substring(0, 120)}{this.props.story.content.length > 120 ? "..." : ""}</p>
                 </div>
                 {this.props.story.image && <div className="image">
                     <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><a>{this.props.story.image && <img src={this.props.story.image} alt={this.props.title}/>}</a></Link>    

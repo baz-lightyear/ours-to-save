@@ -24,7 +24,6 @@ class feature extends Component {
         
         const payload = await res.json()
         const feature = payload.data.feature
-
         return { feature };
     }
     render() {
