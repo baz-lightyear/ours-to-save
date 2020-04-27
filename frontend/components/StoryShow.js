@@ -53,7 +53,6 @@ class StoryShow extends Component {
     render() {
         return (
             <Container>
-                {console.log(this.props.story)}
                 <h1>{this.props.story.title}</h1>
                 <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> by {this.props.story.author}</small>
                 <br/>

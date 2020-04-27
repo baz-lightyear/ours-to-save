@@ -24,7 +24,6 @@ class story extends Component {
         
         const payload = await res.json()
         const story = payload.data.story
-        console.log(story)
         return { story };
     }
     render() {

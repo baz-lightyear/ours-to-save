@@ -139,7 +139,6 @@ class CreateStory extends Component {
         });
     };
     saveContent = string => {
-        console.log('saving to content in the parent')
         this.setState({content: string})
     }
     render() {

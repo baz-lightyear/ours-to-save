@@ -43,7 +43,6 @@ const TextEditor = (props) => {
         return !!link
     }
     const insertLink = (editor, url) => {
-        console.log('hii')
         if (editor.selection) {
             wrapLink(editor, url)
         }
