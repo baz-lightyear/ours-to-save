@@ -57,7 +57,22 @@ class StoryShow extends Component {
                 <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> by {this.props.story.author}</small>
                 <br/>
                 {this.props.story.image && <img id="image" src={this.props.story.image} alt={this.props.story.title} />}
-                {this.props.story.content.split('\n').map(element => <p>{element}</p>)}
+                {JSON.parse(this.props.story.content).map((element, index) => {
+                    return (
+                        <p key={index}>
+                            {element.children.map((leaf, index) => {
+                                if (leaf.type === "link") {
+                                    return <a href={leaf.url} target="_blank" key={index}>{leaf.children[0].text}</a>
+                                }
+                                return (
+                                    <span key={index}>
+                                        {leaf.text}
+                                    </span>
+                                )
+                            })}
+                        </p>
+                    )
+                })}
                 <div className="sharing">
                     <p>Share: </p>
                     <div className="icons">
