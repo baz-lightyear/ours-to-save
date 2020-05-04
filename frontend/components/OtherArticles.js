@@ -23,7 +23,7 @@ class OtherArticles extends Component {
                     if (error) return <p>Error: {error.message}</p>;
                     return (
                         <div>
-                            {this.removeStory(data.stories).sort((a, b) => {a.createdAt-b.createdAt}).reverse().slice(0, 3).map(story => <Story story={story} key={story.id}/>)}
+                            {this.removeStory(data.stories).sort((a, b) => {a.createdAt-b.createdAt}).slice(0, 3).map(story => <Story story={story} key={story.id}/>)}
                         </div>
                     );
                 }}

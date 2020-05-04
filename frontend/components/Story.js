@@ -64,7 +64,8 @@ class Story extends Component {
             <Container>
                 <div className="text">
                     <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><h4><a>{this.props.story.title}</a></h4></Link>    
-                    <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> by {this.props.story.author}</small> 
+                    <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> by {this.props.story.author}</small>
+                    {this.props.story.title === "Pollution levels remain high in Poland due to reliance on coal" && console.log(JSON.parse(this.props.story.content))}
                     <p>{JSON.parse(this.props.story.content)[0].children[0].text.substring(0, 120)}{JSON.parse(this.props.story.content)[0].children[0].text.length > 120 ? "..." : ""}</p>
                 </div>
                 {this.props.story.image && <div className="image">

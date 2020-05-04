@@ -46,6 +46,8 @@ const Container = styled.div`
         display: block;
         margin: 2rem auto;
         height: 200px;
+        max-width: 100%;
+        object-fit: contain;
     }
 `;
 

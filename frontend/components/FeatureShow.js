@@ -30,9 +30,9 @@ const Container = styled.div`
         left: 0;
         top: 80px;
         width: 100vw;
-        background-position: calc(50%) 50%;
+        background-position: 50% 20%;
         background-size: cover;
-        background-attachment: fixed;
+        /* background-attachment: fixed; */
         .opacityBanner {
             width: 100%;
             height: 100%;
@@ -48,6 +48,11 @@ const Container = styled.div`
     }
     .filler {
         height: 50vh
+    }
+    @media (max-width: 500px) {
+        .banner, .filler {
+            height: 80vh;
+        }
     }
     .date {
         text-align: right;
@@ -167,7 +172,21 @@ class FeatureShow extends Component {
                     }
                     if (element.type === "block-quote") {
                         return (
-                            <blockquote key={index}>{element.children[0].text}</blockquote>
+                            <blockquote key={index}>
+                                {element.children.map((leaf, index) => {
+                                    if (leaf.italic && leaf.bold) {
+                                        return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
+                                    }
+                                    if (leaf.italic) {
+                                        return (<span key={index}><em>{leaf.text}</em></span>)
+                                    }
+                                    if (leaf.bold) {
+                                        return (<span key={index}><strong>{leaf.text}</strong></span>)
+                                    }
+                                    return (<span key={index}>{leaf.text}</span>)
+                                    // links too
+                                })}
+                            </blockquote>
                         )
                     }
                     if (element.type === "image") {
