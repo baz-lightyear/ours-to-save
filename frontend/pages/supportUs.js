@@ -69,9 +69,6 @@ class supportUs extends Component {
                 <p style={{textAlign: "center"}}>Thank you - we won’t be able to do it without you.</p>
                 <p style={{textAlign: "center"}}>Florence & Harry</p>
                 <div className="button"><a href="http://kck.st/35tFnDE" target="_blank">donate now</a></div>
-                <div id="videoContainer">
-                    <iframe src="https://www.kickstarter.com/projects/ourstosave/ours-to-save/widget/video.html" frameborder="0" scrolling="no"> </iframe>            
-                </div>
             </Container>
         );
     }
