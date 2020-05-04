@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import StoryShow from '../components/StoryShow';
 import Head from 'next/head'
 import { endpoint, prodEndpoint } from '../config.js';
+import Kickstarter from '../components/Kickstarter';
+
 
 class story extends Component {
     static async getInitialProps(ctx) {
@@ -39,6 +41,7 @@ class story extends Component {
                     <meta property="og:type"               content="article" key='og:type'/>
                 </Head>
                 <StoryShow id={this.props.story.id} story={this.props.story}/>
+                <Kickstarter/>
             </>  
         );
     }

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import Subscribe from '../components/Subscribe';
+import Kickstarter from '../components/Kickstarter';
 
 
 const Container = styled.div`
@@ -13,13 +14,16 @@ const Container = styled.div`
             margin: auto;        
             font-family: ${props => props.theme.serif};
            .link {
-               text-align: center;
+               justify-content: center;
+               display: flex;
+               flex-wrap: wrap;
                 a {
                     border: solid 2px ${props => props.theme.green};
                     padding: 0.5rem 2rem;
                     font-family: ${props => props.theme.sansSerif};
                     font-weight: 700;
                     color: ${props => props.theme.green};
+                    margin: 1rem;
                     &:hover {
                         color: ${props => props.theme.black};
                         border: solid 2px ${props => props.theme.black};
@@ -84,17 +88,20 @@ const Container = styled.div`
 class index extends Component {    
     render() {
         return (
-            <Container>
-                <div className="text">
-                    <div className="textWrapper">
-                        <h1>It's ours to save.</h1>
-                        <p><em>Ours to Save</em> is a new journalism initiative focused exclusively on the climate crisis. Our interactive map displays crowdsourced, breaking climate news from all over the world. </p>
-                        <div className="link"><Link href="/map"><a>see it in action</a></Link></div> 
+            <>
+                <Container>
+                    <div className="text">
+                        <div className="textWrapper">
+                            <h1>It's ours to save.</h1>
+                            <p><em>Ours to Save</em> is a new journalism initiative focused exclusively on the climate crisis. Our interactive map displays crowdsourced, breaking climate news from all over the world. </p>
+                            <div className="link"><Link href="/map"><a>see it in action</a></Link></div> 
+                        </div>
                     </div>
-                </div>
-                <div className="imgDiv">
-                </div>
-            </Container>
+                    <div className="imgDiv">
+                    </div>
+                </Container>
+                <Kickstarter/>
+            </>
         );
     }
 }

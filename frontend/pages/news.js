@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CreateStory from '../components/CreateStory';
 import Stories from '../components/Stories';
 import Features from '../components/Features';
+import Kickstarter from '../components/Kickstarter';
 
 
 const Container = styled.div`
@@ -19,10 +20,13 @@ const Container = styled.div`
 class featured extends Component {
     render() {
         return (
+            <>
+            <Kickstarter/>
             <Container>
                <h1>The latest analysis & opinion on the climate crisis</h1>
                <Features/>
             </Container>
+            </>
         )
     }
 }

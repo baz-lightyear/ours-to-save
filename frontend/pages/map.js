@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Stories from '../components/Stories';
 import Map from '../components/Map';
 import CreateStoryModal from '../components/CreateStoryModal';
+import Kickstarter from '../components/Kickstarter';
+
 
 const Container = styled.div`
     h1 {
@@ -25,6 +27,8 @@ const Container = styled.div`
 class map extends Component {
     render() {
         return (
+            <>
+            <Kickstarter/>
             <Container>
                 <h1>Tell us what's happening</h1>
                 <div className="mapContainer">
@@ -42,6 +46,7 @@ class map extends Component {
                 <CreateStoryModal/>
                 <br/>
             </Container>
+            </>
         )
     }
 }

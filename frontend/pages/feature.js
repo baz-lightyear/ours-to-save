@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Head from 'next/head'
 import { endpoint, prodEndpoint } from '../config.js';
 import FeatureShow from '../components/FeatureShow';
+import Kickstarter from '../components/Kickstarter';
 
 class feature extends Component {
     static async getInitialProps(ctx) {
@@ -39,6 +40,7 @@ class feature extends Component {
                     <meta property="og:type"               content="article" key='og:type'/>
                 </Head>
                 <FeatureShow feature={this.props.feature}/>
+                <Kickstarter/>
             </>
         );
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import Kickstarter from '../components/Kickstarter';
 
 const Container = styled.div`
     width: 90%;
@@ -113,6 +114,8 @@ const Container = styled.div`
 class about extends Component {
     render() {
         return (
+            <>
+            <Kickstarter/>
             <Container>
                 <h1>About us</h1>
                 <div className="section1">
@@ -156,6 +159,7 @@ To pitch a longer feature, or if you’re interested in being listed on our init
                     </div>
                 </div>
             </Container>
+            </>
         );
     }
 }

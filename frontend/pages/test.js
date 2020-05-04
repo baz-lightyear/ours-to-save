@@ -117,7 +117,8 @@ const TextEditor = () => {
 
     return (
         <>
-            <Slate 
+            Are you sneaking around...?
+            {/* <Slate 
                 editor={editor} 
                 value={value} 
                 onChange={value => {
@@ -132,7 +133,7 @@ const TextEditor = () => {
                 />
             </Slate>
             
-            <button onClick={saveToDB}>clicky here</button>
+            <button onClick={saveToDB}>clicky here</button> */}
         </>
     )
 }

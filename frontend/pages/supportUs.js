@@ -33,6 +33,20 @@ const Container = styled.div`
             }
         }
     }
+    #videoContainer {
+        display: block;
+        width: 100%;
+        padding-bottom: 56.25%;
+        position: relative;
+        iframe {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border: solid 2px ${props => props.theme.green};
+        }
+    }
 
 `;
 
@@ -54,7 +68,10 @@ class supportUs extends Component {
                 <p>We want as many people as possible to see Ours to Save in the next few months, but we still have a lot of costs to cover, so external donations will be an enormous help in getting our feet off the ground.  If you’re able to donate, any amount - large or small - would mean the world. </p>
                 <p style={{textAlign: "center"}}>Thank you - we won’t be able to do it without you.</p>
                 <p style={{textAlign: "center"}}>Florence & Harry</p>
-                <div className="button"><a href="#" onClick={this.handleClick}>donate now</a></div>
+                <div className="button"><a href="http://kck.st/35tFnDE" target="_blank">donate now</a></div>
+                <div id="videoContainer">
+                    <iframe src="https://www.kickstarter.com/projects/ourstosave/ours-to-save/widget/video.html" frameborder="0" scrolling="no"> </iframe>            
+                </div>
             </Container>
         );
     }
