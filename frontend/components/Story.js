@@ -36,6 +36,7 @@ const Container = styled.div`
         img {
             height: 80px;
             max-width: 100px;
+            object-fit: cover;
         }
     }
     @media (max-width: 650px) {
@@ -46,11 +47,13 @@ const Container = styled.div`
         }
         .image {
             width: 100%;
+            margin: 0;
         }
         img {
             margin-top: 1rem;
             height: 100px !important;
-            max-width: 140px !important;
+            max-width: 100% !important;
+            object-fit: contain !important;
         }
         p {
             margin-bottom: 0 !important;
@@ -59,14 +62,25 @@ const Container = styled.div`
 `;
 
 class Story extends Component {
+    summary = (JSON.parse(this.props.story.content).map(paragraph => {
+        return (paragraph.children.map(child => {
+            if (child.type === "link") {
+                return (child.children.map(leaf => leaf.text).join(' '))
+            } else {
+                return child.text
+            }
+        })).join(' ')
+    })).join(' ')
     render() {
         return (
             <Container>
                 <div className="text">
                     <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><h4><a>{this.props.story.title}</a></h4></Link>    
                     <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> by {this.props.story.author}</small>
-                    {this.props.story.title === "Pollution levels remain high in Poland due to reliance on coal" && console.log(JSON.parse(this.props.story.content))}
-                    <p>{JSON.parse(this.props.story.content)[0].children[0].text.substring(0, 120)}{JSON.parse(this.props.story.content)[0].children[0].text.length > 120 ? "..." : ""}</p>
+                    <p>
+                        {this.summary.substring(0, 120)}
+                        {this.summary.length > 120 ? "..." : ""}
+                    </p>
                 </div>
                 {this.props.story.image && <div className="image">
                     <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><a>{this.props.story.image && <img src={this.props.story.image} alt={this.props.title}/>}</a></Link>    

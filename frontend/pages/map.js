@@ -37,7 +37,7 @@ class map extends Component {
                 </div>
                 
                 <CreateStoryModal/>
-                <h2>Recent posts</h2>
+                <h2>Latest international climate news:</h2>
                 <Stories/>
                 <CreateStoryModal/>
                 <br/>
