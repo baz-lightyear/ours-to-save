@@ -28,7 +28,6 @@ class map extends Component {
     render() {
         return (
             <>
-            <Kickstarter/>
             <Container>
                 <h1>Tell us what's happening</h1>
                 <div className="mapContainer">

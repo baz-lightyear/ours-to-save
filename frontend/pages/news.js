@@ -21,7 +21,6 @@ class featured extends Component {
     render() {
         return (
             <>
-            <Kickstarter/>
             <Container>
                <h1>The latest analysis & opinion on the climate crisis</h1>
                <Features/>
