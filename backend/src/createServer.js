@@ -5,9 +5,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Mutation = require('./resolvers/Mutation');
 const Query = require('./resolvers/Query');
-const sslRedirect = require('heroku-ssl-redirect');
-
-
 
 const db = new Prisma({
   typeDefs: 'src/generated/prisma.graphql',
@@ -29,8 +26,6 @@ const server = new GraphQLServer({
 });
 
 // redirect http to https ⬇️
-
-server.express.use(sslRedirect())
 
 server.express.use(bodyParser.json({ limit: '10mb' }));
 server.express.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
