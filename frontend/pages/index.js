@@ -100,7 +100,6 @@ class index extends Component {
                     <div className="imgDiv">
                     </div>
                 </Container>
-                <Kickstarter/>
             </>
         );
     }

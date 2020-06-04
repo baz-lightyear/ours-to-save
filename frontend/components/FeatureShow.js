@@ -16,6 +16,7 @@ import {
 } from "react-share";
 import OtherArticles from './OtherArticles';
 import MapStoryShow from './MapStoryShow';
+import {optimiseCloudinary} from '../lib/utils';
 
 const Container = styled.div`
     width: 95%;
@@ -130,7 +131,7 @@ class FeatureShow extends Component {
     render() {
         return (
             <Container>
-                <div className="banner" style={{backgroundImage: `url(${this.props.feature.featuredImage})`}}>
+                <div className="banner" style={{backgroundImage: `url(${optimiseCloudinary(this.props.feature.featuredImage, 1200)})`}}>
                     <div className="opacityBanner">
                         <h1>{this.props.feature.title}</h1>
                         <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>
@@ -191,7 +192,7 @@ class FeatureShow extends Component {
                     }
                     if (element.type === "image") {
                         return (
-                            <img key={index} src={element.url} className="image" alt={`an image about ${this.props.feature.title}`}/>
+                            <img key={index} src={optimiseCloudinary(element.url, 800)} className="image" alt={`an image about ${this.props.feature.title}`}/>
                         )
                     }
                 })}

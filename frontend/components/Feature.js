@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Moment from 'react-moment';
+import { optimiseCloudinary } from '../lib/utils';
 
 
 const Container = styled.div`
@@ -51,7 +52,7 @@ class Feature extends Component {
                     <p>{this.props.feature.subtitle}</p>
                     <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></small>
                     <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
-                        <img src={this.props.feature.featuredImage} alt={this.props.feature.title}/>
+                        <img src={optimiseCloudinary(this.props.feature.featuredImage, 800)} alt={this.props.feature.title}/>
                     </Link>
                 </div>
             </Container>

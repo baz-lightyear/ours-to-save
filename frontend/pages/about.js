@@ -115,7 +115,6 @@ class about extends Component {
     render() {
         return (
             <>
-            <Kickstarter/>
             <Container>
                 <h1>About us</h1>
                 <div className="section1">

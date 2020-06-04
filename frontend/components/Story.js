@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Moment from 'react-moment';
+import {optimiseCloudinary} from '../lib/utils';
 
 const Container = styled.div`
     display: flex;
@@ -83,7 +84,9 @@ class Story extends Component {
                     </p>
                 </div>
                 {this.props.story.image && <div className="image">
-                    <Link href={{pathname: '/story', query: { id: this.props.story.id }}}><a>{this.props.story.image && <img src={this.props.story.image} alt={this.props.title}/>}</a></Link>    
+                    <Link href={{pathname: '/story', query: { id: this.props.story.id }}}>
+                        <a>{this.props.story.image && <img src={optimiseCloudinary(this.props.story.image, 200)} alt={this.props.title}/>}</a>
+                    </Link>    
                 </div>}
             </Container>
         );

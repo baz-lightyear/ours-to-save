@@ -3,6 +3,8 @@ import StoryShow from '../components/StoryShow';
 import Head from 'next/head'
 import { endpoint, prodEndpoint } from '../config.js';
 import Kickstarter from '../components/Kickstarter';
+import {optimiseCloudinary} from '../lib/utils';
+
 
 
 class story extends Component {
@@ -37,11 +39,10 @@ class story extends Component {
                     <meta property="og:url"                content={`https://www.ourstosave.com/story?id=${this.props.story.id}`} key='og:url'/>
                     <meta property="og:title"              content={this.props.story.title} key='og:title'/>
                     <meta property="og:description"        content={this.props.story.content} key='og:description'/>
-                    <meta property="og:image"              content={this.props.story.image} key='og:image'/>
+                    <meta property="og:image"              content={optimiseCloudinary(this.props.story.image, 500)} key='og:image'/>
                     <meta property="og:type"               content="article" key='og:type'/>
                 </Head>
                 <StoryShow id={this.props.story.id} story={this.props.story}/>
-                <Kickstarter/>
             </>  
         );
     }

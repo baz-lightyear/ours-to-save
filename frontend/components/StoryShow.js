@@ -13,6 +13,8 @@ import {
 } from "react-share";
 import MapStoryShow from './MapStoryShow';
 import OtherArticles from './OtherArticles';
+import {optimiseCloudinary} from '../lib/utils';
+
 
 const Container = styled.div`
     width: 90%;
@@ -58,7 +60,7 @@ class StoryShow extends Component {
                 <h1>{this.props.story.title}</h1>
                 <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> by {this.props.story.author}</small>
                 <br/>
-                {this.props.story.image && <img id="image" src={this.props.story.image} alt={this.props.story.title} />}
+                {this.props.story.image && <img id="image" src={optimiseCloudinary(this.props.story.image, 500)} alt={this.props.story.title} />}
                 {JSON.parse(this.props.story.content).map((element, index) => {
                     return (
                         <p key={index}>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import {optimiseCloudinary} from '../lib/utils';
+
 
 const Container = styled.div`
     img {

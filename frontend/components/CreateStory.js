@@ -7,6 +7,7 @@ import Error from './Error';
 import StoryEditor from './StoryEditor';
 
 import {CREATE_STORY_MUTATION, STORIES_QUERY} from './Apollo';
+import { optimiseCloudinary } from '../lib/utils'
 
 const Form = styled.form`
     input, textarea {
@@ -201,7 +202,7 @@ class CreateStory extends Component {
                                 />
                                 {this.state.loading &&  <img src="loading.gif" alt="loading" width="50px" id="loading"/>}
                                 {this.state.image && (
-                                <img width="100" src={this.state.image} alt="Upload Preview" id="image"/>
+                                <img width="100" src={optimiseCloudinary(this.state.image, 400)} alt="Upload Preview" id="image"/>
                                 )}
                                 <label htmlFor="address">Where did this happen?<super>*</super>
                                     <br/>
