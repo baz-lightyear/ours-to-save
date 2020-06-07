@@ -20,6 +20,7 @@ type Story {
   ourPick: Boolean
   feature: Boolean
   sponsored: Boolean
+  leading: Boolean
 }
 
 type Feature {
@@ -36,6 +37,9 @@ type Feature {
   address: String
   longitude: Float
   latitude: Float
+  categories: [String] @scalarList(strategy: RELATION)
+  leading: Boolean @default(value: false)
+
 }
 
 type Initiative {

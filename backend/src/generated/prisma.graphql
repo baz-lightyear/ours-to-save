@@ -1,5 +1,5 @@
-# source: https://eu1.prisma.sh/harrykingdon/demo/dev
-# timestamp: Sun Apr 26 2020 22:31:38 GMT+0100 (British Summer Time)
+# source: https://ours-to-save-prod-e8112953ab.herokuapp.com
+# timestamp: Sun Jun 07 2020 21:23:02 GMT+0100 (British Summer Time)
 
 type AggregateFeature {
   count: Int!
@@ -38,6 +38,8 @@ type Feature implements Node {
   address: String
   longitude: Float
   latitude: Float
+  categories: [String!]!
+  leading: Boolean
 }
 
 """A connection to a list of items."""
@@ -48,6 +50,10 @@ type FeatureConnection {
   """A list of edges."""
   edges: [FeatureEdge]!
   aggregate: AggregateFeature!
+}
+
+input FeatureCreatecategoriesInput {
+  set: [String!]
 }
 
 input FeatureCreateInput {
@@ -62,6 +68,8 @@ input FeatureCreateInput {
   address: String
   longitude: Float
   latitude: Float
+  leading: Boolean
+  categories: FeatureCreatecategoriesInput
 }
 
 """An edge in a connection."""
@@ -100,6 +108,8 @@ enum FeatureOrderByInput {
   longitude_DESC
   latitude_ASC
   latitude_DESC
+  leading_ASC
+  leading_DESC
 }
 
 type FeaturePreviousValues {
@@ -116,6 +126,8 @@ type FeaturePreviousValues {
   address: String
   longitude: Float
   latitude: Float
+  categories: [String!]!
+  leading: Boolean
 }
 
 type FeatureSubscriptionPayload {
@@ -155,6 +167,10 @@ input FeatureSubscriptionWhereInput {
   node: FeatureWhereInput
 }
 
+input FeatureUpdatecategoriesInput {
+  set: [String!]
+}
+
 input FeatureUpdateInput {
   title: String
   subtitle: String
@@ -166,6 +182,8 @@ input FeatureUpdateInput {
   address: String
   longitude: Float
   latitude: Float
+  leading: Boolean
+  categories: FeatureUpdatecategoriesInput
 }
 
 input FeatureUpdateManyMutationInput {
@@ -179,6 +197,8 @@ input FeatureUpdateManyMutationInput {
   address: String
   longitude: Float
   latitude: Float
+  leading: Boolean
+  categories: FeatureUpdatecategoriesInput
 }
 
 input FeatureWhereInput {
@@ -602,6 +622,10 @@ input FeatureWhereInput {
 
   """All values greater than or equal the given value."""
   latitude_gte: Float
+  leading: Boolean
+
+  """All values that are not equal to given value."""
+  leading_not: Boolean
 }
 
 input FeatureWhereUniqueInput {
@@ -934,6 +958,7 @@ type Story implements Node {
   ourPick: Boolean
   feature: Boolean
   sponsored: Boolean
+  leading: Boolean
 }
 
 """A connection to a list of items."""
@@ -961,6 +986,7 @@ input StoryCreateInput {
   ourPick: Boolean
   feature: Boolean
   sponsored: Boolean
+  leading: Boolean
 }
 
 """An edge in a connection."""
@@ -1005,6 +1031,8 @@ enum StoryOrderByInput {
   feature_DESC
   sponsored_ASC
   sponsored_DESC
+  leading_ASC
+  leading_DESC
 }
 
 type StoryPreviousValues {
@@ -1024,6 +1052,7 @@ type StoryPreviousValues {
   ourPick: Boolean
   feature: Boolean
   sponsored: Boolean
+  leading: Boolean
 }
 
 type StorySubscriptionPayload {
@@ -1077,6 +1106,7 @@ input StoryUpdateInput {
   ourPick: Boolean
   feature: Boolean
   sponsored: Boolean
+  leading: Boolean
 }
 
 input StoryUpdateManyMutationInput {
@@ -1093,6 +1123,7 @@ input StoryUpdateManyMutationInput {
   ourPick: Boolean
   feature: Boolean
   sponsored: Boolean
+  leading: Boolean
 }
 
 input StoryWhereInput {
@@ -1528,6 +1559,10 @@ input StoryWhereInput {
 
   """All values that are not equal to given value."""
   sponsored_not: Boolean
+  leading: Boolean
+
+  """All values that are not equal to given value."""
+  leading_not: Boolean
 }
 
 input StoryWhereUniqueInput {

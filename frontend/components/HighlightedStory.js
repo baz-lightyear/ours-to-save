@@ -20,8 +20,8 @@ const Container = styled.div`
     width: 90%;
     max-width: 700px;
     margin: auto;
+    min-height: calc(100vh - 125px);
     font-family: ${props => props.theme.serif};
-    border: solid 1px black;
     small {
         font-family: ${props => props.theme.sansSerif};
     }
@@ -53,11 +53,14 @@ const Container = styled.div`
     }
 `;
 
-class StoryShow extends Component {
+class HighlightedStory extends Component {
     render() {
         return (
             <Container>
-                <h3>{this.props.story.title}</h3>
+                <div className="mapContainer">
+                    <MapStoryShow story={this.props.story}/>
+                </div>
+                <h2>{this.props.story.title}</h2>
                 <small>Posted <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> by {this.props.story.author}</small>
                 <br/>
                 {this.props.story.image && <img id="image" src={optimiseCloudinary(this.props.story.image, 500)} alt={this.props.story.title} />}
@@ -85,13 +88,9 @@ class StoryShow extends Component {
                     <TwitterShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                     </div>
                 </div>
-                {/* <div className="mapContainer">
-                    <MapStoryShow story={this.props.story}/>
-                </div> */}
-                {/* <OtherArticles story={this.props.story}/> */}
             </Container>
         );
     }
 }
 
-export default StoryShow;
+export default HighlightedStory;

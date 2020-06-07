@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import {optimiseCloudinary} from '../lib/utils';
-
+import StoryModal from './StoryModal'
 
 const Container = styled.div`
     img {
@@ -55,9 +55,9 @@ class Marker extends Component {
                     src={this.props.story.morality === "good" ? "goodMarker.png" : this.props.story.morality === "bad" ? "badMarker.png" : "inbetweenMarker.png"} 
                     alt="marker" 
                 />
-                <Link href={{pathname: '/story', query: { id: this.props.story.id }}}>
+                <StoryModal story={this.props.story}>
                         <div className={this.state.show}><p>{this.props.story.title}<br/><small>click to learn more</small></p></div>
-                </Link>
+                </StoryModal>
             </Container>
         );
     }
