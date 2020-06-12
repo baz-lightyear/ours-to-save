@@ -9,6 +9,7 @@ type Query {
     story(id: ID!): Story
     features(where: StoryWhereInput, orderBy: FeatureOrderByInput): [Feature]!
     feature(id: ID!): Feature
+    moreStories(where: StoryWhereInput, orderBy: StoryOrderByInput, cursor: String): [Story]
 }
 
 type User {

@@ -51,6 +51,25 @@ const STORIES_QUERY = gql`
   }
 `;
 
+const MORE_STORIES_QUERY = gql`
+  query MORE_STORIES_QUERY($cursor: String) {
+    moreStories(where: {approved: true}, orderBy: createdAt_DESC, cursor: $cursor) {
+      id
+      title
+      content
+      longitude
+      latitude
+      morality
+      author
+      createdAt
+      image
+      ourPick
+      feature
+      sponsored
+    }
+  }
+`
+
 const SINGLE_STORY_QUERY = gql`
   query SINGLE_STORY_QUERY($id: ID!) {
     story(id: $id) {
@@ -116,6 +135,8 @@ export {
   CREATE_STORY_MUTATION, 
   STORIES_QUERY, 
   SINGLE_STORY_QUERY, 
+  MORE_STORIES_QUERY,
   FEATURES_QUERY, 
   SINGLE_FEATURE_QUERY,
-  CREATE_USER_MUTATION };
+  CREATE_USER_MUTATION 
+};

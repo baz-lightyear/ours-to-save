@@ -9,8 +9,8 @@ class Features extends Component {
         return (
             <Query query={FEATURES_QUERY}>
             {({ data, error, loading }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error: {error.message}</p>;
+                if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
                 return (
                     <div>
                         {data.features.map(feature => <Feature feature={feature} key={feature.id}/>)}

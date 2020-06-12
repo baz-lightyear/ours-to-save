@@ -20,6 +20,30 @@ const Query = {
                 info
             );
         return feature
+    },
+    async moreStories(parent, args, ctx, info) {
+        if (args.cursor) {
+            const moreStories = await ctx.db.query.stories(
+                {
+                    where: { approved: true },
+                    orderBy: args.orderBy,
+                    after: args.cursor,
+                    first: 5
+                },
+                info
+            )
+            return moreStories
+        } else {
+            const moreStories = await ctx.db.query.stories(
+                {
+                    where: { approved: true },
+                    orderBy: args.orderBy,
+                    first: 5
+                },
+                info
+            )
+            return moreStories           
+        }
     }
 };
 
