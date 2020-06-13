@@ -6,7 +6,7 @@ import Subscribe from './Subscribe';
 
 const Container = styled.div`
   .filler {
-    height: 80px;
+    height: 40px;
     width: 100%;
   }
   .flex {
@@ -14,14 +14,14 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     background-color: ${props => props.theme.green};
-    height: 80px;
+    height: 40px;
     width: 100%;
     position: fixed;
     z-index: 2;
   }
   .logo {
-    margin-left: 2rem;
-    font-size: 1.5rem;
+    margin-left: 1rem;
+    font-size: 1.3rem;
     a {
       color: ${props => props.theme.offWhite};
       &:hover {
@@ -37,10 +37,11 @@ const Container = styled.div`
   }
   .links {
     display: flex;
-    margin: 0 2rem;
+    margin-right: 1rem;
     a {
-      margin: 0 1rem;
-      font-size: 1.5rem;
+      margin: 0;
+      margin-left: 2rem;
+      font-size: 1.2rem;
       color: ${props => props.theme.offWhite};
       &:hover {
         opacity: 0.7;
@@ -56,6 +57,12 @@ const Container = styled.div`
   }
   @media (max-width: 950px) {
     .flex {
+      .logo {
+        margin-left: 0.5rem !important;
+        img {
+          padding-right: 0.5rem !important;
+        }
+      }
       .links {
         display: none;
       }
@@ -64,16 +71,16 @@ const Container = styled.div`
         .burgerDiv {
           background-color: ${props => props.theme.green};
           width: 140px;
-          height: 80px;
+          height: 40px;
           text-align: right;
-          padding: 1rem;
           position: relative;
           z-index: 2;
           img {
-            height: 40px;
+            height: 28px;
             position: relative;
             z-index: 2;
-            top: 3px;
+            top: 6px;
+            right: 6px;
             &.active {
               transform: rotate(-90deg);
               transition-duration: 0.3s
@@ -97,8 +104,8 @@ const Container = styled.div`
             }
           }
           &.inactive {
-            transform: translateY(-198px);
-            background-color: transparent;
+            transform: translateY(-200px);
+            background-color: ${props => props.theme.offWhite};
             transition-duration: 0.3s;
             position: absolute;
             z-index: 1;
@@ -107,7 +114,8 @@ const Container = styled.div`
           }
           &.active {
             transform: translateY(0px);
-            background-color: ${props => props.theme.yellow};
+            background-color: ${props => props.theme.offWhite};
+            box-shadow: 0px 0px 10px grey;
             transition-duration: 0.3s;
             position: absolute;
             z-index: 1;
@@ -140,8 +148,8 @@ class Header extends Component {
             </Link>
           </div>
           <div className="links">
-            <Link href="/map">
-              <a>map</a>
+            <Link href="/feed">
+              <a>live feed</a>
             </Link>
             <Link href="/news">
               <a>features</a>

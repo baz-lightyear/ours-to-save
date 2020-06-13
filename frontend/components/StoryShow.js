@@ -19,26 +19,33 @@ import {optimiseCloudinary} from '../lib/utils';
 const Container = styled.div`
     font-family: ${props => props.theme.serif};
     overflow: hidden;
+    border-top: solid 2px ${props => props.theme.green};
+    padding-top: 1rem;
+    .breaking {
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        background-color: ${props => props.theme.green};
+        display: inline-block;
+        color: ${props => props.theme.offWhite};
+        font-family: ${props => props.theme.sansSerif};
+        font-weight: bolder;
+        letter-spacing: 2px;
+    }
     .date {
         font-family: ${props => props.theme.sansSerif};
         opacity: 0.5;
         display: flex;
         justify-content: space-between;
-        padding-top: 2rem;
-        border-top: solid 2px ${props => props.theme.green};
-    }
-    .author {
-        font-family: ${props => props.theme.sansSerif};
-        opacity: 0.5;
-        text-align: right;
-        margin: 0;
     }
     .title {
         margin-top: 4px;
+        margin-bottom: 0;
+    }
+    .author {
+        opacity: 0.5;
+        margin: 0;
         margin-bottom: 4px;
-        span {
-            opacity: 0.5;
-        }
+        font-size: 1rem;
     }
     .sharing {
         text-align: left;
@@ -58,7 +65,7 @@ const Container = styled.div`
             svg {
                 height: 2rem;
                 width: 2rem;
-                margin: 4px;
+                margin-right: 4px;
                 &:focus {
                     outline: none;
                 }
@@ -76,18 +83,23 @@ const Container = styled.div`
     }
     .content {
         margin: 1rem 0;
+        font-size: 0.9rem;
     }
 `;
 
 class StoryShow extends Component {
     render() {
+        const today = new Date()
+        const formattedToday = `${today.getFullYear()}-${today.getMonth() + 1 < 10 ? "0" : ""}${today.getMonth()+1}-${today.getDate() < 10 ? "0" : ""}${today.getDate()}`
         return (
             <Container>
+                {this.props.story.createdAt.substring(0, 10) === formattedToday && <span className="breaking">BREAKING</span>}
                 <div className="date">
                     <Moment date={this.props.story.createdAt} format="HH:mm"/>
                     <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/>
                 </div>
-                <h3 className="title">{this.props.story.title}<span> ﹒ {this.props.story.author}</span></h3>
+                <h3 className="title">{this.props.story.title}</h3>
+                <h3 className="author">{this.props.story.author} ﹒ {this.props.story.country}</h3>
                 {this.props.story.image && <img className="image" src={optimiseCloudinary(this.props.story.image, 600)} alt={this.props.story.title} />}
                 <div className="content">
                     {JSON.parse(this.props.story.content).map((element, index) => {

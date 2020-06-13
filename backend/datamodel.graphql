@@ -1,6 +1,33 @@
+enum Permission {
+  ADMIN
+  EDITOR
+  USER
+}
+
 type User {
   id: ID! @id
-  email: String @unique
+  name: String
+  email: String! @unique
+  phone: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: [Permission] @scalarList(strategy: RELATION)
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
+  comments: [Comment] @scalarList(strategy: RELATION)
+  upvotedStories: [Story]
+  premium: Boolean @default(value: false)
+}
+
+type Comment {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  author: User @relation(link: INLINE)
+  approved: Boolean
+  content: String
+  # replyTo: Comment @relation(link: INLINE)
 }
 
 type Story {
@@ -21,6 +48,7 @@ type Story {
   feature: Boolean
   sponsored: Boolean
   leading: Boolean
+  country: String
 }
 
 type Feature {
@@ -37,13 +65,7 @@ type Feature {
   address: String
   longitude: Float
   latitude: Float
-  categories: [String] @scalarList(strategy: RELATION)
+  category: String
   leading: Boolean @default(value: false)
-
 }
 
-type Initiative {
-  id: ID! @id
-  title: String!
-  description: String
-}

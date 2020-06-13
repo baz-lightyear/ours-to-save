@@ -61,67 +61,28 @@ class Map extends Component {
           "elementType": "labels.text.fill",
           "stylers": [
               {
-                  "color": "#71737c"
+                  "color": "#71737c",
               }
           ]
       },
-      {
-          "featureType": "landscape",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "color": "#f2f2f2"
-              }
-          ]
-      },
-      {
-          "featureType": "poi",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "visibility": "off"
-              }
-          ]
-      },
-      {
-          "featureType": "road",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "saturation": -100
-              },
-              {
-                  "lightness": 45
-              }
-          ]
-      },
-      {
-          "featureType": "road.highway",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "visibility": "simplified"
-              }
-          ]
-      },
-      {
-          "featureType": "road.highway",
-          "elementType": "geometry.fill",
-          "stylers": [
-              {
-                  "color": "#ffffff"
-              }
-          ]
-      },
-      {
-          "featureType": "road.arterial",
-          "elementType": "labels.icon",
-          "stylers": [
-              {
-                  "visibility": "off"
-              }
-          ]
-      },
+    //   {
+    //       "featureType": "landscape",
+    //       "elementType": "all",
+    //       "stylers": [
+    //           {
+    //               "color": "#f2f2f2"
+    //           }
+    //       ]
+    //   },
+    //   {
+    //       "featureType": "poi",
+    //       "elementType": "all",
+    //       "stylers": [
+    //           {
+    //               "visibility": "off"
+    //           }
+    //       ]
+    //   },
       {
           "featureType": "transit",
           "elementType": "all",
@@ -136,13 +97,73 @@ class Map extends Component {
           "elementType": "all",
           "stylers": [
               {
-                  "color": "#dde6e8"
+                  "color": "#C1DBE3"
               },
               {
                   "visibility": "on"
               }
           ]
-      }
+      },
+      {
+        "featureType": "administrative.land_parcel",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "administrative.neighborhood",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi",
+        "elementType": "labels",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "road",
+        "elementType": "labels",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "water",
+        "elementType": "labels.text",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "road",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "administrative.country",
+        "elementType": "geometry.stroke",
+        "stylers": [
+          {
+            "visibility": "simplified"
+          }
+        ]
+      },
     ]}
     handleChange = e => {
         this.setState({address: e.target.value})
@@ -154,8 +175,8 @@ class Map extends Component {
                     if (loading) return <img src="loading.gif" alt="loading" height="50"  style={{margin: "auto", display: "block"}}/>;
                     if (error) return null;
                     if (data) return (
-                        <div style={{ height: '70vh', width: '100%' }}>
-                            <Form onSubmit={async e => {
+                        <div style={{ height: '70vh', width: '100%'}}>
+                            {/* <Form onSubmit={async e => {
                                 e.preventDefault();
                                 const geocodingApiKey = 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw'
                                 const location = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.address}&key=${geocodingApiKey}`)
@@ -168,7 +189,7 @@ class Map extends Component {
                             }}>
                                 <button type="submit"><img src="search.png" alt="search icon, (Search by Kyle Dodson from the Noun Project)"/></button>
                                 <input type="text" placeholder="search" onChange={this.handleChange}/>
-                            </Form>
+                            </Form> */}
 
                             <GoogleMapReact
                                 bootstrapURLKeys={{ key: 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw' }}

@@ -32,18 +32,57 @@ const CREATE_USER_MUTATION = gql`
   }
 `;
 
+const LATEST_FEATURE_QUERY = gql`
+  query LATEST_FEATURE_QUERY {
+    latestFeature(where: {approved: true}, orderBy: createdAt_DESC) {
+      id
+      title
+      subtitle
+      author
+      createdAt
+      featuredImage
+    }
+  }
+`;
+
+const RECENT_FEATURES_QUERY = gql`
+  query RECENT_FEATURES_QUERY {
+    recentFeatures(orderBy: createdAt_DESC) {
+      id
+      title
+      subtitle
+      author
+      createdAt
+      featuredImage
+    }
+  }
+`;
+
+const BOOSTED_FEATURES_QUERY = gql`
+  query BOOSTED_FEATURES_QUERY {
+    boostedFeatures(orderBy: createdAt_DESC) {
+      id
+      title
+      subtitle
+      author
+      createdAt
+      featuredImage
+    }
+  }
+`;
+
 const STORIES_QUERY = gql`
   query STORIES_QUERY {
     stories(where: {approved: true}, orderBy: createdAt_DESC) {
       id
       title
       content
+      country
       longitude
       latitude
       morality
       author
       createdAt
-      image
       ourPick
       feature
       sponsored
@@ -59,6 +98,7 @@ const MORE_STORIES_QUERY = gql`
       content
       longitude
       latitude
+      country
       morality
       author
       createdAt
@@ -70,14 +110,15 @@ const MORE_STORIES_QUERY = gql`
   }
 `
 
-const SINGLE_STORY_QUERY = gql`
-  query SINGLE_STORY_QUERY($id: ID!) {
+const MODAL_STORY_QUERY = gql`
+  query MODAL_STORY_QUERY($id: ID!) {
     story(id: $id) {
       id
       title
       content
       longitude
       latitude
+      country
       morality
       createdAt
       author
@@ -99,29 +140,6 @@ const FEATURES_QUERY = gql`
   }
 `;
 
-const SINGLE_FEATURE_QUERY = gql`
-  query SINGLE_FEATURE_QUERY($id: ID!) {
-    feature(id: $id) {
-      id
-      title
-      subtitle
-      createdAt
-      author
-      bio
-      paragraphs {
-        id
-        text
-        image
-      }
-      featureLinks {
-        id
-        title
-        ref
-      }
-    }
-  }
-`;
-
 const CREATE_FEATURE_MUTATION = gql`
   mutation CREATE_FEATURE_MUTATION($content: String! $address: String!) {
     createFeature( content: $content address: $address ) {
@@ -130,13 +148,103 @@ const CREATE_FEATURE_MUTATION = gql`
   }
 `;
 
+const FEED_PREVIEW_QUERY = gql`
+  query FEED_PREVIEW_QUERY {
+    feedPreview(orderBy: createdAt_DESC) {
+      id
+      title
+      country
+      author
+      createdAt
+    }
+  }
+`;
+
+const CATEGORY_FEATURES_QUERY = gql`
+  query CATEGORY_FEATURES_QUERY($category: String) {
+    categoryFeatures(category: $category, orderBy: createdAt_DESC) {
+      id
+      title
+      subtitle
+      author
+      createdAt
+      featuredImage
+    }
+  }
+`;
+
+
+const CURRENT_USER_QUERY = gql`
+  query CURRENT_USER_QUERY {
+    me {
+      id
+      email
+      name
+    }
+  }
+`;
+const SIGNUP_MUTATION = gql`
+  mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
+    signup(email: $email, name: $name, password: $password) {
+      id
+      email
+      name
+    }
+  }
+`;
+
+const SIGNIN_MUTATION = gql`
+  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+    signin(email: $email, password: $password) {
+      id
+      email
+      name
+    }
+  }
+`;
+const SIGN_OUT_MUTATION = gql`
+  mutation SIGN_OUT_MUTATION {
+    signout {
+      message
+    }
+  }
+`;
+const REQUEST_RESET_MUTATION = gql`
+  mutation REQUEST_RESET_MUTATION($email: String!) {
+    requestReset(email: $email) {
+      message
+    }
+  }
+`;
+
+const RESET_MUTATION = gql`
+  mutation RESET_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {
+    resetPassword(resetToken: $resetToken, password: $password, confirmPassword: $confirmPassword) {
+      id
+      email
+      name
+    }
+  }
+`;
+
+
 export { 
   CREATE_FEATURE_MUTATION, 
   CREATE_STORY_MUTATION, 
   STORIES_QUERY, 
-  SINGLE_STORY_QUERY, 
+  MODAL_STORY_QUERY, 
   MORE_STORIES_QUERY,
   FEATURES_QUERY, 
-  SINGLE_FEATURE_QUERY,
-  CREATE_USER_MUTATION 
+  CREATE_USER_MUTATION,
+  LATEST_FEATURE_QUERY,
+  FEED_PREVIEW_QUERY,
+  CATEGORY_FEATURES_QUERY,
+  RECENT_FEATURES_QUERY,
+  BOOSTED_FEATURES_QUERY,
+  CURRENT_USER_QUERY,
+  SIGNUP_MUTATION,
+  SIGNIN_MUTATION,
+  SIGN_OUT_MUTATION,
+  REQUEST_RESET_MUTATION,
+  RESET_MUTATION
 };

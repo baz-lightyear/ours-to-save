@@ -1,7 +1,18 @@
+# import * from './generated/prisma.graphql'
+
+type SuccessMessage {
+  message: String
+}
+
 type Mutation {
     createStory(title: String!, content: String!, address: String!, morality: String, author: String, interestedInFeatureEmail: String, image: String): Story
     createFeature(content: String!, address: String!): Feature
     createUser(email: String!): User
+    signup(email: String! password: String! name: String!): User!
+    signin( email: String! password: String! ): User!
+    signout: SuccessMessage
+    requestReset(email: String!): SuccessMessage
+    resetPassword( resetToken: String! password: String! confirmPassword: String!): User!
 }
 
 type Query {
@@ -9,58 +20,11 @@ type Query {
     story(id: ID!): Story
     features(where: StoryWhereInput, orderBy: FeatureOrderByInput): [Feature]!
     feature(id: ID!): Feature
+    latestFeature(where: StoryWhereInput, orderBy: FeatureOrderByInput): Feature
     moreStories(where: StoryWhereInput, orderBy: StoryOrderByInput, cursor: String): [Story]
-}
-
-type User {
-  id: ID
-  email: String
-}
-
-type Story {
-    id: ID
-    title: String
-    content: String
-    morality: String
-    longitude: Float
-    latitude: Float
-    createdAt: String
-    author: String
-    interestedInFeatureEmail: String
-    image: String
-    ourPick: Boolean
-    feature: Boolean
-    sponsored: Boolean
-}
-
-type Feature {
-  id: ID! 
-  title: String!
-  subtitle: String
-  createdAt: String
-  author: String
-  bio: String
-  content: String
-  featuredImage: String
-  latitude: Float
-  longitude: Float
-}
-
-
-enum StoryOrderByInput {
-  createdAt_DESC
-  createdAt_ASC
-}
-
-input StoryWhereInput {
-  approved: Boolean
-}
-
-enum FeatureOrderByInput {
-  createdAt_DESC
-  createdAt_ASC
-}
-
-input FeatureWhereInput {
-  approved: Boolean
+    feedPreview(orderBy: StoryOrderByInput): [Story]
+    categoryFeatures(orderBy: FeatureOrderByInput, category: String): [Feature]
+    recentFeatures(orderBy: FeatureOrderByInput): [Feature]
+    boostedFeatures(orderBy: FeatureOrderByInput): [Feature]
+    me: User
 }

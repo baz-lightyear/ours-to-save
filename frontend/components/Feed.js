@@ -6,18 +6,28 @@ import { InView } from 'react-intersection-observer'
 
 const Container = styled.div`
     margin: auto;
-    width: 95%;
     max-width: 800px;
+    width: 95%;
+    /* position: relative;
+    top: -3rem;
+    background-color: ${props => props.theme.offWhite};
+    padding: 1rem; */
+    #feedHeader {
+        text-align: center;
+    }
+
 `;
 
 class Feed extends Component {
     render() {
         return (
             <Container>
-                <div id="banner">
-                    
+                <div id="feedHeader">
+                    <h2>Live, crowdsourced news feed</h2>
+                    <p>The front page of climate change, in real time.</p>
+                    <p>Add here</p>
                 </div>
-                {this.props.stories.map(story => {
+                {this.props.stories.map((story, i) => {
                     return <StoryShow key={story.id} story={story}/>
                 })}
                 <InView as="div" onChange={(inView, entry) => {

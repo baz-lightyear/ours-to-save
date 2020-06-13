@@ -5,6 +5,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Mutation = require('./resolvers/Mutation');
 const Query = require('./resolvers/Query');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 
 const db = new Prisma({
   typeDefs: 'src/generated/prisma.graphql',
@@ -23,6 +25,18 @@ const server = new GraphQLServer({
     requireResolversForResolveType: false,
   },
   context: req => ({ ...req, db }),
+});
+
+server.express.use(cookieParser());
+server.express.use(bodyParser());
+
+server.express.use((req, res, next) => {
+  const { token } = req.cookies;
+  if (token) {
+    const { userId } = jwt.verify(token, process.env.APP_SECRET)
+    req.userId = userId
+  }
+  next();
 });
 
 // redirect http to https ⬇️

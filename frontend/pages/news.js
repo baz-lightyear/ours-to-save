@@ -1,31 +1,56 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import CreateStory from '../components/CreateStory';
-import Stories from '../components/Stories';
-import Features from '../components/Features';
-import Kickstarter from '../components/Kickstarter';
-
+import Link from 'next/link';
+import { Query } from 'react-apollo';
+import { FEATURES_QUERY } from '../components/Apollo';
+import LatestFeature from '../components/LatestFeature';
+import FeatureCard from '../components/FeatureCard';
+import CategoryTab from '../components/CategoryTab';
 
 const Container = styled.div`
-    text-align: center;
-    width: 90%;
-    max-width: 840px;
+    width: 95%;
+    max-width: 1000px;
     margin: auto;
-    padding-bottom: 1rem;
     h1 {
         font-family: ${props => props.theme.serif};
+    }
+    #latest {
+        padding: 1rem;
+    }
+    .features {
+        display: flex;
+        flex-wrap: wrap;
     }
 `;
 
 class featured extends Component {
     render() {
         return (
-            <>
             <Container>
-               <h1>The latest analysis & opinion on the climate crisis</h1>
-               <Features/>
+                <CategoryTab/>
+                <Query query={FEATURES_QUERY}>
+                    {({data, loading, error}) => {
+                        if (loading) return <><p style={{textAlign: "center", margin: "1rem"}}>Loading...</p><img src="loading.gif" alt="loading" height="50"  style={{display: "block", margin: "auto"}}/></>;
+                        if (error) return <p>Error: {error.message}</p>;
+                        const features = data.features
+                        return (
+                            <>
+                                <div id="latest">
+                                    <LatestFeature feature={features[0]}/>
+                                </div>
+                                <div className="features">
+                                    {features.slice(1, features.length).map(feature => {
+                                        return (
+                                            <FeatureCard feature={feature}/>
+                                        )
+                                    })}
+                                </div>
+                            </>
+                        )
+                    }}
+
+                </Query>
             </Container>
-            </>
         )
     }
 }
