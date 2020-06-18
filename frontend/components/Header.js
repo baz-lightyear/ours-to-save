@@ -2,7 +2,6 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import Router from 'next/router';
 import React, { Component } from 'react';
-import Subscribe from './Subscribe';
 import Signout from './Signout';
 import LoginModal from './LoginModal';
 import { CURRENT_USER_QUERY } from './Apollo';

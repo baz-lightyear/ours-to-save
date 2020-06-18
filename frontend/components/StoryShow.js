@@ -11,8 +11,6 @@ import {
     FacebookIcon,
     TwitterIcon,
 } from "react-share";
-import MapStoryShow from './MapStoryShow';
-import OtherArticles from './OtherArticles';
 import {optimiseCloudinary, timeFromNow} from '../lib/utils';
 
 
