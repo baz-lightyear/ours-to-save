@@ -7,6 +7,9 @@ import { Query } from 'react-apollo'
 
 const Container = styled.div`
     font-family: ${props => props.theme.serif};
+    button {
+        width: 210px;
+    }
     #hero {
         display: flex;
         .text {

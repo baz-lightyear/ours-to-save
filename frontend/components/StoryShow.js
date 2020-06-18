@@ -56,6 +56,7 @@ const Container = styled.div`
                 opacity: 0.5;
             }
             button {
+                margin: 0;
                 &:focus {
                     outline: none;
                 }

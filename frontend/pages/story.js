@@ -164,7 +164,7 @@ class story extends Component {
                 </Head>
                 <Container>
                     <div id="story">
-                        <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/"><a>here</a></Link>. We're not just a crowdsourced news feed publishing content like this - we also run <Link href="/features"><a>full-length features</a></Link> digging deeper into the stories under the headlines from a world-class team of journalists.</p>
+                        <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/"><a>here</a></Link>. We're not just a crowdsourced news feed - we also run <Link href="/features"><a>full-length features</a></Link> digging deeper into the stories under the headlines from a world-class team of journalists.</p>
                         {this.props.story.createdAt.substring(0, 10) === formattedToday && <span className="breaking">BREAKING</span>}
                         <div className="date">
                             {/* <Moment date={this.props.story.createdAt} format="HH:mm"/>

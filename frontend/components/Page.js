@@ -74,7 +74,6 @@ const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 3rem;
   width: 100%;
   background-color: ${theme.green};
   margin: 0;
@@ -108,7 +107,13 @@ const Footer = styled.div`
     }
   }
   .contact {
+    padding: 0.5rem 0;
     margin-right: 1rem;
+    display: flex;
+    @media (max-width: 400px) {
+      flex-direction: column;
+      align-items: flex-end;
+    }
     a {
       color: ${props => props.theme.offWhite};
       margin-left: 1rem;
@@ -180,6 +185,9 @@ class Page extends Component {
                     </a>
                     <a href="https://www.linkedin.com/company/ours-to-save/" target="_blank">
                       <img src="linkedin.svg" alt="linkedin logo"/>
+                    </a>
+                    <a href="https://www.instagram.com/ours.tosave/?utm_source=ig_embed&utm_campaign=loading" target="_blank">
+                      <img src="instagram.svg" alt="instagram logo"/>
                     </a>
                   </span>
                   <span className="contact">
