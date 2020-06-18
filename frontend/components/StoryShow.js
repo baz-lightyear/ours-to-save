@@ -89,8 +89,6 @@ class StoryShow extends Component {
     render() {
         const today = new Date()
         const formattedToday = `${today.getFullYear()}-${today.getMonth() + 1 < 10 ? "0" : ""}${today.getMonth()+1}-${today.getDate() < 10 ? "0" : ""}${today.getDate()}`
-        timeFromNow(this.props.story.createdAt)
-
         return (
             <Container>
                 {this.props.story.createdAt.substring(0, 10) === formattedToday && <span className="breaking">BREAKING</span>}
@@ -121,14 +119,14 @@ class StoryShow extends Component {
                         )
                     })}
                 </div>
-                {/* <div className="sharing">
+                <div className="sharing">
                     <div className="icons">
                         <p>Share:</p>
                         <EmailShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
                         <FacebookShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
                         <TwitterShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                     </div>
-                </div> */}
+                </div>
             </Container>
         );
     }

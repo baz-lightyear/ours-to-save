@@ -27,7 +27,9 @@ class Signin extends Component {
               e.preventDefault();
               await signup();
               this.setState({ name: '', email: '', password: '' });   
-              Router.reload();
+              Router.push({
+                pathname: '/news',
+              });
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>
