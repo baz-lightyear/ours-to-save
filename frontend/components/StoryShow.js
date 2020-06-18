@@ -89,6 +89,10 @@ const Container = styled.div`
 
 class StoryShow extends Component {
     render() {
+        const today = new Date()
+        const formattedToday = `${today.getFullYear()}-${today.getMonth() + 1 < 10 ? "0" : ""}${today.getMonth()+1}-${today.getDate() < 10 ? "0" : ""}${today.getDate()}`
+        timeFromNow(this.props.story.createdAt)
+
         return (
             <Container>
                 {this.props.story.createdAt.substring(0, 10) === formattedToday && <span className="breaking">BREAKING</span>}
