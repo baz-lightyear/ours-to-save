@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Head from 'next/head'
 import { endpoint, prodEndpoint } from '../config.js';
 import FeatureShow from '../components/FeatureShow';
-import Kickstarter from '../components/Kickstarter';
 import { optimiseCloudinary } from '../lib/utils'
 
 class feature extends Component {

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import StoryShow from '../components/StoryShow';
 import Head from 'next/head'
 import { endpoint, prodEndpoint } from '../config.js';
-import Kickstarter from '../components/Kickstarter';
 import {optimiseCloudinary} from '../lib/utils';
 
 

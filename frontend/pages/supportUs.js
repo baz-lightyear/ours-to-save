@@ -51,14 +51,6 @@ const Container = styled.div`
 `;
 
 class supportUs extends Component {
-    handleClick = () => {
-        Swal.fire({
-            title: "We're not quite ready",
-            text: "Thanks for taking an interest in supporting us. Our Kickstarter campaign hasn't quite begun but if you'd like to keep up to date with all the latest updates from us, you can subscribe to our mailing list. Just hit the 'subscribe' button in the menu.",
-            icon: 'warning',
-            confirmButtonColor: '#329094'
-        })
-    }
     render() {
         return (
             <Container>

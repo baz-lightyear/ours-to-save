@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Kickstarter from '../components/Kickstarter';
 import Link from 'next/link'
 
 const Container = styled.div`
