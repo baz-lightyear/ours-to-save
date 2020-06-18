@@ -19,7 +19,7 @@ class OtherArticles extends Component {
                 <h2>Some other recent posts to explore</h2>
                 <Query query={STORIES_QUERY}>
                 {({ data, error, loading }) => {
-                    if (loading) return <p>Loading...</p>;
+                    if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
                     if (error) return <p>Error: {error.message}</p>;
                     return (
                         <div>

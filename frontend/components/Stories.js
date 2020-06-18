@@ -46,7 +46,7 @@ class Stories extends Component {
         return (
             <Query query={STORIES_QUERY}>
                 {({ data, error, loading }) => {
-                    if (loading) return <><p>Loading...</p><img src="loading.gif" alt="loading" height="50"/></>;
+                    if (loading) return <><p style={{margin: "1rem", textAlign: "center"}}>Loading...</p><img src="loading.gif" alt="loading" height="50"  style={{margin: "auto", display: "block"}}/></>;
                     if (error) return <p>Error: {error.message}</p>;
                     return (
                         <Container>
