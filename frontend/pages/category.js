@@ -26,6 +26,7 @@ const Container = styled.div`
     #features {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
     }
 `
 
@@ -56,7 +57,7 @@ class category extends Component {
                     const features = data.categoryFeatures
                     return (
                         <Container>
-                            <CategoryTab/>
+                            <CategoryTab category={this.props.category}/>
                             <h1>{this.props.category}</h1>
                             <p className="description">{this.describe(this.props.category)}</p>
                             <div id="latestFeature">

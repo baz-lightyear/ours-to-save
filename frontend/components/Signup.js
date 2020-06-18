@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 import Error from './Error';
 import { SIGNUP_MUTATION, CURRENT_USER_QUERY } from './Apollo';
 import Swal from 'sweetalert2';
@@ -31,17 +30,17 @@ class Signup extends Component {
               e.preventDefault();
               await signup();
               this.setState({ name: '', email: '', password: '' });
-            Swal.fire({
-              title: `Welcome to the family`,
-              text: `Thanks for signing up. We've sent you an email confirming`,
-              icon: 'success',
-              confirmButtonColor: '#4B4C53',
-              onClose: () => {
-                Router.push('/').then(() =>{
-                  Router.reload();
-                })
-              }
-            })
+              Swal.fire({
+                title: `Welcome to Ours to Save`,
+                text: `Thanks for signing up.`,
+                icon: 'success',
+                confirmButtonColor: '#4B4C53',
+                onClose: () => {
+                  Router.push('/').then(() =>{
+                    Router.reload();
+                  })
+                }
+              })
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>
@@ -58,15 +57,15 @@ class Signup extends Component {
                 />
               <label htmlFor="email">
                 Email
-                <input
-                  type="email"
-                  required
-                  name="email"
-                  // placeholder="email"
-                  value={this.state.email}
-                  onChange={this.saveToState}
-                />
               </label>
+              <input
+                type="email"
+                required
+                name="email"
+                // placeholder="email"
+                value={this.state.email}
+                onChange={this.saveToState}
+              />
               </label>
               <label htmlFor="password">
                 Password

@@ -13,7 +13,7 @@ import {
 } from "react-share";
 import MapStoryShow from './MapStoryShow';
 import OtherArticles from './OtherArticles';
-import {optimiseCloudinary} from '../lib/utils';
+import {optimiseCloudinary, timeFromNow} from '../lib/utils';
 
 
 const Container = styled.div`
@@ -34,8 +34,8 @@ const Container = styled.div`
     .date {
         font-family: ${props => props.theme.sansSerif};
         opacity: 0.5;
-        display: flex;
-        justify-content: space-between;
+        /* display: flex;
+        justify-content: space-between; */
     }
     .title {
         margin-top: 4px;
@@ -89,14 +89,14 @@ const Container = styled.div`
 
 class StoryShow extends Component {
     render() {
-        const today = new Date()
-        const formattedToday = `${today.getFullYear()}-${today.getMonth() + 1 < 10 ? "0" : ""}${today.getMonth()+1}-${today.getDate() < 10 ? "0" : ""}${today.getDate()}`
         return (
             <Container>
                 {this.props.story.createdAt.substring(0, 10) === formattedToday && <span className="breaking">BREAKING</span>}
                 <div className="date">
-                    <Moment date={this.props.story.createdAt} format="HH:mm"/>
-                    <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/>
+                    {/* <Moment date={this.props.story.createdAt} format="HH:mm"/>
+                    <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> */}
+                    {timeFromNow(this.props.story.createdAt)}
+
                 </div>
                 <h3 className="title">{this.props.story.title}</h3>
                 <h3 className="author">{this.props.story.author} ﹒ {this.props.story.country}</h3>
@@ -119,14 +119,14 @@ class StoryShow extends Component {
                         )
                     })}
                 </div>
-                <div className="sharing">
+                {/* <div className="sharing">
                     <div className="icons">
                         <p>Share:</p>
                         <EmailShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
                         <FacebookShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
                         <TwitterShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                     </div>
-                </div>
+                </div> */}
             </Container>
         );
     }

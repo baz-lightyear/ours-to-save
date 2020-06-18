@@ -61,7 +61,7 @@ const Query = {
             {
                 where: {approved: true},
                 orderBy: args.orderBy,
-                first: 5
+                first: 6
             },
             info
         )

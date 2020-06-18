@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
+const sgMail = require('@sendgrid/mail');
+
 
 
 
@@ -87,16 +89,6 @@ const Mutation = {
           // sameSite: 'none',
           // secure: true ,
         });
-        // sgMail.setApiKey(process.env.SENDGRID_API);
-        // const msg = {
-        //   to: `${user.email}`,
-        //   from: 'sayhello@sayplants.com',
-        //   subject: 'Welcome to SayPlants',
-        //   text: 'Welcome to SayPlants',
-        //   template_id: "d-2fd1d523ae4a4c258429f412d2a58900",
-        //   html: "Welcome to SayPlants",
-        // };
-        // sgMail.send(msg).catch(err => console.log(err.response.body))
         return user
       },
       async signin(parent, { email, password }, ctx, info) {
@@ -131,23 +123,26 @@ const Mutation = {
         }
         const randomBytesPromiseified = promisify(randomBytes);
         const resetToken = (await randomBytesPromiseified(20)).toString('hex');
+
         const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now
         const res = await ctx.db.mutation.updateUser({
           where: { email: args.email },
           data: { resetToken, resetTokenExpiry },
         });
-        // sgMail.setApiKey(process.env.SENDGRID_API);
-        //   const msg = {
-        //     to: `${user.email}`,
-        //     from: 'marcus.rapacioli@gmail.com',
-        //     subject: 'Password reset link',
-        //     text: 'Password reset link',
-        //     html: `Please click on the link to reset your password 👌
-        //     \n\n
-        //     <a href="${process.env
-        //       .FRONTEND_URL}/reset?resetToken=${resetToken}">Reset password</a>`,
-        //   };
-        //   sgMail.send(msg);
+
+        sgMail.setApiKey(process.env.SENDGRID_API);
+        const msg = {
+          to: `${user.email}`,
+          from: 'harry@ourstosave.com',
+          subject: 'Password reset link',
+          text: 'Password reset link',
+          html: `Please click on the link to reset your password 👌
+            \n\n
+            <a href="${process.env
+              .FRONTEND_URL}/reset?resetToken=${resetToken}">Reset password</a>`,
+          };
+        sgMail.send(msg).catch(err => console.log(err.response.body));
+
         return { message: 'Thanks!' };
       },
       async resetPassword(parent, args, ctx, info) {

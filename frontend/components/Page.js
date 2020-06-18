@@ -42,8 +42,31 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         font-size: 1rem;
     }
+    p {
+      a {
+          text-decoration: none;
+          color: ${props => props.theme.green};
+          font-weight: bolder;
+          &:hover {
+            opacity: 0.8;
+          }
+      }
+    }
     a {
-        text-decoration: none;
+      text-decoration: none;
+    }
+    button {
+      padding: 0.5rem 2rem;
+      font-family: ${props => props.theme.sansSerif};
+      font-weight: 700;
+      margin: 1rem;
+      border: solid 2px ${props => props.theme.green};
+      background-color: transparent;
+      color: ${props => props.theme.green};
+      &:hover {
+          color: ${props => props.theme.black};
+          border: solid 2px ${props => props.theme.black};
+      }
     }
 `
 
@@ -82,6 +105,13 @@ const Footer = styled.div`
       &:hover {
         opacity: 0.5;
       }
+    }
+  }
+  .contact {
+    margin-right: 1rem;
+    a {
+      color: ${props => props.theme.offWhite};
+      margin-left: 1rem;
     }
   }
 `;
@@ -141,7 +171,21 @@ class Page extends Component {
                 <Header />
                 <span className="flexGrow">{this.props.children}</span>
                 <Footer>
-                  <span className="socialLinks"><a href="https://twitter.com/ourstosave" target="_blank"><img className="twitter" src="twitter.png" alt="twitter logo"/></a><a href="https://www.facebook.com/ourstosave" target="_blank"><img src="facebook.png" alt="facebook logo"/></a></span>
+                  <span className="socialLinks">
+                    <a href="https://twitter.com/ourstosave" target="_blank">
+                      <img className="twitter" src="twitter.png" alt="twitter logo"/>
+                    </a>
+                    <a href="https://www.facebook.com/ourstosave" target="_blank">
+                      <img src="facebook.png" alt="facebook logo"/>
+                    </a>
+                    <a href="https://www.linkedin.com/company/ours-to-save/" target="_blank">
+                      <img src="linkedin.svg" alt="linkedin logo"/>
+                    </a>
+                  </span>
+                  <span className="contact">
+                    <Link href="suggestContent"><a>suggest content</a></Link>
+                    <Link href="contact"><a>contact</a></Link>
+                  </span>
                 </Footer>
             </StyledPage>
             <GlobalStyle/>

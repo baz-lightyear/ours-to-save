@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import StoryShow from './StoryShow';
 import { InView } from 'react-intersection-observer'
+import Link from 'next/link'
 
 
 const Container = styled.div`
@@ -25,7 +26,7 @@ class Feed extends Component {
                 <div id="feedHeader">
                     <h2>Live, crowdsourced news feed</h2>
                     <p>The front page of climate change, in real time.</p>
-                    <p>Add here</p>
+                    <p>Add <Link href="/addStory"><a>here</a></Link>.</p>
                 </div>
                 {this.props.stories.map((story, i) => {
                     return <StoryShow key={story.id} story={story}/>

@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import styled from 'styled-components';
 import StoryModalContent from './StoryModalContent'
 import Moment from 'react-moment';
+import {timeFromNow} from '../lib/utils';
 
 const StyledHeader = styled.div`
     display: flex;
@@ -36,8 +37,7 @@ function StoryModal(props) {
                 <span>{props.story.country}</span>
                 <span>﹒</span>
                 <span className="dates">
-                  <Moment date={props.story.createdAt} format="HH:mm"/>
-                  <Moment date={props.story.createdAt} format="DD-MM-YYYY"/>
+                  {timeFromNow(props.story.createdAt)}
                 </span>  
               </StyledHeader>
             </Modal.Header>

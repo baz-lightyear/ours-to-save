@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import Router from 'next/router';
 import React, { Component } from 'react';
 import Subscribe from './Subscribe';
+import Signout from './Signout';
+import LoginModal from './LoginModal';
+import { CURRENT_USER_QUERY } from './Apollo';
+import { Query } from 'react-apollo'
+
 
 const Container = styled.div`
   .filler {
@@ -47,6 +52,23 @@ const Container = styled.div`
         opacity: 0.7;
       }
     }
+    #account {
+      button {
+        margin: 0;
+        margin-left: 2rem;
+        font-size: 1.2rem;
+        font-weight: normal;
+        color: ${props => props.theme.offWhite};
+        &:hover {
+          opacity: 0.7;
+        }
+        &:active {
+          outline: none;
+        }
+        padding: 0;
+        border: none;
+      }
+    }
   }
   @media (min-width: 951px) {
     .flex {
@@ -70,7 +92,7 @@ const Container = styled.div`
         display: block;
         .burgerDiv {
           background-color: ${props => props.theme.green};
-          width: 140px;
+          width: 200px;
           height: 40px;
           text-align: right;
           position: relative;
@@ -102,9 +124,25 @@ const Container = styled.div`
               color: ${props => props.theme.black};
               line-height: 2;
             }
+            .featuresButton {
+              border-bottom: solid 1px ${props => props.theme.lightgreen};
+            }
+            #account {
+              button {
+                margin: 0;
+                font-weight: normal;
+                color: ${props => props.theme.black};
+                line-height: 2;
+                &:active {
+                  outline: none;
+                }
+                padding: 0;
+                border: none;
+              }
+            }
           }
           &.inactive {
-            transform: translateY(-200px);
+            transform: translateY(-360px);
             background-color: ${props => props.theme.offWhite};
             transition-duration: 0.3s;
             position: absolute;
@@ -137,56 +175,91 @@ class Header extends Component {
   }
   render () {
     return (
-      <Container>
-        <div className="flex">
-          <div className="logo">
-            <Link href="/">
-              <a>
-                <img src="/flossfist.png" alt="logo"/>
-                ours to save
-              </a>
-            </Link>
-          </div>
-          <div className="links">
-            <Link href="/feed">
-              <a>live feed</a>
-            </Link>
-            <Link href="/news">
-              <a>features</a>
-            </Link>
-            <Link href="/about">
-              <a>about</a>
-            </Link>
-            <Link href="/supportUs">
-              <a>support us</a>
-            </Link>
-            <Subscribe/>
-          </div>
-          <div className='mobileBurger' onClick={this.toggle}>
-            <div className="burgerDiv">
-              <img src="burger.png" alt="burgerMenuIcon" className={this.state.toggle}/>
-            </div>
-            <div className={this.state.toggle}>
-              <div className="dropdown">
-                <Link href="/map">
-                  <a>map</a>
-                </Link>
-                <Link href="/news">
-                  <a>features</a>
-                </Link>
-                <Link href="/about">
-                  <a>about</a>
-                </Link>
-                <Link href="/supportUs">
-                  <a>support us</a>
-                </Link>
-                <Subscribe/>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="filler"></div>
-      </Container>
+      <Query query={CURRENT_USER_QUERY}>
+          {({data, error, loading}) => {
+            if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+            if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+            const me = data.me === null ? null : data.me
+            return (
+              <Container>
+                <div className="flex">
+                  <div className="logo">
+                    <Link href="/">
+                      <a>
+                        <img src="/flossfist.png" alt="logo"/>
+                        ours to save
+                      </a>
+                    </Link>
+                  </div>
+                  <div className="links">
+                    <Link href="/news">
+                      <a>news</a>
+                    </Link>
+                    <Link href="/feed">
+                      <a>map</a>
+                    </Link>
+                    <Link href="/features">
+                      <a>features</a>
+                    </Link>
+                    <Link href="/about">
+                      <a>about</a>
+                    </Link>
+                    <Link href="/supportUs">
+                      <a>support us</a>
+                    </Link>
+                    <div id="account">
+                      { !me && <LoginModal>log in / sign up</LoginModal>}
+                      { me && <Signout/>}
+                    </div>
+                    {/* <Subscribe/> */}
+                  </div>
+                  <div className='mobileBurger' onClick={this.toggle}>
+                    <div className="burgerDiv">
+                      <img src="burger.png" alt="burgerMenuIcon" className={this.state.toggle}/>
+                    </div>
+                    <div className={this.state.toggle}>
+                      <div className="dropdown">
+                        <Link href="/news">
+                          <a>news</a>
+                        </Link>
+                        <Link href="/feed">
+                          <a>map</a>
+                        </Link>
+                        <Link href="/features">
+                          <a className="featuresButton">features</a>
+                        </Link>
+                        <Link href={{pathname: '/category', query: { category: "innovation" }}}>
+                          <a className="category">innovation ←</a>
+                        </Link>
+                        <Link href={{pathname: '/category', query: { category: "conservation" }}}>
+                          <a className="category">conservation ←</a>
+                        </Link>
+                        <Link href={{pathname: '/category', query: { category: "inspiration" }}}>
+                          <a className="category">inspiration ←</a>
+                        </Link>
+                        <Link href={{pathname: '/category', query: { category: "power" }}}>
+                          <a className="category featuresButton">power ←</a>
+                        </Link>
+                        <Link href="/about">
+                          <a>about</a>
+                        </Link>
+                        <Link href="/supportUs">
+                          <a>support us</a>
+                        </Link>
+                        <div id="account">
+                          { !me && <LoginModal>log in / sign up</LoginModal>}
+                          { me && <Signout/>}
+                        </div>
+                       {/* you need to include the feature types in here */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="filler"></div>
+              </Container>
+             )
+          }}
+        </Query>
     )
   }
 }

@@ -100,9 +100,9 @@ class CreateStory extends Component {
         title: '',
         content: '',
         address: '',
-        morality: '',
+        // morality: '',
         author: '',
-        interestedInFeatureEmail: '',
+        // interestedInFeatureEmail: '',
         image: '',
         loading: false
     };
@@ -158,15 +158,15 @@ class CreateStory extends Component {
                                 confirmButtonColor: '#329094'
                             })
                             this.setState({ title: "", content: "", address: "", author: "", morality: "", interestedInFeatureEmail: ""})
-                            this.closeModal()
+                            // this.closeModal()
                             Router.push({
-                                pathname: '/map',
+                                pathname: '/feed',
                             });
                         }}
                     >
                         <div>
                             <fieldset disabled={loading} aria-busy={loading} >
-                                <label htmlFor="title">What happened?<super>*</super></label>
+                                <label htmlFor="title">Summarise what happened<super>*</super></label>
                                 <br/>
                                 <input
                                     type="text"
@@ -181,17 +181,17 @@ class CreateStory extends Component {
 
                                 <label htmlFor="content">Share some of the details:<super>*</super></label>
                                 <br/>
-                                <small>It's great if you can refer to a source too.</small>
+                                <small>It's great if you can refer to a source too. </small>
 
                                 <StoryEditor saveContent={this.saveContent}/>
-
+{/* 
                                 <div className="morality">
                                     <div onClick={this.setMoralityGood} className={this.state.morality === "good" ? "clicked" : ""}><p>This is good news</p></div>
                                     <div onClick={this.setMoralityBad} id="middleMorality" className={this.state.morality === "bad" ? "clicked" : ""}><p>This is bad news</p></div>
                                     <div onClick={this.setMoralityBetween} className={this.state.morality === "inbetween" ? "clicked" : ""}><p>This is somewhere in between</p></div>
-                                </div>
+                                </div> */}
                                 <label htmlFor="file">
-                                    If you like, add a picture (you can drag and drop)
+                                    If you like, add a picture.
                                 </label>
                                 <br/>
                                 <input
@@ -206,7 +206,6 @@ class CreateStory extends Component {
                                 )}
                                 <label htmlFor="address">Where did this happen?<super>*</super>
                                     <br/>
-                                    <small>Try to include a postcode / zipcode if you can - it's easier for us to find it</small>
                                 </label>
                                 <br/>
                                 <input
@@ -220,7 +219,7 @@ class CreateStory extends Component {
                                 />
                                 <br/>
                                 <label htmlFor="author">
-                                    Your name:
+                                    Your name, or attribute where you originally found the story
                                     <br/>
                                     <small>Defaults to "Anonymous"</small>
                                 </label>
@@ -234,7 +233,7 @@ class CreateStory extends Component {
                                     onChange={this.handleChange}
                                 />
                                 <br/>
-                                <label for="interestedInFeatureEmail">Email (so we can stay in touch 💚)</label>
+                                {/* <label for="interestedInFeatureEmail">Email (so we can stay in touch 💚)</label>
                                 <br/>
                                 <input
                                     type="text"
@@ -243,11 +242,11 @@ class CreateStory extends Component {
                                     placeholder="e.g. florence@ourstosave.com"
                                     value={this.state.interestedInFeatureEmail}
                                     onChange={this.handleChange}
-                                />
+                                /> */}
                                 <div className="submit">
                                     <button id="submit" type="submit">submit post</button>
                                     <br/>
-                                    <small>By submitting this post I promise that it is true (to the best of my knowledge) and is written in a respectful tone.</small>
+                                    <small>By submitting this post I promise that it is true (to the best of my knowledge)</small>
                                 </div>
                             </fieldset>
                             <Error error={error} />

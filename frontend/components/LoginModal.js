@@ -14,7 +14,7 @@ const Forms = styled.div`
   font-family: ${props=>props.theme.sansSerif};
   #explanation {
     background-color: ${props=>props.theme.lightblue};
-    color: ${props=>props.theme.navy};
+    color: ${props=>props.theme.black};
     border-radius: 4px;
     padding: 1rem;
     margin: 0;
@@ -37,8 +37,8 @@ const Forms = styled.div`
     }
 
     button {
-    letter-spacing: 2px;
-    margin-top: 1rem;
+      letter-spacing: 2px;
+      margin-top: 1rem;
     }
   }
   .google {
@@ -108,7 +108,7 @@ const Forms = styled.div`
     padding: 0px;
 
     input {
-      padding: 4px;
+      padding: 4px 8px;
       width: 100%;
       height: 45px;
       border-radius: 4px;
@@ -215,13 +215,12 @@ class LoginModal extends Component {
         <button onClick={this.handleShow}>{this.props.children}</button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <StyledModal>
-            <Modal.Header>
-              <Modal.Title><span id="modalTitle">LOGIN TO SAYPLANTS</span></Modal.Title>
-              <button onClick={this.handleClose} id="backButton"><img src="x.svg" alt="grey cross"/></button>
+            <Modal.Header closeButton>
+              <Modal.Title><span id="modalTitle">YOUR DETAILS</span></Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Forms>
-                <p id="explanation">To get the best out of Ours to Save, you'll need to sign in or create an account.</p>
+                <p id="explanation">To get the best out of Ours to Save, you'll need to sign in or sign up.</p>
                 <div className={this.state.signin ? "signin" : "hide" }>
                   <Signin/>
                   <div className="text">
@@ -235,13 +234,10 @@ class LoginModal extends Component {
                     <p>Already have an account? <span onClick={this.handleSignin}>Login</span></p>
                   </div>
                 </div>
-                {/* <div className={this.state.google ? "google" : "hide" }> */}
-                  {/* <GoogleSigninUp/> */}
-                {/* </div> */}
                 <div className={this.state.reset ? "reset" : "hide" }>
                   <RequestReset/>
                   <div className="text">
-                    <span onClick={this.handleSignin}>Remembered it!</span>
+                    <span onClick={this.handleSignin}>Remembered it</span>
                   </div>
                 </div>
               </Forms>

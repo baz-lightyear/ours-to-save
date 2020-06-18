@@ -13,6 +13,7 @@ const Container = styled.div`
         color: ${props => props.theme.black};
         h2 {
             /* margin-top: 0; */
+            margin-bottom: 0;
         }
         .breaking {
             padding: 4px 0.5rem;
@@ -22,6 +23,12 @@ const Container = styled.div`
             font-weight: bolder;
             color: white;
             letter-spacing: 1px;
+        }
+        .category {
+            text-transform: capitalize;
+            font-family: ${props => props.theme.sansSerif};
+            margin-top: 0;
+            color: ${props => props.theme.green};
         }
         .author {
             opacity: 0.5;
@@ -35,6 +42,12 @@ const Container = styled.div`
     &:hover {
         box-shadow: 0px 0px 4px rgba(50,50,50,0.3);
     }
+    @media (max-width: 700px) {
+        flex-direction: column-reverse;
+        img {
+            width: 100%;
+        }
+    }
 `;
 
 class LatestFeature extends Component {
@@ -46,6 +59,7 @@ class LatestFeature extends Component {
                         <div className="content">
                             <span className="breaking">LATEST FEATURE</span>
                             <h2>{this.props.feature.title}</h2>
+                            <p className="category">{this.props.feature.category}</p>
                             <p className="author">{this.props.feature.author}</p>
                             <p>{this.props.feature.subtitle}</p>
                         </div>

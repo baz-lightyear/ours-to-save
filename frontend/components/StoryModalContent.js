@@ -114,14 +114,14 @@ class StoryShow extends Component {
                                     )
                                 })}
                             </div>
-                            <div className="sharing">
+                            {/* <div className="sharing">
                                 <div className="icons">
                                     <p>Share:</p>
                                     <EmailShareButton url={`https://www.ourstosave.com/story?id=${story.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
                                     <FacebookShareButton url={`https://www.ourstosave.com/story?id=${story.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
                                     <TwitterShareButton url={`https://www.ourstosave.com/story?id=${story.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                                 </div>
-                            </div>
+                            </div> */}
                         </Container>
                     )
                 }}

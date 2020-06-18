@@ -6,13 +6,12 @@ import Moment from 'react-moment';
 import Link from 'next/link';
 
 const Container = styled.div`
-    width: 40%;
+    height: 100%;
     background-color: #fbfbfb;
     border: solid 1px ${props => props.theme.lightgreen};
     max-height: 70vh;
     position: relative;
     overflow: hidden;
-    margin-left: 0.5rem;
     &:hover {
         box-shadow: 0px 0px 4px rgba(100,100,100,0.3);
     }
@@ -49,7 +48,7 @@ const Container = styled.div`
             }
         }
     }
-    .link {
+    .seeAll {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -60,6 +59,9 @@ const Container = styled.div`
         text-align: center;
         padding: 0.5rem;
         color: ${props => props.theme.green}
+    }
+    @media (max-width: 800px) {
+        max-height: 50vh;
     }
 `
 
@@ -75,7 +77,7 @@ class FeedPreview extends Component {
                         <Container>
                             <Link href="/feed">
                                 <a>
-                                    <p className="title"><strong>LATEST FROM THE FEED</strong></p>
+                                    <p className="title"><strong>LATEST FROM THE MAP</strong></p>
                                     <div className="stories">
                                         {stories.map(story => {
                                             return (
@@ -90,7 +92,7 @@ class FeedPreview extends Component {
                                             )
                                         })}
                                     </div>
-                                    <p className="link"><strong>SEE ALL ON FEED</strong></p>
+                                    <p className="seeAll"><strong>SEE ALL ON FEED</strong></p>
                                 </a>
                             </Link>
                         </Container>

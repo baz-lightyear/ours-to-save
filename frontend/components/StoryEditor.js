@@ -158,7 +158,7 @@ const TextEditor = (props) => {
                 <Editable
                     className="editable"
                     renderElement={props => <Element {...props} />}
-                    placeholder="What's been happening?"
+                    placeholder=""
                 />
             </Slate>
         </Container>

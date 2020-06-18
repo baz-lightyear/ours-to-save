@@ -5,19 +5,15 @@ const CREATE_STORY_MUTATION = gql`
     $title: String!
     $content: String!
     $address: String!
-    $morality: String!
     $author: String
-    $interestedInFeatureEmail: String
     $image: String
   ) {
     createStory(
       title: $title
       content: $content
       address: $address
-      morality: $morality
       author: $author
       image: $image
-      interestedInFeatureEmail: $interestedInFeatureEmail
     ) {
       title
     }
@@ -41,6 +37,7 @@ const LATEST_FEATURE_QUERY = gql`
       author
       createdAt
       featuredImage
+      category
     }
   }
 `;
@@ -54,6 +51,7 @@ const RECENT_FEATURES_QUERY = gql`
       author
       createdAt
       featuredImage
+      category
     }
   }
 `;
@@ -67,6 +65,7 @@ const BOOSTED_FEATURES_QUERY = gql`
       author
       createdAt
       featuredImage
+      category
     }
   }
 `;
@@ -136,6 +135,7 @@ const FEATURES_QUERY = gql`
       author
       createdAt
       featuredImage
+      category
     }
   }
 `;
@@ -169,6 +169,7 @@ const CATEGORY_FEATURES_QUERY = gql`
       author
       createdAt
       featuredImage
+      category
     }
   }
 `;

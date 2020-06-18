@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Kickstarter from '../components/Kickstarter';
+import Link from 'next/link'
 
 const Container = styled.div`
     width: 90%;
@@ -134,17 +135,15 @@ class about extends Component {
                         <h3>How does it work?</h3>
                         <p>Our climate map is free for all to access. You can scroll over the pins, checking out stories from your neighbourhood and much further afield. <br/><br/>
 
-On our news page you’ll find in-depth investigations of the issues raised on the map, features and op-eds by prominent and emerging journalists, and the back catalogue of all our pins and stories. <br/><br/>
-
-We are also in the process of building an initiatives page – a platform for purchasing eco-friendly produce, and supporting sustainable projects, research and ventures.</p>
+On our news page you’ll find in-depth investigations of the issues raised on the map, features and op-eds by prominent and emerging journalists.</p>
                     </div>
                 </div>
                 <div className="section3">
                     <div className="text">
                         <h3>Get in touch</h3>
-                        <p>If you’d like to submit a snippet of breaking news, you’ll find the <span className="green"><strong>add story</strong></span> button just underneath the climate map. <br/><br/>
+                        <p>If you’d like to submit a snippet of breaking news, you can do so <Link href="addStory"><a><strong>here</strong></a></Link>.<br/><br/>
 
-To pitch a longer feature, or if you’re interested in being listed on our initiatives page, please email <span className="green"><strong><a href="mailto:florence@ourstosave.com">florence@ourstosave.com</a></strong></span>. Tell us a bit about yourself and your idea.</p>
+To pitch a longer feature, please email <span className="green"><strong><a href="mailto:florence@ourstosave.com">florence@ourstosave.com</a></strong></span>. Tell us a bit about yourself and your idea.</p>
                     </div>
                     <div className="imgDiv"></div>
                 </div>
