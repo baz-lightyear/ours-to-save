@@ -5,6 +5,7 @@ How to push to production
 1.2. Run '$ npm run deploy' from backend
 
 2. Push Yoga
+
 2.1. Run the following, from top level folder
 
     git add .

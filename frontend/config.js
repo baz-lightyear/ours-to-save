@@ -1,2 +1,2 @@
 export const endpoint = `http://localhost:4000`;
-export const prodEndpoint = `https://www.yoga.ourstosave.com/`;
+export const prodEndpoint = `https://yoga.ourstosave.com/`;
