@@ -114,14 +114,18 @@ const Container = styled.div`
         }
         div {
           .dropdown {
-            padding: 1rem 1rem 1rem 2rem;
             display: flex;
             flex-direction: column;
             border-bottom: solid 6px ${props => props.theme.green};
             a {
+              padding: 0 1rem 0 2rem;
+              /* border-bottom: solid 1px ${props => props.theme.lightgreen};; */
               text-decoration: none;
               color: ${props => props.theme.black};
               line-height: 2;
+            }
+            .category {
+              background-color: white;
             }
             .featuresButton {
               border-bottom: solid 1px ${props => props.theme.lightgreen};
@@ -129,13 +133,14 @@ const Container = styled.div`
             #account {
               button {
                 margin: 0;
+                padding: 0;
+                padding-right: 1rem;
                 font-weight: normal;
                 color: ${props => props.theme.black};
                 line-height: 2;
                 &:active {
                   outline: none;
                 }
-                padding: 0;
                 border: none;
               }
             }

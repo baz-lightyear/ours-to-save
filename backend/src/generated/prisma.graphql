@@ -1,11 +1,11 @@
 # source: https://ours-to-save-prod-e8112953ab.herokuapp.com
-# timestamp: Sun Jun 14 2020 00:07:55 GMT+0100 (British Summer Time)
+# timestamp: Fri Jun 19 2020 12:00:30 GMT+0100 (British Summer Time)
 
-type AggregateComment {
+type AggregateFeature {
   count: Int!
 }
 
-type AggregateFeature {
+type AggregateFeatureComment {
   count: Int!
 }
 
@@ -22,53 +22,89 @@ type BatchPayload {
   count: Long!
 }
 
-type Comment implements Node {
+scalar DateTime
+
+type Feature implements Node {
+  id: ID!
+  title: String
+  subtitle: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  author: String
+  bio: String
+  content: String
+  approved: Boolean
+  featuredImage: String
+  address: String
+  longitude: Float
+  latitude: Float
+  category: String
+  leading: Boolean
+  comments(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FeatureComment!]
+}
+
+type FeatureComment implements Node {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
   author: User
   approved: Boolean
   content: String
+  feature: Feature
 }
 
 """A connection to a list of items."""
-type CommentConnection {
+type FeatureCommentConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [CommentEdge]!
-  aggregate: AggregateComment!
+  edges: [FeatureCommentEdge]!
+  aggregate: AggregateFeatureComment!
 }
 
-input CommentCreateInput {
+input FeatureCommentCreateInput {
   id: ID
   approved: Boolean
   content: String
-  author: UserCreateOneWithoutCommentsInput
+  author: UserCreateOneWithoutFeatureCommentsInput
+  feature: FeatureCreateOneWithoutCommentsInput
 }
 
-input CommentCreateManyWithoutAuthorInput {
-  create: [CommentCreateWithoutAuthorInput!]
-  connect: [CommentWhereUniqueInput!]
+input FeatureCommentCreateManyWithoutAuthorInput {
+  create: [FeatureCommentCreateWithoutAuthorInput!]
+  connect: [FeatureCommentWhereUniqueInput!]
 }
 
-input CommentCreateWithoutAuthorInput {
+input FeatureCommentCreateManyWithoutFeatureInput {
+  create: [FeatureCommentCreateWithoutFeatureInput!]
+  connect: [FeatureCommentWhereUniqueInput!]
+}
+
+input FeatureCommentCreateWithoutAuthorInput {
   id: ID
   approved: Boolean
   content: String
+  feature: FeatureCreateOneWithoutCommentsInput
+}
+
+input FeatureCommentCreateWithoutFeatureInput {
+  id: ID
+  approved: Boolean
+  content: String
+  author: UserCreateOneWithoutFeatureCommentsInput
 }
 
 """An edge in a connection."""
-type CommentEdge {
+type FeatureCommentEdge {
   """The item at the end of the edge."""
-  node: Comment!
+  node: FeatureComment!
 
   """A cursor for use in pagination."""
   cursor: String!
 }
 
-enum CommentOrderByInput {
+enum FeatureCommentOrderByInput {
   id_ASC
   id_DESC
   createdAt_ASC
@@ -81,7 +117,7 @@ enum CommentOrderByInput {
   content_DESC
 }
 
-type CommentPreviousValues {
+type FeatureCommentPreviousValues {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -89,15 +125,15 @@ type CommentPreviousValues {
   content: String
 }
 
-input CommentScalarWhereInput {
+input FeatureCommentScalarWhereInput {
   """Logical AND on all given filters."""
-  AND: [CommentScalarWhereInput!]
+  AND: [FeatureCommentScalarWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [CommentScalarWhereInput!]
+  OR: [FeatureCommentScalarWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [CommentScalarWhereInput!]
+  NOT: [FeatureCommentScalarWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -228,22 +264,22 @@ input CommentScalarWhereInput {
   content_not_ends_with: String
 }
 
-type CommentSubscriptionPayload {
+type FeatureCommentSubscriptionPayload {
   mutation: MutationType!
-  node: Comment
+  node: FeatureComment
   updatedFields: [String!]
-  previousValues: CommentPreviousValues
+  previousValues: FeatureCommentPreviousValues
 }
 
-input CommentSubscriptionWhereInput {
+input FeatureCommentSubscriptionWhereInput {
   """Logical AND on all given filters."""
-  AND: [CommentSubscriptionWhereInput!]
+  AND: [FeatureCommentSubscriptionWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [CommentSubscriptionWhereInput!]
+  OR: [FeatureCommentSubscriptionWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [CommentSubscriptionWhereInput!]
+  NOT: [FeatureCommentSubscriptionWhereInput!]
 
   """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
@@ -262,67 +298,98 @@ input CommentSubscriptionWhereInput {
   The subscription event gets only dispatched when some of the field names included in this list have been updated
   """
   updatedFields_contains_some: [String!]
-  node: CommentWhereInput
+  node: FeatureCommentWhereInput
 }
 
-input CommentUpdateInput {
+input FeatureCommentUpdateInput {
   approved: Boolean
   content: String
-  author: UserUpdateOneWithoutCommentsInput
+  author: UserUpdateOneWithoutFeatureCommentsInput
+  feature: FeatureUpdateOneWithoutCommentsInput
 }
 
-input CommentUpdateManyDataInput {
-  approved: Boolean
-  content: String
-}
-
-input CommentUpdateManyMutationInput {
+input FeatureCommentUpdateManyDataInput {
   approved: Boolean
   content: String
 }
 
-input CommentUpdateManyWithoutAuthorInput {
-  create: [CommentCreateWithoutAuthorInput!]
-  connect: [CommentWhereUniqueInput!]
-  set: [CommentWhereUniqueInput!]
-  disconnect: [CommentWhereUniqueInput!]
-  delete: [CommentWhereUniqueInput!]
-  update: [CommentUpdateWithWhereUniqueWithoutAuthorInput!]
-  updateMany: [CommentUpdateManyWithWhereNestedInput!]
-  deleteMany: [CommentScalarWhereInput!]
-  upsert: [CommentUpsertWithWhereUniqueWithoutAuthorInput!]
-}
-
-input CommentUpdateManyWithWhereNestedInput {
-  where: CommentScalarWhereInput!
-  data: CommentUpdateManyDataInput!
-}
-
-input CommentUpdateWithoutAuthorDataInput {
+input FeatureCommentUpdateManyMutationInput {
   approved: Boolean
   content: String
 }
 
-input CommentUpdateWithWhereUniqueWithoutAuthorInput {
-  where: CommentWhereUniqueInput!
-  data: CommentUpdateWithoutAuthorDataInput!
+input FeatureCommentUpdateManyWithoutAuthorInput {
+  create: [FeatureCommentCreateWithoutAuthorInput!]
+  connect: [FeatureCommentWhereUniqueInput!]
+  set: [FeatureCommentWhereUniqueInput!]
+  disconnect: [FeatureCommentWhereUniqueInput!]
+  delete: [FeatureCommentWhereUniqueInput!]
+  update: [FeatureCommentUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [FeatureCommentUpdateManyWithWhereNestedInput!]
+  deleteMany: [FeatureCommentScalarWhereInput!]
+  upsert: [FeatureCommentUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
-input CommentUpsertWithWhereUniqueWithoutAuthorInput {
-  where: CommentWhereUniqueInput!
-  update: CommentUpdateWithoutAuthorDataInput!
-  create: CommentCreateWithoutAuthorInput!
+input FeatureCommentUpdateManyWithoutFeatureInput {
+  create: [FeatureCommentCreateWithoutFeatureInput!]
+  connect: [FeatureCommentWhereUniqueInput!]
+  set: [FeatureCommentWhereUniqueInput!]
+  disconnect: [FeatureCommentWhereUniqueInput!]
+  delete: [FeatureCommentWhereUniqueInput!]
+  update: [FeatureCommentUpdateWithWhereUniqueWithoutFeatureInput!]
+  updateMany: [FeatureCommentUpdateManyWithWhereNestedInput!]
+  deleteMany: [FeatureCommentScalarWhereInput!]
+  upsert: [FeatureCommentUpsertWithWhereUniqueWithoutFeatureInput!]
 }
 
-input CommentWhereInput {
+input FeatureCommentUpdateManyWithWhereNestedInput {
+  where: FeatureCommentScalarWhereInput!
+  data: FeatureCommentUpdateManyDataInput!
+}
+
+input FeatureCommentUpdateWithoutAuthorDataInput {
+  approved: Boolean
+  content: String
+  feature: FeatureUpdateOneWithoutCommentsInput
+}
+
+input FeatureCommentUpdateWithoutFeatureDataInput {
+  approved: Boolean
+  content: String
+  author: UserUpdateOneWithoutFeatureCommentsInput
+}
+
+input FeatureCommentUpdateWithWhereUniqueWithoutAuthorInput {
+  where: FeatureCommentWhereUniqueInput!
+  data: FeatureCommentUpdateWithoutAuthorDataInput!
+}
+
+input FeatureCommentUpdateWithWhereUniqueWithoutFeatureInput {
+  where: FeatureCommentWhereUniqueInput!
+  data: FeatureCommentUpdateWithoutFeatureDataInput!
+}
+
+input FeatureCommentUpsertWithWhereUniqueWithoutAuthorInput {
+  where: FeatureCommentWhereUniqueInput!
+  update: FeatureCommentUpdateWithoutAuthorDataInput!
+  create: FeatureCommentCreateWithoutAuthorInput!
+}
+
+input FeatureCommentUpsertWithWhereUniqueWithoutFeatureInput {
+  where: FeatureCommentWhereUniqueInput!
+  update: FeatureCommentUpdateWithoutFeatureDataInput!
+  create: FeatureCommentCreateWithoutFeatureInput!
+}
+
+input FeatureCommentWhereInput {
   """Logical AND on all given filters."""
-  AND: [CommentWhereInput!]
+  AND: [FeatureCommentWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [CommentWhereInput!]
+  OR: [FeatureCommentWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [CommentWhereInput!]
+  NOT: [FeatureCommentWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -452,30 +519,11 @@ input CommentWhereInput {
   """All values not ending with the given string."""
   content_not_ends_with: String
   author: UserWhereInput
+  feature: FeatureWhereInput
 }
 
-input CommentWhereUniqueInput {
+input FeatureCommentWhereUniqueInput {
   id: ID
-}
-
-scalar DateTime
-
-type Feature implements Node {
-  id: ID!
-  title: String
-  subtitle: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  author: String
-  bio: String
-  content: String
-  approved: Boolean
-  featuredImage: String
-  address: String
-  longitude: Float
-  latitude: Float
-  category: String
-  leading: Boolean
 }
 
 """A connection to a list of items."""
@@ -489,6 +537,28 @@ type FeatureConnection {
 }
 
 input FeatureCreateInput {
+  id: ID
+  title: String
+  subtitle: String
+  author: String
+  bio: String
+  content: String
+  approved: Boolean
+  featuredImage: String
+  address: String
+  longitude: Float
+  latitude: Float
+  category: String
+  leading: Boolean
+  comments: FeatureCommentCreateManyWithoutFeatureInput
+}
+
+input FeatureCreateOneWithoutCommentsInput {
+  create: FeatureCreateWithoutCommentsInput
+  connect: FeatureWhereUniqueInput
+}
+
+input FeatureCreateWithoutCommentsInput {
   id: ID
   title: String
   subtitle: String
@@ -614,6 +684,7 @@ input FeatureUpdateInput {
   latitude: Float
   category: String
   leading: Boolean
+  comments: FeatureCommentUpdateManyWithoutFeatureInput
 }
 
 input FeatureUpdateManyMutationInput {
@@ -629,6 +700,35 @@ input FeatureUpdateManyMutationInput {
   latitude: Float
   category: String
   leading: Boolean
+}
+
+input FeatureUpdateOneWithoutCommentsInput {
+  create: FeatureCreateWithoutCommentsInput
+  connect: FeatureWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: FeatureUpdateWithoutCommentsDataInput
+  upsert: FeatureUpsertWithoutCommentsInput
+}
+
+input FeatureUpdateWithoutCommentsDataInput {
+  title: String
+  subtitle: String
+  author: String
+  bio: String
+  content: String
+  approved: Boolean
+  featuredImage: String
+  address: String
+  longitude: Float
+  latitude: Float
+  category: String
+  leading: Boolean
+}
+
+input FeatureUpsertWithoutCommentsInput {
+  update: FeatureUpdateWithoutCommentsDataInput!
+  create: FeatureCreateWithoutCommentsInput!
 }
 
 input FeatureWhereInput {
@@ -1096,6 +1196,9 @@ input FeatureWhereInput {
 
   """All values that are not equal to given value."""
   leading_not: Boolean
+  comments_every: FeatureCommentWhereInput
+  comments_some: FeatureCommentWhereInput
+  comments_none: FeatureCommentWhereInput
 }
 
 input FeatureWhereUniqueInput {
@@ -1110,27 +1213,27 @@ scalar Long
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
-  createComment(data: CommentCreateInput!): Comment!
+  createFeatureComment(data: FeatureCommentCreateInput!): FeatureComment!
   createFeature(data: FeatureCreateInput!): Feature!
   createStory(data: StoryCreateInput!): Story!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
+  updateFeatureComment(data: FeatureCommentUpdateInput!, where: FeatureCommentWhereUniqueInput!): FeatureComment
   updateFeature(data: FeatureUpdateInput!, where: FeatureWhereUniqueInput!): Feature
   updateStory(data: StoryUpdateInput!, where: StoryWhereUniqueInput!): Story
   deleteUser(where: UserWhereUniqueInput!): User
-  deleteComment(where: CommentWhereUniqueInput!): Comment
+  deleteFeatureComment(where: FeatureCommentWhereUniqueInput!): FeatureComment
   deleteFeature(where: FeatureWhereUniqueInput!): Feature
   deleteStory(where: StoryWhereUniqueInput!): Story
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
+  upsertFeatureComment(where: FeatureCommentWhereUniqueInput!, create: FeatureCommentCreateInput!, update: FeatureCommentUpdateInput!): FeatureComment!
   upsertFeature(where: FeatureWhereUniqueInput!, create: FeatureCreateInput!, update: FeatureUpdateInput!): Feature!
   upsertStory(where: StoryWhereUniqueInput!, create: StoryCreateInput!, update: StoryUpdateInput!): Story!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateManyComments(data: CommentUpdateManyMutationInput!, where: CommentWhereInput): BatchPayload!
+  updateManyFeatureComments(data: FeatureCommentUpdateManyMutationInput!, where: FeatureCommentWhereInput): BatchPayload!
   updateManyFeatures(data: FeatureUpdateManyMutationInput!, where: FeatureWhereInput): BatchPayload!
   updateManyStories(data: StoryUpdateManyMutationInput!, where: StoryWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  deleteManyComments(where: CommentWhereInput): BatchPayload!
+  deleteManyFeatureComments(where: FeatureCommentWhereInput): BatchPayload!
   deleteManyFeatures(where: FeatureWhereInput): BatchPayload!
   deleteManyStories(where: StoryWhereInput): BatchPayload!
 }
@@ -1170,15 +1273,15 @@ enum Permission {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
+  featureComments(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FeatureComment]!
   features(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Feature]!
   stories(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Story]!
   user(where: UserWhereUniqueInput!): User
-  comment(where: CommentWhereUniqueInput!): Comment
+  featureComment(where: FeatureCommentWhereUniqueInput!): FeatureComment
   feature(where: FeatureWhereUniqueInput!): Feature
   story(where: StoryWhereUniqueInput!): Story
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
+  featureCommentsConnection(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureCommentConnection!
   featuresConnection(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureConnection!
   storiesConnection(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection!
 
@@ -1208,6 +1311,7 @@ type Story implements Node {
   sponsored: Boolean
   leading: Boolean
   country: String
+  countUpvotes: Int
 }
 
 """A connection to a list of items."""
@@ -1237,6 +1341,7 @@ input StoryCreateInput {
   sponsored: Boolean
   leading: Boolean
   country: String
+  countUpvotes: Int
 }
 
 input StoryCreateManyInput {
@@ -1290,6 +1395,8 @@ enum StoryOrderByInput {
   leading_DESC
   country_ASC
   country_DESC
+  countUpvotes_ASC
+  countUpvotes_DESC
 }
 
 type StoryPreviousValues {
@@ -1311,6 +1418,7 @@ type StoryPreviousValues {
   sponsored: Boolean
   leading: Boolean
   country: String
+  countUpvotes: Int
 }
 
 input StoryScalarWhereInput {
@@ -1790,6 +1898,28 @@ input StoryScalarWhereInput {
 
   """All values not ending with the given string."""
   country_not_ends_with: String
+  countUpvotes: Int
+
+  """All values that are not equal to given value."""
+  countUpvotes_not: Int
+
+  """All values that are contained in given list."""
+  countUpvotes_in: [Int!]
+
+  """All values that are not contained in given list."""
+  countUpvotes_not_in: [Int!]
+
+  """All values less than the given value."""
+  countUpvotes_lt: Int
+
+  """All values less than or equal the given value."""
+  countUpvotes_lte: Int
+
+  """All values greater than the given value."""
+  countUpvotes_gt: Int
+
+  """All values greater than or equal the given value."""
+  countUpvotes_gte: Int
 }
 
 type StorySubscriptionPayload {
@@ -1845,6 +1975,7 @@ input StoryUpdateDataInput {
   sponsored: Boolean
   leading: Boolean
   country: String
+  countUpvotes: Int
 }
 
 input StoryUpdateInput {
@@ -1863,6 +1994,7 @@ input StoryUpdateInput {
   sponsored: Boolean
   leading: Boolean
   country: String
+  countUpvotes: Int
 }
 
 input StoryUpdateManyDataInput {
@@ -1881,6 +2013,7 @@ input StoryUpdateManyDataInput {
   sponsored: Boolean
   leading: Boolean
   country: String
+  countUpvotes: Int
 }
 
 input StoryUpdateManyInput {
@@ -1911,6 +2044,7 @@ input StoryUpdateManyMutationInput {
   sponsored: Boolean
   leading: Boolean
   country: String
+  countUpvotes: Int
 }
 
 input StoryUpdateManyWithWhereNestedInput {
@@ -2406,6 +2540,28 @@ input StoryWhereInput {
 
   """All values not ending with the given string."""
   country_not_ends_with: String
+  countUpvotes: Int
+
+  """All values that are not equal to given value."""
+  countUpvotes_not: Int
+
+  """All values that are contained in given list."""
+  countUpvotes_in: [Int!]
+
+  """All values that are not contained in given list."""
+  countUpvotes_not_in: [Int!]
+
+  """All values less than the given value."""
+  countUpvotes_lt: Int
+
+  """All values less than or equal the given value."""
+  countUpvotes_lte: Int
+
+  """All values greater than the given value."""
+  countUpvotes_gt: Int
+
+  """All values greater than or equal the given value."""
+  countUpvotes_gte: Int
 }
 
 input StoryWhereUniqueInput {
@@ -2414,7 +2570,7 @@ input StoryWhereUniqueInput {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
+  featureComment(where: FeatureCommentSubscriptionWhereInput): FeatureCommentSubscriptionPayload
   feature(where: FeatureSubscriptionWhereInput): FeatureSubscriptionPayload
   story(where: StorySubscriptionWhereInput): StorySubscriptionPayload
 }
@@ -2430,7 +2586,7 @@ type User implements Node {
   permissions: [Permission!]!
   createdAt: DateTime
   updatedAt: DateTime
-  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  featureComments(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FeatureComment!]
   upvotedStories(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Story!]
   premium: Boolean
 }
@@ -2455,12 +2611,12 @@ input UserCreateInput {
   resetTokenExpiry: Float
   premium: Boolean
   permissions: UserCreatepermissionsInput
-  comments: CommentCreateManyWithoutAuthorInput
+  featureComments: FeatureCommentCreateManyWithoutAuthorInput
   upvotedStories: StoryCreateManyInput
 }
 
-input UserCreateOneWithoutCommentsInput {
-  create: UserCreateWithoutCommentsInput
+input UserCreateOneWithoutFeatureCommentsInput {
+  create: UserCreateWithoutFeatureCommentsInput
   connect: UserWhereUniqueInput
 }
 
@@ -2468,7 +2624,7 @@ input UserCreatepermissionsInput {
   set: [Permission!]
 }
 
-input UserCreateWithoutCommentsInput {
+input UserCreateWithoutFeatureCommentsInput {
   id: ID
   name: String
   email: String!
@@ -2573,7 +2729,7 @@ input UserUpdateInput {
   resetTokenExpiry: Float
   premium: Boolean
   permissions: UserUpdatepermissionsInput
-  comments: CommentUpdateManyWithoutAuthorInput
+  featureComments: FeatureCommentUpdateManyWithoutAuthorInput
   upvotedStories: StoryUpdateManyInput
 }
 
@@ -2588,20 +2744,20 @@ input UserUpdateManyMutationInput {
   permissions: UserUpdatepermissionsInput
 }
 
-input UserUpdateOneWithoutCommentsInput {
-  create: UserCreateWithoutCommentsInput
+input UserUpdateOneWithoutFeatureCommentsInput {
+  create: UserCreateWithoutFeatureCommentsInput
   connect: UserWhereUniqueInput
   disconnect: Boolean
   delete: Boolean
-  update: UserUpdateWithoutCommentsDataInput
-  upsert: UserUpsertWithoutCommentsInput
+  update: UserUpdateWithoutFeatureCommentsDataInput
+  upsert: UserUpsertWithoutFeatureCommentsInput
 }
 
 input UserUpdatepermissionsInput {
   set: [Permission!]
 }
 
-input UserUpdateWithoutCommentsDataInput {
+input UserUpdateWithoutFeatureCommentsDataInput {
   name: String
   email: String
   phone: String
@@ -2613,9 +2769,9 @@ input UserUpdateWithoutCommentsDataInput {
   upvotedStories: StoryUpdateManyInput
 }
 
-input UserUpsertWithoutCommentsInput {
-  update: UserUpdateWithoutCommentsDataInput!
-  create: UserCreateWithoutCommentsInput!
+input UserUpsertWithoutFeatureCommentsInput {
+  update: UserUpdateWithoutFeatureCommentsDataInput!
+  create: UserCreateWithoutFeatureCommentsInput!
 }
 
 input UserWhereInput {
@@ -2937,9 +3093,9 @@ input UserWhereInput {
 
   """All values that are not equal to given value."""
   premium_not: Boolean
-  comments_every: CommentWhereInput
-  comments_some: CommentWhereInput
-  comments_none: CommentWhereInput
+  featureComments_every: FeatureCommentWhereInput
+  featureComments_some: FeatureCommentWhereInput
+  featureComments_none: FeatureCommentWhereInput
   upvotedStories_every: StoryWhereInput
   upvotedStories_some: StoryWhereInput
   upvotedStories_none: StoryWhereInput

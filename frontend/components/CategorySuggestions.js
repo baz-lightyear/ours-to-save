@@ -3,6 +3,7 @@ import { Query } from 'react-apollo'
 import { CATEGORY_FEATURES_QUERY } from './Apollo'
 import FeatureCard from './FeatureCard';
 import styled from 'styled-components'
+import Link from 'next/link';
 
 const Container = styled.div`
     padding: 0 1rem;
@@ -11,12 +12,19 @@ const Container = styled.div`
         margin-top: 2rem;
         span {
             color: ${props => props.theme.green};
+            &:hover {
+                opacity: 0.8;
+            }
         }
     }
     .suggestions {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
+    }
+    a {
+        color: ${props => props.theme.black};
+
     }
 `
 const Filler = styled.div`
@@ -34,7 +42,7 @@ class CategorySuggestions extends Component {
                     return (
                         <>
                         <Container>
-                            <h2>More in <span>{this.props.category}</span></h2>
+                            <h2>More in <Link href={{pathname: '/category', query: { category: this.props.category }}}><a><span>{this.props.category}</span></a></Link></h2>
                             <div className="suggestions">
                                 {features.map(feature => {
                                     return  <FeatureCard key={feature.id} feature={feature}/>

@@ -13,6 +13,8 @@ type Mutation {
     signout: SuccessMessage
     requestReset(email: String!): SuccessMessage
     resetPassword( resetToken: String! password: String! confirmPassword: String!): User!
+    upvoteStory(storyId: String!, userId: String!): Story
+    addFeatureComment(content: String, authorId: String, featureId: String): FeatureComment
 }
 
 type Query {

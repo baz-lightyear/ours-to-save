@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Moment from 'react-moment';
+import { Query, Mutation } from 'react-apollo';
+import Swal from 'sweetalert2';
+
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -12,6 +14,7 @@ import {
     TwitterIcon,
 } from "react-share";
 import {optimiseCloudinary, timeFromNow} from '../lib/utils';
+import { CURRENT_USER_QUERY, UPVOTE_STORY } from './Apollo';
 
 
 const Container = styled.div`
@@ -29,21 +32,50 @@ const Container = styled.div`
         font-weight: bolder;
         letter-spacing: 2px;
     }
-    .date {
-        font-family: ${props => props.theme.sansSerif};
-        opacity: 0.5;
-        /* display: flex;
-        justify-content: space-between; */
-    }
-    .title {
-        margin-top: 4px;
-        margin-bottom: 0;
-    }
-    .author {
-        opacity: 0.5;
-        margin: 0;
-        margin-bottom: 4px;
-        font-size: 1rem;
+    .storyHeader {
+        display: flex;
+        justify-content: space-between;
+        .left {
+            .date {
+                font-family: ${props => props.theme.sansSerif};
+                opacity: 0.5;
+                /* display: flex;
+                justify-content: space-between; */
+            }
+            .title {
+                margin-top: 4px;
+                margin-bottom: 0;
+            }
+            .author {
+                opacity: 0.5;
+                margin: 0;
+                margin-bottom: 4px;
+                font-size: 1rem;
+            }
+        }
+        .votes {
+            width: 10%;
+            max-width: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            span {
+                line-height: 1;
+                opacity: 0.7;
+            }
+            .vote {
+                font-size: 2rem;
+                cursor: pointer;
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            .voteCount {
+                font-size: 1rem;
+                font-family: ${props => props.theme.sansSerif};
+            }
+        }
     }
     .sharing {
         text-align: left;
@@ -87,48 +119,95 @@ const Container = styled.div`
 `;
 
 class StoryShow extends Component {
+    state = {
+        countUpvotes: this.props.story.countUpvotes
+    }
+    upvote = async (me, story, upvoteStory) => {
+        if (me) {
+            if (me.upvotedStories.map(s => s.id).includes(story.id)) {
+                Swal.fire({
+                    title: `Already upvoted`,
+                    text: `You can only upvote a post once`,
+                    icon: 'warning',
+                    confirmButtonColor: '#4B4C53',
+                })
+            } else {
+                await upvoteStory({ variables: { storyId: story.id, userId: me.id } });
+                const newScore = this.props.story.countUpvotes + 1
+                this.setState({countUpvotes: newScore })
+            }
+        } else {
+            Swal.fire({
+                title: `Join us`,
+                text: `Log in or sign up and you can vote, comment and gain access to special content.`,
+                icon: 'warning',
+                confirmButtonColor: '#4B4C53',
+            })
+        }
+    }
+
     render() {
         const today = new Date()
         const formattedToday = `${today.getFullYear()}-${today.getMonth() + 1 < 10 ? "0" : ""}${today.getMonth()+1}-${today.getDate() < 10 ? "0" : ""}${today.getDate()}`
         return (
-            <Container>
-                {this.props.story.createdAt.substring(0, 10) === formattedToday && <span className="breaking">BREAKING</span>}
-                <div className="date">
-                    {/* <Moment date={this.props.story.createdAt} format="HH:mm"/>
-                    <Moment date={this.props.story.createdAt} format="Do MMM YYYY"/> */}
-                    {timeFromNow(this.props.story.createdAt)}
-
-                </div>
-                <h3 className="title">{this.props.story.title}</h3>
-                <h3 className="author">{this.props.story.author} ﹒ {this.props.story.country}</h3>
-                {this.props.story.image && <img className="image" src={optimiseCloudinary(this.props.story.image, 600)} alt={this.props.story.title} />}
-                <div className="content">
-                    {JSON.parse(this.props.story.content).map((element, index) => {
-                        return (
-                            <p key={index}>
-                                {element.children.map((leaf, index) => {
-                                    if (leaf.type === "link") {
-                                        return <a href={leaf.url} target="_blank" key={index}>{leaf.children[0].text}</a>
-                                    }
+            <Query query={CURRENT_USER_QUERY}>
+                 {({data, loading, error}) => {
+                    if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                    if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+                    const me = data.me === null ? null : data.me
+                    return (
+                        <Container>
+                            {this.props.story.createdAt.substring(0, 10) === formattedToday && <span className="breaking">BREAKING</span>}
+                            <div className="storyHeader">
+                                <div className="left">
+                                    <div className="date">
+                                        {timeFromNow(this.props.story.createdAt)}
+                                    </div>
+                                    <h3 className="title">{this.props.story.title}</h3>
+                                    <h3 className="author">{this.props.story.author} ﹒ {this.props.story.country}</h3>
+                                </div>
+                                <div className="votes">
+                                    <Mutation
+                                        mutation={UPVOTE_STORY}
+                                    >
+                                     {(upvoteStory, { error, loading }) => (
+                                        <span className="vote" onClick={() => this.upvote(me, this.props.story, upvoteStory)}>▴</span>
+                                     )}
+                                    </Mutation>
+                                    <span className="voteCount">{this.state.countUpvotes || 0}</span>
+                                </div>
+                            </div>
+                            {this.props.story.image && <img className="image" src={optimiseCloudinary(this.props.story.image, 600)} alt={this.props.story.title} />}
+                            <div className="content">
+                                {JSON.parse(this.props.story.content).map((element, index) => {
                                     return (
-                                        <span key={index}>
-                                            {leaf.text}
-                                        </span>
+                                        <p key={index}>
+                                            {element.children.map((leaf, index) => {
+                                                if (leaf.type === "link") {
+                                                    return <a href={leaf.url} target="_blank" key={index}>{leaf.children[0].text}</a>
+                                                }
+                                                return (
+                                                    <span key={index}>
+                                                        {leaf.text}
+                                                    </span>
+                                                )
+                                            })}
+                                        </p>
                                     )
                                 })}
-                            </p>
-                        )
-                    })}
-                </div>
-                <div className="sharing">
-                    <div className="icons">
-                        <p>Share:</p>
-                        <EmailShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                        <FacebookShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                        <TwitterShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                    </div>
-                </div>
-            </Container>
+                            </div>
+                            <div className="sharing">
+                                <div className="icons">
+                                    <p>Share:</p>
+                                    <EmailShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                                    <FacebookShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                                    <TwitterShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
+                                </div>
+                            </div>
+                        </Container>
+                    )
+                 }}
+            </Query>
         );
     }
 }

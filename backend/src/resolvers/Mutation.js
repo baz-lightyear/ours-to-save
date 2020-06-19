@@ -176,6 +176,60 @@ const Mutation = {
         });
         return updatedUser;
       },
-};
+      async upvoteStory(parent, args, ctx, info) {
+        const user = await ctx.db.query.user(
+          {where: { id: args.userId}},
+          `{upvotedStories { id }}`
+        )
+        const story = await ctx.db.query.story({
+          where: { id: args.storyId}
+        })
+        if (user.upvotedStories.map(s => s.id).includes(args.storyId)) {
+          console.log('already voted')
+          return story
+        } else {
+
+          // array of objects with id and story id
+          const arrayOfObjects = user.upvotedStories.map(s => {
+            const object = new Object()
+            object.id = s.id
+            return object
+          })
+          arrayOfObjects.push({id: args.storyId})
+
+          await ctx.db.mutation.updateUser({
+            where: {id: args.userId},
+            data: { upvotedStories: {set: arrayOfObjects} }
+          })
+
+          const newScore = story.countUpvotes + 1
+          const updatedStory = await ctx.db.mutation.updateStory({
+            where: { id: args.storyId },
+            data: { countUpvotes: newScore },
+          })
+          return updatedStory
+        }
+      },
+      async addFeatureComment(parent, args, ctx, info) {
+        // find feature and user
+        // const feature = await ctx.db.query.feature({
+        //   where: {id: args.featureId}
+        // })
+        // console.log(feature.title)
+        // const user = await ctx.db.query.user({
+        //   where: {id: args.authorId}
+        // })
+        // console.log(user.name)
+
+        const featureComment = await ctx.db.mutation.createFeatureComment({
+          data: {
+            author: {connect: {id: args.authorId}},
+            content: args.content,
+            feature: {connect: {id: args.featureId}}
+          }
+        })
+        return featureComment
+      }
+    }
 
 module.exports = Mutation;

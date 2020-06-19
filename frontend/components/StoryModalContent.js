@@ -13,12 +13,13 @@ import {
 import {optimiseCloudinary} from '../lib/utils';
 import { Query } from 'react-apollo';
 import { MODAL_STORY_QUERY } from './Apollo'
+import StoryModalUpvote from './StoryModalUpvote'
 
 
 const Container = styled.div`
     font-family: ${props => props.theme.serif};
     overflow: scroll;
-    max-height: 80vh;
+    max-height: 70vh;
     .breaking {
         padding: 0.5rem;
         margin-bottom: 1rem;
@@ -35,14 +36,18 @@ const Container = styled.div`
         display: flex;
         justify-content: space-between;
     }
-    .title {
-        margin: 0;
-    }
-    .author {
-        opacity: 0.5;
-        margin: 0;
-        margin-bottom: 4px;
-        font-size: 1rem;
+    .storyModalHeader {
+        display: flex;
+        justify-content: space-between;
+        .title {
+            margin: 0;
+        }
+        .author {
+            opacity: 0.5;
+            margin: 0;
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
     }
     .sharing {
         text-align: left;
@@ -54,6 +59,7 @@ const Container = styled.div`
                 opacity: 0.5;
             }
             button {
+                margin: 0;
                 &:focus {
                     outline: none;
                 }
@@ -93,8 +99,13 @@ class StoryShow extends Component {
                     const story = data.story
                     return (
                         <Container>
-                            <h3 className="title">{story.title}</h3>
-                            <h3 className="author">{story.author}</h3>
+                            <div className="storyModalHeader">
+                                <div className="left">
+                                    <h3 className="title">{story.title}</h3>
+                                    <h3 className="author">{story.author}</h3>
+                                </div>
+                                <StoryModalUpvote story={story}/>
+                            </div>
                             {story.image && <img className="image" src={optimiseCloudinary(story.image, 600)} alt={story.title} />}
                             <div className="content">
                                 {JSON.parse(story.content).map((element, index) => {
@@ -114,14 +125,14 @@ class StoryShow extends Component {
                                     )
                                 })}
                             </div>
-                            {/* <div className="sharing">
+                            <div className="sharing">
                                 <div className="icons">
                                     <p>Share:</p>
                                     <EmailShareButton url={`https://www.ourstosave.com/story?id=${story.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
                                     <FacebookShareButton url={`https://www.ourstosave.com/story?id=${story.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
                                     <TwitterShareButton url={`https://www.ourstosave.com/story?id=${story.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                                 </div>
-                            </div> */}
+                            </div>
                         </Container>
                     )
                 }}

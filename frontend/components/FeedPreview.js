@@ -9,7 +9,7 @@ const Container = styled.div`
     height: 100%;
     background-color: #fbfbfb;
     border: solid 1px ${props => props.theme.lightgreen};
-    max-height: 70vh;
+    max-height: 60vh;
     position: relative;
     overflow: hidden;
     &:hover {
@@ -22,7 +22,8 @@ const Container = styled.div`
     .title {
         margin: 0.5rem;
         margin-bottom: 1rem;
-        color: ${props => props.theme.green}
+        color: ${props => props.theme.green};
+        font-family: ${props => props.theme.sansSerif};
     }
     .stories {
         border-left: solid 4px ${props => props.theme.green};
@@ -58,7 +59,8 @@ const Container = styled.div`
         margin: 0;
         text-align: center;
         padding: 0.5rem;
-        color: ${props => props.theme.green}
+        color: ${props => props.theme.green};
+        font-family: ${props => props.theme.sansSerif};
     }
     @media (max-width: 800px) {
         max-height: 50vh;

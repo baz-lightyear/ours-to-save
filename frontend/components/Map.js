@@ -175,7 +175,7 @@ class Map extends Component {
                     if (loading) return <img src="loading.gif" alt="loading" height="50"  style={{margin: "auto", display: "block"}}/>;
                     if (error) return null;
                     if (data) return (
-                        <div style={{ height: '70vh', width: '100%'}}>
+                        <div style={{ height: '60vh', width: '100%'}}>
                             {/* <Form onSubmit={async e => {
                                 e.preventDefault();
                                 const geocodingApiKey = 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw'

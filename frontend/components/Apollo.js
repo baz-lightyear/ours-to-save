@@ -85,6 +85,7 @@ const STORIES_QUERY = gql`
       ourPick
       feature
       sponsored
+      countUpvotes
     }
   }
 `;
@@ -105,6 +106,7 @@ const MORE_STORIES_QUERY = gql`
       ourPick
       feature
       sponsored
+      countUpvotes
     }
   }
 `
@@ -113,6 +115,7 @@ const MODAL_STORY_QUERY = gql`
   query MODAL_STORY_QUERY($id: ID!) {
     story(id: $id) {
       id
+      countUpvotes
       title
       content
       longitude
@@ -181,6 +184,9 @@ const CURRENT_USER_QUERY = gql`
       id
       email
       name
+      upvotedStories {
+        id
+      }
     }
   }
 `;
@@ -228,6 +234,21 @@ const RESET_MUTATION = gql`
   }
 `;
 
+const UPVOTE_STORY = gql`
+  mutation UPVOTE_STORY($userId: String!, $storyId: String!) {
+    upvoteStory(userId: $userId, storyId: $storyId) {
+      id
+    }
+  }
+`;
+
+const ADD_FEATURE_COMMENT = gql`
+  mutation ADD_FEATURE_COMMENT($content: String!, $authorId: String!, $featureId: String!) {
+    addFeatureComment(content: $content, authorId: $authorId, featureId: $featureId) {
+      id
+    }
+  }
+`;
 
 export { 
   CREATE_FEATURE_MUTATION, 
@@ -247,5 +268,7 @@ export {
   SIGNIN_MUTATION,
   SIGN_OUT_MUTATION,
   REQUEST_RESET_MUTATION,
-  RESET_MUTATION
+  RESET_MUTATION,
+  UPVOTE_STORY,
+  ADD_FEATURE_COMMENT
 };

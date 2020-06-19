@@ -108,7 +108,7 @@ class news extends Component {
                                             <div className="recentFeatures">
                                                 {data.recentFeatures.map(feature => {
                                                     return (
-                                                        <FeatureCard feature={feature}/>
+                                                        <FeatureCard feature={feature} key={feature.id}/>
                                                     )
                                                 })}
                                             </div>
@@ -126,7 +126,7 @@ class news extends Component {
                                             <div className="boostedFeatures">
                                                 {data.boostedFeatures.map(feature => {
                                                     return (
-                                                        <FeatureCard feature={feature}/>
+                                                        <FeatureCard feature={feature} key={feature.id}/>
                                                     )
                                                 })}
                                             </div>

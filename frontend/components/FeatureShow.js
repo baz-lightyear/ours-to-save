@@ -1,8 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
+import { CURRENT_USER_QUERY, ADD_FEATURE_COMMENT } from './Apollo'
 import Moment from 'react-moment';
+import Comment from './Comment';
+import Router from 'next/router';
+
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -19,6 +23,8 @@ import CategorySuggestions from './CategorySuggestions';
 
 import {optimiseCloudinary} from '../lib/utils';
 import Link from 'next/link';
+import Paywall from './Paywall'
+import Swal from 'sweetalert2';
 
 const Container = styled.div`
     min-height: calc(100vh - 125px);
@@ -97,6 +103,36 @@ const Container = styled.div`
             margin-top: 2rem;
             text-align: right;
         }
+        .comments {
+            border-top: solid 2px ${props => props.theme.green};
+            .addComment {
+                form {
+                    margin: 4rem 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    textarea {
+                        width: 100%;
+                        font-family: ${props => props.theme.sansSerif};
+                        padding: 0.5rem;
+                        border: solid 1px ${props => props.theme.lightgreen};
+                    }
+                    button {
+                        margin: 1rem 0;
+                        /* width: 200px; */
+                        padding: 0.5rem 1rem;
+                        
+                        border: none;
+                        background-color: ${props => props.theme.green};
+                        color: ${props => props.theme.offWhite};
+                        font-weight: normal;
+                        &:hover {
+                            background-color: ${props => props.theme.black};
+                        }
+                    }
+                }
+            }
+        }
         #topSharing {
             border-bottom: solid 2px ${props => props.theme.green};
             margin-bottom: 2rem;
@@ -112,6 +148,7 @@ const Container = styled.div`
             .icons {
                 margin-bottom: 1rem;
                 button {
+                    margin: 0;
                     &:focus {
                         outline: none;
                     }
@@ -161,100 +198,212 @@ const Container = styled.div`
 
 
 class FeatureShow extends Component {
+    state = {
+        commentContent: ""
+    }
+    handleChange = (e) => {
+        this.setState({commentContent: e.target.value})
+    } 
     render() {
         return (
-            <Container>
-                <div className="banner" style={{backgroundImage: `url(${optimiseCloudinary(this.props.feature.featuredImage, 1200)})`}}>
-                    <div className="opacityBanner">
-                        <h1>{this.props.feature.title}</h1>
-                        <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>
-                    </div>
-                </div>
-                <div className="filler"></div>
-                <div id="content">
-                    <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/"><a>here</a></Link>.</p>
-                    <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
-                    <p className="author">{this.props.feature.author}</p>
-                    <div className="sharing" id="topSharing">
-                        <p>Share this article: </p>
-                        <div className="icons">
-                            <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                            <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                            <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                        </div>
-                    </div>
-                    {JSON.parse(this.props.feature.content).map((element, index) => {
-                        if (element.type === "paragraph") {
-                            return (
-                                <p key={index} className="paragraph">
-                                    {element.children.map((leaf, index) => {
-                                        if (leaf.type === "link") {
-                                            return (<a href={leaf.url} target="_blank" className="link" key={index}>{leaf.children[0].text}</a>)
-                                        }
-                                        if (leaf.italic && leaf.bold) {
-                                            return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
-                                        }
-                                        if (leaf.italic) {
-                                            return (<span key={index}><em>{leaf.text}</em></span>)
-                                        }
-                                        if (leaf.bold) {
-                                            return (<span key={index}><strong>{leaf.text}</strong></span>)
-                                        }
-                                        return (<span key={index}>{leaf.text}</span>)
-                                        // links too
-                                    })}
-                                </p>
-                            )
-                        }
-                        if (element.type === "block-quote") {
-                            return (
-                                <blockquote key={index}>
-                                    {element.children.map((leaf, index) => {
-                                        if (leaf.italic && leaf.bold) {
-                                            return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
-                                        }
-                                        if (leaf.italic) {
-                                            return (<span key={index}><em>{leaf.text}</em></span>)
-                                        }
-                                        if (leaf.bold) {
-                                            return (<span key={index}><strong>{leaf.text}</strong></span>)
-                                        }
-                                        return (<span key={index}>{leaf.text}</span>)
-                                        // links too
-                                    })}
-                                </blockquote>
-                            )
-                        }
-                        if (element.type === "image") {
-                            return (
-                                <img key={index} src={optimiseCloudinary(element.url, 800)} className="image" alt={`an image about ${this.props.feature.title}`}/>
-                            )
-                        }
-                    })}
-                    <p className="bio"><em>{this.props.feature.bio}</em></p>
+            <Query query={CURRENT_USER_QUERY}>
+                {({data, loading, error}) => {
+                    if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                    if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+                    const me = data.me === null ? null : data.me
+                    return (
+                        <Container>
+                            <div className="banner" style={{backgroundImage: `url(${optimiseCloudinary(this.props.feature.featuredImage, 1200)})`}}>
+                                <div className="opacityBanner">
+                                    <h1>{this.props.feature.title}</h1>
+                                    <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>
+                                </div>
+                            </div>
+                            <div className="filler"></div>
+                            <div id="content">
+                                <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/"><a>here</a></Link>.</p>
+                                <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
+                                <p className="author">{this.props.feature.author}</p>
+                                <div className="sharing" id="topSharing">
+                                    <p>Share this article: </p>
+                                    <div className="icons">
+                                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
+                                    </div>
+                                </div>
+                                {JSON.parse(this.props.feature.content).slice(0, 3).map((element, index) => {
+                                    if (element.type === "paragraph") {
+                                        return (
+                                            <p key={index} className="paragraph">
+                                                {element.children.map((leaf, index) => {
+                                                    if (leaf.type === "link") {
+                                                        return (<a href={leaf.url} target="_blank" className="link" key={index}>{leaf.children[0].text}</a>)
+                                                    }
+                                                    if (leaf.italic && leaf.bold) {
+                                                        return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
+                                                    }
+                                                    if (leaf.italic) {
+                                                        return (<span key={index}><em>{leaf.text}</em></span>)
+                                                    }
+                                                    if (leaf.bold) {
+                                                        return (<span key={index}><strong>{leaf.text}</strong></span>)
+                                                    }
+                                                    return (<span key={index}>{leaf.text}</span>)
+                                                    // links too
+                                                })}
+                                            </p>
+                                        )
+                                    }
+                                    if (element.type === "block-quote") {
+                                        return (
+                                            <blockquote key={index}>
+                                                {element.children.map((leaf, index) => {
+                                                    if (leaf.italic && leaf.bold) {
+                                                        return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
+                                                    }
+                                                    if (leaf.italic) {
+                                                        return (<span key={index}><em>{leaf.text}</em></span>)
+                                                    }
+                                                    if (leaf.bold) {
+                                                        return (<span key={index}><strong>{leaf.text}</strong></span>)
+                                                    }
+                                                    return (<span key={index}>{leaf.text}</span>)
+                                                    // links too
+                                                })}
+                                            </blockquote>
+                                        )
+                                    }
+                                    if (element.type === "image") {
+                                        return (
+                                            <img key={index} src={optimiseCloudinary(element.url, 800)} className="image" alt={`an image about ${this.props.feature.title}`}/>
+                                        )
+                                    }
+                                })}
 
-                    <div className="sharing" id="bottomSharing">
-                        <p>Share this article: </p>
-                        <div className="icons">
-                            <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                            <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                            <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                        </div>
-                    </div>
-                </div>
-                {/* new to O2S? find out more here */}
-                <div id="moreInfo">
-                    <p id="homepage">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/"><a>here</a></Link>.</p>
-                    <CategorySuggestions category={this.props.feature.category} feature={this.props.feature}/>
-                    <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
-                    <div id="feedPreview">
-                        <Map/>
-                        <div id="previewWrapper">
-                            <FeedPreview/>
-                        </div>
-                    </div>
-                </div>
-            </Container>
+                                {/* if the user is logged in, show the rest of the paragraphs */}
+
+                                {me && JSON.parse(this.props.feature.content).slice(3, this.props.feature.content.length).map((element, index) => {
+                                    if (element.type === "paragraph") {
+                                        return (
+                                            <p key={index} className="paragraph">
+                                                {element.children.map((leaf, index) => {
+                                                    if (leaf.type === "link") {
+                                                        return (<a href={leaf.url} target="_blank" className="link" key={index}>{leaf.children[0].text}</a>)
+                                                    }
+                                                    if (leaf.italic && leaf.bold) {
+                                                        return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
+                                                    }
+                                                    if (leaf.italic) {
+                                                        return (<span key={index}><em>{leaf.text}</em></span>)
+                                                    }
+                                                    if (leaf.bold) {
+                                                        return (<span key={index}><strong>{leaf.text}</strong></span>)
+                                                    }
+                                                    return (<span key={index}>{leaf.text}</span>)
+                                                    // links too
+                                                })}
+                                            </p>
+                                        )
+                                    }
+                                    if (element.type === "block-quote") {
+                                        return (
+                                            <blockquote key={index}>
+                                                {element.children.map((leaf, index) => {
+                                                    if (leaf.italic && leaf.bold) {
+                                                        return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
+                                                    }
+                                                    if (leaf.italic) {
+                                                        return (<span key={index}><em>{leaf.text}</em></span>)
+                                                    }
+                                                    if (leaf.bold) {
+                                                        return (<span key={index}><strong>{leaf.text}</strong></span>)
+                                                    }
+                                                    return (<span key={index}>{leaf.text}</span>)
+                                                    // links too
+                                                })}
+                                            </blockquote>
+                                        )
+                                    }
+                                    if (element.type === "image") {
+                                        return (
+                                            <img key={index} src={optimiseCloudinary(element.url, 800)} className="image" alt={`an image about ${this.props.feature.title}`}/>
+                                        )
+                                    }
+                                })}
+
+                                {/* if the user is not logged in, don't show the rest of the paragraphs */}
+                                
+                                {!me && 
+                                    <Paywall/>
+                                }
+
+                                <p className="bio"><em>{this.props.feature.bio}</em></p>
+                                <div className="comments">
+                                    <h4 style={{textAlign: "center"}}>Comments</h4>
+                                    {this.props.feature.comments.filter(c => c.approved ).map(c => {
+                                        return <Comment key={c.id} comment={c}/>
+                                    })}
+                                    {this.props.feature.comments.filter(c => c.approved ).length === 0 && 
+                                        <p><em>No comments yet. Start the conversation: </em></p>
+                                    }
+                                    <div className="addComment">
+                                        <Mutation mutation={ADD_FEATURE_COMMENT} >
+                                            {(addFeatureComment, { loading, error }) => (
+                                                <form
+                                                    data-test="form"
+                                                    onSubmit={async e => {
+                                                        e.preventDefault();
+                                                        if (me) {
+                                                            await addFeatureComment({variables: {
+                                                                content: this.state.commentContent,
+                                                                authorId: me.id,
+                                                                featureId: this.props.feature.id
+                                                            }});
+                                                            Router.reload();
+                                                        } else {
+                                                            Swal.fire({
+                                                                title: `Join us`,
+                                                                text: `Log in or sign up and you can comment, upvote and gain access to special content.`,
+                                                                icon: 'warning',
+                                                                confirmButtonColor: '#4B4C53',
+                                                            })
+                                                        }
+                                                    }}
+                                                >
+                                                    <label htmlFor="comment"><strong>Add comment</strong> <br/>{!me && <small>Log in or sign up to comment</small>}</label>
+                                                    <textarea name="comment" type="text" placeholder="Keep it respectful" value={this.state.commentContent} onChange={this.handleChange}/>
+                                                    <button>submit</button>
+                                                </form>
+                                            )}
+                                        </Mutation>
+                                    </div>
+                                </div>
+                                <div className="sharing" id="bottomSharing">
+                                    <p>Share this article: </p>
+                                    <div className="icons">
+                                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="moreInfo">
+                                <p id="homepage">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/"><a>here</a></Link>.</p>
+                                <CategorySuggestions category={this.props.feature.category} feature={this.props.feature}/>
+                                <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
+                                <div id="feedPreview">
+                                    <Map/>
+                                    <div id="previewWrapper">
+                                        <FeedPreview/>
+                                    </div>
+                                </div>
+                            </div>
+                        </Container>
+                    )
+                }}
+            </Query>
         );
     }
 }

@@ -36,9 +36,7 @@ class Signup extends Component {
                 icon: 'success',
                 confirmButtonColor: '#4B4C53',
                 onClose: () => {
-                  Router.push('/news').then(() =>{
-                    Router.reload();
-                  })
+                  Router.reload();
                 }
               })
             }}

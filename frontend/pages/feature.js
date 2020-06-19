@@ -14,7 +14,7 @@ class feature extends Component {
         const res = await fetch(`${url}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: `{ feature(id: "${id}") { id title subtitle createdAt author bio content featuredImage latitude longitude category}}` }),
+            body: JSON.stringify({ query: `{ feature(id: "${id}") { id title subtitle createdAt author bio content featuredImage latitude longitude category comments { id createdAt approved content author { name }}}}` }),
         })
         
         const payload = await res.json()
