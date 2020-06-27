@@ -283,7 +283,7 @@ class FeatureShow extends Component {
 
                                 {/* if the user is logged in, show the rest of the paragraphs */}
 
-                                {me && JSON.parse(this.props.feature.content).slice(3, this.props.feature.content.length).map((element, index) => {
+                                {JSON.parse(this.props.feature.content).slice(3, this.props.feature.content.length).map((element, index) => {
                                     if (element.type === "paragraph") {
                                         return (
                                             <p key={index} className="paragraph">
@@ -334,9 +334,9 @@ class FeatureShow extends Component {
 
                                 {/* if the user is not logged in, don't show the rest of the paragraphs */}
                                 
-                                {!me && 
+                                {/* {!me && 
                                     <Paywall/>
-                                }
+                                } */}
 
                                 <p className="bio"><em>{this.props.feature.bio}</em></p>
                                 <div className="comments">

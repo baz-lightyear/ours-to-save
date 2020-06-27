@@ -5,7 +5,6 @@ How to push to production
 1.2. Run '$ npm run deploy' from backend
 
 2. Push Yoga
-
 2.1. Run the following, from top level folder
 
     git add .
@@ -16,5 +15,5 @@ How to push to production
 3.1. Run the following, from top level folder
 
     git add .
-    git commit -m 'whatever'
+    git commit -m 'pushing to master and heroku'
     git subtree push --prefix frontend heroku-frontend master
