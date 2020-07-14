@@ -289,7 +289,11 @@ class FeatureShow extends Component {
                                             <p key={index} className="paragraph">
                                                 {element.children.map((leaf, index) => {
                                                     if (leaf.type === "link") {
-                                                        return (<a href={leaf.url} target="_blank" className="link" key={index}>{leaf.children[0].text}</a>)
+                                                        if (leaf.children[0].italic) {
+                                                            return (<a href={leaf.url} target="_blank" className="link" key={index}><em>{leaf.children[0].text}</em></a>)
+                                                        } else {
+                                                            return (<a href={leaf.url} target="_blank" className="link" key={index}>{leaf.children[0].text}</a>)
+                                                        }
                                                     }
                                                     if (leaf.italic && leaf.bold) {
                                                         return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)

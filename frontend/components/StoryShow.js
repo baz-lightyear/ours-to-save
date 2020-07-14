@@ -184,7 +184,11 @@ class StoryShow extends Component {
                                         <p key={index}>
                                             {element.children.map((leaf, index) => {
                                                 if (leaf.type === "link") {
-                                                    return <a href={leaf.url} target="_blank" key={index}>{leaf.children[0].text}</a>
+                                                    if (leaf.children[0].italic) {
+                                                        return (<a href={leaf.url} target="_blank" className="link" key={index}><em>{leaf.children[0].text}</em></a>)
+                                                    } else {
+                                                        return (<a href={leaf.url} target="_blank" className="link" key={index}>{leaf.children[0].text}</a>)
+                                                    }
                                                 }
                                                 return (
                                                     <span key={index}>
