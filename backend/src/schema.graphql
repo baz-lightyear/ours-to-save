@@ -6,7 +6,7 @@ type SuccessMessage {
 
 type Mutation {
     createStory(title: String!, content: String!, address: String!, author: String, image: String): Story
-    createFeature(content: String!, address: String!): Feature
+    createFeature(content: String!, address: String!, title: String!, subtitle: String!, bio: String!, author: String!, category: String!): Feature
     createUser(email: String!): User
     signup(email: String! password: String! name: String!): User!
     signin( email: String! password: String! ): User!

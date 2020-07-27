@@ -54,6 +54,11 @@ const Mutation = {
                     content: args.content,
                     longitude: location.lng,
                     latitude: location.lat,
+                    title: args.title,
+                    subtitle: args.subtitle,
+                    bio: args.bio,
+                    author: args.author,
+                    category: args.category,
                     approved: false
                 },
             },

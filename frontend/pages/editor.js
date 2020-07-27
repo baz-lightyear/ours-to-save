@@ -5,7 +5,7 @@ import FeatureEditor from '../components/FeatureEditor';
 const Container = styled.div`
     margin: auto;
     width: 95%;
-    max-width: 800px;
+    max-width: 1000px;
     .hide {
         display: none;
     }
@@ -17,7 +17,7 @@ const Container = styled.div`
 class editor extends Component {
     state = {
         password: '',
-        open: false
+        open: true
     }
     handleChange = event => {
         this.setState({password: event.target.value})
@@ -40,9 +40,7 @@ class editor extends Component {
                     <button onClick={this.checkPassword}>Let me in</button>
                 </div>
                 <div className={`secret ${this.state.open ? "show" : "hide"}`}>
-                    <h1>Add feature content</h1>
-                    <p>You still have to add bio, title, subtitle etc. directly in Prisma. This is just for the actual content as displayed in paragraphs, including images.</p>
-                    <p>When you add an image, you <strong>must not</strong> just copy an image into here. Instead, you <em>copy and paste the url of the image</em>. Otherwise the file is too big and our server can't process it.</p>
+                    <h1>Add feature</h1>
                     <FeatureEditor/>
                 </div>
             </Container>

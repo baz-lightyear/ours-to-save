@@ -12,15 +12,46 @@ import { deflateData } from '../lib/utils';
 
 const Container = styled.div`
     padding: 1rem 0;
+    textarea, input {
+        padding: 0.5rem;
+        background-color: ${props => props.theme.offWhite};
+        width: 100%;
+        margin: 1rem auto;
+        font-family: ${props => props.theme.serif};
+        border-radius: 4px;
+        border: solid 1px;
+    }
+    select {
+        margin: 1rem;
+        background-color: ${props => props.theme.offWhite};
+        border-radius: 4px;
+        border: solid 1px;
+    }
+    #titleInput {
+        font-size: 2rem;
+        font-weight: bolder;
+    }
+    #formatButtons {
+        position: sticky;
+        text-align: center;
+        top: 2rem;
+        width: 100%;
+        border-bottom: solid 1px ${props => props.theme.grey};
+        background-color: ${props => props.theme.offWhite};
+        .formatButton {
+            margin: 1rem;
+            margin-left: 0rem;
+        }
+    }
     .editable {
         width: 100%;
         min-height: 50vh;
         font-family: ${props => props.theme.serif};
-        border: none;
-        border-bottom: 4px solid ${props => props.theme.green};
+        border: solid 1px ${props => props.theme.grey};
+        border-radius: 0px 0px 4px 4px;
+        border-top: none;
         margin-bottom: 1rem;
-        background-color: #9fc8ca59;
-        padding: 4px;
+        padding: 1rem;
         &:focus {
             outline: none;
             opacity: 1;
@@ -85,6 +116,8 @@ const Element = props => {
 }
 
 const FeatureEditor = (props) => {
+
+
     const isLinkActive = editor => {
         const [link] = Editor.nodes(editor, { match: n => n.type === 'link' })
         return !!link
@@ -192,6 +225,12 @@ const FeatureEditor = (props) => {
         },
     ])
     const [address, setAddress] = useState()
+    const [title, setTitle] = useState()
+    const [subtitle, setSubtitle] = useState()
+    const [bio, setBio] = useState()
+    const [author, setAuthor] = useState()
+    const [category, setCategory] = useState()
+
     const editor = useMemo(
         () => withImages(withLinks(withHistory(withReact(createEditor())))),
         []
@@ -225,6 +264,7 @@ const FeatureEditor = (props) => {
               event.preventDefault()
               toggleMark(editor, format)
             }}
+            className="formatButton"
           >
             {format}
           </button>
@@ -236,6 +276,7 @@ const FeatureEditor = (props) => {
         const editor = useSlate()
         return (
             <button
+                className="formatButton"
                 id="addLink"
                 active={isLinkActive(editor)}
                 onClick={event => {
@@ -245,7 +286,7 @@ const FeatureEditor = (props) => {
                     insertLink(editor, url)
                 }}
             >
-                add a link
+                link
             </button>
         )
     }
@@ -268,13 +309,14 @@ const FeatureEditor = (props) => {
         const editor = useSlate()
         return (
             <button
+                className="formatButton"
                 active={isBlockActive(editor, format)}
                 onClick={event => {
                     event.preventDefault()
                     toggleBlock(editor, format)
                 }}
             >
-                Make it a highlight
+                quote
             </button>
         )
     }
@@ -291,36 +333,96 @@ const FeatureEditor = (props) => {
         });
     }
 
+    const handleTitle = event => {
+        setTitle(event.target.value)
+    }
+    const handleSubtitle = event => {
+        setSubtitle(event.target.value)
+    }
+    const handleAuthor = event => {
+        setAuthor(event.target.value)
+    }
+    const handleBio = event => {
+        setBio(event.target.value)
+    }
+    const handleCategory = event => {
+        setCategory(event.target.value)
+    }
+
+
     const handleAddress = event => {
         setAddress(event.target.value)
     }
 
     return (
         <Container>
-            <Slate 
-                editor={editor} 
-                value={value} 
-                onChange={value => {
-                    setValue(value)
-                }}
-            >
+            <form onSubmit={ async e => {
+                e.preventDefault();
+                const string = JSON.stringify(value)
+                await createFeature({ variables: { 
+                    title: title,
+                    subtitle: subtitle,
+                    bio: bio,
+                    author: author,
+                    category: category,
+                    content: string, 
+                    address: address,
+                }}).catch(err => {
+                    console.log(err)
+                }).then(() => {
+                    window.alert('Nice. Check it out in Prisma to add cover photo and approve it')
+                    Router.push({
+                        pathname: '/',
+                    });
+                });
+            }}>
+
+                <span><strong>Title</strong></span>
+                <input name="title" id="titleInput" type="text" required value={title} onChange={handleTitle}/>
+                <span><strong>Subtitle</strong></span>
+                <input name="subtitle" type="text" required value={subtitle} onChange={handleSubtitle}/>
+                <span><strong>Author</strong></span>
+                <input name="author" type="text" required value={author} onChange={handleAuthor}/>
+                <span><strong>Bio</strong></span>
+                <input name="bio" type="text" required value={bio} onChange={handleBio}/>
+                <span><strong>Category</strong></span>
+                <select name="category" required value={category} onChange={handleCategory}>
+                    <option value="">--Please choose an option--</option>
+                    <option value="power">Power</option>
+                    <option value="innovation">Innovation</option>
+                    <option value="inspiration">Inspiration</option>
+                    <option value="conservation">Conservation</option>
+                </select>
+                <h3>Text editor:</h3>
+                <p>When you add an image, you <strong>must not</strong> just copy an image into here. Instead, you <em>copy and paste the url of the image</em>. Otherwise the file is too big and our server can't process it. Visit Cloudinary <a href="https://cloudinary.com/console/c-db68a86aed67bfc082fda25d3ead23" target="_blank">here</a> (opens in new tab).</p>
+                <Slate 
+                    editor={editor} 
+                    value={value} 
+                    onChange={value => {
+                        setValue(value)
+                    }}
+                >
+                    <div id="formatButtons">
+                        <MarkButton format="bold"  />
+                        <MarkButton format="italic" />
+                        <BlockButton format="block-quote" />
+                        <LinkButton/>
+                    </div>
+                    <Editable
+                        className="editable"
+                        renderElement={renderElement}
+                        renderLeaf={renderLeaf}
+                        placeholder="write that magic"
+                    />
+                </Slate>
+                <span><strong>Enter address here ideally with postcode</strong></span>
+
                 <div>
-                    <MarkButton format="bold" />
-                    <MarkButton format="italic"/>
-                    <BlockButton format="block-quote"/>
-                    <LinkButton />
+                    <input type="text" id="address" placeholder="" value={address} onChange={handleAddress}/>
                 </div>
-                <Editable
-                    className="editable"
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    placeholder="go on!"
-                />
-            </Slate>
-            <div>
-                <input type="text" id="address" placeholder="enter address ideally here with postcode" value={address} onChange={handleAddress}/>
-            </div>
-            <button onClick={uploadToDatabase}>Upload to database</button>
+                <p>You still have to approve it and add a cover photo in <a href="https://app.prisma.io/harry-78d82a/services" target="_blank">Prisma</a>! (opens in new tab)</p>
+                <button type="submit">Upload to database</button>
+            </form>
         </Container>
     )
 }

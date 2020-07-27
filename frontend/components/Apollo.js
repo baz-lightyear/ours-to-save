@@ -144,8 +144,24 @@ const FEATURES_QUERY = gql`
 `;
 
 const CREATE_FEATURE_MUTATION = gql`
-  mutation CREATE_FEATURE_MUTATION($content: String! $address: String!) {
-    createFeature( content: $content address: $address ) {
+  mutation CREATE_FEATURE_MUTATION(
+    $content: String! 
+    $address: String! 
+    $title: String! 
+    $subtitle: String! 
+    $author: String! 
+    $bio: String! 
+    $category: String!
+  ) {
+    createFeature( 
+      content: $content 
+      address: $address 
+      title: $title
+      author: $author
+      bio: $bio
+      subtitle: $subtitle
+      category: $category
+    ) {
       id
     }
   }
