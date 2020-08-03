@@ -184,12 +184,6 @@ class CreateStory extends Component {
                                 <small>It's great if you can refer to a source too. </small>
 
                                 <StoryEditor saveContent={this.saveContent}/>
-{/* 
-                                <div className="morality">
-                                    <div onClick={this.setMoralityGood} className={this.state.morality === "good" ? "clicked" : ""}><p>This is good news</p></div>
-                                    <div onClick={this.setMoralityBad} id="middleMorality" className={this.state.morality === "bad" ? "clicked" : ""}><p>This is bad news</p></div>
-                                    <div onClick={this.setMoralityBetween} className={this.state.morality === "inbetween" ? "clicked" : ""}><p>This is somewhere in between</p></div>
-                                </div> */}
                                 <label htmlFor="file">
                                     If you like, add a picture.
                                 </label>
@@ -233,16 +227,6 @@ class CreateStory extends Component {
                                     onChange={this.handleChange}
                                 />
                                 <br/>
-                                {/* <label for="interestedInFeatureEmail">Email (so we can stay in touch 💚)</label>
-                                <br/>
-                                <input
-                                    type="text"
-                                    id="interestedInFeatureEmail"
-                                    name="interestedInFeatureEmail"
-                                    placeholder="e.g. florence@ourstosave.com"
-                                    value={this.state.interestedInFeatureEmail}
-                                    onChange={this.handleChange}
-                                /> */}
                                 <div className="submit">
                                     <button id="submit" type="submit">submit post</button>
                                     <br/>
