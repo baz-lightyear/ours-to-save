@@ -15,6 +15,9 @@ import { Query, Mutation } from 'react-apollo';
 import { MODAL_STORY_QUERY, ADD_STORY_COMMENT, CURRENT_USER_QUERY, STORIES_QUERY } from './Apollo'
 import StoryModalUpvote from './StoryModalUpvote'
 import Comment from './Comment'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 
 const Container = styled.div`
@@ -124,7 +127,7 @@ class StoryShow extends Component {
     } 
     render() {
         return (
-            <Query query={CURRENT_USER_QUERY}>
+            <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
             {({data, loading, error}) => {
                 if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
                 if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;

@@ -1,5 +1,5 @@
 # source: https://ours-to-save-prod-e8112953ab.herokuapp.com
-# timestamp: Sat Aug 08 2020 14:01:13 GMT+0100 (British Summer Time)
+# timestamp: Sat Aug 08 2020 23:40:05 GMT+0100 (British Summer Time)
 
 type AggregateFeature {
   count: Int!
@@ -1279,6 +1279,7 @@ enum Permission {
   ADMIN
   EDITOR
   USER
+  PREMIUM
 }
 
 type Query {
@@ -3109,7 +3110,10 @@ type User implements Node {
   updatedAt: DateTime
   featureComments(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FeatureComment!]
   upvotedStories(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Story!]
-  premium: Boolean
+  stripeCustomerId: String
+  stripeBillingSessionUrl: String
+  stripeCheckoutSessionId: String
+  cookieToken: String
 }
 
 """A connection to a list of items."""
@@ -3130,7 +3134,10 @@ input UserCreateInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
-  premium: Boolean
+  stripeCustomerId: String
+  stripeBillingSessionUrl: String
+  stripeCheckoutSessionId: String
+  cookieToken: String
   permissions: UserCreatepermissionsInput
   featureComments: FeatureCommentCreateManyWithoutAuthorInput
   upvotedStories: StoryCreateManyInput
@@ -3158,7 +3165,10 @@ input UserCreateWithoutFeatureCommentsInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
-  premium: Boolean
+  stripeCustomerId: String
+  stripeBillingSessionUrl: String
+  stripeCheckoutSessionId: String
+  cookieToken: String
   permissions: UserCreatepermissionsInput
   upvotedStories: StoryCreateManyInput
 }
@@ -3191,8 +3201,14 @@ enum UserOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
-  premium_ASC
-  premium_DESC
+  stripeCustomerId_ASC
+  stripeCustomerId_DESC
+  stripeBillingSessionUrl_ASC
+  stripeBillingSessionUrl_DESC
+  stripeCheckoutSessionId_ASC
+  stripeCheckoutSessionId_DESC
+  cookieToken_ASC
+  cookieToken_DESC
 }
 
 type UserPreviousValues {
@@ -3206,7 +3222,10 @@ type UserPreviousValues {
   permissions: [Permission!]!
   createdAt: DateTime
   updatedAt: DateTime
-  premium: Boolean
+  stripeCustomerId: String
+  stripeBillingSessionUrl: String
+  stripeCheckoutSessionId: String
+  cookieToken: String
 }
 
 type UserSubscriptionPayload {
@@ -3253,7 +3272,10 @@ input UserUpdateDataInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
-  premium: Boolean
+  stripeCustomerId: String
+  stripeBillingSessionUrl: String
+  stripeCheckoutSessionId: String
+  cookieToken: String
   permissions: UserUpdatepermissionsInput
   featureComments: FeatureCommentUpdateManyWithoutAuthorInput
   upvotedStories: StoryUpdateManyInput
@@ -3266,7 +3288,10 @@ input UserUpdateInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
-  premium: Boolean
+  stripeCustomerId: String
+  stripeBillingSessionUrl: String
+  stripeCheckoutSessionId: String
+  cookieToken: String
   permissions: UserUpdatepermissionsInput
   featureComments: FeatureCommentUpdateManyWithoutAuthorInput
   upvotedStories: StoryUpdateManyInput
@@ -3279,7 +3304,10 @@ input UserUpdateManyMutationInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
-  premium: Boolean
+  stripeCustomerId: String
+  stripeBillingSessionUrl: String
+  stripeCheckoutSessionId: String
+  cookieToken: String
   permissions: UserUpdatepermissionsInput
 }
 
@@ -3312,7 +3340,10 @@ input UserUpdateWithoutFeatureCommentsDataInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
-  premium: Boolean
+  stripeCustomerId: String
+  stripeBillingSessionUrl: String
+  stripeCheckoutSessionId: String
+  cookieToken: String
   permissions: UserUpdatepermissionsInput
   upvotedStories: StoryUpdateManyInput
 }
@@ -3642,10 +3673,166 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
-  premium: Boolean
+  stripeCustomerId: String
 
   """All values that are not equal to given value."""
-  premium_not: Boolean
+  stripeCustomerId_not: String
+
+  """All values that are contained in given list."""
+  stripeCustomerId_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripeCustomerId_not_in: [String!]
+
+  """All values less than the given value."""
+  stripeCustomerId_lt: String
+
+  """All values less than or equal the given value."""
+  stripeCustomerId_lte: String
+
+  """All values greater than the given value."""
+  stripeCustomerId_gt: String
+
+  """All values greater than or equal the given value."""
+  stripeCustomerId_gte: String
+
+  """All values containing the given string."""
+  stripeCustomerId_contains: String
+
+  """All values not containing the given string."""
+  stripeCustomerId_not_contains: String
+
+  """All values starting with the given string."""
+  stripeCustomerId_starts_with: String
+
+  """All values not starting with the given string."""
+  stripeCustomerId_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripeCustomerId_ends_with: String
+
+  """All values not ending with the given string."""
+  stripeCustomerId_not_ends_with: String
+  stripeBillingSessionUrl: String
+
+  """All values that are not equal to given value."""
+  stripeBillingSessionUrl_not: String
+
+  """All values that are contained in given list."""
+  stripeBillingSessionUrl_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripeBillingSessionUrl_not_in: [String!]
+
+  """All values less than the given value."""
+  stripeBillingSessionUrl_lt: String
+
+  """All values less than or equal the given value."""
+  stripeBillingSessionUrl_lte: String
+
+  """All values greater than the given value."""
+  stripeBillingSessionUrl_gt: String
+
+  """All values greater than or equal the given value."""
+  stripeBillingSessionUrl_gte: String
+
+  """All values containing the given string."""
+  stripeBillingSessionUrl_contains: String
+
+  """All values not containing the given string."""
+  stripeBillingSessionUrl_not_contains: String
+
+  """All values starting with the given string."""
+  stripeBillingSessionUrl_starts_with: String
+
+  """All values not starting with the given string."""
+  stripeBillingSessionUrl_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripeBillingSessionUrl_ends_with: String
+
+  """All values not ending with the given string."""
+  stripeBillingSessionUrl_not_ends_with: String
+  stripeCheckoutSessionId: String
+
+  """All values that are not equal to given value."""
+  stripeCheckoutSessionId_not: String
+
+  """All values that are contained in given list."""
+  stripeCheckoutSessionId_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripeCheckoutSessionId_not_in: [String!]
+
+  """All values less than the given value."""
+  stripeCheckoutSessionId_lt: String
+
+  """All values less than or equal the given value."""
+  stripeCheckoutSessionId_lte: String
+
+  """All values greater than the given value."""
+  stripeCheckoutSessionId_gt: String
+
+  """All values greater than or equal the given value."""
+  stripeCheckoutSessionId_gte: String
+
+  """All values containing the given string."""
+  stripeCheckoutSessionId_contains: String
+
+  """All values not containing the given string."""
+  stripeCheckoutSessionId_not_contains: String
+
+  """All values starting with the given string."""
+  stripeCheckoutSessionId_starts_with: String
+
+  """All values not starting with the given string."""
+  stripeCheckoutSessionId_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripeCheckoutSessionId_ends_with: String
+
+  """All values not ending with the given string."""
+  stripeCheckoutSessionId_not_ends_with: String
+  cookieToken: String
+
+  """All values that are not equal to given value."""
+  cookieToken_not: String
+
+  """All values that are contained in given list."""
+  cookieToken_in: [String!]
+
+  """All values that are not contained in given list."""
+  cookieToken_not_in: [String!]
+
+  """All values less than the given value."""
+  cookieToken_lt: String
+
+  """All values less than or equal the given value."""
+  cookieToken_lte: String
+
+  """All values greater than the given value."""
+  cookieToken_gt: String
+
+  """All values greater than or equal the given value."""
+  cookieToken_gte: String
+
+  """All values containing the given string."""
+  cookieToken_contains: String
+
+  """All values not containing the given string."""
+  cookieToken_not_contains: String
+
+  """All values starting with the given string."""
+  cookieToken_starts_with: String
+
+  """All values not starting with the given string."""
+  cookieToken_not_starts_with: String
+
+  """All values ending with the given string."""
+  cookieToken_ends_with: String
+
+  """All values not ending with the given string."""
+  cookieToken_not_ends_with: String
   featureComments_every: FeatureCommentWhereInput
   featureComments_some: FeatureCommentWhereInput
   featureComments_none: FeatureCommentWhereInput
@@ -3657,4 +3844,5 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+  stripeCustomerId: String
 }

@@ -5,6 +5,9 @@ import styled from 'styled-components'
 import { CURRENT_USER_QUERY } from '../components/Apollo';
 import { Query } from 'react-apollo'
 import Link from 'next/link'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 const Container = styled.div`
     margin: auto;
@@ -38,7 +41,7 @@ class editFeature extends Component {
 
     render() {
         return (
-            <Query query={CURRENT_USER_QUERY}>
+            <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
                  {({data, loading, error}) => {
                     if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
                     if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;

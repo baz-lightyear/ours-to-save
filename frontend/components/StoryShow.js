@@ -16,6 +16,9 @@ import {
 import {optimiseCloudinary, timeFromNow} from '../lib/utils';
 import { CURRENT_USER_QUERY, UPVOTE_STORY, ADD_STORY_COMMENT } from './Apollo';
 import Router from 'next/router'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 
 const Container = styled.div`
@@ -183,7 +186,7 @@ class StoryShow extends Component {
         const today = new Date()
         const formattedToday = `${today.getFullYear()}-${today.getMonth() + 1 < 10 ? "0" : ""}${today.getMonth()+1}-${today.getDate() < 10 ? "0" : ""}${today.getDate()}`
         return (
-            <Query query={CURRENT_USER_QUERY}>
+            <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}> 
                  {({data, loading, error}) => {
                     if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
                     if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;

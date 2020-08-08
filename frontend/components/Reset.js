@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import Router from 'next/router'
 import Error from './Error';
 import { CURRENT_USER_QUERY, RESET_MUTATION } from './Apollo';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 class Reset extends Component {
   static propTypes = {
@@ -25,7 +28,7 @@ class Reset extends Component {
           password: this.state.password,
           confirmPassword: this.state.confirmPassword,
         }}
-        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+        refetchQueries={[{ query: CURRENT_USER_QUERY, variables: {token: cookies.get('token')}}]}
       >
         {(reset, { error, loading, called }) => (
           <form

@@ -20,14 +20,6 @@ const CREATE_STORY_MUTATION = gql`
   }
 `;
 
-const CREATE_USER_MUTATION = gql`
-  mutation CREATE_USER_MUTATION($email: String!) {
-    createUser(email: $email) {
-      id
-    }
-  }
-`;
-
 const LATEST_FEATURE_QUERY = gql`
   query LATEST_FEATURE_QUERY {
     latestFeature(where: {approved: true}, orderBy: createdAt_DESC) {
@@ -252,8 +244,8 @@ const CATEGORY_FEATURES_QUERY = gql`
 
 
 const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY {
-    me {
+  query CURRENT_USER_QUERY($token: String) {
+    me(token: $token) {
       id
       email
       name
@@ -261,6 +253,7 @@ const CURRENT_USER_QUERY = gql`
       upvotedStories {
         id
       }
+      stripeCustomerId
     }
   }
 `;
@@ -270,6 +263,7 @@ const SIGNUP_MUTATION = gql`
       id
       email
       name
+      cookieToken
     }
   }
 `;
@@ -280,16 +274,11 @@ const SIGNIN_MUTATION = gql`
       id
       email
       name
+      cookieToken
     }
   }
 `;
-const SIGN_OUT_MUTATION = gql`
-  mutation SIGN_OUT_MUTATION {
-    signout {
-      message
-    }
-  }
-`;
+
 const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {
     requestReset(email: $email) {
@@ -304,6 +293,7 @@ const RESET_MUTATION = gql`
       id
       email
       name
+      cookieToken
     }
   }
 `;
@@ -332,6 +322,31 @@ const ADD_STORY_COMMENT = gql`
   }
 `;
 
+const CREATE_STRIPE_CUSTOMER_ID = gql`
+  mutation CREATE_STRIPE_CUSTOMER_ID($userId: String!) {
+    createStripeCustomerId(userId: $userId) {
+      id
+    }
+  }
+`
+
+const CREATE_STRIPE_BILLING_SESSION = gql`
+mutation CREATE_STRIPE_BILLING_SESSION($userId: String!) {
+  createStripeBillingSession(userId: $userId) {
+    id
+    stripeBillingSessionUrl
+  }
+}
+`
+
+const CREATE_STRIPE_SUBSCRIPTION = gql`
+mutation CREATE_STRIPE_SUBSCRIPTION($userId: String!) {
+  createStripeSubscription(userId: $userId) {
+    id
+    stripeCheckoutSessionId
+  }
+}
+`
 
 export { 
   CREATE_FEATURE_MUTATION, 
@@ -340,7 +355,6 @@ export {
   MODAL_STORY_QUERY, 
   MORE_STORIES_QUERY,
   FEATURES_QUERY, 
-  CREATE_USER_MUTATION,
   LATEST_FEATURE_QUERY,
   FEED_PREVIEW_QUERY,
   CATEGORY_FEATURES_QUERY,
@@ -349,11 +363,13 @@ export {
   CURRENT_USER_QUERY,
   SIGNUP_MUTATION,
   SIGNIN_MUTATION,
-  SIGN_OUT_MUTATION,
   REQUEST_RESET_MUTATION,
   RESET_MUTATION,
   UPVOTE_STORY,
   ADD_FEATURE_COMMENT,
   ADD_STORY_COMMENT,
-  UPDATE_FEATURE_MUTATION
+  UPDATE_FEATURE_MUTATION,
+  CREATE_STRIPE_CUSTOMER_ID,
+  CREATE_STRIPE_BILLING_SESSION,
+  CREATE_STRIPE_SUBSCRIPTION
 };

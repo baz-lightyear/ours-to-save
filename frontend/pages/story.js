@@ -20,6 +20,9 @@ import FeatureCard from '../components/FeatureCard'
 import FeedPreview from '../components/FeedPreview'
 import { Query, Mutation } from 'react-apollo';
 import { RECENT_FEATURES_QUERY, CURRENT_USER_QUERY, UPVOTE_STORY } from '../components/Apollo'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 const Container = styled.div`
     font-family: ${props => props.theme.serif};
@@ -219,7 +222,7 @@ class story extends Component {
                     <meta property="og:image"              content={optimiseCloudinary(this.props.story.image, 500)} key='og:image'/>
                     <meta property="og:type"               content="article" key='og:type'/>
                 </Head>
-                <Query query={CURRENT_USER_QUERY}>
+                <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
                 {({data, loading, error}) => {
                     if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
                     if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;

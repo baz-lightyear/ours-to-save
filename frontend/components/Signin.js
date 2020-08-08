@@ -3,6 +3,10 @@ import { Mutation } from 'react-apollo';
 import Router from 'next/router'
 import Error from './Error';
 import { CURRENT_USER_QUERY, SIGNIN_MUTATION } from './Apollo';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
+
 class Signin extends Component {
   state = {
     name: '',
@@ -18,16 +22,20 @@ class Signin extends Component {
       <Mutation
         mutation={SIGNIN_MUTATION}
         variables={this.state}
-        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+        refetchQueries={[{ query: CURRENT_USER_QUERY, variables: {token: cookies.get('token')} }]}
       >
-        {(signup, { error, loading }) => (
+        {(signin, { error, loading }) => (
           <form
             method="post"
             onSubmit={async e => {
               e.preventDefault();
-              await signup();
-              this.setState({ name: '', email: '', password: '' });   
-              Router.reload()
+              await signin().then(response => {
+                cookies.set('token', response.data.signin.cookieToken, {
+                  maxAge: 1000 * 60 * 60 * 24 * 365,
+                })
+                this.setState({ name: '', email: '', password: '' });   
+                Router.reload()
+              });
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>

@@ -4,12 +4,13 @@ import Map from '../components/Map'
 import FeedPreview from '../components/FeedPreview.js'
 import LatestFeature from '../components/LatestFeature.js'
 import FeatureCard from '../components/FeatureCard.js'
-
 import Link from 'next/link';
-
 import { Query } from 'react-apollo'
 import { LATEST_FEATURE_QUERY, RECENT_FEATURES_QUERY, BOOSTED_FEATURES_QUERY, CURRENT_USER_QUERY } from '../components/Apollo'
 import LoginModal from '../components/LoginModal';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 const Container = styled.div`
     width: 95%;
@@ -66,7 +67,7 @@ class news extends Component {
     render() {
         return (
             <Container>
-                <Query query={CURRENT_USER_QUERY}>
+                <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
                     {({data, error, loading}) => {
                         if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
                         if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;

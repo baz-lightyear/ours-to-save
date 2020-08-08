@@ -1,4 +1,5 @@
 const { forwardTo } = require('prisma-binding');
+const jwt = require('jsonwebtoken');
 
 const Query = {
     stories: forwardTo('db'),
@@ -101,13 +102,15 @@ const Query = {
         return features
     },
     async me(parent, args, ctx, info) {
-        if(!ctx.request.userId) {
+        if(!args.token) {
             return null;
+        } else {
+            const { userId } = jwt.verify(args.token, process.env.APP_SECRET)
+            const user = await ctx.db.query.user({
+                where: { id: userId }
+            }, info);
+            return user
         }
-        const user = await ctx.db.query.user({
-            where: { id: ctx.request.userId }
-        }, info);
-        return user
     },
 };
 

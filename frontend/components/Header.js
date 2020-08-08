@@ -6,6 +6,9 @@ import Signout from './Signout';
 import LoginModal from './LoginModal';
 import { CURRENT_USER_QUERY } from './Apollo';
 import { Query } from 'react-apollo'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 
 const Container = styled.div`
@@ -179,7 +182,7 @@ class Header extends Component {
   }
   render () {
     return (
-      <Query query={CURRENT_USER_QUERY}>
+      <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
           {({data, error, loading}) => {
             if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
             if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;

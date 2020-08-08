@@ -18,7 +18,15 @@ type User {
   updatedAt: DateTime @updatedAt
   featureComments: [FeatureComment] @scalarList(strategy: RELATION)
   upvotedStories: [Story] @scalarList(strategy: RELATION)
-  premium: Boolean @default(value: false)
+  stripeCustomerId: String @unique
+  stripeBillingSessionUrl: String
+  stripeCheckoutSessionId: String
+  # stripeSubscriptionId: String
+  # stripeSubscriptionCurrentPeriodEnd: DateTime
+  # stripeCustomerBalance: Float
+  # cardLast4: String
+  # billingExpiry: String
+  cookieToken: String
 }
 
 type FeatureComment {

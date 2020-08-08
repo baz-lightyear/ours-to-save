@@ -40,9 +40,10 @@ class RequestReset extends Component {
             data-test="form"
             onSubmit={async e => {
               e.preventDefault();
-              await reset();
-              this.setState({ email: '' });
-              this.handleAlert();
+              await reset().then(response => {
+                this.setState({ email: '' });
+                this.handleAlert();
+              });
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>

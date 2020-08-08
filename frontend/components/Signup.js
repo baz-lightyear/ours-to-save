@@ -4,6 +4,9 @@ import Error from './Error';
 import { SIGNUP_MUTATION, CURRENT_USER_QUERY } from './Apollo';
 import Swal from 'sweetalert2';
 import Router from 'next/router'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 class Signup extends Component {
   state = {
@@ -21,24 +24,28 @@ class Signup extends Component {
       <Mutation
         mutation={SIGNUP_MUTATION}
         variables={this.state}
-        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+        refetchQueries={[{ query: CURRENT_USER_QUERY, variables: {token: cookies.get('token')}}]}
       >
         {(signup, { error, loading }) => (
           <form
             method="post"
             onSubmit={async e => {
               e.preventDefault();
-              await signup();
-              this.setState({ name: '', email: '', password: '' });
-              Swal.fire({
-                title: `Welcome to Ours to Save`,
-                text: `Thanks for signing up.`,
-                icon: 'success',
-                confirmButtonColor: '#4B4C53',
-                onClose: () => {
-                  Router.reload();
-                }
-              })
+              await signup().then(response => {
+                cookies.set('token', response.data.signup.cookieToken, {
+                  maxAge: 1000 * 60 * 60 * 24 * 365,
+                })
+                this.setState({ name: '', email: '', password: '' });
+                Swal.fire({
+                  title: `Welcome to Ours to Save`,
+                  text: `Thanks for signing up.`,
+                  icon: 'success',
+                  confirmButtonColor: '#4B4C53',
+                  onClose: () => {
+                    Router.reload();
+                  }
+                })
+              });
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>

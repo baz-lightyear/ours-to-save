@@ -6,7 +6,6 @@ import { CURRENT_USER_QUERY, ADD_FEATURE_COMMENT } from './Apollo'
 import Moment from 'react-moment';
 import Comment from './Comment';
 import Router from 'next/router';
-
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -25,6 +24,9 @@ import {optimiseCloudinary} from '../lib/utils';
 import Link from 'next/link';
 import Paywall from './Paywall'
 import Swal from 'sweetalert2';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 const Container = styled.div`
     min-height: calc(100vh - 125px);
@@ -206,7 +208,7 @@ class FeatureShow extends Component {
     } 
     render() {
         return (
-            <Query query={CURRENT_USER_QUERY}>
+            <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
                 {({data, loading, error}) => {
                     if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
                     if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
