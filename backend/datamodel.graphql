@@ -2,6 +2,7 @@ enum Permission {
   ADMIN
   EDITOR
   USER
+  PREMIUM
 }
 
 type User {
@@ -44,14 +45,26 @@ type Story {
   author: String
   interestedInFeatureEmail: String
   image: String
-  approved: Boolean
+  approved: Boolean @default(value: true)
   ourPick: Boolean
   feature: Boolean
   sponsored: Boolean
   leading: Boolean
   country: String
   countUpvotes: Int @default(value: 0)
+  comments: [StoryComment] @scalarList(strategy: RELATION)
 }
+
+type StoryComment {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  author: User @relation(link: INLINE)
+  approved: Boolean @default(value: true)
+  content: String
+  story: Story @relation(link: INLINE)
+}
+
 
 type Feature {
   id: ID! @id

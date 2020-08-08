@@ -104,7 +104,8 @@ class CreateStory extends Component {
         author: '',
         // interestedInFeatureEmail: '',
         image: '',
-        loading: false
+        loading: false,
+        charCount: 0
     };
     setMoralityGood = () => {
         this.setState({morality: "good"})
@@ -141,6 +142,9 @@ class CreateStory extends Component {
     };
     saveContent = string => {
         this.setState({content: string})
+    }
+    setChars = (chars) => {
+        this.setState({charCount: chars})
     }
     render() {
         return (
@@ -183,7 +187,7 @@ class CreateStory extends Component {
                                 <br/>
                                 <small>It's great if you can refer to a source too. </small>
 
-                                <StoryEditor saveContent={this.saveContent}/>
+                                <StoryEditor saveContent={this.saveContent} setChars={this.setChars}/>
                                 <label htmlFor="file">
                                     If you like, add a picture.
                                 </label>
@@ -228,7 +232,7 @@ class CreateStory extends Component {
                                 />
                                 <br/>
                                 <div className="submit">
-                                    <button id="submit" type="submit">submit post</button>
+                                    <button style={{cursor: "pointer"}} disabled={this.state.charCount > 300} id="submit" type="submit">submit post</button>
                                     <br/>
                                     <small>By submitting this post I promise that it is true (to the best of my knowledge)</small>
                                 </div>

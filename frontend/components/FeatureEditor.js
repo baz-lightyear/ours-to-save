@@ -7,8 +7,7 @@ import { withHistory } from 'slate-history'
 import imageExtensions from 'image-extensions'
 import isUrl from 'is-url';
 import styled from 'styled-components';
-import { CREATE_FEATURE_MUTATION } from '../components/Apollo';
-import { deflateData } from '../lib/utils';
+import { CREATE_FEATURE_MUTATION, UPDATE_FEATURE_MUTATION } from '../components/Apollo';
 
 const Container = styled.div`
     padding: 1rem 0;
@@ -218,18 +217,17 @@ const FeatureEditor = (props) => {
         }
         return editor
     }
-    const [value, setValue] = useState([
-        {
-            type: 'paragraph',
-            children: [{ text: "" }],
-        },
-    ])
-    const [address, setAddress] = useState()
-    const [title, setTitle] = useState()
-    const [subtitle, setSubtitle] = useState()
-    const [bio, setBio] = useState()
-    const [author, setAuthor] = useState()
-    const [category, setCategory] = useState()
+
+    // 'value' is here used as a name for the content of the article itself
+    
+    const [value, setValue] = useState(JSON.parse(props.content))
+    const [address, setAddress] = useState(props.address)
+    const [title, setTitle] = useState(props.title)
+    const [subtitle, setSubtitle] = useState(props.subtitle)
+    const [bio, setBio] = useState(props.bio)
+    const [author, setAuthor] = useState(props.authorName)
+    const [category, setCategory] = useState(props.category)
+    const [featuredImage, setFeaturedImage] = useState(props.featuredImage)
 
     const editor = useMemo(
         () => withImages(withLinks(withHistory(withReact(createEditor())))),
@@ -238,7 +236,6 @@ const FeatureEditor = (props) => {
 
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const renderElement = useCallback(props => <Element {...props} />, [])
-
 
     const isMarkActive = (editor, format) => {
         const marks = Editor.marks(editor)
@@ -321,17 +318,8 @@ const FeatureEditor = (props) => {
         )
     }
 
-    const [createFeature, { data }] = useMutation(CREATE_FEATURE_MUTATION);
-
-
-    const uploadToDatabase = () => {
-        const string = JSON.stringify(value)
-        createFeature({ variables: { content: string, address: address} });
-        window.alert('Nice. Check it out in Prisma to see if it worked')
-        Router.push({
-            pathname: '/',
-        });
-    }
+    const [createFeature] = useMutation(CREATE_FEATURE_MUTATION);
+    const [updateFeature] = useMutation(UPDATE_FEATURE_MUTATION);
 
     const handleTitle = event => {
         setTitle(event.target.value)
@@ -349,6 +337,9 @@ const FeatureEditor = (props) => {
         setCategory(event.target.value)
     }
 
+    const handleFeaturedImage = event => {
+        setFeaturedImage(event.target.value)
+    }
 
     const handleAddress = event => {
         setAddress(event.target.value)
@@ -359,22 +350,44 @@ const FeatureEditor = (props) => {
             <form onSubmit={ async e => {
                 e.preventDefault();
                 const string = JSON.stringify(value)
-                await createFeature({ variables: { 
-                    title: title,
-                    subtitle: subtitle,
-                    bio: bio,
-                    author: author,
-                    category: category,
-                    content: string, 
-                    address: address,
-                }}).catch(err => {
-                    console.log(err)
-                }).then(() => {
-                    window.alert('Nice. Check it out in Prisma to add cover photo and approve it')
-                    Router.push({
-                        pathname: '/',
+                if (props.updating) {
+                    await updateFeature({ variables: {
+                        title: title,
+                        subtitle: subtitle,
+                        bio: bio,
+                        author: author,
+                        category: category,
+                        content: string, 
+                        // address: address,
+                        featureId: props.featureId,
+                        featuredImage: featuredImage
+                    }}).catch(err => {
+                        console.log(err)
+                    }).then(() => {
+                        Router.push({
+                            pathname: `/feature`,
+                            query: { id: props.featureId },
+                        })
+                    })
+                } else {
+                    await createFeature({ variables: { 
+                        title: title,
+                        subtitle: subtitle,
+                        bio: bio,
+                        author: author,
+                        category: category,
+                        content: string, 
+                        address: address,
+                        featuredImage: featuredImage
+                    }}).catch(err => {
+                        console.log(err)
+                    }).then(() => {
+                        window.alert('Nice. Check it out in Prisma to add cover photo and approve it')
+                        Router.push({
+                            pathname: '/',
+                        });
                     });
-                });
+                }
             }}>
 
                 <span><strong>Title</strong></span>
@@ -384,7 +397,10 @@ const FeatureEditor = (props) => {
                 <span><strong>Author</strong></span>
                 <input name="author" type="text" required value={author} onChange={handleAuthor}/>
                 <span><strong>Bio</strong></span>
-                <input name="bio" type="text" required value={bio} onChange={handleBio}/>
+                <input name="bio" type="text" value={bio} onChange={handleBio}/>
+                <span><strong>Cover photo</strong></span>
+                <p>When you add a cover photo, you <strong>must not</strong> just copy an image into here. Instead, you <em>copy and paste the url of the image</em>. Otherwise the file is too big and our server can't process it. Visit Cloudinary <a href="https://cloudinary.com/console/c-db68a86aed67bfc082fda25d3ead23" target="_blank">here</a> (opens in new tab).</p>
+                <input name="featuredImage" type="text" value={featuredImage} required onChange={handleFeaturedImage}/>
                 <span><strong>Category</strong></span>
                 <select name="category" required value={category} onChange={handleCategory}>
                     <option value="">--Please choose an option--</option>
@@ -415,12 +431,15 @@ const FeatureEditor = (props) => {
                         placeholder="write that magic"
                     />
                 </Slate>
-                <span><strong>Enter address here ideally with postcode</strong></span>
-
-                <div>
-                    <input type="text" id="address" placeholder="" value={address} onChange={handleAddress}/>
-                </div>
-                <p>You still have to approve it and add a cover photo in <a href="https://app.prisma.io/harry-78d82a/services" target="_blank">Prisma</a>! (opens in new tab)</p>
+                {!props.updating && 
+                    <>
+                        <span><strong>Enter address here ideally with postcode</strong></span>
+                        <div>
+                            <input type="text" id="address" placeholder="" value={address} onChange={handleAddress}/>
+                        </div>
+                        <p>You still have to approve it in <a href="https://app.prisma.io/harry-78d82a/services" target="_blank">Prisma</a>! (opens in new tab)</p>
+                    </>
+                }
                 <button type="submit">Upload to database</button>
             </form>
         </Container>

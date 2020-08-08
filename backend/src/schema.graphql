@@ -6,7 +6,7 @@ type SuccessMessage {
 
 type Mutation {
     createStory(title: String!, content: String!, address: String!, author: String, image: String): Story
-    createFeature(content: String!, address: String!, title: String!, subtitle: String!, bio: String!, author: String!, category: String!): Feature
+    createFeature(content: String!, featuredImage: String, address: String!, title: String!, subtitle: String!, bio: String, author: String!, category: String!): Feature
     createUser(email: String!): User
     signup(email: String! password: String! name: String!): User!
     signin( email: String! password: String! ): User!
@@ -15,6 +15,8 @@ type Mutation {
     resetPassword( resetToken: String! password: String! confirmPassword: String!): User!
     upvoteStory(storyId: String!, userId: String!): Story
     addFeatureComment(content: String, authorId: String, featureId: String): FeatureComment
+    addStoryComment(content: String, authorId: String, storyId: String): StoryComment
+    updateFeature(content: String!, featuredImage: String, address: String, title: String!, subtitle: String!, bio: String, author: String!, category: String!, featureId: String): Feature
 }
 
 type Query {

@@ -221,6 +221,7 @@ class FeatureShow extends Component {
                             </div>
                             <div className="filler"></div>
                             <div id="content">
+                                {me && me.permissions.includes("EDITOR") && <Link href={{pathname: '/editFeature', query: { id: this.props.feature.id }}}><p style={{textAlign: "right"}}><a style={{cursor: "pointer"}}>Edit feature ✏️ </a></p></Link>}
                                 <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/"><a>here</a></Link>.</p>
                                 <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
                                 <p className="author">{this.props.feature.author}</p>

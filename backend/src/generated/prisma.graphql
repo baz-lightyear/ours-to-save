@@ -1,5 +1,5 @@
 # source: https://ours-to-save-prod-e8112953ab.herokuapp.com
-# timestamp: Fri Jun 19 2020 12:00:30 GMT+0100 (British Summer Time)
+# timestamp: Sat Aug 08 2020 14:01:13 GMT+0100 (British Summer Time)
 
 type AggregateFeature {
   count: Int!
@@ -10,6 +10,10 @@ type AggregateFeatureComment {
 }
 
 type AggregateStory {
+  count: Int!
+}
+
+type AggregateStoryComment {
   count: Int!
 }
 
@@ -1212,29 +1216,35 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createFeatureComment(data: FeatureCommentCreateInput!): FeatureComment!
+  createStoryComment(data: StoryCommentCreateInput!): StoryComment!
   createFeature(data: FeatureCreateInput!): Feature!
+  createUser(data: UserCreateInput!): User!
   createStory(data: StoryCreateInput!): Story!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateFeatureComment(data: FeatureCommentUpdateInput!, where: FeatureCommentWhereUniqueInput!): FeatureComment
+  updateStoryComment(data: StoryCommentUpdateInput!, where: StoryCommentWhereUniqueInput!): StoryComment
   updateFeature(data: FeatureUpdateInput!, where: FeatureWhereUniqueInput!): Feature
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateStory(data: StoryUpdateInput!, where: StoryWhereUniqueInput!): Story
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteFeatureComment(where: FeatureCommentWhereUniqueInput!): FeatureComment
+  deleteStoryComment(where: StoryCommentWhereUniqueInput!): StoryComment
   deleteFeature(where: FeatureWhereUniqueInput!): Feature
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteStory(where: StoryWhereUniqueInput!): Story
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertFeatureComment(where: FeatureCommentWhereUniqueInput!, create: FeatureCommentCreateInput!, update: FeatureCommentUpdateInput!): FeatureComment!
+  upsertStoryComment(where: StoryCommentWhereUniqueInput!, create: StoryCommentCreateInput!, update: StoryCommentUpdateInput!): StoryComment!
   upsertFeature(where: FeatureWhereUniqueInput!, create: FeatureCreateInput!, update: FeatureUpdateInput!): Feature!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertStory(where: StoryWhereUniqueInput!, create: StoryCreateInput!, update: StoryUpdateInput!): Story!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyFeatureComments(data: FeatureCommentUpdateManyMutationInput!, where: FeatureCommentWhereInput): BatchPayload!
+  updateManyStoryComments(data: StoryCommentUpdateManyMutationInput!, where: StoryCommentWhereInput): BatchPayload!
   updateManyFeatures(data: FeatureUpdateManyMutationInput!, where: FeatureWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyStories(data: StoryUpdateManyMutationInput!, where: StoryWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyFeatureComments(where: FeatureCommentWhereInput): BatchPayload!
+  deleteManyStoryComments(where: StoryCommentWhereInput): BatchPayload!
   deleteManyFeatures(where: FeatureWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyStories(where: StoryWhereInput): BatchPayload!
 }
 
@@ -1272,17 +1282,20 @@ enum Permission {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   featureComments(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FeatureComment]!
+  storyComments(where: StoryCommentWhereInput, orderBy: StoryCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StoryComment]!
   features(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Feature]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   stories(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Story]!
-  user(where: UserWhereUniqueInput!): User
   featureComment(where: FeatureCommentWhereUniqueInput!): FeatureComment
+  storyComment(where: StoryCommentWhereUniqueInput!): StoryComment
   feature(where: FeatureWhereUniqueInput!): Feature
+  user(where: UserWhereUniqueInput!): User
   story(where: StoryWhereUniqueInput!): Story
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   featureCommentsConnection(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureCommentConnection!
+  storyCommentsConnection(where: StoryCommentWhereInput, orderBy: StoryCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StoryCommentConnection!
   featuresConnection(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   storiesConnection(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection!
 
   """Fetches an object given its ID"""
@@ -1312,6 +1325,449 @@ type Story implements Node {
   leading: Boolean
   country: String
   countUpvotes: Int
+  comments(where: StoryCommentWhereInput, orderBy: StoryCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StoryComment!]
+}
+
+type StoryComment implements Node {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  author: User
+  approved: Boolean
+  content: String
+  story: Story
+}
+
+"""A connection to a list of items."""
+type StoryCommentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [StoryCommentEdge]!
+  aggregate: AggregateStoryComment!
+}
+
+input StoryCommentCreateInput {
+  id: ID
+  approved: Boolean
+  content: String
+  author: UserCreateOneInput
+  story: StoryCreateOneWithoutCommentsInput
+}
+
+input StoryCommentCreateManyWithoutStoryInput {
+  create: [StoryCommentCreateWithoutStoryInput!]
+  connect: [StoryCommentWhereUniqueInput!]
+}
+
+input StoryCommentCreateWithoutStoryInput {
+  id: ID
+  approved: Boolean
+  content: String
+  author: UserCreateOneInput
+}
+
+"""An edge in a connection."""
+type StoryCommentEdge {
+  """The item at the end of the edge."""
+  node: StoryComment!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum StoryCommentOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  approved_ASC
+  approved_DESC
+  content_ASC
+  content_DESC
+}
+
+type StoryCommentPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  approved: Boolean
+  content: String
+}
+
+input StoryCommentScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [StoryCommentScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [StoryCommentScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [StoryCommentScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  approved: Boolean
+
+  """All values that are not equal to given value."""
+  approved_not: Boolean
+  content: String
+
+  """All values that are not equal to given value."""
+  content_not: String
+
+  """All values that are contained in given list."""
+  content_in: [String!]
+
+  """All values that are not contained in given list."""
+  content_not_in: [String!]
+
+  """All values less than the given value."""
+  content_lt: String
+
+  """All values less than or equal the given value."""
+  content_lte: String
+
+  """All values greater than the given value."""
+  content_gt: String
+
+  """All values greater than or equal the given value."""
+  content_gte: String
+
+  """All values containing the given string."""
+  content_contains: String
+
+  """All values not containing the given string."""
+  content_not_contains: String
+
+  """All values starting with the given string."""
+  content_starts_with: String
+
+  """All values not starting with the given string."""
+  content_not_starts_with: String
+
+  """All values ending with the given string."""
+  content_ends_with: String
+
+  """All values not ending with the given string."""
+  content_not_ends_with: String
+}
+
+type StoryCommentSubscriptionPayload {
+  mutation: MutationType!
+  node: StoryComment
+  updatedFields: [String!]
+  previousValues: StoryCommentPreviousValues
+}
+
+input StoryCommentSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [StoryCommentSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [StoryCommentSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [StoryCommentSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: StoryCommentWhereInput
+}
+
+input StoryCommentUpdateInput {
+  approved: Boolean
+  content: String
+  author: UserUpdateOneInput
+  story: StoryUpdateOneWithoutCommentsInput
+}
+
+input StoryCommentUpdateManyDataInput {
+  approved: Boolean
+  content: String
+}
+
+input StoryCommentUpdateManyMutationInput {
+  approved: Boolean
+  content: String
+}
+
+input StoryCommentUpdateManyWithoutStoryInput {
+  create: [StoryCommentCreateWithoutStoryInput!]
+  connect: [StoryCommentWhereUniqueInput!]
+  set: [StoryCommentWhereUniqueInput!]
+  disconnect: [StoryCommentWhereUniqueInput!]
+  delete: [StoryCommentWhereUniqueInput!]
+  update: [StoryCommentUpdateWithWhereUniqueWithoutStoryInput!]
+  updateMany: [StoryCommentUpdateManyWithWhereNestedInput!]
+  deleteMany: [StoryCommentScalarWhereInput!]
+  upsert: [StoryCommentUpsertWithWhereUniqueWithoutStoryInput!]
+}
+
+input StoryCommentUpdateManyWithWhereNestedInput {
+  where: StoryCommentScalarWhereInput!
+  data: StoryCommentUpdateManyDataInput!
+}
+
+input StoryCommentUpdateWithoutStoryDataInput {
+  approved: Boolean
+  content: String
+  author: UserUpdateOneInput
+}
+
+input StoryCommentUpdateWithWhereUniqueWithoutStoryInput {
+  where: StoryCommentWhereUniqueInput!
+  data: StoryCommentUpdateWithoutStoryDataInput!
+}
+
+input StoryCommentUpsertWithWhereUniqueWithoutStoryInput {
+  where: StoryCommentWhereUniqueInput!
+  update: StoryCommentUpdateWithoutStoryDataInput!
+  create: StoryCommentCreateWithoutStoryInput!
+}
+
+input StoryCommentWhereInput {
+  """Logical AND on all given filters."""
+  AND: [StoryCommentWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [StoryCommentWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [StoryCommentWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  approved: Boolean
+
+  """All values that are not equal to given value."""
+  approved_not: Boolean
+  content: String
+
+  """All values that are not equal to given value."""
+  content_not: String
+
+  """All values that are contained in given list."""
+  content_in: [String!]
+
+  """All values that are not contained in given list."""
+  content_not_in: [String!]
+
+  """All values less than the given value."""
+  content_lt: String
+
+  """All values less than or equal the given value."""
+  content_lte: String
+
+  """All values greater than the given value."""
+  content_gt: String
+
+  """All values greater than or equal the given value."""
+  content_gte: String
+
+  """All values containing the given string."""
+  content_contains: String
+
+  """All values not containing the given string."""
+  content_not_contains: String
+
+  """All values starting with the given string."""
+  content_starts_with: String
+
+  """All values not starting with the given string."""
+  content_not_starts_with: String
+
+  """All values ending with the given string."""
+  content_ends_with: String
+
+  """All values not ending with the given string."""
+  content_not_ends_with: String
+  author: UserWhereInput
+  story: StoryWhereInput
+}
+
+input StoryCommentWhereUniqueInput {
+  id: ID
 }
 
 """A connection to a list of items."""
@@ -1342,11 +1798,37 @@ input StoryCreateInput {
   leading: Boolean
   country: String
   countUpvotes: Int
+  comments: StoryCommentCreateManyWithoutStoryInput
 }
 
 input StoryCreateManyInput {
   create: [StoryCreateInput!]
   connect: [StoryWhereUniqueInput!]
+}
+
+input StoryCreateOneWithoutCommentsInput {
+  create: StoryCreateWithoutCommentsInput
+  connect: StoryWhereUniqueInput
+}
+
+input StoryCreateWithoutCommentsInput {
+  id: ID
+  title: String!
+  content: String
+  address: String
+  longitude: Float
+  latitude: Float
+  morality: String
+  author: String
+  interestedInFeatureEmail: String
+  image: String
+  approved: Boolean
+  ourPick: Boolean
+  feature: Boolean
+  sponsored: Boolean
+  leading: Boolean
+  country: String
+  countUpvotes: Int
 }
 
 """An edge in a connection."""
@@ -1976,6 +2458,7 @@ input StoryUpdateDataInput {
   leading: Boolean
   country: String
   countUpvotes: Int
+  comments: StoryCommentUpdateManyWithoutStoryInput
 }
 
 input StoryUpdateInput {
@@ -1995,6 +2478,7 @@ input StoryUpdateInput {
   leading: Boolean
   country: String
   countUpvotes: Int
+  comments: StoryCommentUpdateManyWithoutStoryInput
 }
 
 input StoryUpdateManyDataInput {
@@ -2052,9 +2536,42 @@ input StoryUpdateManyWithWhereNestedInput {
   data: StoryUpdateManyDataInput!
 }
 
+input StoryUpdateOneWithoutCommentsInput {
+  create: StoryCreateWithoutCommentsInput
+  connect: StoryWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: StoryUpdateWithoutCommentsDataInput
+  upsert: StoryUpsertWithoutCommentsInput
+}
+
+input StoryUpdateWithoutCommentsDataInput {
+  title: String
+  content: String
+  address: String
+  longitude: Float
+  latitude: Float
+  morality: String
+  author: String
+  interestedInFeatureEmail: String
+  image: String
+  approved: Boolean
+  ourPick: Boolean
+  feature: Boolean
+  sponsored: Boolean
+  leading: Boolean
+  country: String
+  countUpvotes: Int
+}
+
 input StoryUpdateWithWhereUniqueNestedInput {
   where: StoryWhereUniqueInput!
   data: StoryUpdateDataInput!
+}
+
+input StoryUpsertWithoutCommentsInput {
+  update: StoryUpdateWithoutCommentsDataInput!
+  create: StoryCreateWithoutCommentsInput!
 }
 
 input StoryUpsertWithWhereUniqueNestedInput {
@@ -2562,6 +3079,9 @@ input StoryWhereInput {
 
   """All values greater than or equal the given value."""
   countUpvotes_gte: Int
+  comments_every: StoryCommentWhereInput
+  comments_some: StoryCommentWhereInput
+  comments_none: StoryCommentWhereInput
 }
 
 input StoryWhereUniqueInput {
@@ -2569,9 +3089,10 @@ input StoryWhereUniqueInput {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   featureComment(where: FeatureCommentSubscriptionWhereInput): FeatureCommentSubscriptionPayload
+  storyComment(where: StoryCommentSubscriptionWhereInput): StoryCommentSubscriptionPayload
   feature(where: FeatureSubscriptionWhereInput): FeatureSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   story(where: StorySubscriptionWhereInput): StorySubscriptionPayload
 }
 
@@ -2613,6 +3134,11 @@ input UserCreateInput {
   permissions: UserCreatepermissionsInput
   featureComments: FeatureCommentCreateManyWithoutAuthorInput
   upvotedStories: StoryCreateManyInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutFeatureCommentsInput {
@@ -2720,6 +3246,19 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  phone: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  premium: Boolean
+  permissions: UserUpdatepermissionsInput
+  featureComments: FeatureCommentUpdateManyWithoutAuthorInput
+  upvotedStories: StoryUpdateManyInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -2742,6 +3281,15 @@ input UserUpdateManyMutationInput {
   resetTokenExpiry: Float
   premium: Boolean
   permissions: UserUpdatepermissionsInput
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
 }
 
 input UserUpdateOneWithoutFeatureCommentsInput {
@@ -2767,6 +3315,11 @@ input UserUpdateWithoutFeatureCommentsDataInput {
   premium: Boolean
   permissions: UserUpdatepermissionsInput
   upvotedStories: StoryUpdateManyInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutFeatureCommentsInput {

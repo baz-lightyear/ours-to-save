@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import FeatureEditor from '../components/FeatureEditor';
+import { Query } from 'react-apollo'
+import {CURRENT_USER_QUERY} from '../components/Apollo'
+import Link from 'next/link'
 
 const Container = styled.div`
     margin: auto;
@@ -15,35 +18,31 @@ const Container = styled.div`
 `;
 
 class editor extends Component {
-    state = {
-        password: '',
-        open: true
-    }
-    handleChange = event => {
-        this.setState({password: event.target.value})
-    }
-    checkPassword = () => {
-        if (this.state.password === "soletssaveit") {
-            window.alert('Welcome')
-            this.setState({open: true})
-        } else {
-            setTimeout(() => window.alert('Not quite right'), 3000)
-        }
-    }
     render() {
         return (
-            <Container>
-                <div className={`password ${this.state.open ? "hide" : "show"}`}>
-                    <h4>Are you in the right place?</h4>
-                    <p>Enter the password:</p>
-                    <input type="password" value={this.state.password} onChange={this.handleChange}/>
-                    <button onClick={this.checkPassword}>Let me in</button>
-                </div>
-                <div className={`secret ${this.state.open ? "show" : "hide"}`}>
-                    <h1>Add feature</h1>
-                    <FeatureEditor/>
-                </div>
-            </Container>
+            <Query query={CURRENT_USER_QUERY}>
+                 {({data, loading, error}) => {
+                    if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                    if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+                    const me = data.me === null ? null : data.me
+                    return (
+                        <Container>
+                            {me && me.permissions.includes("EDITOR") &&
+                                <>
+                                <h1>Add feature</h1>
+                                <FeatureEditor content={JSON.stringify([{type: 'paragraph', children: [{ text: "" }]}])}/>
+                                </>
+                            }
+                            {me && !me.permissions.includes("EDITOR") && 
+                                <p>Are you in the right place? Back to <Link href="/"><a>home</a></Link></p>
+                            }
+                            {!me && 
+                                <p>Log in to access this page</p>
+                            }
+                        </Container>
+                    )
+                 }}
+            </Query>
         );
     }
 }

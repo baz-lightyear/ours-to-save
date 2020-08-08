@@ -24,17 +24,26 @@ const Container = styled.div`
         }
     }
     .linkDiv {
-        text-align: right;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         #addLink {
             margin: 0;
+            margin-top: 1rem;
+            padding: 4px 8px;
+            background-color: ${props => props.theme.green};
+            color: ${props => props.theme.offWhite};
             opacity: 0.7;
             cursor: pointer;
             &:hover {
                 opacity: 1;
+                border-color: ${props => props.theme.green};
             }
         }
     }
-
+    .forbidden {
+        color: red;
+    }
 `;
 
 const TextEditor = (props) => {
@@ -98,6 +107,7 @@ const TextEditor = (props) => {
             children: [{ text: "" }],
         },
     ])
+    const [chars, setChars] = useState(0)
     const editor = useMemo(
         () => withLinks(withHistory(withReact(createEditor()))),
         []
@@ -107,6 +117,20 @@ const TextEditor = (props) => {
     const saveContent = () => {
         const string = JSON.stringify(value)
         props.saveContent(string)
+    }
+    const countChars = (value) => {
+        let count = 0
+        value.forEach(element => {
+            element.children.forEach(child => {
+                if (child.type === "link") {
+                    count += child.children[0].text.length
+                } else {
+                    count += child.text.length
+                }
+            })
+        })
+        props.setChars(count)
+        setChars(count)
     }
 
     const Element = ({ attributes, children, element }) => {
@@ -125,8 +149,8 @@ const TextEditor = (props) => {
     const LinkButton = () => {
         const editor = useSlate()
         return (
-            <div className="linkDiv" style={{display: "none"}}>
-                <span
+            <div className="linkDiv">
+                <button
                     id="addLink"
                     active={isLinkActive(editor)}
                     onClick={event => {
@@ -136,8 +160,9 @@ const TextEditor = (props) => {
                         insertLink(editor, url)
                     }}
                 >
-                    add a link
-                </span>
+                    add link
+                </button>
+                <span className={chars > 300 ? "forbidden" : ""}>Characters remaining: {300 - chars}</span>
             </div>
         )
     }
@@ -148,6 +173,7 @@ const TextEditor = (props) => {
                 editor={editor} 
                 value={value} 
                 onChange={value => {
+                    countChars(value)
                     setValue(value)
                     saveContent()
                 }}

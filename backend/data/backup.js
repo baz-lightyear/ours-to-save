@@ -22,6 +22,8 @@ const backup = async () => {
     const stories = await prodDatabase.query.stories()
     const features = await prodDatabase.query.features()
     const users = await prodDatabase.query.users()
+    const featureComment = await prodDatabase.query.featureComment()
+    const storyComment = await prodDatabase.query.storyComment()
     const date = new Date()
     mkdirp(`data/backup_${date}`).then(made => {
         console.log(`made directory: ${made}`)
@@ -32,6 +34,12 @@ const backup = async () => {
             if (err) throw err;
         });
         fs.writeFile(`data/backup_${date}/users.json`, JSON.stringify(users), (err) => {
+            if (err) throw err;
+        });
+        fs.writeFile(`data/backup_${date}/featureComment.json`, JSON.stringify(featureComment), (err) => {
+            if (err) throw err;
+        });
+        fs.writeFile(`data/backup_${date}/storyComment.json`, JSON.stringify(storyComment), (err) => {
             if (err) throw err;
         });
     })

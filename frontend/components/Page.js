@@ -180,9 +180,9 @@ class Page extends Component {
                     <a href="https://twitter.com/ourstosave" target="_blank">
                       <img className="twitter" src="twitter.png" alt="twitter logo"/>
                     </a>
-                    <a href="https://www.facebook.com/ourstosave" target="_blank">
+                    {/* <a href="https://www.facebook.com/ourstosave" target="_blank">
                       <img src="facebook.png" alt="facebook logo"/>
-                    </a>
+                    </a> */}
                     <a href="https://www.linkedin.com/company/ours-to-save/" target="_blank">
                       <img src="linkedin.svg" alt="linkedin logo"/>
                     </a>

@@ -38,7 +38,7 @@ class CategorySuggestions extends Component {
                 {({data, error, loading}) => {
                     if (loading) return <><p style={{textAlign: "center", margin: "1rem"}}>Loading...</p><img src="loading.gif" alt="loading" height="50"  style={{display: "block", margin: "auto"}}/></>;
                     if (error) return <p>Error: {error.message}</p>;
-                    const features = data.categoryFeatures.filter(feature => feature !== this.props.feature).slice(0, 3)
+                    const features = data.categoryFeatures.filter(feature => feature.id !== this.props.feature.id).slice(0, 3)
                     return (
                         <>
                         <Container>

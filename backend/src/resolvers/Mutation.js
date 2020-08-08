@@ -5,6 +5,7 @@ const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 const sgMail = require('@sendgrid/mail');
 
+const geocodingApiKey = 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw'
 
 
 
@@ -40,8 +41,6 @@ const Mutation = {
         return story;
     },
     async createFeature(parent, args, ctx, info) {
-        const geocodingApiKey = 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw'
-
         const location = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${args.address}&key=${geocodingApiKey}`)
         .then(response => response.json())
         .then(data => {
@@ -59,7 +58,8 @@ const Mutation = {
                     bio: args.bio,
                     author: args.author,
                     category: args.category,
-                    approved: false
+                    approved: false,
+                    featuredImage: args.featuredImage,
                 },
             },
             info
@@ -216,16 +216,6 @@ const Mutation = {
         }
       },
       async addFeatureComment(parent, args, ctx, info) {
-        // find feature and user
-        // const feature = await ctx.db.query.feature({
-        //   where: {id: args.featureId}
-        // })
-        // console.log(feature.title)
-        // const user = await ctx.db.query.user({
-        //   where: {id: args.authorId}
-        // })
-        // console.log(user.name)
-
         const featureComment = await ctx.db.mutation.createFeatureComment({
           data: {
             author: {connect: {id: args.authorId}},
@@ -234,7 +224,39 @@ const Mutation = {
           }
         })
         return featureComment
-      }
+      },
+      async addStoryComment(parent, args, ctx, info) {
+        const storyComment = await ctx.db.mutation.createStoryComment({
+          data: {
+            author: {connect: {id: args.authorId}},
+            content: args.content,
+            story: {connect: {id: args.storyId}}
+          }
+        })
+        return storyComment
+    }, 
+    async updateFeature(parent, args, ctx, info) {
+
+      let feature = await ctx.db.query.feature({
+        where: {id: args.featureId}
+      })
+
+      // CBA to add update address logic yet
+
+      feature = await ctx.db.mutation.updateFeature({
+        where: {id: args.featureId},
+        data: {
+          content: args.content,
+          title: args.title,
+          subtitle: args.subtitle,
+          bio: args.bio,
+          author: args.author,
+          category: args.category,
+          featuredImage: args.featuredImage,
+        }
+      })
+      return feature
     }
+}
 
 module.exports = Mutation;

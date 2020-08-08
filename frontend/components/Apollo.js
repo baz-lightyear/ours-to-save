@@ -86,6 +86,15 @@ const STORIES_QUERY = gql`
       feature
       sponsored
       countUpvotes
+      comments { 
+        id 
+        createdAt 
+        approved 
+        content 
+        author { 
+          name 
+        }
+      }
     }
   }
 `;
@@ -107,6 +116,15 @@ const MORE_STORIES_QUERY = gql`
       feature
       sponsored
       countUpvotes
+      comments { 
+        id 
+        createdAt 
+        approved 
+        content 
+        author { 
+          name 
+        }
+      }
     }
   }
 `
@@ -125,6 +143,15 @@ const MODAL_STORY_QUERY = gql`
       createdAt
       author
       image
+      comments { 
+        id 
+        createdAt 
+        approved 
+        content 
+        author { 
+          name 
+        }
+      }
     }
   }
 `;
@@ -146,12 +173,13 @@ const FEATURES_QUERY = gql`
 const CREATE_FEATURE_MUTATION = gql`
   mutation CREATE_FEATURE_MUTATION(
     $content: String! 
-    $address: String! 
+    $address: String
     $title: String! 
     $subtitle: String! 
     $author: String! 
-    $bio: String! 
+    $bio: String
     $category: String!
+    $featuredImage: String!
   ) {
     createFeature( 
       content: $content 
@@ -161,11 +189,40 @@ const CREATE_FEATURE_MUTATION = gql`
       bio: $bio
       subtitle: $subtitle
       category: $category
+      featuredImage: $featuredImage
     ) {
       id
     }
   }
 `;
+
+const UPDATE_FEATURE_MUTATION = gql`
+  mutation UPDATE_FEATURE_MUTATION(
+    $content: String! 
+    $address: String
+    $title: String! 
+    $subtitle: String! 
+    $author: String! 
+    $bio: String
+    $category: String!
+    $featureId: String!
+    $featuredImage: String!
+  ) {
+    updateFeature( 
+      content: $content 
+      address: $address 
+      title: $title
+      author: $author
+      bio: $bio
+      subtitle: $subtitle
+      category: $category
+      featureId: $featureId
+      featuredImage: $featuredImage
+    ) {
+      id
+    }
+  }
+`
 
 const FEED_PREVIEW_QUERY = gql`
   query FEED_PREVIEW_QUERY {
@@ -200,6 +257,7 @@ const CURRENT_USER_QUERY = gql`
       id
       email
       name
+      permissions
       upvotedStories {
         id
       }
@@ -266,6 +324,15 @@ const ADD_FEATURE_COMMENT = gql`
   }
 `;
 
+const ADD_STORY_COMMENT = gql`
+  mutation ADD_STORY_COMMENT($content: String!, $authorId: String!, $storyId: String!) {
+    addStoryComment(content: $content, authorId: $authorId, storyId: $storyId) {
+      id
+    }
+  }
+`;
+
+
 export { 
   CREATE_FEATURE_MUTATION, 
   CREATE_STORY_MUTATION, 
@@ -286,5 +353,7 @@ export {
   REQUEST_RESET_MUTATION,
   RESET_MUTATION,
   UPVOTE_STORY,
-  ADD_FEATURE_COMMENT
+  ADD_FEATURE_COMMENT,
+  ADD_STORY_COMMENT,
+  UPDATE_FEATURE_MUTATION
 };

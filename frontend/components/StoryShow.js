@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
 import Swal from 'sweetalert2';
-
+import Comment from './Comment'
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -14,7 +14,8 @@ import {
     TwitterIcon,
 } from "react-share";
 import {optimiseCloudinary, timeFromNow} from '../lib/utils';
-import { CURRENT_USER_QUERY, UPVOTE_STORY } from './Apollo';
+import { CURRENT_USER_QUERY, UPVOTE_STORY, ADD_STORY_COMMENT } from './Apollo';
+import Router from 'next/router'
 
 
 const Container = styled.div`
@@ -116,12 +117,42 @@ const Container = styled.div`
         margin: 1rem 0;
         font-size: 0.9rem;
     }
+    .addComment {
+        form {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            textarea {
+                width: 100%;
+                font-family: ${props => props.theme.sansSerif};
+                padding: 0.5rem;
+                border: solid 1px ${props => props.theme.lightgreen};
+            }
+            button {
+                margin: 1rem 0;
+                padding: 0.5rem 1rem;
+                border: none;
+                background-color: ${props => props.theme.green};
+                color: ${props => props.theme.offWhite};
+                font-weight: normal;
+                &:hover {
+                    background-color: ${props => props.theme.black};
+                }
+            }
+        }
+    }
 `;
 
 class StoryShow extends Component {
     state = {
-        countUpvotes: this.props.story.countUpvotes
+        comments: this.props.story.comments,
+        countUpvotes: this.props.story.countUpvotes,
+        commentContent: ""
     }
+    handleChange = (e) => {
+        this.setState({commentContent: e.target.value})
+    } 
     upvote = async (me, story, upvoteStory) => {
         if (me) {
             if (me.upvotedStories.map(s => s.id).includes(story.id)) {
@@ -145,6 +176,8 @@ class StoryShow extends Component {
             })
         }
     }
+
+
 
     render() {
         const today = new Date()
@@ -199,6 +232,60 @@ class StoryShow extends Component {
                                         </p>
                                     )
                                 })}
+                            </div>
+                            <div className="comments">
+                                <hr/>
+                                {this.state.comments.filter(c => c.approved).length > 0 &&
+                                    <h4>Comments</h4>
+                                }
+                                {this.state.comments.filter(c => c.approved ).map(c => {
+                                    return <Comment key={c.id} comment={c}/>
+                                })}
+                                {/* {this.props.story.comments.filter(c => c.approved ).length === 0 && 
+                                    <p><em>No comments yet. Start the conversation: </em></p>
+                                } */}
+                                <div className="addComment">
+                                    <Mutation mutation={ADD_STORY_COMMENT} >
+                                        {(addStoryComment, { loading, error }) => (
+                                            <form
+                                                data-test="form"
+                                                onSubmit={async e => {
+                                                    e.preventDefault();
+                                                    console.log('hioi')
+                                                    if (me) {
+                                                        await addStoryComment({variables: {
+                                                            content: this.state.commentContent,
+                                                            authorId: me.id,
+                                                            storyId: this.props.story.id
+                                                        }});
+                                                        const comments = this.state.comments
+                                                        comments.push({
+                                                            id: Math.random(),
+                                                            approved: true,
+                                                            content: this.state.commentContent,
+                                                            author: {
+                                                                name: me.name
+                                                            },
+                                                            createdAt: new Date()
+                                                        })
+                                                        this.setState({comments: comments, commentContent: ""})
+                                                    } else {
+                                                        Swal.fire({
+                                                            title: `Join us`,
+                                                            text: `Log in or sign up and you can comment, upvote and gain access to special content.`,
+                                                            icon: 'warning',
+                                                            confirmButtonColor: '#4B4C53',
+                                                        })
+                                                    }
+                                                }}
+                                            >
+                                                <label htmlFor="comment"><strong>Add comment</strong> <br/>{!me && <small>Log in or sign up to comment</small>}</label>
+                                                <textarea name="comment" type="text" placeholder="Keep it respectful" value={this.state.commentContent} onChange={this.handleChange}/>
+                                                <button>submit</button>
+                                            </form>
+                                        )}
+                                    </Mutation>
+                                </div>
                             </div>
                             <div className="sharing">
                                 <div className="icons">
