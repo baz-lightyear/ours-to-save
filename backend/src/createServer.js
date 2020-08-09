@@ -49,7 +49,8 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     const customerId = event.data.object.customer
     const user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions}').catch(err => {console.log(err)})
     // 1.2. update the user's permissions with "PREMIUM"
-    const newPermissions = user.permissions.push("PREMIUM")
+    const newPermissions = user.permissions.filter(p => p !== "PREMIUM")
+    newPermissions.push('PREMIUM')
     await db.mutation.updateUser(
       { 
         where: {id: user.id},

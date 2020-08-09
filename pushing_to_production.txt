@@ -7,13 +7,17 @@ How to push to production
 2. Push Yoga
 2.1. Run the following, from top level folder
 
+    git status
     git add .
+    git status
     git commit -m 'whatever'
     git subtree push --prefix backend heroku-backend master
 
 3. Push NextJS
 3.1. Run the following, from top level folder
 
+    git status
     git add .
+    git status
     git commit -m 'pushing to master and heroku'
     git subtree push --prefix frontend heroku-frontend master
