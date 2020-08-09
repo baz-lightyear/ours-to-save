@@ -7,6 +7,8 @@ const Mutation = require('./resolvers/Mutation');
 const Query = require('./resolvers/Query');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const stripe = require('./stripe');
+
 
 const db = new Prisma({
   typeDefs: 'src/generated/prisma.graphql',
@@ -25,6 +27,40 @@ const server = new GraphQLServer({
     requireResolversForResolveType: false,
   },
   context: req => ({ ...req, db }),
+});
+
+// stripe webhooks
+
+
+
+const stripeWebhookKey = process.env.STRIPE_WEBHOOK_KEY;
+
+server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}), async (req, res, next) => { 
+  const sig = req.headers['stripe-signature'];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, stripeWebhookKey);
+  } catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+  // 1. checkout.session.completed when they successfully set up a subscription
+  if (event.type === 'checkout.session.completed') {
+    // 1.1 find the user
+    const customerId = event.data.object.customer
+    const user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions}').catch(err => {console.log(err)})
+    // 1.2. update the user's permissions with "PREMIUM"
+    const newPermissions = user.permissions.push("PREMIUM")
+    await db.mutation.updateUser(
+      { 
+        where: {id: user.id},
+        permissions: {
+          set: newPermissions
+        }
+      }
+    ).catch(err => {console.log(err)});
+  }
+  res.json({received: true});
+  res.end()
 });
 
 server.express.use(cookieParser());

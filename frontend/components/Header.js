@@ -208,17 +208,11 @@ class Header extends Component {
                     <Link href="/features">
                       <a>features</a>
                     </Link>
-                    <Link href="/about">
-                      <a>about</a>
-                    </Link>
-                    <Link href="/supportUs">
-                      <a>support us</a>
-                    </Link>
+                    {/* { me && <Link href="/account"><a>account</a></Link>} */}
                     <div id="account">
                       { !me && <LoginModal>log in / sign up</LoginModal>}
                       { me && <Signout/>}
                     </div>
-                    {/* <Subscribe/> */}
                   </div>
                   <div className='mobileBurger' onClick={this.toggle}>
                     <div className="burgerDiv">
@@ -247,17 +241,11 @@ class Header extends Component {
                         <Link href={{pathname: '/category', query: { category: "power" }}}>
                           <a className="category featuresButton">power ←</a>
                         </Link>
-                        <Link href="/about">
-                          <a>about</a>
-                        </Link>
-                        <Link href="/supportUs">
-                          <a>support us</a>
-                        </Link>
+                        {/* { me && <Link href="/account"><a>account</a></Link>} */}
                         <div id="account">
                           { !me && <LoginModal>log in / sign up</LoginModal>}
                           { me && <Signout/>}
                         </div>
-                       {/* you need to include the feature types in here */}
                       </div>
                     </div>
                   </div>

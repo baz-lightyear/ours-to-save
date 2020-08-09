@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { CURRENT_USER_QUERY, CREATE_STRIPE_CUSTOMER_ID, CREATE_STRIPE_BILLING_SESSION, CREATE_STRIPE_SUBSCRIPTION} from '../components/Apollo';
+import { CURRENT_USER_QUERY, CREATE_STRIPE_BILLING_SESSION, CREATE_STRIPE_SUBSCRIPTION} from '../components/Apollo';
 import Cookies from 'universal-cookie';
 import { Query, Mutation } from 'react-apollo';
 import styled from 'styled-components';
 import Router from 'next/router'
 import { loadStripe } from '@stripe/stripe-js';
+import Link from 'next/link'
 
 const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
 
@@ -27,25 +28,13 @@ class account extends Component {
                             <Container>
                                 <h1>Hi, {me.name}</h1>
 
-                                {/* make stripe customer id if they haven't got one */}
-                                {!me.stripeCustomerId &&
-                                    <Mutation mutation={CREATE_STRIPE_CUSTOMER_ID} variables={{userId: me.id}}>
-                                        {(createStripeCustomerId, {error, loading}) => {
-                                            return (
-                                                <button onClick={(e) => {
-                                                    e.preventDefault()
-                                                    createStripeCustomerId().then(response => {
-                                                        Router.reload()
-                                                    })
-                                                }}>create stripe customer id</button>
-                                            )
-                                        }}
-                                    </Mutation>
+                                {me.permissions.includes("EDITOR") && 
+                                    <Link href={"/editor"}><a>Write a new feature</a></Link>
                                 }
 
                                 {/* create a subcription */}
-                                {me.stripeCustomerId &&
-                                    <Mutation mutation={CREATE_STRIPE_SUBSCRIPTION} variables={{userId: me.id}}>
+                                {!me.permissions.includes("PREMIUM") &&
+                                    <Mutation mutation={CREATE_STRIPE_SUBSCRIPTION} variables={{userId: me.id, priceId: "price_1HEK2oIcB8KtT8kgcw28vURb"}}>
                                     {(createStripeSubscription, {error, loading}) => {
                                         return (
                                             <button onClick={ async (e) => {
@@ -64,7 +53,7 @@ class account extends Component {
                                 }
 
                                 {/* access portal to manage subscription */}
-                                {me.stripeCustomerId && 
+                                {me.permissions.includes("PREMIUM") && 
                                     <Mutation mutation={CREATE_STRIPE_BILLING_SESSION} variables={{userId: me.id}}>
                                         {(createStripeBillingSession, {error, loading}) => {
                                             return (

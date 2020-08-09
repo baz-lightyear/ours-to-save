@@ -15,9 +15,8 @@ type Mutation {
     addFeatureComment(content: String, authorId: String, featureId: String): FeatureComment
     addStoryComment(content: String, authorId: String, storyId: String): StoryComment
     updateFeature(content: String!, featuredImage: String, address: String, title: String!, subtitle: String!, bio: String, author: String!, category: String!, featureId: String): Feature
-    createStripeCustomerId(userId: String): User
     createStripeBillingSession(userId: String): User
-    createStripeSubscription(userId: String): User
+    createStripeSubscription(userId: String, priceId: String): User
 }
 
 type Query {

@@ -110,7 +110,7 @@ const Footer = styled.div`
     padding: 0.5rem 0;
     margin-right: 1rem;
     display: flex;
-    @media (max-width: 400px) {
+    @media (max-width: 600px) {
       flex-direction: column;
       align-items: flex-end;
     }
@@ -193,6 +193,12 @@ class Page extends Component {
                   <span className="contact">
                     <Link href="suggestContent"><a>suggest content</a></Link>
                     <Link href="contact"><a>contact</a></Link>
+                    <Link href="/about">
+                      <a>about</a>
+                    </Link>
+                    <Link href="/supportUs">
+                      <a>support us</a>
+                    </Link>
                   </span>
                 </Footer>
             </StyledPage>

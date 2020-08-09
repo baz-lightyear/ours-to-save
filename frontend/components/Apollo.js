@@ -322,14 +322,6 @@ const ADD_STORY_COMMENT = gql`
   }
 `;
 
-const CREATE_STRIPE_CUSTOMER_ID = gql`
-  mutation CREATE_STRIPE_CUSTOMER_ID($userId: String!) {
-    createStripeCustomerId(userId: $userId) {
-      id
-    }
-  }
-`
-
 const CREATE_STRIPE_BILLING_SESSION = gql`
 mutation CREATE_STRIPE_BILLING_SESSION($userId: String!) {
   createStripeBillingSession(userId: $userId) {
@@ -340,8 +332,8 @@ mutation CREATE_STRIPE_BILLING_SESSION($userId: String!) {
 `
 
 const CREATE_STRIPE_SUBSCRIPTION = gql`
-mutation CREATE_STRIPE_SUBSCRIPTION($userId: String!) {
-  createStripeSubscription(userId: $userId) {
+mutation CREATE_STRIPE_SUBSCRIPTION($userId: String!, $priceId: String) {
+  createStripeSubscription(userId: $userId, priceId: $priceId) {
     id
     stripeCheckoutSessionId
   }
@@ -369,7 +361,6 @@ export {
   ADD_FEATURE_COMMENT,
   ADD_STORY_COMMENT,
   UPDATE_FEATURE_MUTATION,
-  CREATE_STRIPE_CUSTOMER_ID,
   CREATE_STRIPE_BILLING_SESSION,
   CREATE_STRIPE_SUBSCRIPTION
 };

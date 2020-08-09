@@ -224,22 +224,6 @@ const Mutation = {
     return feature
   },
 
-  async createStripeCustomerId(parent, args, ctx, info) {
-    let user = await ctx.db.query.user({where: {id: args.userId}})
-    let customer = await stripe.customers.create({
-      email: user.email
-    })
-    user = await ctx.db.mutation.updateUser(
-      {
-        where: {id: user.id},
-        data: {
-          stripeCustomerId: customer.id,
-        }
-      }, 
-    )
-    return user
-  },
-
   async createStripeBillingSession(parent, args, ctx, info) {
     let user = await ctx.db.query.user({where: {id: args.userId}})
     let session = await stripe.billingPortal.sessions.create({
@@ -260,10 +244,24 @@ const Mutation = {
 
   async createStripeSubscription(parent, args, ctx, info) {
     let user = await ctx.db.query.user({where: {id: args.userId}})
+    if (!user.stripeCustomerId) {
+      let customer = await stripe.customers.create({
+        email: user.email
+      })
+      user = await ctx.db.mutation.updateUser(
+        {
+          where: {id: user.id},
+          data: {
+            stripeCustomerId: customer.id,
+          }
+        }, 
+      )
+    }
     let session = await stripe.checkout.sessions.create({
+      customer: user.stripeCustomerId,
       payment_method_types: ['card'],
       line_items: [{
-        price: 'price_1HDzTTIcB8KtT8kgqNqbhsUJ',
+        price: args.priceId,
         quantity: 1,
       }],
       mode: 'subscription',
