@@ -53,8 +53,10 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     await db.mutation.updateUser(
       { 
         where: {id: user.id},
-        permissions: {
-          set: newPermissions
+        data: {
+          permissions: {
+            set: newPermissions
+          }
         }
       }
     ).catch(err => {console.log(err)});
