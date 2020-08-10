@@ -16,6 +16,9 @@ const Container = styled.div`
 `;
 
 class account extends Component {
+    state = {
+        consent: false
+    }
     render() {
         return (
             <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
@@ -37,16 +40,22 @@ class account extends Component {
                                     <Mutation mutation={CREATE_STRIPE_SUBSCRIPTION} variables={{userId: me.id, priceId: "price_1HEK2oIcB8KtT8kgcw28vURb"}}>
                                     {(createStripeSubscription, {error, loading}) => {
                                         return (
-                                            <button onClick={ async (e) => {
-                                                e.preventDefault()
-                                                await createStripeSubscription().then( async response => {
-                                                    const stripe = await stripePromise;
-                                                    const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
-                                                    await stripe.redirectToCheckout({
-                                                        sessionId
-                                                    });
-                                                })
-                                            }}>create stripe subscription</button>
+                                            <div>
+                                                <label>
+                                                    <input type="checkbox" onChange={e => this.setState({consent: e.target.checked})}/>
+                                                    I consent to the <a href="/terms" target="_blank">terms</a> (opens in new window).
+                                                </label>
+                                                <button disabled={!this.state.consent} onClick={ async (e) => {
+                                                    e.preventDefault()
+                                                    await createStripeSubscription().then( async response => {
+                                                        const stripe = await stripePromise;
+                                                        const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
+                                                        await stripe.redirectToCheckout({
+                                                            sessionId
+                                                        });
+                                                    })
+                                                }}>create stripe subscription</button>
+                                            </div>
                                         )
                                     }}
                                 </Mutation>

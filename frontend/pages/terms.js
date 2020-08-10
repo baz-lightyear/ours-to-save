@@ -5,7 +5,15 @@ class terms extends Component {
         return (
             <div>
                 write some terms dude
-                and some privacy info
+                {/* subscription terms */}
+                {/* https://support.stripe.com/questions/2020-visa-trial-subscription-requirement-changes-guide */}
+                {/* https://stripe.com/docs/billing/subscriptions/trials#compliance */}
+                
+                {/* cancellation terms */}
+
+                {/* cancellation policy */}
+
+                {/* GDPR and privacy */}
             </div>
         );
     }
