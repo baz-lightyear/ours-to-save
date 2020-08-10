@@ -62,6 +62,23 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
       }
     ).catch(err => {console.log(err)});
   }
+  // 2. customer.subscription.deleted when a subscription is cancelled
+  if (event.type === 'customer.subscription.deleted') {
+    // 2.1. We need to get the customer id from the subscription and fetch the user
+    const subscription = event.data.object
+    const customerId = subscription.customer
+    const user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions}').catch(err => {console.log(err)})
+    // 2.2. Update user permissions to exclude 'premium'
+    const newPermissions = user.permissions.filter(p => p !== "PREMIUM")
+    await db.mutation.updateUser({
+      where: {id: user.id},
+      data: {
+        permissions: {
+          set: newPermissions
+        }
+      }
+    }) 
+  }
   res.json({received: true});
   res.end()
 });
