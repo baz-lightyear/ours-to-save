@@ -93,8 +93,13 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
   }
   // 3. customer.subscription.updated when their credit changes because of an invoice or added credit
   if (event.type === "customer.updated") {
-    console.log('hi you hit me...')
-    console.log(event.data.object)
+    const customer = event.data.object
+    await db.mutation.updateUser({
+      where: {stripeCustomerId: customer.id},
+      data: {
+        stripeCustomerBalance: customer.balance
+      }
+    })
   }
   
   res.json({received: true});
@@ -129,3 +134,69 @@ server.start(
     console.log(`Server is now running on port http://localhost:${deets.port}`);
   },
 );
+
+
+
+
+
+
+
+{
+  id: 'cus_Hnb1T97YDpxvgY',
+  object: 'customer',
+  address: null,
+  balance: -400,
+  created: 1596923058,
+  currency: 'gbp',
+  default_source: null,
+  delinquent: false,
+  description: null,
+  discount: null,
+  email: 'harrykingdon@hotmail.com',
+  invoice_prefix: '98E60087',
+  invoice_settings: {
+    custom_fields: null,
+    default_payment_method: 'pm_1HE0KQIcB8KtT8kgR8ZKbSQa',
+    footer: null
+  },
+  livemode: true,
+  metadata: {},
+  name: 'Harry Kingdon',
+  phone: null,
+  preferred_locales: [],
+  shipping: {
+    address: {
+      city: '',
+      country: '',
+      line1: '',
+      line2: '',
+      postal_code: '',
+      state: ''
+    },
+    name: 'Harry Kingdon',
+    phone: ''
+  },
+  sources: {
+    object: 'list',
+    data: [],
+    has_more: false,
+    total_count: 0,
+    url: '/v1/customers/cus_Hnb1T97YDpxvgY/sources'
+  },
+  subscriptions: {
+    object: 'list',
+    data: [ [Object], [Object], [Object] ],
+    has_more: false,
+    total_count: 3,
+    url: '/v1/customers/cus_Hnb1T97YDpxvgY/subscriptions'
+  },
+  tax_exempt: 'none',
+  tax_ids: {
+    object: 'list',
+    data: [],
+    has_more: false,
+    total_count: 0,
+    url: '/v1/customers/cus_Hnb1T97YDpxvgY/tax_ids'
+  }
+}
+  
