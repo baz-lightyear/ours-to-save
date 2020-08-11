@@ -229,7 +229,6 @@ const Mutation = {
       customer: user.stripeCustomerId,
       return_url: 'https://www.ourstosave.com/account',
     });
-    console.log(session)
     user = await ctx.db.mutation.updateUser(
       {
         where: {id: user.id},

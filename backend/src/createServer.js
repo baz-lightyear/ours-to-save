@@ -119,7 +119,6 @@ server.express.use((req, res, next) => {
 });
 
 // redirect http to https ⬇️
-
 server.express.use(bodyParser.json({ limit: '10mb' }));
 server.express.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 

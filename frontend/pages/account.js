@@ -65,6 +65,7 @@ class account extends Component {
                                 {/* refer to get credit */}
                                 {me.permissions.includes("PREMIUM") &&
                                     <>
+                                    <p>You currently have £{(-1*(me.stripeCustomerBalance/100)) || 0} in your account. Share for an extra £3.</p>
                                     <p>Here is a nice referral code</p>
                                     <p className='code'><a href={`https://www.ourstosave.com/referred?userId=${me.id}`}>https://www.ourstosave.com/referred?userId={me.id}</a></p>
                                     </>

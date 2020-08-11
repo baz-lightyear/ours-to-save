@@ -165,7 +165,7 @@ const FEATURES_QUERY = gql`
 const CREATE_FEATURE_MUTATION = gql`
   mutation CREATE_FEATURE_MUTATION(
     $content: String! 
-    $address: String
+    $address: String!
     $title: String! 
     $subtitle: String! 
     $author: String! 
@@ -254,6 +254,7 @@ const CURRENT_USER_QUERY = gql`
         id
       }
       stripeCustomerId
+      stripeCustomerBalance
     }
   }
 `;

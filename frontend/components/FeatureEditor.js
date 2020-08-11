@@ -228,6 +228,8 @@ const FeatureEditor = (props) => {
     const [author, setAuthor] = useState(props.authorName)
     const [category, setCategory] = useState(props.category)
     const [featuredImage, setFeaturedImage] = useState(props.featuredImage)
+    const [error, setError] = useState("")
+
 
     const editor = useMemo(
         () => withImages(withLinks(withHistory(withReact(createEditor())))),
@@ -349,9 +351,10 @@ const FeatureEditor = (props) => {
         <Container>
             <form onSubmit={ async e => {
                 e.preventDefault();
+                setError("")
                 const string = JSON.stringify(value)
                 if (props.updating) {
-                    await updateFeature({ variables: {
+                    const feature = await updateFeature({ variables: {
                         title: title,
                         subtitle: subtitle,
                         bio: bio,
@@ -362,15 +365,16 @@ const FeatureEditor = (props) => {
                         featureId: props.featureId,
                         featuredImage: featuredImage
                     }}).catch(err => {
-                        console.log(err)
-                    }).then(() => {
+                        setError(err.message)
+                    })
+                    if (feature) {
                         Router.push({
                             pathname: `/feature`,
                             query: { id: props.featureId },
                         })
-                    })
+                    }
                 } else {
-                    await createFeature({ variables: { 
+                    const feature = await createFeature({ variables: { 
                         title: title,
                         subtitle: subtitle,
                         bio: bio,
@@ -380,13 +384,14 @@ const FeatureEditor = (props) => {
                         address: address,
                         featuredImage: featuredImage
                     }}).catch(err => {
-                        console.log(err)
-                    }).then(() => {
-                        window.alert('Nice. Check it out in Prisma to add cover photo and approve it')
+                        setError(err.message)
+                    })
+                    if (feature) {
+                        window.alert('Uploaded to database - approve in Prisma')
                         Router.push({
                             pathname: '/',
                         });
-                    });
+                    };
                 }
             }}>
 
@@ -440,6 +445,7 @@ const FeatureEditor = (props) => {
                         <p>You still have to approve it in <a href="https://app.prisma.io/harry-78d82a/services" target="_blank">Prisma</a>! (opens in new tab)</p>
                     </>
                 }
+                <p style={{color: "red"}}>{error}</p>
                 <button type="submit">Upload to database</button>
             </form>
         </Container>
