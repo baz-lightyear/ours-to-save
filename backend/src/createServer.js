@@ -92,7 +92,10 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     }) 
   }
   // 3. customer.subscription.updated when their credit changes because of an invoice or added credit
-  // not sure what the event should be
+  if (event.type === "customer.updated") {
+    console.log('hi you hit me...')
+    console.log(event.data.object)
+  }
   
   res.json({received: true});
   res.end()
