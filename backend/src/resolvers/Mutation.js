@@ -28,7 +28,6 @@ const Mutation = {
           longitude: location.lng,
           latitude: location.lat,
           country: location.country,
-          approved: false
         },
       },
       info
@@ -245,17 +244,11 @@ const Mutation = {
   async createStripeSubscription(parent, args, ctx, info) {
     let user = await ctx.db.query.user({where: {id: args.userId}})
     if (!user.stripeCustomerId) {
-      let customer = await stripe.customers.create({
-        email: user.email
+      let customer = await stripe.customers.create({email: user.email})
+      user = await ctx.db.mutation.updateUser({
+        where: {id: user.id},
+        data: {stripeCustomerId: customer.id,}
       })
-      user = await ctx.db.mutation.updateUser(
-        {
-          where: {id: user.id},
-          data: {
-            stripeCustomerId: customer.id,
-          }
-        }, 
-      )
     }
     let session = await stripe.checkout.sessions.create({
       customer: user.stripeCustomerId,
@@ -264,21 +257,17 @@ const Mutation = {
         price: args.priceId,
         quantity: 1,
       }],
-      subscription_data: {
-        trial_from_plan: true,
-      },
+      subscription_data: {trial_from_plan: true,},
       mode: 'subscription',
       success_url: 'https://www.ourstosave.com/account',
       cancel_url: 'https://www.ourstosave.com/account',
     });
-    user = await ctx.db.mutation.updateUser(
-      {
-        where: {id: user.id},
-        data: {
-          stripeCheckoutSessionId: session.id,
-        }
-      }, 
-    )
+    user = await ctx.db.mutation.updateUser({
+      where: {id: user.id},
+      data: {
+        stripeCheckoutSessionId: session.id,
+      }
+    })
     return user
   }
 }
