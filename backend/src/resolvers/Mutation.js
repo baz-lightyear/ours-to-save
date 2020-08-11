@@ -269,6 +269,14 @@ const Mutation = {
       }
     })
     return user
+  },
+
+  async updateReferrer(parent, args, ctx, info) {
+    let referred = ctx.db.mutation.updateUser({
+      where: {id: args.referredId},
+      data: {referredBy: {connect: {id: args.referrerId}}}
+    })
+    return referred
   }
 }
 

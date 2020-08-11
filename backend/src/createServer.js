@@ -30,9 +30,6 @@ const server = new GraphQLServer({
 });
 
 // stripe webhooks
-
-
-
 const stripeWebhookKey = process.env.STRIPE_WEBHOOK_KEY;
 
 server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}), async (req, res, next) => { 
@@ -47,7 +44,7 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
   if (event.type === 'checkout.session.completed') {
     // 1.1 find the user
     const customerId = event.data.object.customer
-    const user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions}').catch(err => {console.log(err)})
+    const user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
     // 1.2. update the user's permissions with "PREMIUM"
     const newPermissions = user.permissions.filter(p => p !== "PREMIUM")
     newPermissions.push('PREMIUM')
@@ -61,6 +58,21 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
         }
       }
     ).catch(err => {console.log(err)});
+    // 1.3 if the user was referred by someone, then give them both credit in stripe
+    await stripe.customers.createBalanceTransaction(
+      user.stripeCustomerId,
+      {
+        amount: -300,
+        currency: 'gbp',
+      }
+    );
+    await stripe.customers.createBalanceTransaction(
+      user.referredBy.stripeCustomerId,
+      {
+        amount: -300,
+        currency: 'gbp',
+      }
+    );
   }
   // 2. customer.subscription.deleted when a subscription is cancelled
   if (event.type === 'customer.subscription.deleted') {
@@ -79,6 +91,9 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
       }
     }) 
   }
+  // 3. customer.subscription.updated when their credit changes because of an invoice or added credit
+  // not sure what the event should be
+  
   res.json({received: true});
   res.end()
 });

@@ -1,5 +1,5 @@
 # source: https://ours-to-save-prod-e8112953ab.herokuapp.com
-# timestamp: Sat Aug 08 2020 23:40:05 GMT+0100 (British Summer Time)
+# timestamp: Tue Aug 11 2020 14:44:43 GMT+0100 (British Summer Time)
 
 type AggregateFeature {
   count: Int!
@@ -1219,33 +1219,33 @@ type Mutation {
   createFeatureComment(data: FeatureCommentCreateInput!): FeatureComment!
   createStoryComment(data: StoryCommentCreateInput!): StoryComment!
   createFeature(data: FeatureCreateInput!): Feature!
-  createUser(data: UserCreateInput!): User!
   createStory(data: StoryCreateInput!): Story!
+  createUser(data: UserCreateInput!): User!
   updateFeatureComment(data: FeatureCommentUpdateInput!, where: FeatureCommentWhereUniqueInput!): FeatureComment
   updateStoryComment(data: StoryCommentUpdateInput!, where: StoryCommentWhereUniqueInput!): StoryComment
   updateFeature(data: FeatureUpdateInput!, where: FeatureWhereUniqueInput!): Feature
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateStory(data: StoryUpdateInput!, where: StoryWhereUniqueInput!): Story
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteFeatureComment(where: FeatureCommentWhereUniqueInput!): FeatureComment
   deleteStoryComment(where: StoryCommentWhereUniqueInput!): StoryComment
   deleteFeature(where: FeatureWhereUniqueInput!): Feature
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteStory(where: StoryWhereUniqueInput!): Story
+  deleteUser(where: UserWhereUniqueInput!): User
   upsertFeatureComment(where: FeatureCommentWhereUniqueInput!, create: FeatureCommentCreateInput!, update: FeatureCommentUpdateInput!): FeatureComment!
   upsertStoryComment(where: StoryCommentWhereUniqueInput!, create: StoryCommentCreateInput!, update: StoryCommentUpdateInput!): StoryComment!
   upsertFeature(where: FeatureWhereUniqueInput!, create: FeatureCreateInput!, update: FeatureUpdateInput!): Feature!
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertStory(where: StoryWhereUniqueInput!, create: StoryCreateInput!, update: StoryUpdateInput!): Story!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyFeatureComments(data: FeatureCommentUpdateManyMutationInput!, where: FeatureCommentWhereInput): BatchPayload!
   updateManyStoryComments(data: StoryCommentUpdateManyMutationInput!, where: StoryCommentWhereInput): BatchPayload!
   updateManyFeatures(data: FeatureUpdateManyMutationInput!, where: FeatureWhereInput): BatchPayload!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyStories(data: StoryUpdateManyMutationInput!, where: StoryWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyFeatureComments(where: FeatureCommentWhereInput): BatchPayload!
   deleteManyStoryComments(where: StoryCommentWhereInput): BatchPayload!
   deleteManyFeatures(where: FeatureWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyStories(where: StoryWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1286,18 +1286,18 @@ type Query {
   featureComments(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FeatureComment]!
   storyComments(where: StoryCommentWhereInput, orderBy: StoryCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StoryComment]!
   features(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Feature]!
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   stories(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Story]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   featureComment(where: FeatureCommentWhereUniqueInput!): FeatureComment
   storyComment(where: StoryCommentWhereUniqueInput!): StoryComment
   feature(where: FeatureWhereUniqueInput!): Feature
-  user(where: UserWhereUniqueInput!): User
   story(where: StoryWhereUniqueInput!): Story
+  user(where: UserWhereUniqueInput!): User
   featureCommentsConnection(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureCommentConnection!
   storyCommentsConnection(where: StoryCommentWhereInput, orderBy: StoryCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StoryCommentConnection!
   featuresConnection(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureConnection!
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   storiesConnection(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -3093,8 +3093,8 @@ type Subscription {
   featureComment(where: FeatureCommentSubscriptionWhereInput): FeatureCommentSubscriptionPayload
   storyComment(where: StoryCommentSubscriptionWhereInput): StoryCommentSubscriptionPayload
   feature(where: FeatureSubscriptionWhereInput): FeatureSubscriptionPayload
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   story(where: StorySubscriptionWhereInput): StorySubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User implements Node {
@@ -3113,6 +3113,8 @@ type User implements Node {
   stripeCustomerId: String
   stripeBillingSessionUrl: String
   stripeCheckoutSessionId: String
+  referredBy: User
+  stripeCustomerBalance: Float
   cookieToken: String
 }
 
@@ -3137,10 +3139,12 @@ input UserCreateInput {
   stripeCustomerId: String
   stripeBillingSessionUrl: String
   stripeCheckoutSessionId: String
+  stripeCustomerBalance: Float
   cookieToken: String
   permissions: UserCreatepermissionsInput
   featureComments: FeatureCommentCreateManyWithoutAuthorInput
   upvotedStories: StoryCreateManyInput
+  referredBy: UserCreateOneInput
 }
 
 input UserCreateOneInput {
@@ -3168,9 +3172,11 @@ input UserCreateWithoutFeatureCommentsInput {
   stripeCustomerId: String
   stripeBillingSessionUrl: String
   stripeCheckoutSessionId: String
+  stripeCustomerBalance: Float
   cookieToken: String
   permissions: UserCreatepermissionsInput
   upvotedStories: StoryCreateManyInput
+  referredBy: UserCreateOneInput
 }
 
 """An edge in a connection."""
@@ -3207,6 +3213,8 @@ enum UserOrderByInput {
   stripeBillingSessionUrl_DESC
   stripeCheckoutSessionId_ASC
   stripeCheckoutSessionId_DESC
+  stripeCustomerBalance_ASC
+  stripeCustomerBalance_DESC
   cookieToken_ASC
   cookieToken_DESC
 }
@@ -3225,6 +3233,7 @@ type UserPreviousValues {
   stripeCustomerId: String
   stripeBillingSessionUrl: String
   stripeCheckoutSessionId: String
+  stripeCustomerBalance: Float
   cookieToken: String
 }
 
@@ -3275,10 +3284,12 @@ input UserUpdateDataInput {
   stripeCustomerId: String
   stripeBillingSessionUrl: String
   stripeCheckoutSessionId: String
+  stripeCustomerBalance: Float
   cookieToken: String
   permissions: UserUpdatepermissionsInput
   featureComments: FeatureCommentUpdateManyWithoutAuthorInput
   upvotedStories: StoryUpdateManyInput
+  referredBy: UserUpdateOneInput
 }
 
 input UserUpdateInput {
@@ -3291,10 +3302,12 @@ input UserUpdateInput {
   stripeCustomerId: String
   stripeBillingSessionUrl: String
   stripeCheckoutSessionId: String
+  stripeCustomerBalance: Float
   cookieToken: String
   permissions: UserUpdatepermissionsInput
   featureComments: FeatureCommentUpdateManyWithoutAuthorInput
   upvotedStories: StoryUpdateManyInput
+  referredBy: UserUpdateOneInput
 }
 
 input UserUpdateManyMutationInput {
@@ -3307,6 +3320,7 @@ input UserUpdateManyMutationInput {
   stripeCustomerId: String
   stripeBillingSessionUrl: String
   stripeCheckoutSessionId: String
+  stripeCustomerBalance: Float
   cookieToken: String
   permissions: UserUpdatepermissionsInput
 }
@@ -3343,9 +3357,11 @@ input UserUpdateWithoutFeatureCommentsDataInput {
   stripeCustomerId: String
   stripeBillingSessionUrl: String
   stripeCheckoutSessionId: String
+  stripeCustomerBalance: Float
   cookieToken: String
   permissions: UserUpdatepermissionsInput
   upvotedStories: StoryUpdateManyInput
+  referredBy: UserUpdateOneInput
 }
 
 input UserUpsertNestedInput {
@@ -3793,6 +3809,28 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   stripeCheckoutSessionId_not_ends_with: String
+  stripeCustomerBalance: Float
+
+  """All values that are not equal to given value."""
+  stripeCustomerBalance_not: Float
+
+  """All values that are contained in given list."""
+  stripeCustomerBalance_in: [Float!]
+
+  """All values that are not contained in given list."""
+  stripeCustomerBalance_not_in: [Float!]
+
+  """All values less than the given value."""
+  stripeCustomerBalance_lt: Float
+
+  """All values less than or equal the given value."""
+  stripeCustomerBalance_lte: Float
+
+  """All values greater than the given value."""
+  stripeCustomerBalance_gt: Float
+
+  """All values greater than or equal the given value."""
+  stripeCustomerBalance_gte: Float
   cookieToken: String
 
   """All values that are not equal to given value."""
@@ -3839,6 +3877,7 @@ input UserWhereInput {
   upvotedStories_every: StoryWhereInput
   upvotedStories_some: StoryWhereInput
   upvotedStories_none: StoryWhereInput
+  referredBy: UserWhereInput
 }
 
 input UserWhereUniqueInput {

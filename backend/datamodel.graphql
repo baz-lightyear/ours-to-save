@@ -21,9 +21,10 @@ type User {
   stripeCustomerId: String @unique
   stripeBillingSessionUrl: String
   stripeCheckoutSessionId: String
+  referredBy: User @relation(link: INLINE)
+  stripeCustomerBalance: Float
   # stripeSubscriptionId: String
   # stripeSubscriptionCurrentPeriodEnd: DateTime
-  # stripeCustomerBalance: Float
   # cardLast4: String
   # billingExpiry: String
   cookieToken: String

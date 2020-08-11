@@ -17,6 +17,7 @@ type Mutation {
     updateFeature(content: String!, featuredImage: String, address: String, title: String!, subtitle: String!, bio: String, author: String!, category: String!, featureId: String): Feature
     createStripeBillingSession(userId: String): User
     createStripeSubscription(userId: String, priceId: String): User
+    updateReferrer(referrerId: String, referredId: String): User
 }
 
 type Query {
