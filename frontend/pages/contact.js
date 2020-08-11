@@ -18,8 +18,9 @@ class contact extends Component {
         return (
             <Container>
                 <h1>Get in touch</h1> 
-                <p>For any press enquiries, to suggest content or to pitch a feature, please email Florence at <a href="mailto: florence@ourstosave.com">florence@ourstosave.com</a>.</p>
-                <p>For advertising enquiries or business queries please email Harry at <a href="mailto: harry@ourstosave.com">harry@ourstosave.com</a>.</p>
+                <p>For any press enquiries, please email Florence at <a href="mailto: florence@ourstosave.com">florence@ourstosave.com</a>.</p>
+                <p>To suggest content or to pitch a feature, please email <a href="mailto: hello@ourstosave.com">hello@ourstosave.com</a>.</p>
+                <p>For advertising, business or technology enquiries please email Harry at <a href="mailto: harry@ourstosave.com">harry@ourstosave.com</a>.</p>
                 <p>We're generally really responsive on Ours to Save's social media too. Harry never checks his Instagram as much as he should.</p>
             </Container>
         );
