@@ -339,6 +339,16 @@ mutation CREATE_STRIPE_SUBSCRIPTION($userId: String!, $priceId: String) {
   }
 }
 `
+const UPDATE_REFERRER_MUTATION = gql`
+mutation UPDATE_REFERRER_MUTATION($referrerId: String!, $referredId: String) {
+  updateReferrer(referrerId: $referrerId, referredId: $referredId) {
+    id
+    referredBy {
+      name
+    }
+  }
+}
+`
 
 export { 
   CREATE_FEATURE_MUTATION, 
@@ -362,5 +372,6 @@ export {
   ADD_STORY_COMMENT,
   UPDATE_FEATURE_MUTATION,
   CREATE_STRIPE_BILLING_SESSION,
-  CREATE_STRIPE_SUBSCRIPTION
+  CREATE_STRIPE_SUBSCRIPTION,
+  UPDATE_REFERRER_MUTATION
 };

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { CURRENT_USER_QUERY, CREATE_STRIPE_BILLING_SESSION, CREATE_STRIPE_SUBSCRIPTION} from '../components/Apollo';
+import LoginModal from '../components/LoginModal'
 import Cookies from 'universal-cookie';
 import { Query, Mutation } from 'react-apollo';
 import styled from 'styled-components';
@@ -38,27 +39,35 @@ class account extends Component {
                                 {/* create a subcription */}
                                 {!me.permissions.includes("PREMIUM") &&
                                     <Mutation mutation={CREATE_STRIPE_SUBSCRIPTION} variables={{userId: me.id, priceId: "price_1HEK2oIcB8KtT8kgcw28vURb"}}>
-                                    {(createStripeSubscription, {error, loading}) => {
-                                        return (
-                                            <div>
-                                                <label>
-                                                    <input type="checkbox" onChange={e => this.setState({consent: e.target.checked})}/>
-                                                    I consent to the <a href="/terms" target="_blank">terms</a> (opens in new window).
-                                                </label>
-                                                <button disabled={!this.state.consent} onClick={ async (e) => {
-                                                    e.preventDefault()
-                                                    await createStripeSubscription().then( async response => {
-                                                        const stripe = await stripePromise;
-                                                        const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
-                                                        await stripe.redirectToCheckout({
-                                                            sessionId
-                                                        });
-                                                    })
-                                                }}>create stripe subscription</button>
-                                            </div>
-                                        )
-                                    }}
-                                </Mutation>
+                                        {(createStripeSubscription, {error, loading}) => {
+                                            return (
+                                                <div>
+                                                    <label>
+                                                        <input type="checkbox" onChange={e => this.setState({consent: e.target.checked})}/>
+                                                        I consent to the <a href="/terms" target="_blank">terms</a> (opens in new window).
+                                                    </label>
+                                                    <button disabled={!this.state.consent} onClick={ async (e) => {
+                                                        e.preventDefault()
+                                                        await createStripeSubscription().then( async response => {
+                                                            const stripe = await stripePromise;
+                                                            const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
+                                                            await stripe.redirectToCheckout({
+                                                                sessionId
+                                                            });
+                                                        })
+                                                    }}>create stripe subscription</button>
+                                                </div>
+                                            )
+                                        }}
+                                    </Mutation>
+                                }
+
+                                {/* refer to get credit */}
+                                {me.permissions.includes("PREMIUM") &&
+                                    <>
+                                    <p>Here is a nice referral code</p>
+                                    <p className='code'><a href={`https://www.ourstosave.com/referred?userId=${me.id}`}>https://www.ourstosave.com/referred?userId={me.id}</a></p>
+                                    </>
                                 }
 
                                 {/* access portal to manage subscription */}
@@ -86,7 +95,7 @@ class account extends Component {
                     }
                     if (!me) {
                         return (
-                            <p>you should sign up or log in mate</p>
+                            <LoginModal>log in / sign up</LoginModal>
                         )
                     }
                 }}
