@@ -145,6 +145,13 @@ const Container = styled.div`
             }
         }
     }
+    summary {
+        margin: 1rem auto;
+        display: block;
+        :focus {
+            outline: none;
+        }
+    }
 `;
 
 class StoryShow extends Component {
@@ -248,13 +255,14 @@ class StoryShow extends Component {
                                     <p><em>No comments yet. Start the conversation: </em></p>
                                 } */}
                                 <div className="addComment">
-                                    <Mutation mutation={ADD_STORY_COMMENT} >
-                                        {(addStoryComment, { loading, error }) => (
-                                            <form
+                                    <details>
+                                        <summary><strong>Add comment</strong></summary>
+                                        <Mutation mutation={ADD_STORY_COMMENT} >
+                                            {(addStoryComment, { loading, error }) => (
+                                                <form
                                                 data-test="form"
                                                 onSubmit={async e => {
                                                     e.preventDefault();
-                                                    console.log('hioi')
                                                     if (me) {
                                                         await addStoryComment({variables: {
                                                             content: this.state.commentContent,
@@ -281,13 +289,15 @@ class StoryShow extends Component {
                                                         })
                                                     }
                                                 }}
-                                            >
-                                                <label htmlFor="comment"><strong>Add comment</strong> <br/>{!me && <small>Log in or sign up to comment</small>}</label>
-                                                <textarea name="comment" type="text" placeholder="Keep it respectful" value={this.state.commentContent} onChange={this.handleChange}/>
-                                                <button>submit</button>
-                                            </form>
-                                        )}
-                                    </Mutation>
+                                                >
+                                                    {/* <label htmlFor="comment"><strong>Add comment</strong> <br/>{!me && <small>Log in or sign up to comment</small>}</label> */}
+                                                    {!me && <small>Log in or sign up to comment</small>}
+                                                    <textarea name="comment" type="text" placeholder="Keep it respectful" value={this.state.commentContent} onChange={this.handleChange}/>
+                                                    <button>submit</button>
+                                                </form>
+                                            )}
+                                        </Mutation>
+                                    </details>
                                 </div>
                             </div>
                             <div className="sharing">
