@@ -232,7 +232,7 @@ class CreateStory extends Component {
                                 />
                                 <br/>
                                 <div className="submit">
-                                    <button style={{cursor: "pointer"}} disabled={this.state.charCount > 300} id="submit" type="submit">submit post</button>
+                                    <button style={{cursor: "pointer"}} disabled={this.state.charCount > 500} id="submit" type="submit">submit post</button>
                                     <br/>
                                     <small>By submitting this post I promise that it is true (to the best of my knowledge)</small>
                                 </div>

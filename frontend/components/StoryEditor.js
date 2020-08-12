@@ -162,7 +162,7 @@ const TextEditor = (props) => {
                 >
                     add link
                 </button>
-                <span className={chars > 300 ? "forbidden" : ""}>Characters remaining: {300 - chars}</span>
+                <span className={chars > 500 ? "forbidden" : ""}>Characters remaining: {500 - chars}</span>
             </div>
         )
     }
