@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link'
 import { optimiseCloudinary } from '../lib/utils'
+import { Query } from 'react-apollo'
+import { CURRENT_USER_QUERY } from './Apollo'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 const Container = styled.div`
     display: flex;
@@ -53,20 +58,48 @@ const Container = styled.div`
 class LatestFeature extends Component {
     render() {
         return (
-            <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
-                <a>
-                    <Container>
-                        <div className="content">
-                            <span className="breaking">LATEST FEATURE</span>
-                            <h2>{this.props.feature.title}</h2>
-                            <p className="category">{this.props.feature.category}</p>
-                            <p className="author">{this.props.feature.author}</p>
-                            <p>{this.props.feature.subtitle}</p>
-                        </div>
-                        <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt=""/>
-                    </Container>
-                </a>
-            </Link>
+            <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
+                {({data, error, loading}) => {
+                    if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                    if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+                    const me = data.me === null ? null : data.me
+                    if (me && me.permissions.includes("PREMIUM")) {
+                        return (
+                            <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
+                                <a>
+                                    <Container>
+                                        <div className="content">
+                                            <span className="breaking">LATEST FEATURE</span>
+                                            <h2>{this.props.feature.title}</h2>
+                                            <p className="category">{this.props.feature.category}</p>
+                                            <p className="author">{this.props.feature.author}</p>
+                                            <p>{this.props.feature.subtitle}</p>
+                                        </div>
+                                        <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt=""/>
+                                    </Container>
+                                </a>
+                            </Link>
+                        )
+                    } else {
+                        return (
+                            <Link href="/account">
+                                <a>
+                                    <Container>
+                                        <div className="content">
+                                            <span className="breaking">LATEST FEATURE</span>
+                                            <h2>{this.props.feature.title}</h2>
+                                            <p className="category">{this.props.feature.category}</p>
+                                            <p className="author">{this.props.feature.author}</p>
+                                            <p>{this.props.feature.subtitle}</p>
+                                        </div>
+                                        <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt=""/>
+                                    </Container>
+                                </a>
+                            </Link>
+                        )
+                    }
+                }}
+            </Query>
         );
     }
 }

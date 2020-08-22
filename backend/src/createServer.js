@@ -59,20 +59,23 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
       }
     ).catch(err => {console.log(err)});
     // 1.3 if the user was referred by someone, then give them both credit in stripe
-    await stripe.customers.createBalanceTransaction(
-      user.stripeCustomerId,
-      {
-        amount: -300,
-        currency: 'gbp',
-      }
-    );
-    await stripe.customers.createBalanceTransaction(
-      user.referredBy.stripeCustomerId,
-      {
-        amount: -300,
-        currency: 'gbp',
-      }
-    );
+    user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
+    if (user && user.referredBy.stripeCustomerId) {
+      await stripe.customers.createBalanceTransaction(
+        user.stripeCustomerId,
+        {
+          amount: -300,
+          currency: 'gbp',
+        }
+      );
+      await stripe.customers.createBalanceTransaction(
+        user.referredBy.stripeCustomerId,
+        {
+          amount: -300,
+          currency: 'gbp',
+        }
+      );
+    }
   }
   // 2. customer.subscription.deleted when a subscription is cancelled
   if (event.type === 'customer.subscription.deleted') {
@@ -101,7 +104,6 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
       }
     })
   }
-  
   res.json({received: true});
   res.end()
 });

@@ -208,7 +208,7 @@ class Header extends Component {
                     <Link href="/features">
                       <a>features</a>
                     </Link>
-                    {/* { me && <Link href="/account"><a>account</a></Link>} */}
+                    { me && <Link href="/account"><a>account</a></Link>}
                     <div id="account">
                       { !me && <LoginModal>log in / sign up</LoginModal>}
                       { me && <Signout/>}
@@ -241,7 +241,7 @@ class Header extends Component {
                         <Link href={{pathname: '/category', query: { category: "power" }}}>
                           <a className="category featuresButton">power ←</a>
                         </Link>
-                        {/* { me && <Link href="/account"><a>account</a></Link>} */}
+                        { me && <Link href="/account"><a>account</a></Link>}
                         <div id="account">
                           { !me && <LoginModal>log in / sign up</LoginModal>}
                           { me && <Signout/>}

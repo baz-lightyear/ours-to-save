@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Moment from 'react-moment';
 import { optimiseCloudinary } from '../lib/utils';
+import { Query } from 'react-apollo'
+import { CURRENT_USER_QUERY } from './Apollo'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 
 const Container = styled.div`
@@ -66,21 +71,47 @@ const Container = styled.div`
 class Feature extends Component {
     render() {
         return (
-            <Container>
-                <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
-                    <a>
-                        <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
-                        <div className="text">
-                            <div className="info">
-                                <h4>{this.props.feature.title}</h4>
-                                <p className="category">{this.props.feature.category}</p>
-                                <p className="subtitle">{this.props.feature.subtitle}</p>
-                            </div>
-                            <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/>﹒<span>{this.props.feature.author}</span></small>
-                        </div>
-                    </a>
-                </Link>
-            </Container>
+            <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
+                {({data, error, loading}) => {
+                    if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                    if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+                    const me = data.me === null ? null : data.me
+                    return (
+                        <Container>
+                            {me && me.permissions.includes("PREMIUM") && 
+                                <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
+                                    <a>
+                                        <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
+                                        <div className="text">
+                                            <div className="info">
+                                                <h4>{this.props.feature.title}</h4>
+                                                <p className="category">{this.props.feature.category}</p>
+                                                <p className="subtitle">{this.props.feature.subtitle}</p>
+                                            </div>
+                                            <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/>﹒<span>{this.props.feature.author}</span></small>
+                                        </div>
+                                    </a>
+                                </Link>
+                            }
+                            {(!me || !(me.permissions.includes("PREMIUM"))) && 
+                                <Link href='/account'>
+                                    <a>
+                                        <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
+                                        <div className="text">
+                                            <div className="info">
+                                                <h4>{this.props.feature.title}</h4>
+                                                <p className="category">{this.props.feature.category}</p>
+                                                <p className="subtitle">{this.props.feature.subtitle}</p>
+                                            </div>
+                                            <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/>﹒<span>{this.props.feature.author}</span></small>
+                                        </div>
+                                    </a>
+                                </Link>
+                            }
+                        </Container>
+                    )
+                }}
+            </Query>
         );
     }
 }
