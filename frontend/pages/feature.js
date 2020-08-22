@@ -3,6 +3,8 @@ import Head from 'next/head'
 import { endpoint, prodEndpoint } from '../config.js';
 import FeatureShow from '../components/FeatureShow';
 import { optimiseCloudinary } from '../lib/utils'
+import Founders from '../components/Founders';
+
 
 class feature extends Component {
     static async getInitialProps(ctx) {
@@ -34,6 +36,7 @@ class feature extends Component {
                     <meta property="og:type"               content="article" key='og:type'/>
                 </Head>
                 <FeatureShow feature={this.props.feature}/>
+                {/* <Founders/> */}
             </>
         );
     }

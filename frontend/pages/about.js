@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link'
+import Founders from '../components/Founders';
 
 const Container = styled.div`
     width: 90%;
@@ -155,6 +156,7 @@ class about extends Component {
                         All of our features are edited before publication.</p>
                     </div>
                 </div>
+                {/* <Founders/> */}
             </Container>
             </>
         );

@@ -6,6 +6,8 @@ import LatestFeature from '../components/LatestFeature'
 import CategoryTab from '../components/CategoryTab';
 import {optimiseCloudinary} from '../lib/utils'
 import styled from 'styled-components';
+import Founders from '../components/Founders';
+
 
 const Container = styled.div`
     margin: auto;
@@ -71,6 +73,7 @@ class category extends Component {
                                     )
                                 })}
                             </div>
+                            {/* <Founders/> */}
                         </Container>
                     )
                 }}

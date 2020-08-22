@@ -101,8 +101,13 @@ const Container = styled.div`
 
 const PleaseLogin = styled.div`
     width: 95%;
+    max-width: 800px;
+    font-family: ${props => props.theme.serif};
     margin: 1rem auto;
     text-align: center;
+    button {
+        font-family: ${props => props.theme.sansSerif};
+    }
 `
 
 class account extends Component {
@@ -135,7 +140,7 @@ class account extends Component {
                                                 <div id="newSubscriptionDiv">
                                                     <h2>Join Ours to Save today</h2>
                                                     <p>Whether you're a <strong>student, working professional</strong> or actively involved in <strong>government</strong> and / or <strong>business</strong>, it's essential that you can understand and navigate the defining battle of the next generation - <strong>the battle for the planet</strong>.</p>
-                                                    <p>As an Ours to Save member you'll have access to all our <strong>full-length op-eds</strong>, covering the climate crisis with a fresh perspective. We bring you the <strong>stories behind the headlines</strong>, directly from the <strong>frontline</strong>, with a <strong>solutions-oriented</strong> approach and always providing a platform for <strong>under-represented voices</strong>. For a taste, you can browse our members-only op-eds <Link href="/features"><a target="_blank">here</a></Link>.</p>
+                                                    <p>As an Ours to Save member you'll have access to all our <strong>full-length op-eds</strong>, covering the climate crisis with a fresh perspective. We bring you the <strong>stories behind the headlines</strong>, directly from the <strong>frontline</strong>, with a <strong>solutions-oriented</strong> approach and always providing a platform for <strong>under-represented voices</strong>. For a taste, you can browse our members-only op-eds <Link href="/features"><a>here</a></Link>.</p>
                                                     <p>Support an ethically conscious model for new media today. After your 3-day trial period, subscription prices start from as low as <strong>58p per week</strong>.</p>
                                                     <p className="offer"><strong>Limited launch offer</strong> - share with a friend and you both get £3 of credit off your Ours to Save monthly membership - making the first month <strong>totally free</strong>.<br/><br/>Every time a new friend signs up through your invite, you'll both get (another) £3 of credit stored in your customer balance and discounted from your next Ours to Save subscription bill. Sign up now to generate a unique invite link.</p>
                                                     <h2>Interested?</h2>
@@ -215,8 +220,10 @@ class account extends Component {
                     if (!me) {
                         return (
                             <PleaseLogin>
-                                <h1>Are you in the right place?</h1>
-                                <p>You need to log in or sign up to access this page.</p>
+                                <h1>Welcome to Ours to Save</h1>
+                                <p>If you'd like full access to our range of new writing on the climate crisis, you'll need to sign up for a free trial.</p>
+                                <p>Whether you're a <strong>student, working professional</strong> or actively involved in <strong>government</strong> and / or <strong>business</strong>, it's essential that you can understand and navigate the defining battle of the next generation - <strong>the battle for the planet</strong>.</p>
+                                <p>As an Ours to Save member you'll have access to all our <strong>full-length op-eds</strong>, covering the climate crisis with a fresh perspective. We bring you the <strong>stories behind the headlines</strong>, directly from the <strong>frontline</strong>, with a <strong>solutions-oriented</strong> approach and always providing a platform for <strong>under-represented voices</strong>. For a taste, you can browse our members-only op-eds <Link href="/features"><a>here</a></Link>.</p>
                                 <LoginModal>log in / sign up</LoginModal>
                             </PleaseLogin>
                         )

@@ -9,6 +9,7 @@ import { Query } from 'react-apollo'
 import { LATEST_FEATURE_QUERY, RECENT_FEATURES_QUERY, BOOSTED_FEATURES_QUERY, CURRENT_USER_QUERY } from '../components/Apollo'
 import LoginModal from '../components/LoginModal';
 import Cookies from 'universal-cookie';
+import Founders from '../components/Founders';
 
 const cookies = new Cookies()
 
@@ -142,6 +143,7 @@ class news extends Component {
                         )
                     }}
                 </Query>
+                {/* <Founders/> */}
             </Container>
         );
     }

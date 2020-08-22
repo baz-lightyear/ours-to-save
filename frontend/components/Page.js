@@ -3,6 +3,8 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
 import Head from 'next/head';
 import Header from './Header';
+import Founders from './Founders';
+
 
 const theme = {
   yellow: '#FFEFCA',
@@ -175,6 +177,7 @@ class Page extends Component {
                 <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>                
                 <Header />
                 <span className="flexGrow">{this.props.children}</span>
+                <Founders/>
                 <Footer>
                   <span className="socialLinks">
                     <a href="https://twitter.com/ourstosave" target="_blank">

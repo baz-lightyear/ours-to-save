@@ -6,6 +6,8 @@ import { FEATURES_QUERY, BOOSTED_FEATURES_QUERY } from '../components/Apollo';
 import LatestFeature from '../components/LatestFeature';
 import FeatureCard from '../components/FeatureCard';
 import CategoryTab from '../components/CategoryTab';
+import Founders from '../components/Founders';
+
 
 const Container = styled.div`
     width: 95%;
@@ -80,6 +82,7 @@ class features extends Component {
                         )
                     }}
                 </Query>
+                {/* <Founders/> */}
             </Container>
         )
     }

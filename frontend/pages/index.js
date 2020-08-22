@@ -3,6 +3,8 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import LoginModal from '../components/LoginModal'
 import { CURRENT_USER_QUERY } from '../components/Apollo';
+import Founders from '../components/Founders';
+
 import { Query } from 'react-apollo'
 import Cookies from 'universal-cookie';
 
@@ -406,6 +408,7 @@ class index extends Component {
                         )
                     }}
                 </Query>
+                {/* <Founders/> */}
             </Container>
         );
     }
