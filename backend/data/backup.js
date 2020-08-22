@@ -19,11 +19,11 @@ const prodDatabase = new Prisma({
 });
 
 const backup = async () => {
-    const stories = await prodDatabase.query.stories()
-    const features = await prodDatabase.query.features()
-    const users = await prodDatabase.query.users()
-    const featureComment = await prodDatabase.query.featureComment()
-    const storyComment = await prodDatabase.query.storyComment()
+    const stories = await prodDatabase.query.stories().catch(err => console.log(err))
+    const features = await prodDatabase.query.features().catch(err => console.log(err))
+    const users = await prodDatabase.query.users().catch(err => console.log(err))
+    const featureComments = await prodDatabase.query.featureComments().catch(err => console.log(err))
+    const storyComments = await prodDatabase.query.storyComments().catch(err => console.log(err))
     const date = new Date()
     mkdirp(`data/backup_${date}`).then(made => {
         console.log(`made directory: ${made}`)
@@ -36,10 +36,10 @@ const backup = async () => {
         fs.writeFile(`data/backup_${date}/users.json`, JSON.stringify(users), (err) => {
             if (err) throw err;
         });
-        fs.writeFile(`data/backup_${date}/featureComment.json`, JSON.stringify(featureComment), (err) => {
+        fs.writeFile(`data/backup_${date}/featureComment.json`, JSON.stringify(featureComments), (err) => {
             if (err) throw err;
         });
-        fs.writeFile(`data/backup_${date}/storyComment.json`, JSON.stringify(storyComment), (err) => {
+        fs.writeFile(`data/backup_${date}/storyComment.json`, JSON.stringify(storyComments), (err) => {
             if (err) throw err;
         });
     })
