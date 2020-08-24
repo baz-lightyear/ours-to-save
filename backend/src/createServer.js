@@ -60,7 +60,7 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     ).catch(err => {console.log(err)});
     // 1.3 if the user was referred by someone, then give them both credit in stripe
     user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
-    if (user && user.referredBy.stripeCustomerId) {
+    if (user && user.referredBy) {
       await stripe.customers.createBalanceTransaction(
         user.stripeCustomerId,
         {
