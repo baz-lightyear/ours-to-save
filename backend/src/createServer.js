@@ -44,7 +44,7 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
   if (event.type === 'checkout.session.completed') {
     // 1.1 find the user
     const customerId = event.data.object.customer
-    const user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
+    let user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
     // 1.2. update the user's permissions with "PREMIUM"
     const newPermissions = user.permissions.filter(p => p !== "PREMIUM")
     newPermissions.push('PREMIUM')
