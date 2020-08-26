@@ -178,6 +178,7 @@ class CreateStory extends Component {
                                     name="title"
                                     placeholder=""
                                     required
+                                    maxlength="100"
                                     value={this.state.title}
                                     onChange={this.handleChange}
                                 />

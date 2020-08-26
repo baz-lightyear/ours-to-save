@@ -94,7 +94,7 @@ const Container = styled.div`
         display: block;
         .burgerDiv {
           background-color: ${props => props.theme.green};
-          width: 200px;
+          width: 140px;
           height: 40px;
           text-align: right;
           position: relative;
@@ -121,7 +121,7 @@ const Container = styled.div`
             flex-direction: column;
             border-bottom: solid 6px ${props => props.theme.green};
             a {
-              padding: 0 1rem 0 2rem;
+              padding: 0 0.5rem 0 1rem;
               /* border-bottom: solid 1px ${props => props.theme.lightgreen};; */
               text-decoration: none;
               color: ${props => props.theme.black};
@@ -137,7 +137,8 @@ const Container = styled.div`
               button {
                 margin: 0;
                 padding: 0;
-                padding-right: 1rem;
+                padding-right: 0.5rem;
+                padding-left: 14px;
                 font-weight: normal;
                 color: ${props => props.theme.black};
                 line-height: 2;
@@ -208,9 +209,9 @@ class Header extends Component {
                     <Link href="/features">
                       <a>features</a>
                     </Link>
-                    { me && <Link href="/account"><a>account</a></Link>}
+                    { me && me.permissions.includes("PREMIUM") && <Link href="/account"><a>account</a></Link>}
+                    { (!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a>subscribe</a></Link>}
                     <div id="account">
-                      { !me && <LoginModal>log in / sign up</LoginModal>}
                       { me && <Signout/>}
                     </div>
                   </div>
@@ -220,32 +221,32 @@ class Header extends Component {
                     </div>
                     <div className={this.state.toggle}>
                       <div className="dropdown">
+                        { me && me.permissions.includes("PREMIUM") && <Link href="/account"><a>account</a></Link>}
+                        { (!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a>subscribe</a></Link>}
                         <Link href="/news">
                           <a>news</a>
                         </Link>
                         <Link href="/feed">
                           <a>map</a>
                         </Link>
+                        <div id="account">
+                          { me && <Signout/>}
+                        </div>
                         <Link href="/features">
                           <a className="featuresButton">features</a>
                         </Link>
                         <Link href={{pathname: '/category', query: { category: "innovation" }}}>
-                          <a className="category">innovation ←</a>
+                          <a className="category">innovation ·</a>
                         </Link>
                         <Link href={{pathname: '/category', query: { category: "conservation" }}}>
-                          <a className="category">conservation ←</a>
+                          <a className="category">conservation ·</a>
                         </Link>
                         <Link href={{pathname: '/category', query: { category: "inspiration" }}}>
-                          <a className="category">inspiration ←</a>
+                          <a className="category">inspiration ·</a>
                         </Link>
                         <Link href={{pathname: '/category', query: { category: "power" }}}>
-                          <a className="category featuresButton">power ←</a>
+                          <a className="category featuresButton">power ·</a>
                         </Link>
-                        { me && <Link href="/account"><a>account</a></Link>}
-                        <div id="account">
-                          { !me && <LoginModal>log in / sign up</LoginModal>}
-                          { me && <Signout/>}
-                        </div>
                       </div>
                     </div>
                   </div>

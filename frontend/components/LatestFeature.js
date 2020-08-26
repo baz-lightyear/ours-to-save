@@ -63,7 +63,7 @@ class LatestFeature extends Component {
                     if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
                     if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
                     const me = data.me === null ? null : data.me
-                    if (me && me.permissions.includes("PREMIUM")) {
+                    // if (me && me.permissions.includes("PREMIUM")) {
                         return (
                             <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
                                 <a>
@@ -80,24 +80,24 @@ class LatestFeature extends Component {
                                 </a>
                             </Link>
                         )
-                    } else {
-                        return (
-                            <Link href="/account">
-                                <a>
-                                    <Container>
-                                        <div className="content">
-                                            <span className="breaking">LATEST FEATURE</span>
-                                            <h2>{this.props.feature.title}</h2>
-                                            <p className="category">{this.props.feature.category}</p>
-                                            <p className="author">{this.props.feature.author}</p>
-                                            <p>{this.props.feature.subtitle}</p>
-                                        </div>
-                                        <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt=""/>
-                                    </Container>
-                                </a>
-                            </Link>
-                        )
-                    }
+                    // } else {
+                    //     return (
+                    //         <Link href="/account">
+                    //             <a>
+                    //                 <Container>
+                    //                     <div className="content">
+                    //                         <span className="breaking">LATEST FEATURE</span>
+                    //                         <h2>{this.props.feature.title}</h2>
+                    //                         <p className="category">{this.props.feature.category}</p>
+                    //                         <p className="author">{this.props.feature.author}</p>
+                    //                         <p>{this.props.feature.subtitle}</p>
+                    //                     </div>
+                    //                     <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt=""/>
+                    //                 </Container>
+                    //             </a>
+                    //         </Link>
+                    //     )
+                    // }
                 }}
             </Query>
         );

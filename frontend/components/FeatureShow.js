@@ -224,11 +224,11 @@ class FeatureShow extends Component {
                             <div className="filler"></div>
                             <div id="content">
                                 {me && me.permissions.includes("EDITOR") && <Link href={{pathname: '/editFeature', query: { id: this.props.feature.id }}}><p style={{textAlign: "right"}}><a style={{cursor: "pointer"}}>Edit feature ✏️ </a></p></Link>}
-                                <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/"><a>here</a></Link>.</p>
+                                <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
                                 <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
                                 <p className="author">{this.props.feature.author}</p>
                                 <div className="sharing" id="topSharing">
-                                    <p>Share this article: </p>
+                                    <p>No paywalls when you share this <strong>Ours to Save</strong> feature:</p>
                                     <div className="icons">
                                         <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
                                         <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
@@ -387,7 +387,7 @@ class FeatureShow extends Component {
                                     </div>
                                 </div>
                                 <div className="sharing" id="bottomSharing">
-                                    <p>Share this article: </p>
+                                    <p>No paywalls when you share this <strong>Ours to Save</strong> feature:</p>
                                     <div className="icons">
                                         <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
                                         <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
@@ -397,7 +397,7 @@ class FeatureShow extends Component {
                             </div>
 
                             <div id="moreInfo">
-                                <p id="homepage">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/"><a>here</a></Link>.</p>
+                                <p id="homepage">If you found that interesting, you'll love everything else we have to offer. <br/>Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
                                 <CategorySuggestions category={this.props.feature.category} feature={this.props.feature}/>
                                 <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
                                 <div id="feedPreview">

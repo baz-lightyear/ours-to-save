@@ -24,6 +24,7 @@ const Container = styled.div`
     border-radius: 2px;
     /* border: solid 1px ${props => props.theme.lightgreen}; */
     a {
+        position: relative;
         color: ${props => props.theme.black};
         height: 100%;
         display: flex;
@@ -64,6 +65,19 @@ const Container = styled.div`
         &:hover {
             box-shadow: 0px 0px 4px rgba(50,50,50,0.3);
         }
+        .membersOnly {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            margin: 0;
+            background-color: rgba(0,0,0,0.3);
+            padding: 0 4px;
+            border-radius: 4px;
+            font-family: ${props => props.theme.sansSerif};
+            color: white;
+            /* font-weight: bolder; */
+
+        }
     }
 
 `;
@@ -78,7 +92,7 @@ class Feature extends Component {
                     const me = data.me === null ? null : data.me
                     return (
                         <Container>
-                            {me && me.permissions.includes("PREMIUM") && 
+                            {((me && me.permissions.includes("PREMIUM")) || this.props.skipPaywall) && 
                                 <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
                                     <a>
                                         <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
@@ -93,10 +107,11 @@ class Feature extends Component {
                                     </a>
                                 </Link>
                             }
-                            {(!me || !(me.permissions.includes("PREMIUM"))) && 
+                            {!this.props.skipPaywall && (!me || !(me.permissions.includes("PREMIUM"))) && 
                                 <Link href='/account'>
                                     <a>
                                         <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
+                                        <p className="membersOnly">subscribe for access</p>
                                         <div className="text">
                                             <div className="info">
                                                 <h4>{this.props.feature.title}</h4>
