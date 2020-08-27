@@ -103,7 +103,7 @@ const Container = styled.div`
     }
     #wakeUp {
         width: 50%;
-        min-width: 20rem;
+        min-width: 19rem;
         height: 30rem;
         object-fit: cover;
         margin: auto;
@@ -127,7 +127,7 @@ const PleaseLogin = styled.div`
     }
     #wakeUp {
         width: 50%;
-        min-width: 20rem;
+        min-width: 19rem;
         height: 30rem;
         object-fit: cover;
         margin: auto;
