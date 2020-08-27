@@ -213,6 +213,7 @@ class Header extends Component {
                     { (!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a>subscribe</a></Link>}
                     <div id="account">
                       { me && <Signout/>}
+                      { !me && <LoginModal>log in / sign up</LoginModal>}
                     </div>
                   </div>
                   <div className='mobileBurger' onClick={this.toggle}>
@@ -231,6 +232,7 @@ class Header extends Component {
                         </Link>
                         <div id="account">
                           { me && <Signout/>}
+                          { !me && <LoginModal>log in / sign up</LoginModal>}
                         </div>
                         <Link href="/features">
                           <a className="featuresButton">features</a>

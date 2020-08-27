@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import React from 'react';
 
 const ErrorStyles = styled.div`
-  padding: 2rem;
+  padding: 0.5rem 1rem;
   background: white;
-  margin: 2rem 0;
+  margin: 1rem 0;
   border: 1px solid rgba(0, 0, 0, 0.05);
-  border-left: 5px solid red;
+  border-left: 5px solid ${props => props.theme.green};
   p {
     margin: 0;
     font-weight: 100;
@@ -22,7 +22,6 @@ const DisplayError = ({ error }) => {
     return error.networkError.result.errors.map((error, i) => (
       <ErrorStyles key={i}>
         <p data-test="graphql-error">
-          <strong>Error:</strong>
           {error.message.replace('GraphQL error: ', '')}
         </p>
       </ErrorStyles>
@@ -31,7 +30,6 @@ const DisplayError = ({ error }) => {
   return (
     <ErrorStyles>
       <p data-test="graphql-error">
-        <strong>Error:</strong>
         {error.message.replace('GraphQL error: ', '')}
       </p>
     </ErrorStyles>

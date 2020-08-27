@@ -51,9 +51,6 @@ class reset extends Component {
                                 e.preventDefault();
                                 const user = await resetPassword()
                                 if (user) {
-                                    console.log('user')
-                                    console.log(user)
-                                    console.log(user.data.resetPassword.cookieToken)
                                     cookies.set('token', user.data.resetPassword.cookieToken, {
                                         maxAge: 1000 * 60 * 60 * 24 * 365,
                                     })

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CURRENT_USER_QUERY, CREATE_STRIPE_BILLING_SESSION, CREATE_STRIPE_SUBSCRIPTION, BOOSTED_FEATURES_QUERY} from '../components/Apollo';
+import { CURRENT_USER_QUERY, CREATE_STRIPE_BILLING_SESSION, CREATE_STRIPE_SUBSCRIPTION, BOOSTED_FEATURES_QUERY, GET_PREMIUM_MAILING_LIST} from '../components/Apollo';
 import LoginModal from '../components/LoginModal'
 import Router from 'next/router'
 import styled from 'styled-components';
@@ -8,6 +8,8 @@ import Link from 'next/link'
 import FeatureCard from '../components/FeatureCard'
 import { loadStripe } from '@stripe/stripe-js';
 import Cookies from 'universal-cookie';
+import { CSVLink, CSVDownload } from "react-csv";
+
 
 const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
 const cookies = new Cookies()
@@ -156,7 +158,28 @@ class account extends Component {
                                 <h1 style={{textAlign: "center"}}>Hi, {me.name.split(" ")[0]}</h1>
 
                                 {me.permissions.includes("EDITOR") && 
-                                    <Link href={"/editor"}><a style={{textAlign: "center", display: "block"}}>✏️ Write a new feature</a></Link>
+                                    <div className="editorPermissions">
+                                        <h4>Special features just for {me.name.split(" ")[0]} and other Editors!</h4>
+                                        <Link href={"/editor"}><a style={{textAlign: "center", display: "block"}}><button>✏️ Write a new feature</button></a></Link>
+                                        <Query query={GET_PREMIUM_MAILING_LIST}>
+                                            {({data, error, loading}) => {
+                                                if (error) return <p>Error</p>
+                                                if (loading) return <p>Loading...</p>
+                                                if (data) {
+                                                    const premiumUsers = data.premiumUsers
+                                                    const usersCSV = premiumUsers.map(user => {
+                                                        return ([user.name, user.email])
+                                                    })
+                                                    usersCSV.unshift(["Name", "Email"])
+                                                    return (
+                                                        <CSVLink data={usersCSV}><button>📭 Download Premium mailing list</button></CSVLink>
+                                                    )
+                                                }
+                                            }} 
+                                        </Query>
+                                        <hr/>
+                                    </div>
+
                                 }
 
                                 {/* create a subcription */}

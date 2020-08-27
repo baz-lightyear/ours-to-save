@@ -63,6 +63,12 @@ const Mutation = {
 
   async signup(parent, args, ctx, info) {
     args.email = args.email.toLowerCase();
+    const existingUser = await ctx.db.query.user({
+      where: {email: args.email}
+    })
+    if (existingUser) {
+      throw new Error("An account is already associated with that email")
+    }
     const password = await bcrypt.hash(args.password, 10);
     let user = await ctx.db.mutation.createUser({
         data: {
@@ -86,7 +92,7 @@ const Mutation = {
     }
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      throw new Error('Invalid Password!');
+      throw new Error('Incorrect password');
     }
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     user = await ctx.db.mutation.updateUser({
@@ -124,15 +130,12 @@ const Mutation = {
     if (args.password !== args.confirmPassword) {
       throw new Error("Your passwords don't match");
     }
-    console.log('looking for user....')
-    console.log(`token: ${args.resetToken}`)
     const [user] = await ctx.db.query.users({
       where: {
         resetToken: args.resetToken,
         resetTokenExpiry_gte: Date.now() - 3600000,
       },
     });
-    console.log(user)
     if (!user) {
       throw new Error('This token is either invalid or expired');
     }
@@ -158,7 +161,6 @@ const Mutation = {
       where: { id: args.storyId}
     })
     if (user.upvotedStories.map(s => s.id).includes(args.storyId)) {
-      console.log('already voted')
       return story
     } else {
       // array of objects with id and story id

@@ -123,15 +123,6 @@ const Footer = styled.div`
   }
 `;
 
-const GDPR = styled.div`
-  &.hide {
-    display: none;
-  }
-  &.show {
-
-  }
-`;
-
 class Page extends Component {
   render() {
     return (

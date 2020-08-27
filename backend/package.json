@@ -8,7 +8,8 @@
     "deploy": "prisma deploy --env-file variables.env",
     "backup": "node data/backup.js",
     "scrapeEmails": "node data/scrapeEmails.js",
-    "backfill": "node data/backfillCountries.js"
+    "backfill": "node data/backfillCountries.js",
+    "updateMailingList": "node data/updateMailingList.js"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
