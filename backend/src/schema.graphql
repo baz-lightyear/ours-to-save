@@ -32,5 +32,5 @@ type Query {
   recentFeatures(orderBy: FeatureOrderByInput): [Feature]
   boostedFeatures(orderBy: FeatureOrderByInput): [Feature]
   me(token: String): User
-  premiumUsers: [User]
+  mailingList: [User]
 }

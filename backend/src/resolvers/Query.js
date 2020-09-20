@@ -112,13 +112,12 @@ const Query = {
             return user
         }
     },
-    async premiumUsers(parent, args, ctx, info) {
+    async mailingList(parent, args, ctx, info) {
         const users = await ctx.db.query.users(
             {},
             `{id, name, permissions, email}`
         )
-        const premiumUsers = users.filter(user => user.permissions.includes("PREMIUM"))
-        return premiumUsers
+        return users
     }
 };
 

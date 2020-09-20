@@ -351,11 +351,12 @@ mutation UPDATE_REFERRER_MUTATION($referrerId: String!, $referredId: String) {
 }
 `
 
-const GET_PREMIUM_MAILING_LIST = gql`
-  query GET_PREMIUM_MAILING_LIST {
-    premiumUsers {
+const GET_MAILING_LIST = gql`
+  query GET_MAILING_LIST {
+    mailingList {
       name
       email
+      permissions
     }
   }
 `
@@ -384,5 +385,5 @@ export {
   CREATE_STRIPE_BILLING_SESSION,
   CREATE_STRIPE_SUBSCRIPTION,
   UPDATE_REFERRER_MUTATION,
-  GET_PREMIUM_MAILING_LIST
+  GET_MAILING_LIST
 };
