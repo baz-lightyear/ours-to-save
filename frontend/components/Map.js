@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import {Query} from 'react-apollo';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
-import {STORIES_QUERY} from './Apollo';
+import {MAP_STORIES_QUERY} from './Apollo';
 import Marker from './Marker';
 
 
@@ -170,7 +170,7 @@ class Map extends Component {
     }
     render() {
         return (
-            <Query query={STORIES_QUERY}>
+            <Query query={MAP_STORIES_QUERY} variables={{first: 50}}>
                 {({ data, error, loading }) => {
                     if (loading) return <img src="loading.gif" alt="loading" height="50"  style={{margin: "auto", display: "block"}}/>;
                     if (error) return null;
@@ -199,7 +199,7 @@ class Map extends Component {
                                 center={this.state.center}
                                 id="map"
                             >
-                                {data.stories.map(story => <Marker lng={story.longitude} lat={story.latitude} key={story.id} story={story}/>)}                               
+                                {data.mapStories.map(story => <Marker lng={story.longitude} lat={story.latitude} key={story.id} story={story}/>)}                               
                             </GoogleMapReact>
                         </div>
                     )

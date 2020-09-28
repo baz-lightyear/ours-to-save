@@ -2,10 +2,9 @@ import React, { Component, useEffect, useMemo, useState, useCallback } from 'rea
 import { createEditor, Editor, Transforms, Range, Text } from 'slate'
 import { Slate, Editable, withReact, useSlate } from 'slate-react'
 import { useMutation } from '@apollo/react-hooks';
-import {Query} from 'react-apollo';
 import { withHistory } from 'slate-history'
 import isUrl from 'is-url';
-import { CREATE_STORY_MUTATION, STORIES_QUERY } from '../components/Apollo';
+import { CREATE_STORY_MUTATION } from '../components/Apollo';
 
 const TextEditor = () => {
     const isLinkActive = editor => {

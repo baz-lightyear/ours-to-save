@@ -2,7 +2,10 @@ const { forwardTo } = require('prisma-binding');
 const jwt = require('jsonwebtoken');
 
 const Query = {
-    stories: forwardTo('db'),
+    async mapStories(parent, args, ctx, info) {
+        const mapStories = await ctx.db.query.stories({orderBy: 'createdAt_DESC', first: args.first})
+        return mapStories
+    },
     features: forwardTo('db'),
     async story(parent, args, ctx, info) {
         const story = await ctx.db.query.story(
@@ -113,10 +116,11 @@ const Query = {
         }
     },
     async mailingList(parent, args, ctx, info) {
-        const users = await ctx.db.query.users(
+        let users = await ctx.db.query.users(
             {},
             `{id, name, permissions, email}`
         )
+        users = users.filter(user => !user.permissions.includes("UNSUBSCRIBED"))
         return users
     }
 };

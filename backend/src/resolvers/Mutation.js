@@ -63,11 +63,13 @@ const Mutation = {
 
   async signup(parent, args, ctx, info) {
     args.email = args.email.toLowerCase();
-    const existingUser = await ctx.db.query.user({
+    const existingEmail = await ctx.db.query.user({
       where: {email: args.email}
     })
-    if (existingUser) {
+    if (existingEmail) {
+      // is there a password? if so, throw following error
       throw new Error("An account is already associated with that email")
+      // if there's no password, then encrypt the password, and update the user with the password
     }
     const password = await bcrypt.hash(args.password, 10);
     let user = await ctx.db.mutation.createUser({
@@ -278,6 +280,11 @@ const Mutation = {
       data: {referredBy: {connect: {id: args.referrerId}}}
     })
     return referred
+  },
+  async addToMailingList(parent, args, ctx, info) {
+    // does the email already exist? 
+    // if so, return error ("email already exist")
+    // if not, create new user
   }
 }
 

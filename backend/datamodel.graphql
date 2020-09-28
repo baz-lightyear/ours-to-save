@@ -3,6 +3,7 @@ enum Permission {
   EDITOR
   USER
   PREMIUM
+  UNSUBSCRIBED
 }
 
 type User {

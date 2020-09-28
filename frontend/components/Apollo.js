@@ -62,9 +62,9 @@ const BOOSTED_FEATURES_QUERY = gql`
   }
 `;
 
-const STORIES_QUERY = gql`
-  query STORIES_QUERY {
-    stories(where: {approved: true}, orderBy: createdAt_DESC) {
+const MAP_STORIES_QUERY = gql`
+  query MAP_STORIES_QUERY($first: Int) {
+    mapStories(first: $first, where: {approved: true}, orderBy: createdAt_DESC) {
       id
       title
       content
@@ -361,10 +361,18 @@ const GET_MAILING_LIST = gql`
   }
 `
 
+const ADD_TO_MAILING_LIST = gql`
+  mutation ADD_TO_MAILING_LIST($email: String!, $name: String!) {
+    addToMailingList(email: $email, name: $name) {
+      id
+    }
+  }
+`
+
 export { 
   CREATE_FEATURE_MUTATION, 
   CREATE_STORY_MUTATION, 
-  STORIES_QUERY, 
+  MAP_STORIES_QUERY, 
   MODAL_STORY_QUERY, 
   MORE_STORIES_QUERY,
   FEATURES_QUERY, 
@@ -385,5 +393,6 @@ export {
   CREATE_STRIPE_BILLING_SESSION,
   CREATE_STRIPE_SUBSCRIPTION,
   UPDATE_REFERRER_MUTATION,
-  GET_MAILING_LIST
+  GET_MAILING_LIST,
+  ADD_TO_MAILING_LIST
 };

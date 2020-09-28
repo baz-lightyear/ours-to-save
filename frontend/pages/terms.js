@@ -19,6 +19,7 @@ class terms extends Component {
                 <h1>Terms</h1>
                 <h2>Who we are</h2>
                 <p><strong>Ours to Save</strong> is a business partnership founded in 2020. If you'd like to get in touch you can find us on <a target="_blank" href="https://www.instagram.com/ours.tosave/">Instagram</a> or email us at <a href="mailto: hello@ourstosave.com">hello@ourstosave.com</a>.</p>
+                <p>By signing up for an account you give permission for Ours to Save to send you informational emails from time to time. To unsubscribe from such emails, you can simply message hello@ourstosave.com.</p>
                 <h2>Terms of sale for premium subscribers</h2>
                 <h4>Free trial</h4>
                 <p>

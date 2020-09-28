@@ -12,7 +12,7 @@ import {
 } from "react-share";
 import {optimiseCloudinary} from '../lib/utils';
 import { Query, Mutation } from 'react-apollo';
-import { MODAL_STORY_QUERY, ADD_STORY_COMMENT, CURRENT_USER_QUERY, STORIES_QUERY } from './Apollo'
+import { MODAL_STORY_QUERY, ADD_STORY_COMMENT, CURRENT_USER_QUERY, MAP_STORIES_QUERY } from './Apollo'
 import StoryModalUpvote from './StoryModalUpvote'
 import Comment from './Comment'
 import Cookies from 'universal-cookie';
@@ -179,7 +179,7 @@ class StoryShow extends Component {
                                             } */}
                                             <div className="addComment">
 
-                                                <Mutation mutation={ADD_STORY_COMMENT} refetchQueries={[{ query: STORIES_QUERY }]}>
+                                                <Mutation mutation={ADD_STORY_COMMENT} refetchQueries={[{ query: MAP_STORIES_QUERY }]}>
                                                     {(addStoryComment, { loading, error }) => (
                                                         <form
                                                         data-test="form"

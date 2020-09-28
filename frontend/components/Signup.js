@@ -5,6 +5,7 @@ import { SIGNUP_MUTATION, CURRENT_USER_QUERY } from './Apollo';
 import Swal from 'sweetalert2';
 import Router from 'next/router'
 import Cookies from 'universal-cookie';
+import Link from 'next/link'
 
 const cookies = new Cookies()
 
@@ -83,6 +84,7 @@ class Signup extends Component {
                   onChange={this.saveToState}
                 />
               </label>
+              <p style={{textAlign: "center"}}><small>I consent to the <Link href="/terms"><a target="_blank">terms</a></Link> (opens in new window).</small></p>
               <button type="submit">SIGNUP</button>
             </fieldset>
           </form>

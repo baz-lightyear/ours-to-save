@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { withHistory } from 'slate-history'
 import isUrl from 'is-url';
 import styled from 'styled-components';
-import { CREATE_STORY_MUTATION, STORIES_QUERY } from './Apollo';
+import { CREATE_STORY_MUTATION, MAP_STORIES_QUERY } from './Apollo';
 
 const Container = styled.div`
     .editable {

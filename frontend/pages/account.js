@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CURRENT_USER_QUERY, CREATE_STRIPE_BILLING_SESSION, CREATE_STRIPE_SUBSCRIPTION, BOOSTED_FEATURES_QUERY, GET_MAILING_LIST} from '../components/Apollo';
+import { CURRENT_USER_QUERY, CREATE_STRIPE_BILLING_SESSION, CREATE_STRIPE_SUBSCRIPTION, BOOSTED_FEATURES_QUERY, GET_MAILING_LIST, ADD_TO_MAILING_LIST} from '../components/Apollo';
 import LoginModal from '../components/LoginModal'
 import Router from 'next/router'
 import styled from 'styled-components';
@@ -177,6 +177,10 @@ class account extends Component {
                                                 }
                                             }} 
                                         </Query>
+                                        <Mutation mutation={ADD_TO_MAILING_LIST}>
+                                            {/* get email and full name and add to mailing list */}
+
+                                        </Mutation>
                                         <hr/>
                                     </div>
 

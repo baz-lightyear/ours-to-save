@@ -18,10 +18,11 @@ type Mutation {
   createStripeBillingSession(userId: String): User
   createStripeSubscription(userId: String, priceId: String): User
   updateReferrer(referrerId: String, referredId: String): User
+  addToMailingList(email: String, name: String): User
 }
 
 type Query {
-  stories(where: StoryWhereInput, orderBy: StoryOrderByInput): [Story]!
+  mapStories(first: Int, where: StoryWhereInput, orderBy: StoryOrderByInput): [Story]!
   story(id: ID!): Story
   features(where: StoryWhereInput, orderBy: FeatureOrderByInput): [Feature]!
   feature(id: ID!): Feature

@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import Error from './Error';
 import StoryEditor from './StoryEditor';
 
-import {CREATE_STORY_MUTATION, STORIES_QUERY} from './Apollo';
+import {CREATE_STORY_MUTATION, MAP_STORIES_QUERY} from './Apollo';
 import { optimiseCloudinary } from '../lib/utils'
 
 const Form = styled.form`
@@ -148,7 +148,7 @@ class CreateStory extends Component {
     }
     render() {
         return (
-            <Mutation mutation={CREATE_STORY_MUTATION} variables={this.state} refetchQueries={[{ query: STORIES_QUERY }]}>
+            <Mutation mutation={CREATE_STORY_MUTATION} variables={this.state} refetchQueries={[{ query: MAP_STORIES_QUERY }]}>
                 {(createStory, { loading, error }) => (
                     <Form
                         data-test="form"

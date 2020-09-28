@@ -305,7 +305,8 @@ class index extends Component {
                                         <h1>It's ours to save.</h1>
                                         <p><em>Ours to Save</em> is a new kind of publication that makes it easier to engage with the climate crisis, by harnessing the power of <strong>technology</strong> and <strong>community</strong>.</p>
                                         <div className="CTAs">
-                                            <Link href="/feed"><a><button id="browse">explore free map</button></a></Link>
+                                            {/* <Link href="/feed"><a><button id="browse">explore free map</button></a></Link> */}
+                                            <Link href="/news"><a><button id="browse">explore stories</button></a></Link>
                                             {(!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a><button>become a member</button></a></Link>}
                                             {me && me.permissions.includes("PREMIUM") && <Link href="/features"><a><button>browse features</button></a></Link>}
                                         </div> 
@@ -375,7 +376,8 @@ class index extends Component {
                                     </div> */}
                                 </div>
                                 <div className="CTAs">
-                                    <Link href="/feed"><a><button id="browse">explore free map</button></a></Link>
+                                    {/* <Link href="/feed"><a><button id="browse">explore free map</button></a></Link> */}
+                                    <Link href="/news"><a><button id="browse">explore stories</button></a></Link>
                                     {(!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a><button>become a member</button></a></Link>}
                                     {me && me.permissions.includes("PREMIUM") && <Link href="/features"><a><button>browse features</button></a></Link>}
                                 </div> 
@@ -422,7 +424,8 @@ class index extends Component {
                                     </Link>
                                 </div>
                                 <div className="CTAs">
-                                    <Link href="/feed"><a><button id="browse">explore free map</button></a></Link>
+                                    {/* <Link href="/feed"><a><button id="browse">explore free map</button></a></Link> */}
+                                    <Link href="/news"><a><button id="browse">explore stories</button></a></Link>
                                     {(!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a><button>become a member</button></a></Link>}
                                     {me && me.permissions.includes("PREMIUM") && <Link href="/features"><a><button>browse features</button></a></Link>}
                                 </div>                       
