@@ -9,6 +9,9 @@ import FeatureCard from '../components/FeatureCard'
 import { loadStripe } from '@stripe/stripe-js';
 import Cookies from 'universal-cookie';
 import { CSVLink, CSVDownload } from "react-csv";
+import Error from '../components/Error'
+import Swal from 'sweetalert2';
+
 
 
 const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
@@ -25,6 +28,31 @@ const Container = styled.div`
         background-color: ${props => props.theme.yellow};
         border-radius: 4px;
         text-align: center;
+    }
+    #addToMailingDiv {
+        padding: 1rem;
+        form {
+            fieldset {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                label {
+                    display: flex;
+                    font-family: ${props => props.theme.sansSerif};
+                    width: 100%;
+                    max-width: 400px;
+                    margin: 1rem auto;
+                    input {
+                        margin-left: 1rem;
+                        flex-grow: 1;
+                        background-color: ${props => props.theme.offWhite};
+                    }
+                }
+                button {
+                    margin: auto;
+                }
+            }
+        }
     }
     #newSubscriptionDiv {
         label {
@@ -143,7 +171,12 @@ const PleaseLogin = styled.div`
 class account extends Component {
     state = {
         consent: false,
-        priceId: ""
+        priceId: "",
+        mailingListEmail: "",
+        mailingListName: ""
+    }
+    handleChange = (e) => {
+        this.setState({[e.target.name]: e.target.value})
     }
     render() {
         return (
@@ -177,9 +210,58 @@ class account extends Component {
                                                 }
                                             }} 
                                         </Query>
-                                        <Mutation mutation={ADD_TO_MAILING_LIST}>
+                                        <Mutation mutation={ADD_TO_MAILING_LIST} variables={{name: this.state.mailingListName, email: this.state.mailingListEmail}}>
                                             {/* get email and full name and add to mailing list */}
-
+                                            {(addToMailingList, {error, loading}) => {
+                                                return (
+                                                    <div id="addToMailingDiv">
+                                                        <hr/>
+                                                        <h4>Add someone to the mailing list</h4>
+                                                        <form
+                                                            method="post"
+                                                            onSubmit={async e => {
+                                                                e.preventDefault();
+                                                                const response = await addToMailingList()
+                                                                console.log(response)
+                                                                // await addToMailingList().then(response => {
+                                                                //     this.setState({ mailingListName: '', mailingListEmail: '' });
+                                                                //     Swal.fire({
+                                                                //         title: `Nice one`,
+                                                                //         text: `They're added to the database`,
+                                                                //         icon: 'success',
+                                                                //         confirmButtonColor: '#4B4C53',
+                                                                //     })
+                                                                // });
+                                                            }}
+                                                        >
+                                                            <fieldset disabled={loading} aria-busy={loading}>
+                                                                <Error error={error} />
+                                                                <label htmlFor="name">
+                                                                    <strong>Full name:</strong>
+                                                                    <input
+                                                                        type="text"
+                                                                        required
+                                                                        name="mailingListName"
+                                                                        value={this.state.mailingListName}
+                                                                        onChange={this.handleChange}
+                                                                    />
+                                                                </label>
+                                                                <label htmlFor="email">
+                                                                    <strong>Email:</strong>
+                                                                    <input
+                                                                        type="email"
+                                                                        required
+                                                                        name="mailingListEmail"
+                                                                        value={this.state.mailingListEmail}
+                                                                        onChange={this.handleChange}
+                                                                    />
+                                                                </label>
+                                                                <button type="submit">Add to Mailing List</button>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                )
+                                            }}
                                         </Mutation>
                                         <hr/>
                                     </div>

@@ -4,6 +4,7 @@ enum Permission {
   USER
   PREMIUM
   UNSUBSCRIBED
+  MAILING_LIST
 }
 
 type User {

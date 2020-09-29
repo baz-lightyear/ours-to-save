@@ -28,6 +28,8 @@ class Feed extends Component {
                     <p>The front page of climate change, in real time.</p>
                     <p>Add <Link href="/addStory"><a>here</a></Link>.</p>
                 </div>
+                {/* right now you're rendering each story in a list of stories */}
+                {/* what you need to do is render each element in a list of elements, which may or may not be a story, or a feature */}
                 {this.props.stories.map((story, i) => {
                     return <StoryShow key={story.id} story={story}/>
                 })}

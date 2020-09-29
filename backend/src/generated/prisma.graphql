@@ -1,5 +1,5 @@
 # source: https://ours-to-save-prod-e8112953ab.herokuapp.com
-# timestamp: Tue Aug 11 2020 14:44:43 GMT+0100 (British Summer Time)
+# timestamp: Tue Sep 29 2020 07:31:53 GMT+0100 (British Summer Time)
 
 type AggregateFeature {
   count: Int!
@@ -1280,6 +1280,8 @@ enum Permission {
   EDITOR
   USER
   PREMIUM
+  UNSUBSCRIBED
+  MAILING_LIST
 }
 
 type Query {

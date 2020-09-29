@@ -61,34 +61,123 @@ const Mutation = {
     return feature;
   },
 
-  async signup(parent, args, ctx, info) {
-    args.email = args.email.toLowerCase();
-    const existingEmail = await ctx.db.query.user({
+  async addToMailingList(parent, args, ctx, info) {
+    console.log('hi??')
+    const existingUser = await ctx.db.query.user({
       where: {email: args.email}
     })
-    if (existingEmail) {
-      // is there a password? if so, throw following error
-      throw new Error("An account is already associated with that email")
-      // if there's no password, then encrypt the password, and update the user with the password
-    }
-    const password = await bcrypt.hash(args.password, 10);
-    let user = await ctx.db.mutation.createUser({
+    if (existingUser) {
+      throw new Error("That email is already on the database")
+    } else {
+      // format data
+      const formattedName = args.name.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+      args.email = args.email.toLowerCase();
+      // create user
+      let user = await ctx.db.mutation.createUser({
         data: {
-            ...args,
-            password: password,
-            permissions: {set: ['USER']},
+            email: args.email,
+            name: formattedName,
+            permissions: {set: ['MAILING_LIST']},
         },
-    }, info);
-    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
-    user = await ctx.db.mutation.updateUser({
-      where: {id: user.id},
-      data: {cookieToken: token}
+      }, info);
+      console.log('created user')
+
+      return user
+    }    
+  },
+
+  async signup(parent, args, ctx, info) {
+
+    // handle users that have an email because they're on the mailing list, but no login credentials
+    const existingUser = await ctx.db.query.user({
+      where: {email: args.email}
     })
-    return user
+    if (existingUser) {
+      // is there a password? if so, throw following error
+      if (existingUser.password) {
+        throw new Error("An account is already associated with that email")
+      } else {
+        // if there's no password, then encrypt the password, and update the user with the password   
+        
+        // format data
+        const formattedName = args.name.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+        const password = await bcrypt.hash(args.password, 10);
+        const token = jwt.sign({ userId: existingUser.id }, process.env.APP_SECRET);
+
+        // update user
+        let user = await ctx.db.mutation.updateUser({
+          where: {id: user.id},
+          data: {
+              name: formattedName,
+              password: password,
+              permissions: {set: ['USER']},
+              cookieToken: token
+          },
+        }, info);
+
+        // send confirmation email
+        sgMail.setApiKey(process.env.SENDGRID_API);
+        const msg = {
+          to: `${user.email}`,
+          from: 'harry@ourstosave.com',
+          subject: 'Welcome to Ours to Save',
+          template_id: "d-5d2a5df5c312417c95dbf77512417531",
+          html: "Welcome to Ours to Save",
+          dynamicTemplateData: {
+            firstName: `${user.name.split(" ")[0]}`
+          },
+        };
+        sgMail.send(msg).catch(err => console.log(err.response.body))
+
+        return user
+      }
+    } else {
+      // format data
+      const formattedName = args.name.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+      args.email = args.email.toLowerCase();
+      const password = await bcrypt.hash(args.password, 10);
+  
+      // create user
+      let user = await ctx.db.mutation.createUser({
+          data: {
+              email: args.email,
+              name: formattedName,
+              password: password,
+              permissions: {set: ['USER']},
+          },
+      }, info);
+  
+      // assign cookie
+      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+      user = await ctx.db.mutation.updateUser({
+        where: {id: user.id},
+        data: {cookieToken: token}
+      })
+  
+      // send confirmation email
+      sgMail.setApiKey(process.env.SENDGRID_API);
+      const msg = {
+        to: `${user.email}`,
+        from: 'harry@ourstosave.com',
+        subject: 'Welcome to Ours to Save',
+        template_id: "d-5d2a5df5c312417c95dbf77512417531",
+        html: "Welcome to Ours to Save",
+        dynamicTemplateData: {
+          firstName: `${user.name.split(" ")[0]}`
+        },
+      };
+      sgMail.send(msg).catch(err => console.log(err.response.body))
+  
+      return user
+    }
+
   },
 
   async signin(parent, { email, password }, ctx, info) {
     let user = await ctx.db.query.user({ where: { email } });
+
+    // if the user has an email but no password, tell them they need to sign up
+
     if (!user) {
       throw new Error(`No user found for email ${email}`);
     }
