@@ -118,7 +118,7 @@ const Query = {
     async mailingList(parent, args, ctx, info) {
         let users = await ctx.db.query.users(
             {},
-            `{id, name, permissions, email}`
+            `{id, name, createdAt, stripeCustomerId, stripeCustomerBalance, referredBy { id }, permissions, email}`
         )
         users = users.filter(user => !user.permissions.includes("UNSUBSCRIBED"))
         return users

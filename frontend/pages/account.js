@@ -201,11 +201,16 @@ class account extends Component {
                                                 if (data) {
                                                     const users = data.mailingList
                                                     const usersCSV = users.map(user => {
-                                                        return ([user.name.split(" ")[0], user.name.split(" ")[1], user.email, user.permissions.includes("PREMIUM")])
+                                                        let referrer = ""
+                                                        if (user.referredBy) {
+                                                            referrer = user.referredBy.id
+                                                        }
+                                                        console.log(user)
+                                                        return ([user.id, user.name.split(" ")[0], user.name, user.email, user.createdAt, user.stripeCustomerId, user.stripeCustomerBalance, user.permissions.includes("PREMIUM"), user.permissions.includes("UNSUBSCRIBED"), referrer ])
                                                     })
-                                                    usersCSV.unshift(["First name", "Second name", "Email", "Premium?"])
+                                                    usersCSV.unshift(["Id", "First Name", "Name", "Email", "Created at", "Stripe Id", "Balance", "Premium?", "Unsubscribed?", "Referred by"])
                                                     return (
-                                                        <CSVLink data={usersCSV}><button>📭 Download mailing list</button></CSVLink>
+                                                        <CSVLink data={usersCSV}><button>🤓 USER DATA</button></CSVLink>
                                                     )
                                                 }
                                             }} 
@@ -221,17 +226,15 @@ class account extends Component {
                                                             method="post"
                                                             onSubmit={async e => {
                                                                 e.preventDefault();
-                                                                const response = await addToMailingList()
-                                                                console.log(response)
-                                                                // await addToMailingList().then(response => {
-                                                                //     this.setState({ mailingListName: '', mailingListEmail: '' });
-                                                                //     Swal.fire({
-                                                                //         title: `Nice one`,
-                                                                //         text: `They're added to the database`,
-                                                                //         icon: 'success',
-                                                                //         confirmButtonColor: '#4B4C53',
-                                                                //     })
-                                                                // });
+                                                                await addToMailingList().then(response => {
+                                                                    this.setState({ mailingListName: '', mailingListEmail: '' });
+                                                                    Swal.fire({
+                                                                        title: `Nice one`,
+                                                                        text: `They're added to the database`,
+                                                                        icon: 'success',
+                                                                        confirmButtonColor: '#4B4C53',
+                                                                    })
+                                                                });
                                                             }}
                                                         >
                                                             <fieldset disabled={loading} aria-busy={loading}>

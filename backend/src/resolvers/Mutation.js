@@ -62,7 +62,6 @@ const Mutation = {
   },
 
   async addToMailingList(parent, args, ctx, info) {
-    console.log('hi??')
     const existingUser = await ctx.db.query.user({
       where: {email: args.email}
     })
@@ -83,7 +82,7 @@ const Mutation = {
       console.log('created user')
 
       return user
-    }    
+    }
   },
 
   async signup(parent, args, ctx, info) {
@@ -106,7 +105,7 @@ const Mutation = {
 
         // update user
         let user = await ctx.db.mutation.updateUser({
-          where: {id: user.id},
+          where: {id: existingUser.id},
           data: {
               name: formattedName,
               password: password,
@@ -176,10 +175,13 @@ const Mutation = {
   async signin(parent, { email, password }, ctx, info) {
     let user = await ctx.db.query.user({ where: { email } });
 
-    // if the user has an email but no password, tell them they need to sign up
-
     if (!user) {
       throw new Error(`No user found for email ${email}`);
+    }
+
+    // if the user has an email but no password, tell them they need to sign up
+    if (!user.password) {
+      throw new Error(`Hi ${user.name} - we have your email but you haven't created an account yet. You'll need to sign up for access to Ours to Save.`)
     }
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
@@ -370,11 +372,6 @@ const Mutation = {
     })
     return referred
   },
-  async addToMailingList(parent, args, ctx, info) {
-    // does the email already exist? 
-    // if so, return error ("email already exist")
-    // if not, create new user
-  }
 }
 
 module.exports = Mutation;

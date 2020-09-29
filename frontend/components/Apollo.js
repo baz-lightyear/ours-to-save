@@ -354,9 +354,16 @@ mutation UPDATE_REFERRER_MUTATION($referrerId: String!, $referredId: String) {
 const GET_MAILING_LIST = gql`
   query GET_MAILING_LIST {
     mailingList {
+      id
       name
       email
       permissions
+      createdAt
+      stripeCustomerId
+      stripeCustomerBalance
+      referredBy {
+        id
+      }
     }
   }
 `
