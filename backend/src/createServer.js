@@ -44,7 +44,7 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
   if (event.type === 'checkout.session.completed') {
     // 1.1 find the user
     const customerId = event.data.object.customer
-    let user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
+    let user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, name, email, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
     // 1.2. update the user's permissions with "PREMIUM"
     const newPermissions = user.permissions.filter(p => p !== "PREMIUM")
     newPermissions.push('PREMIUM')
@@ -75,7 +75,7 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     sgMail.send(msg1).catch(err => console.log(err.response.body))
     
     // 1.4 if the user was referred by someone, then give them both credit in stripe
-    user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, referredBy {id, stripeCustomerId, email, name}}').catch(err => {console.log(err)})
+    user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, email, name, referredBy {id, stripeCustomerId, email, name}}').catch(err => {console.log(err)})
     if (user && user.referredBy) {
       await stripe.customers.createBalanceTransaction(
         user.stripeCustomerId,

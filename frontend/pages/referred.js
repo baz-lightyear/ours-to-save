@@ -191,7 +191,7 @@ class referred extends Component {
                                         // if they haven't got premium, update them with a 'referred by' id and give them a link to stripe checkout
                                         <Redeem>
                                             <h1 style={{textAlign: "center"}}>Hi, {me.name}</h1>
-                                            <h4 style={{textAlign: "center"}}>You've been referred! Join Ours to Save <em>for free</em> today.</h4>
+                                            <h4 style={{textAlign: "center"}}>You've been referred! Join Ours to Save with your first month <em>for free</em> today.</h4>
                                             <Mutation mutation={UPDATE_REFERRER_MUTATION} variables={{referrerId: this.props.referrerId, referredId: me.id}}>
                                                 {(updateReferrer, {error, loading}) => {
                                                     return (
@@ -217,7 +217,7 @@ class referred extends Component {
                                                 return (
                                                     <Container>
                                                         <h1 style={{textAlign: "center"}}>Hi, {me.name}</h1>
-                                                        <h4 style={{textAlign: "center"}}>You've been referred! Join Ours to Save <em>for free</em> today.</h4>
+                                                        <h4 style={{textAlign: "center"}}>You've been referred! Join Ours to Save with your first month<em>for free</em> today.</h4>
                                                         <p>Whether you're a <strong>student, working professional</strong> or actively involved in <strong>government</strong> and / or <strong>business</strong>, it's essential that you can understand and navigate the defining battle of the next generation - <strong>the battle for the planet</strong>.</p>
                                                         <p>As an Ours to Save member you'll have access to all our <strong>full-length op-eds</strong>, covering the climate crisis with a fresh perspective. We bring you the <strong>stories behind the headlines</strong>, directly from the <strong>frontline</strong>, with a <strong>solutions-oriented</strong> approach and always providing a platform for <strong>under-represented voices</strong>. For a taste, you can browse our members-only op-eds <Link href="/features"><a target="_blank">here</a></Link>.</p>
                                                         <h2>Interested?</h2>
@@ -229,6 +229,7 @@ class referred extends Component {
                                                                 <h1>Pay monthly</h1>
                                                                 <p>Pay £3 monthly after your 3-day free trial ends. Cancel anytime.</p>
                                                                 <p><strong>Bill for first month:</strong><br/><br/>£3 - £3 referral credit = £0</p>
+                                                                <p><strong>First month free</strong></p>
                                                             </div>
                                                             <div className={`${this.state.priceId === "price_1HIuGjIcB8KtT8kgq6aU7OQ0" ? "unselected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGwIcB8KtT8kg4C7rhysK"})}>
                                                                 <h1>Pay yearly</h1>
