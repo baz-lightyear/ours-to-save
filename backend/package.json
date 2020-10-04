@@ -6,10 +6,10 @@
     "start": "nodemon -e js,graphql -x node src/createServer.js",
     "dev": "nodemon -e js,graphql -x node --inspect src/createServer.js",
     "deploy": "prisma deploy --env-file variables.env",
-    "backup": "node data/backup.js",
     "scrapeEmails": "node data/scrapeEmails.js",
     "backfill": "node data/backfillCountries.js",
-    "updateMailingList": "node data/updateMailingList.js"
+    "updateMailingList": "node data/updateMailingList.js",
+    "backup": "prisma export --env-file variables.env"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",

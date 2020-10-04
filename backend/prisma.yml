@@ -1,4 +1,4 @@
-endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: ${"https://ours-to-save-prod-e8112953ab.herokuapp.com"}
 datamodel: datamodel.graphql
 secret: 'qwertyuiop'
 hooks:

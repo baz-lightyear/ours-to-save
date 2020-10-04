@@ -351,10 +351,13 @@ const Mutation = {
         price: args.priceId,
         quantity: 1,
       }],
-      subscription_data: {trial_from_plan: true,},
+      subscription_data: {
+        trial_from_plan: true,
+      },
       mode: 'subscription',
       success_url: 'https://www.ourstosave.com/account',
       cancel_url: 'https://www.ourstosave.com/account',
+      allow_promotion_codes: true
     });
     user = await ctx.db.mutation.updateUser({
       where: {id: user.id},
