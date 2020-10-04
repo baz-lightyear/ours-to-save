@@ -39,7 +39,7 @@ class Signup extends Component {
                 this.setState({ name: '', email: '', password: '' });
                 Swal.fire({
                   title: `Welcome to Ours to Save`,
-                  text: `Thanks for signing up.`,
+                  text: `Thanks for signing up. We've sent you an email to confirm - please check your junk folder as it contains important information about your Ours to Save account!`,
                   icon: 'success',
                   confirmButtonColor: '#4B4C53',
                   onClose: () => {

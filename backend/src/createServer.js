@@ -8,6 +8,7 @@ const Query = require('./resolvers/Query');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const stripe = require('./stripe');
+const sgMail = require('@sendgrid/mail');
 
 
 const db = new Prisma({
@@ -40,7 +41,6 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
   } catch (err) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
-  // 1. checkout.session.completed when they successfully set up a subscription
   if (event.type === 'checkout.session.completed') {
     // 1.1 find the user
     const customerId = event.data.object.customer
@@ -58,8 +58,24 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
         }
       }
     ).catch(err => {console.log(err)});
-    // 1.3 if the user was referred by someone, then give them both credit in stripe
-    user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
+    // 1.3 send welcome email
+    sgMail.setApiKey(process.env.SENDGRID_API);
+    const msg1 = {
+      to: `${user.email}`,
+      from: 'harry@ourstosave.com',
+      subject: `Ours to Save membership`,
+      text: 'Welcome to Ours to Save membership',
+      template_id: "d-7e434461477145ce88ab1d250c3ab869",
+      html: "Welcome to Ours to Save membership",
+      dynamicTemplateData: {
+        firstName: `${user.name.split(" ")[0]}`,
+        sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.id}">https://www.ourstosave.com/referred?userId=${user.id}</a>`
+      },
+    }
+    sgMail.send(msg1).catch(err => console.log(err.response.body))
+    
+    // 1.4 if the user was referred by someone, then give them both credit in stripe
+    user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, referredBy {id, stripeCustomerId, email, name}}').catch(err => {console.log(err)})
     if (user && user.referredBy) {
       await stripe.customers.createBalanceTransaction(
         user.stripeCustomerId,
@@ -75,6 +91,36 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
           currency: 'gbp',
         }
       );
+      // 1.4.1 send two emails to confirm that credit was received
+      const msg2 = {
+        to: `${user.email}`,
+        from: 'harry@ourstosave.com',
+        subject: 'You earned referral credit',
+        text: 'You earned referral credit',
+        template_id: "d-7bfbb2608d6f412da19d39fca0e02d64",
+        html: "You earned referral credit",
+        dynamicTemplateData: {
+          firstName: `${user.name.split(" ")[0]}`,
+          referredBy: `${user.referredBy.name}`,
+          sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.id}">https://www.ourstosave.com/referred?userId=${user.id}</a>`
+        },
+      }
+      sgMail.send(msg2).catch(err => console.log(err.response.body))
+      const msg3 = {
+        to: `${user.referredBy.email}`,
+        from: 'harry@ourstosave.com',
+        subject: 'You earned referral credit',
+        text: 'You earned referral credit',
+        template_id: "d-1c56c88c04114f31ae63c795f4d34b4c",
+        html: "You earned referral credit",
+        dynamicTemplateData: {
+          firstName: `${user.referredBy.name.split(" ")[0]}`,
+          referred: `${user.name}`,
+          sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.referredBy.id}">https://www.ourstosave.com/referred?userId=${user.referredBy.id}</a>`
+
+        },
+      }
+      sgMail.send(msg3).catch(err => console.log(err.response.body))
     }
   }
   // 2. customer.subscription.deleted when a subscription is cancelled
