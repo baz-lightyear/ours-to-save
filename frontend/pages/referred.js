@@ -212,7 +212,7 @@ class referred extends Component {
                                     )
                                 } else {
                                     return (
-                                        <Mutation mutation={CREATE_STRIPE_SUBSCRIPTION} variables={{userId: me.id, priceId: "price_1HEK2oIcB8KtT8kgcw28vURb"}}>
+                                        <Mutation mutation={CREATE_STRIPE_SUBSCRIPTION} variables={{userId: me.id, priceId: this.state.priceId}}>
                                             {(createStripeSubscription, {error, loading}) => {
                                                 return (
                                                     <Container>
@@ -225,7 +225,7 @@ class referred extends Component {
                                                         <h2 style={{textAlign: "center"}}>Pick a pricing plan</h2>
                                                         <small style={{textAlign: "center", display: "block", marginBottom: "1rem"}}>Click to select</small>
                                                         <div id="pricePlans">
-                                                            <div className={`${this.state.priceId === "price_1HIuGwIcB8KtT8kg4C7rhysK" ? "unselected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGjIcB8KtT8kgq6aU7OQ0"})}>
+                                                        <div className={`${this.state.priceId === "price_1HIuGwIcB8KtT8kg4C7rhysK" ? "unselected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGjIcB8KtT8kgq6aU7OQ0"})}>
                                                                 <h1>Pay monthly</h1>
                                                                 <p>Pay £3 monthly after your 3-day free trial ends. Cancel anytime.</p>
                                                                 <p><strong>Bill for first month:</strong><br/><br/>£3 - £3 referral credit = £0</p>
