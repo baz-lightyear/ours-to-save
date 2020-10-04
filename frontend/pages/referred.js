@@ -147,7 +147,8 @@ class referred extends Component {
     }
     state = {
         redeemed: false,
-        consent: false
+        consent: false,
+        priceId: ""
     }
     render() {
         return (
