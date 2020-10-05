@@ -99,13 +99,13 @@ const Container = styled.div`
             opacity: 0.5;
         }
         .bestOffer {
-            font-size: 2rem;
+            font-weight: bolder;
+            letter-spacing: 1px;
             display: inline-block;
-            background: linear-gradient(to right,#f1ca0d,#FCF6BA,#f1ca0d);
+            color: ${props => props.theme.yellow};
+            background-color: ${props => props.theme.green};
             padding: 0.5rem;
-            border: solid;
             margin: 1rem auto;
-            border-color: #f1ca0d;
             font-family: ${props => props.theme.sansSerif};
         }
     }
@@ -218,7 +218,7 @@ class referred extends Component {
                                                 return (
                                                     <Container>
                                                         <h1 style={{textAlign: "center"}}>Hi, {me.name}</h1>
-                                                        <h4 style={{textAlign: "center"}}>You've been referred! Join Ours to Save with your first month<em>for free</em> today.</h4>
+                                                        <h4 style={{textAlign: "center"}}>You've been referred! Join Ours to Save with your first month <em>for free</em> today.</h4>
                                                         <p>Whether you're a <strong>student, working professional</strong> or actively involved in <strong>government</strong> and / or <strong>business</strong>, it's essential that you can understand and navigate the defining battle of the next generation - <strong>the battle for the planet</strong>.</p>
                                                         <p>As an Ours to Save member you'll have access to all our <strong>full-length op-eds</strong>, covering the climate crisis with a fresh perspective. We bring you the <strong>stories behind the headlines</strong>, directly from the <strong>frontline</strong>, with a <strong>solutions-oriented</strong> approach and always providing a platform for <strong>under-represented voices</strong>. For a taste, you can browse our members-only op-eds <Link href="/features"><a target="_blank">here</a></Link>.</p>
                                                         <h2>Interested?</h2>
@@ -237,7 +237,7 @@ class referred extends Component {
                                                                 <p>Pay £30 yearly after your 3-day free trial ends. Cancel anytime.</p>
                                                                 <p><strong>Bill for first year:</strong><br/><br/>£30 - £3 referral credit = £27 <br/><br/>Works out to 52p per week.</p>
 
-                                                                <p className="bestOffer"><em>Better value!</em></p>
+                                                                <p className="bestOffer">BETTER VALUE</p>
                                                             </div>
                                                         </div>
                                                         <label>

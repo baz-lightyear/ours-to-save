@@ -73,6 +73,10 @@ const Container = styled.div`
             justify-content: center;
             flex-wrap: wrap;
             .price {
+                h1 {
+                    margin: 0.5rem auto;
+                }
+                opacity: 0.5;
                 background-color: ${props => props.theme.yellow};
                 border: solid 4px ${props => props.theme.navy};
                 width: 280px;
@@ -84,18 +88,44 @@ const Container = styled.div`
                 &:hover {
                     box-shadow: 0px 0px 8px 0px ${props => props.theme.grey};
                 }
+                .discount {
+                    margin: 4px;
+                    font-size: 2rem;
+                    color: ${props => props.theme.green};
+                    .strikeThrough {
+                        color: ${props => props.theme.black};
+                    }
+                    .strikeThrough {
+                        position: relative;
+                    }
+                    .strikeThrough:before {
+                        position: absolute;
+                        content: "";
+                        left: 0;
+                        top: 40%;
+                        right: 0;
+                        border-top: 4px solid;
+                        border-color: black;
+
+                        -webkit-transform:rotate(-40deg);
+                        -moz-transform:rotate(-40deg);
+                        -ms-transform:rotate(-40deg);
+                        -o-transform:rotate(-40deg);
+                        transform:rotate(-40deg);
+                    }
+                }
             }
-            .unselected {
-                opacity: 0.5;
+            .selected {
+                opacity: 1;
             }
             .bestOffer {
-                font-size: 2rem;
+                font-weight: bolder;
+                letter-spacing: 1px;
                 display: inline-block;
-                background: linear-gradient(to right,#f1ca0d,#FCF6BA,#f1ca0d);
+                color: ${props => props.theme.yellow};
+                background-color: ${props => props.theme.green};
                 padding: 0.5rem;
-                border: solid;
                 margin: 1rem auto;
-                border-color: #f1ca0d;
                 font-family: ${props => props.theme.sansSerif};
             }
         }
@@ -283,7 +313,46 @@ class account extends Component {
                                                     <hr/>
                                                     <p>Are you a <strong>student?</strong> Are you actively involved in <strong>government</strong> and / or <strong>business?</strong> A <strong>human</strong> interested in the world around you? <strong>Yes?</strong> Then it's essential that you can understand and navigate the defining battle of the next generation - <strong>the battle for the planet</strong>.</p>
                                                     <p><strong>Ours to Save</strong> is a new publication borne out of the frustration that the urgent response to Covid-19 wasn't being applied to the climate crisis. Alongside our <Link href="/feed"><a>free interactive map</a></Link>, we publish <strong>full-length op-eds</strong>, covering the climate crisis with a fresh perspective. We expose the <strong>stories behind the headlines</strong>, directly from the <strong>frontline</strong>, with a <strong>solutions-oriented</strong> approach and always providing a platform for <strong>under-represented voices.</strong></p>
+                                                    <h2 style={{textAlign: "center"}}>Pick a pricing plan</h2>
+                                                    <small style={{textAlign: "center", display: "block", marginBottom: "1rem"}}>Click to select</small>
+                                                    <div id="pricePlans">
+                                                        <div className={`${this.state.priceId === "price_1HIuGjIcB8KtT8kgq6aU7OQ0" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGjIcB8KtT8kgq6aU7OQ0"})}>
+                                                            <h1>Pay monthly</h1>
+                                                            <div class="discount">
+                                                                <span class="strikeThrough">£5</span> <span>£3</span>
+                                                            </div>
+                                                            <p>
+                                                                <strong>Special early members rate:</strong><br/>£3 / month once free trial ends. Cancel anytime.
+                                                            </p>                                                        
+                                                        </div>
+                                                        <div className={`${this.state.priceId === "price_1HIuGwIcB8KtT8kg4C7rhysK" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGwIcB8KtT8kg4C7rhysK"})}>
+                                                            <h1>Pay yearly</h1>
+                                                            <div class="discount">
+                                                                <span class="strikeThrough">£50</span> <span>£30</span>
+                                                            </div>
+                                                            <p>
+                                                                <strong>Special early members rate:</strong><br/>£30 / year once free trial ends. Cancel anytime.
+                                                            </p>         
+                                                            <p className="bestOffer">BETTER VALUE</p>
+                                                        </div>
+                                                    </div>
+                                                    <label>
+                                                        <input type="checkbox" checked={this.state.consent} onChange={e => this.setState({consent: e.target.checked})}/>
+                                                        <p>I consent to the <a href="/terms" target="_blank">terms</a> (opens in new window).</p>
+                                                    </label>
+                                                    <p>If you have a discount code, you'll be able to apply it before you pay. On mobile, click 'view details' when you reach our payments partner, Stripe.</p>
+                                                    <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
+                                                        e.preventDefault()
+                                                        await createStripeSubscription().then( async response => {
+                                                            const stripe = await stripePromise;
+                                                            const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
+                                                            await stripe.redirectToCheckout({
+                                                                sessionId
+                                                            });
+                                                        })
+                                                    }}>SUBSCRIBE</button>
                                                     <hr/>
+                                                    <h2>More information</h2>
                                                     <p>As an Ours to Save member you'll have access to all our <strong>full-length features</strong> - whether we're picking apart the <strong>Green New Deal</strong>, exposing under-reported <strong>Polish wildfires</strong>, or evaluating the progress towards the <strong>Paris environmental goals</strong>. Have a read of some sample journalism and see what you think.</p>
                                                     <Query query={BOOSTED_FEATURES_QUERY}>
                                                         {({data, loading, error}) => {
@@ -308,18 +377,28 @@ class account extends Component {
                                                     <h2 style={{textAlign: "center"}}>Pick a pricing plan</h2>
                                                     <small style={{textAlign: "center", display: "block", marginBottom: "1rem"}}>Click to select</small>
                                                     <div id="pricePlans">
-                                                        <div className={`${this.state.priceId === "price_1HIuGwIcB8KtT8kg4C7rhysK" ? "unselected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGjIcB8KtT8kgq6aU7OQ0"})}>
+                                                        <div className={`${this.state.priceId === "price_1HIuGjIcB8KtT8kgq6aU7OQ0" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGjIcB8KtT8kgq6aU7OQ0"})}>
                                                             <h1>Pay monthly</h1>
-                                                            <p>Pay £3 monthly after your 3-day free trial ends. Cancel anytime.</p>
+                                                            <div class="discount">
+                                                                <span class="strikeThrough">£6</span> <span>£3</span>
+                                                            </div>
+                                                            <p>
+                                                                <strong>Special early members rate:</strong><br/>£3 / month once free trial ends. Cancel anytime.
+                                                            </p>                                                        
                                                         </div>
-                                                        <div className={`${this.state.priceId === "price_1HIuGjIcB8KtT8kgq6aU7OQ0" ? "unselected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGwIcB8KtT8kg4C7rhysK"})}>
+                                                        <div className={`${this.state.priceId === "price_1HIuGwIcB8KtT8kg4C7rhysK" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGwIcB8KtT8kg4C7rhysK"})}>
                                                             <h1>Pay yearly</h1>
-                                                            <p>Pay £30 yearly after your 3-day free trial ends - works out to <strong>58p per week</strong>. Cancel anytime.</p>
-                                                            <p className="bestOffer"><em>Better value!</em></p>
+                                                            <div class="discount">
+                                                                <span class="strikeThrough">£60</span> <span>£30</span>
+                                                            </div>
+                                                            <p>
+                                                                <strong>Special early members rate:</strong><br/>£30 / year once free trial ends. Cancel anytime.
+                                                            </p>         
+                                                            <p className="bestOffer">BETTER VALUE</p>
                                                         </div>
                                                     </div>
                                                     <label>
-                                                        <input type="checkbox" onChange={e => this.setState({consent: e.target.checked})}/>
+                                                        <input type="checkbox" checked={this.state.consent} onChange={e => this.setState({consent: e.target.checked})}/>
                                                         <p>I consent to the <a href="/terms" target="_blank">terms</a> (opens in new window).</p>
                                                     </label>
                                                     <p>If you have a discount code, you'll be able to apply it before you pay. On mobile, click 'view details' when you reach our payments partner, Stripe.</p>
