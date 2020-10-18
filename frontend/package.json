@@ -41,6 +41,7 @@
     "react-hooks": "^1.0.1",
     "react-intersection-observer": "^8.29.0",
     "react-moment": "^0.9.7",
+    "react-reveal": "^1.2.2",
     "react-share": "^4.3.0",
     "slate": "^0.57.3",
     "slate-history": "^0.57.3",

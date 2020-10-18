@@ -15,11 +15,76 @@ import {
 } from "react-share";
 import {optimiseCloudinary, timeFromNow} from '../lib/utils';
 import { CURRENT_USER_QUERY, UPVOTE_STORY, ADD_STORY_COMMENT } from './Apollo';
-import Router from 'next/router'
+import Link from 'next/link'
+import Moment from 'react-moment'
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies()
 
+const SuggestedFeature = styled.div`
+    padding-bottom: 1rem;
+    border-top: solid 2px ${props => props.theme.green};
+    border-radius: 2px;
+    .featureDiv {
+
+        a {
+            background-color: ${props => props.theme.yellow};
+            background-image: url(littlePluses.png);
+            position: relative;
+            color: ${props => props.theme.black};
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            img {
+                height: 300px;
+                width: 100%;
+                object-fit: cover;
+            }
+            .text {
+                padding: 0.5rem;
+                font-family: ${props => props.theme.serif};
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                h4 {
+                    margin: 0;
+                    margin-top: 0.5rem;
+                }
+                .category {
+                    margin-top: 0;
+                    margin-bottom: 1rem;
+                    font-family: ${props => props.theme.sansSerif};
+                    color: ${props => props.theme.green};
+                    text-transform: capitalize;
+                }
+                .subtitle {
+                    margin-bottom: 1rem;
+                }
+                small {
+                    display: flex;
+                    justify-content: space-between;
+                    opacity: 0.5;
+                }
+            }
+            &:hover {
+                box-shadow: 0px 0px 4px rgba(50,50,50,0.3);
+            }
+            .membersOnly {
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+                margin: 0;
+                background-color: rgba(0,0,0,0.3);
+                padding: 0 4px;
+                border-radius: 4px;
+                font-family: ${props => props.theme.sansSerif};
+                color: white;
+            }
+        }
+    }
+`;
 
 const Container = styled.div`
     font-family: ${props => props.theme.serif};
@@ -308,6 +373,53 @@ class StoryShow extends Component {
                                     <TwitterShareButton url={`https://www.ourstosave.com/story?id=${this.props.story.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                                 </div>
                             </div>
+                            {this.props.feature && 
+                                <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
+                                    {({data, error, loading}) => {
+                                        if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                                        if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+                                        const me = data.me === null ? null : data.me
+                                        return (
+                                            <SuggestedFeature>
+                                                <h4 style={{textAlign: "center"}}>Enjoying the crowdsourced map? Delve a little deeper:</h4>
+                                                <div className="featureDiv">
+                                                    {((me && me.permissions.includes("PREMIUM")) || this.props.skipPaywall) && 
+                                                        <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
+                                                            <a>
+                                                                <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
+                                                                <div className="text">
+                                                                    <div className="info">
+                                                                        <h4>{this.props.feature.title}</h4>
+                                                                        <p className="category">{this.props.feature.category}</p>
+                                                                        <p className="subtitle">{this.props.feature.subtitle}</p>
+                                                                    </div>
+                                                                    <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/>﹒<span>{this.props.feature.author}</span></small>
+                                                                </div>
+                                                            </a>
+                                                        </Link>
+                                                    }
+                                                    {!this.props.skipPaywall && (!me || !(me.permissions.includes("PREMIUM"))) && 
+                                                        <Link href='/account'>
+                                                            <a>
+                                                                <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
+                                                                <p className="membersOnly">subscribe for access</p>
+                                                                <div className="text">
+                                                                    <div className="info">
+                                                                        <h4>{this.props.feature.title}</h4>
+                                                                        <p className="category">{this.props.feature.category}</p>
+                                                                        <p className="subtitle">{this.props.feature.subtitle}</p>
+                                                                    </div>
+                                                                    <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/>﹒<span>{this.props.feature.author}</span></small>
+                                                                </div>
+                                                            </a>
+                                                        </Link>
+                                                    }
+                                                </div>
+                                            </SuggestedFeature>
+                                        )
+                                    }}
+                                </Query>
+                            }
                         </Container>
                     )
                  }}

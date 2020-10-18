@@ -21,6 +21,7 @@ const Container = styled.div`
 
 class Feed extends Component {
     render() {
+        const features = this.props.features
         return (
             <Container>
                 <div id="feedHeader">
@@ -28,10 +29,14 @@ class Feed extends Component {
                     <p>The front page of climate change, in real time.</p>
                     <p>Add <Link href="/addStory"><a>here</a></Link>.</p>
                 </div>
-                {/* right now you're rendering each story in a list of stories */}
-                {/* what you need to do is render each element in a list of elements, which may or may not be a story, or a feature */}
-                {this.props.stories.map((story, i) => {
-                    return <StoryShow key={story.id} story={story}/>
+                {this.props.stories.map((element, i) => {
+                    if (i % 3 === 0 && features.length > 1) {
+                        const feature = features[0]
+                        features.shift()
+                        return <StoryShow key={element.id} story={element} feature={feature}/>
+                    } else {
+                        return <StoryShow key={element.id} story={element}/>
+                    }
                 })}
                 <InView as="div" onChange={(inView, entry) => {
                     inView ? this.props.onLoadMore(this.props.stories[this.props.stories.length - 1].id) : ""

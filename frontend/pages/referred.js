@@ -226,16 +226,16 @@ class referred extends Component {
                                                         <h2 style={{textAlign: "center"}}>Pick a pricing plan</h2>
                                                         <small style={{textAlign: "center", display: "block", marginBottom: "1rem"}}>Click to select</small>
                                                         <div id="pricePlans">
-                                                        <div className={`${this.state.priceId === "price_1HIuGwIcB8KtT8kg4C7rhysK" ? "unselected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGjIcB8KtT8kgq6aU7OQ0"})}>
+                                                        <div className={`${this.state.priceId === "price_1HdklpIcB8KtT8kgJVP0lRJX" ? "unselected" : ""} price`} onClick={() => this.setState({priceId: "price_1Hdkm6IcB8KtT8kgUkoMXapO"})}>
                                                                 <h1>Pay monthly</h1>
-                                                                <p>Pay £3 monthly after your 3-day free trial ends. Cancel anytime.</p>
-                                                                <p><strong>Bill for first month:</strong><br/><br/>£3 - £3 referral credit = £0</p>
+                                                                <p>Pay £5 monthly after your 3-day free trial ends. Cancel anytime.</p>
+                                                                <p><strong>Bill for first month:</strong><br/><br/>£5 - £5 referral credit = £0</p>
                                                                 <p><strong>First month free</strong></p>
                                                             </div>
-                                                            <div className={`${this.state.priceId === "price_1HIuGjIcB8KtT8kgq6aU7OQ0" ? "unselected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGwIcB8KtT8kg4C7rhysK"})}>
+                                                            <div className={`${this.state.priceId === "price_1Hdkm6IcB8KtT8kgUkoMXapO" ? "unselected" : ""} price`} onClick={() => this.setState({priceId: "price_1HdklpIcB8KtT8kgJVP0lRJX"})}>
                                                                 <h1>Pay yearly</h1>
-                                                                <p>Pay £30 yearly after your 3-day free trial ends. Cancel anytime.</p>
-                                                                <p><strong>Bill for first year:</strong><br/><br/>£30 - £3 referral credit = £27 <br/><br/>Works out to 52p per week.</p>
+                                                                <p>Pay £50 yearly after your 3-day free trial ends. Cancel anytime.</p>
+                                                                <p><strong>Bill for first year:</strong><br/><br/>£50 - £5 referral credit = £45 <br/><br/>Works out to 52p per week.</p>
 
                                                                 <p className="bestOffer">BETTER VALUE</p>
                                                             </div>

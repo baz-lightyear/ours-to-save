@@ -316,22 +316,26 @@ class account extends Component {
                                                     <h2 style={{textAlign: "center"}}>Pick a pricing plan</h2>
                                                     <small style={{textAlign: "center", display: "block", marginBottom: "1rem"}}>Click to select</small>
                                                     <div id="pricePlans">
-                                                        <div className={`${this.state.priceId === "price_1HIuGjIcB8KtT8kgq6aU7OQ0" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGjIcB8KtT8kgq6aU7OQ0"})}>
-                                                            <h1>Pay monthly</h1>
+                                                        <div className={`${this.state.priceId === "price_1Hdkm6IcB8KtT8kgUkoMXapO" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1Hdkm6IcB8KtT8kgUkoMXapO"})}>
+                                                           <h1>Pay monthly</h1>
                                                             <div class="discount">
-                                                                <span class="strikeThrough">£5</span> <span>£3</span>
+                                                                {/* <span class="strikeThrough">£5</span>  */}
+                                                                {/* <span>£3</span> */}
+                                                                <span>£5</span>
                                                             </div>
                                                             <p>
-                                                                <strong>Special early members rate:</strong><br/>£3 / month once free trial ends. Cancel anytime.
+                                                                <strong>Special early members rate:</strong><br/>£5 / month once free trial ends. Cancel anytime.
                                                             </p>                                                        
                                                         </div>
-                                                        <div className={`${this.state.priceId === "price_1HIuGwIcB8KtT8kg4C7rhysK" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGwIcB8KtT8kg4C7rhysK"})}>
+                                                        <div className={`${this.state.priceId === "price_1HdklpIcB8KtT8kgJVP0lRJX" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HdklpIcB8KtT8kgJVP0lRJX"})}>
                                                             <h1>Pay yearly</h1>
                                                             <div class="discount">
-                                                                <span class="strikeThrough">£50</span> <span>£30</span>
+                                                                {/* <span class="strikeThrough">£50</span>  */}
+                                                                {/* <span>£30</span> */}
+                                                                <span>£50</span>
                                                             </div>
                                                             <p>
-                                                                <strong>Special early members rate:</strong><br/>£30 / year once free trial ends. Cancel anytime.
+                                                                <strong>Special early members rate:</strong><br/>£50 / year once free trial ends. Cancel anytime.
                                                             </p>         
                                                             <p className="bestOffer">BETTER VALUE</p>
                                                         </div>
@@ -377,16 +381,18 @@ class account extends Component {
                                                     <h2 style={{textAlign: "center"}}>Pick a pricing plan</h2>
                                                     <small style={{textAlign: "center", display: "block", marginBottom: "1rem"}}>Click to select</small>
                                                     <div id="pricePlans">
-                                                        <div className={`${this.state.priceId === "price_1HIuGjIcB8KtT8kgq6aU7OQ0" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGjIcB8KtT8kgq6aU7OQ0"})}>
+                                                        <div className={`${this.state.priceId === "price_1Hdkm6IcB8KtT8kgUkoMXapO" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1Hdkm6IcB8KtT8kgUkoMXapO"})}>
                                                             <h1>Pay monthly</h1>
                                                             <div class="discount">
-                                                                <span class="strikeThrough">£6</span> <span>£3</span>
+                                                                {/* <span class="strikeThrough">£5</span>  */}
+                                                                {/* <span>£3</span> */}
+                                                                <span>£5</span>
                                                             </div>
                                                             <p>
-                                                                <strong>Special early members rate:</strong><br/>£3 / month once free trial ends. Cancel anytime.
-                                                            </p>                                                        
+                                                                <strong>Special early members rate:</strong><br/>£5 / month once free trial ends. Cancel anytime.
+                                                            </p>                                                     
                                                         </div>
-                                                        <div className={`${this.state.priceId === "price_1HIuGwIcB8KtT8kg4C7rhysK" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HIuGwIcB8KtT8kg4C7rhysK"})}>
+                                                        <div className={`${this.state.priceId === "price_1HdklpIcB8KtT8kgJVP0lRJX" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HdklpIcB8KtT8kgJVP0lRJX"})}>
                                                             <h1>Pay yearly</h1>
                                                             <div class="discount">
                                                                 <span class="strikeThrough">£60</span> <span>£30</span>

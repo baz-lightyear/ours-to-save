@@ -151,13 +151,27 @@ const MODAL_STORY_QUERY = gql`
 const FEATURES_QUERY = gql`
   query FEATURES_QUERY {
     features(where: {approved: true}, orderBy: createdAt_DESC) {
-      id
-      title
-      subtitle
-      author
-      createdAt
-      featuredImage
-      category
+      id 
+      title 
+      subtitle 
+      createdAt 
+      author 
+      bio 
+      content       
+      featuredImage 
+      latitude 
+      longitude 
+      category 
+      comments { 
+        id 
+        createdAt 
+        approved 
+        content 
+        author 
+        { 
+          name 
+        }
+      }
     }
   }
 `;

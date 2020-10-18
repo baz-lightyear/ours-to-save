@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import {optimiseCloudinary} from '../lib/utils';
+import {timeFromNow} from '../lib/utils';
 import StoryModal from './StoryModal'
 
 const Container = styled.div`
@@ -81,7 +81,8 @@ class Marker extends Component {
                         <img src="triangle.svg" alt=""/>
                         <p>
                             {this.props.story.title}<br/>
-                            <small>click to expand</small>
+                            <small>click to expand</small><br/>
+                            <small style={{textAlign: "right"}}><strong>{timeFromNow(this.props.story.createdAt)}</strong></small>
                         </p>
                     </div>
                 </StoryModal>

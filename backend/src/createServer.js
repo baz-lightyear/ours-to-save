@@ -80,14 +80,14 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
       await stripe.customers.createBalanceTransaction(
         user.stripeCustomerId,
         {
-          amount: -300,
+          amount: -500,
           currency: 'gbp',
         }
       );
       await stripe.customers.createBalanceTransaction(
         user.referredBy.stripeCustomerId,
         {
-          amount: -300,
+          amount: -500,
           currency: 'gbp',
         }
       );

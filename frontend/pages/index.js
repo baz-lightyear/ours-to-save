@@ -3,8 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import LoginModal from '../components/LoginModal'
 import { CURRENT_USER_QUERY } from '../components/Apollo';
-import Founders from '../components/Founders';
-
+import Fade from 'react-reveal'
 import { Query } from 'react-apollo'
 import Cookies from 'universal-cookie';
 
@@ -227,32 +226,33 @@ const Container = styled.div`
             justify-content: space-around;
             flex-wrap: wrap;
             .category {
+                margin: 1rem 0.5rem;
                 width: 240px;
-                margin: 1rem;
+                @media (max-width: 480px) {
+                    width: 90%;
+                }
                 text-align: center;
                 color: ${props => props.theme.black};
                 border-radius: 2px;
-                background-color: ${props => props.theme.lightgreen};
                 font-family: ${props => props.theme.serif};
-                background-image: url(littlePluses.png);
-                h4 {
-                    font-size: 1.5rem;
-                }
                 p {
-                    margin: 1rem 8px;
-                    font-size: 0.8rem;
+                    margin: 2rem 8px 1rem 8px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     height: 3rem;
                 }
                 img {
-                    width: 95%;
-                    height: 200px;
+                    width: 100%;
+                    transition-duration: 0.5s;
                     object-fit: contain;
                 }
                 &:hover {
-                    box-shadow: 0px 0px 4px rgba(50,50,50,0.3);
+                    img {
+                        transform: scale(1.05);
+                        transition-duration: 0.5s;
+                        object-fit: contain;
+                    }
                 }
             }
         }
@@ -318,65 +318,60 @@ class index extends Component {
                             <div id="socialProof">
                                 <h3 style={{textAlign: "center"}}>As featured in</h3>
                                 <div id="socialProofs">
-                                    <div className="proof">
-                                        <img src="TelegraphLogo.svg" alt="black logo of The Telegraph"/>
-                                    </div>
-                                    <div className="proof">
-                                        <img src="TimeOut.svg" id="TimeOut" alt="black logo of Time Out"/>
-                                    </div>
-                                    <div className="proof">
-                                        <img src="EuronewsLogo.svg" alt="black logo of EuroNews"/>
-                                    </div>
+                                    <Fade bottom>
+                                        <div className="proof">
+                                            <img src="TelegraphLogo.svg" alt="black logo of The Telegraph"/>
+                                        </div>
+                                    </Fade>
+                                    <Fade bottom>
+                                        <div className="proof">
+                                            <img src="TimeOut.svg" id="TimeOut" alt="black logo of Time Out"/>
+                                        </div>
+                                    </Fade>
+                                    <Fade bottom>
+                                        <div className="proof">
+                                            <img src="EuronewsLogo.svg" alt="black logo of EuroNews"/>
+                                        </div>
+                                    </Fade>
                                 </div>
                             </div>
                             <div id="features">
                                 <h3 style={{textAlign: "center"}}>We're a new kind of publication</h3>
                                 <div id="contentModes">
-                                    <Link href="/feed">
-                                        <a>
-                                            <div id="feed" className="mode">
-                                                <img className="illustration" src="globe.svg" alt="black illustration of a globe"/>
-                                                <p>Our <strong>crowdsourced interactive map</strong> is a constantly-updated news feed that exposes stories from all around the world. It's totally free and anyone can contribute.</p>
-                                            </div>
-                                        </a>
-                                    </Link>
-                                    <Link href="/features">
-                                        <a>
-                                            <div id="features" className="mode">
-                                                <img className="illustration" id="lightbulb" src="lightbulb.svg" alt="black illustration of a lightbulb"/>
-                                                <p>Members have access to a curated selection of <strong>full-length features</strong> from world-class journalists, to examine the facts beneath the headlines.</p>
-                                            </div>
-                                        </a>
-                                    </Link>
-                                    <Link href="/podcast">
-                                        <a>
-                                            <div id="podcast" className="mode">
-                                                <img className="illustration" id="airpods" src="airpods.svg" alt="black illustration of airpods"/>
-                                                <p>Make sense of the weekly stories and hear directly from climate movers-and-shakers with our weekly <strong>podcast</strong>.</p>
-                                            </div>
-                                        </a>
-                                    </Link>
-                                    {/* <div id="newsletter" className="mode">
-                                        <img className="illustration" src="mail.svg" alt="black illustration of letter"/>
-                                        <p>Our <strong>newsletter</strong> summarises the weekly events in a digestible, punchy format - no spammy emails from us.</p>
-                                    </div>
-                                    <div id="socialMedia" className="mode">
-                                        <div className="socialLinks">
-                                            <a href="https://www.instagram.com/ours.tosave/" target="_blank">
-                                                <img className="social" src="instagramBlack.svg" alt="black instagram logo"/>
+                                    <Fade bottom>
+                                        <Link href="/feed">
+                                            <a>
+                                                <div id="feed" className="mode">
+                                                    <img className="illustration" src="globe.svg" alt="black illustration of a globe"/>
+                                                    <p>Our <strong>crowdsourced interactive map</strong> is a constantly-updated news feed that exposes stories from all around the world. It's totally free and anyone can contribute.</p>
+                                                </div>
                                             </a>
-                                            <a href="https://www.facebook.com/ourstosave/" target="_blank">
-                                                <img className="social" src="facebookBlack.svg" alt="black facebook logo"/>
+                                        </Link>
+                                    </Fade>
+                                    <Fade bottom>
+
+                                        <Link href="/features">
+                                            <a>
+                                                <div id="features" className="mode">
+                                                    <img className="illustration" id="lightbulb" src="lightbulb.svg" alt="black illustration of a lightbulb"/>
+                                                    <p>Members have access to a curated selection of <strong>full-length features</strong> from world-class journalists, to examine the facts beneath the headlines.</p>
+                                                </div>
                                             </a>
-                                            <a href="https://twitter.com/ourstosave?lang=en" target="_blank">
-                                                <img className="social" src="twitterBlack.svg" alt="black twitter logo"/>
+                                        </Link>
+                                    </Fade>
+                                    <Fade bottom>
+
+                                        <Link href="/podcast">
+                                            <a>
+                                                <div id="podcast" className="mode">
+                                                    <img className="illustration" id="airpods" src="airpods.svg" alt="black illustration of airpods"/>
+                                                    <p>Make sense of the weekly stories and hear directly from climate movers-and-shakers with our weekly <strong>podcast</strong>.</p>
+                                                </div>
                                             </a>
-                                        </div>
-                                        <p>See the stories as they come by following us on <strong>social media</strong>.</p>
-                                    </div> */}
+                                        </Link>
+                                    </Fade>
                                 </div>
                                 <div className="CTAs">
-                                    {/* <Link href="/feed"><a><button id="browse">explore free map</button></a></Link> */}
                                     <Link href="/news"><a><button id="browse">explore stories</button></a></Link>
                                     {(!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a><button>become a member</button></a></Link>}
                                     {me && me.permissions.includes("PREMIUM") && <Link href="/features"><a><button>browse features</button></a></Link>}
@@ -384,13 +379,12 @@ class index extends Component {
                             </div>
                             <div id="categories">
                                 <h3>We cover all the usual topics - politics, investment, technology, culture...</h3>
-                                <p>What makes us <strong>different</strong> is that our understanding and interpretation of these things is filtered through the lens of the defining battle of the next generation - <em>the battle for the planet</em>. Our content spans the <strong>Four Forces</strong> that we believe will shape the future:</p>
+                                <p>What makes us <strong>different</strong> is that our understanding and interpretation of these things is filtered through the lens of the defining battle of the next generation - <em>the battle for the planet</em>. Our content spans the <strong>Four Pressures</strong> that we believe will shape the future:</p>
                                 <div id="tabs">
                                     <Link href={{pathname: '/category', query: { category: "innovation" }}}>
                                         <a className="category">
                                             <div>
-                                                <h4>Innovation</h4>
-                                                <img src="innovation.svg" alt="an illustration of a lightbulb"/>
+                                                <img src="innovationCard.png" alt=""/>
                                                 <p>Scientists & entrepreneurs proactively engineering the climate.</p>
                                             </div>
                                         </a>                    
@@ -398,8 +392,7 @@ class index extends Component {
                                     <Link href={{pathname: '/category', query: { category: "conservation" }}}>
                                         <a className="category">
                                             <div>
-                                                <h4>Conservation</h4>
-                                                <img src="conservation.svg" alt="an illustration of a hand holding the earth"/>
+                                                <img src="conservationCard.png" alt=""/>
                                                 <p>Protection of wild spaces from the anthropocene's reach.</p>
                                             </div>
                                         </a>
@@ -407,8 +400,7 @@ class index extends Component {
                                     <Link href={{pathname: '/category', query: { category: "power" }}}>
                                         <a className="category">
                                             <div>
-                                                <h4>Power</h4>
-                                                <img src="power.svg" alt="an illustration of a powerful man sat behind a big desk"/>
+                                                <img src="powerCard.png" alt=""/>
                                                 <p>Institutions shaping the future. Government, corporations, media.</p>
                                             </div>
                                         </a>   
@@ -416,15 +408,13 @@ class index extends Component {
                                     <Link href={{pathname: '/category', query: { category: "inspiration" }}}>
                                         <a className="category">
                                             <div>
-                                                <h4>Inspiration</h4>
-                                                <img src="inspiration.svg" alt="an illustration of two people talking on the radio"/>
+                                                <img src="inspirationCard.png" alt=""/>
                                                 <p>Efforts to educate, motivate & raise awareness.</p>
                                             </div>
                                         </a>   
                                     </Link>
                                 </div>
                                 <div className="CTAs">
-                                    {/* <Link href="/feed"><a><button id="browse">explore free map</button></a></Link> */}
                                     <Link href="/news"><a><button id="browse">explore stories</button></a></Link>
                                     {(!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a><button>become a member</button></a></Link>}
                                     {me && me.permissions.includes("PREMIUM") && <Link href="/features"><a><button>browse features</button></a></Link>}
