@@ -395,10 +395,12 @@ class account extends Component {
                                                         <div className={`${this.state.priceId === "price_1HdklpIcB8KtT8kgJVP0lRJX" ? "selected" : ""} price`} onClick={() => this.setState({priceId: "price_1HdklpIcB8KtT8kgJVP0lRJX"})}>
                                                             <h1>Pay yearly</h1>
                                                             <div class="discount">
-                                                                <span class="strikeThrough">£60</span> <span>£30</span>
+                                                                {/* <span class="strikeThrough">£50</span>  */}
+                                                                {/* <span>£30</span> */}
+                                                                <span>£50</span>
                                                             </div>
                                                             <p>
-                                                                <strong>Special early members rate:</strong><br/>£30 / year once free trial ends. Cancel anytime.
+                                                                <strong>Special early members rate:</strong><br/>£50 / year once free trial ends. Cancel anytime.
                                                             </p>         
                                                             <p className="bestOffer">BETTER VALUE</p>
                                                         </div>
