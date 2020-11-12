@@ -202,7 +202,8 @@ class account extends Component {
         consent: false,
         priceId: "",
         mailingListEmail: "",
-        mailingListName: ""
+        mailingListName: "",
+        loading: false,
     }
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
@@ -345,6 +346,7 @@ class account extends Component {
                                                     </label>
                                                     <p>If you have a discount code, you'll be able to apply it before you pay. On mobile, click 'view details' when you reach our payments partner, Stripe.</p>
                                                     <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton newStripeSubscription`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
+                                                        this.setState({loading: true})
                                                         e.preventDefault()
                                                         // facebook ad tracking
                                                         import('react-facebook-pixel')
@@ -360,11 +362,15 @@ class account extends Component {
                                                         await createStripeSubscription().then( async response => {
                                                             const stripe = await stripePromise;
                                                             const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
+                                                            this.setState({loading: false})
                                                             await stripe.redirectToCheckout({
                                                                 sessionId
                                                             });
                                                         })
-                                                    }}>SUBSCRIBE</button>
+                                                    }}>
+                                                        {!this.state.loading && "SUBSCRIBE"}
+                                                        {this.state.loading && <img width="16px" src="loading.gif" alt="loading gif"/>}
+                                                    </button>
                                                     <hr/>
                                                     <h2>More information</h2>
                                                     <p>As an Ours to Save member you'll have access to all our <strong>full-length features</strong> - whether we're picking apart the <strong>Green New Deal</strong>, exposing under-reported <strong>Polish wildfires</strong>, or evaluating the progress towards the <strong>Paris environmental goals</strong>. Have a read of some sample journalism and see what you think.</p>
@@ -421,6 +427,7 @@ class account extends Component {
                                                     </label>
                                                     <p>If you have a discount code, you'll be able to apply it before you pay. On mobile, click 'view details' when you reach our payments partner, Stripe.</p>
                                                     <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton newStripeSubscription`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
+                                                        this.setState({loading: true})
                                                         e.preventDefault()
                                                         // facebook ad tracking
                                                         import('react-facebook-pixel')
@@ -432,15 +439,19 @@ class account extends Component {
                                                         // LinkedIn tracking
                                                         LinkedInTag.init("2947289");
                                                         LinkedInTag.track("3621409");
-                                                        
+
                                                         await createStripeSubscription().then( async response => {
                                                             const stripe = await stripePromise;
                                                             const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
+                                                            this.setState({loading: false})
                                                             await stripe.redirectToCheckout({
                                                                 sessionId
                                                             });
                                                         })
-                                                    }}>SUBSCRIBE</button>
+                                                    }}>
+                                                        {!this.state.loading && "SUBSCRIBE"}
+                                                        {this.state.loading && <img width="16px" src="loading.gif" alt="loading gif"/>}
+                                                    </button>
                                                 </div>
                                             )
                                         }}
