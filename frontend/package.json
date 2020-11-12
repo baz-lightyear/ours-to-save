@@ -43,6 +43,7 @@
     "react-helmet": "^6.1.0",
     "react-hooks": "^1.0.1",
     "react-intersection-observer": "^8.29.0",
+    "react-linkedin-insight": "0.0.5",
     "react-moment": "^0.9.7",
     "react-reveal": "^1.2.2",
     "react-share": "^4.3.0",

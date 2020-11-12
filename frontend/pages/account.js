@@ -11,8 +11,7 @@ import Cookies from 'universal-cookie';
 import { CSVLink, CSVDownload } from "react-csv";
 import Error from '../components/Error'
 import Swal from 'sweetalert2';
-
-
+import LinkedInTag from 'react-linkedin-insight';
 
 const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
 const cookies = new Cookies()
@@ -354,6 +353,10 @@ class account extends Component {
                                                             ReactPixel.init('687751288615310');
                                                             ReactPixel.track('InitiateCheckout', {name: me.name})
                                                         });
+                                                        // LinkedIn tracking
+                                                        LinkedInTag.init("2947289");
+                                                        LinkedInTag.track("3621409");
+
                                                         await createStripeSubscription().then( async response => {
                                                             const stripe = await stripePromise;
                                                             const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
@@ -426,6 +429,10 @@ class account extends Component {
                                                             ReactPixel.init('687751288615310');
                                                             ReactPixel.track('InitiateCheckout', {name: me.name})
                                                         });
+                                                        // LinkedIn tracking
+                                                        LinkedInTag.init("2947289");
+                                                        LinkedInTag.track("3621409");
+                                                        
                                                         await createStripeSubscription().then( async response => {
                                                             const stripe = await stripePromise;
                                                             const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
