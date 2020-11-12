@@ -244,7 +244,7 @@ class referred extends Component {
                                                             <input type="checkbox" onChange={e => this.setState({consent: e.target.checked})}/>
                                                             <p>I consent to the <a href="/terms" target="_blank">terms</a> (opens in new window).</p>
                                                         </label>
-                                                        <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
+                                                        <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton newStripeSubscription`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
                                                             e.preventDefault()
                                                             await createStripeSubscription().then( async response => {
                                                                 const stripe = await stripePromise;

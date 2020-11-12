@@ -345,7 +345,7 @@ class account extends Component {
                                                         <p>I consent to the <a href="/terms" target="_blank">terms</a> (opens in new window).</p>
                                                     </label>
                                                     <p>If you have a discount code, you'll be able to apply it before you pay. On mobile, click 'view details' when you reach our payments partner, Stripe.</p>
-                                                    <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
+                                                    <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton newStripeSubscription`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
                                                         e.preventDefault()
                                                         await createStripeSubscription().then( async response => {
                                                             const stripe = await stripePromise;
@@ -410,7 +410,7 @@ class account extends Component {
                                                         <p>I consent to the <a href="/terms" target="_blank">terms</a> (opens in new window).</p>
                                                     </label>
                                                     <p>If you have a discount code, you'll be able to apply it before you pay. On mobile, click 'view details' when you reach our payments partner, Stripe.</p>
-                                                    <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
+                                                    <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton newStripeSubscription`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
                                                         e.preventDefault()
                                                         await createStripeSubscription().then( async response => {
                                                             const stripe = await stripePromise;

@@ -345,7 +345,7 @@ class FeatureShow extends Component {
                                     <Paywall/>
                                 } */}
 
-                                <p className="bio"><em>{this.props.feature.bio}</em></p>
+                                <p className="bio endOfArticle"><em>{this.props.feature.bio}</em></p>
                                 <div className="comments">
                                     <h4 style={{textAlign: "center"}}>Comments</h4>
                                     {this.props.feature.comments.filter(c => c.approved ).map(c => {

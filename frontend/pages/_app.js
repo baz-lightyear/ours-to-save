@@ -7,8 +7,12 @@ import withData from '../lib/withData';
 import * as gtag from '../lib/gtag'
 import window from 'global' 
 import { endpoint, prodEndpoint } from '../config.js';
-
+import TagManager from 'react-gtm'
 import '../lib/bootstrap.min.css';
+
+const tagManagerArgs = {
+    id: 'GTM-NCSSVXP'
+}
 
 Router.events.on('routeChangeComplete', url => gtag.pageview(url))
 
@@ -30,7 +34,20 @@ class MyApp extends App {
         pageProps.query = ctx.query;
         return { pageProps };
     }
-    
+    componentDidMount () {
+        // Google Analytics
+        TagManager.initialize(tagManagerArgs)
+        // Facebook Ad tracking
+        // import('react-facebook-pixel')
+        // .then((x) => x.default)
+        // .then((ReactPixel) => {
+        //     ReactPixel.init('3523595684369421');
+        //     ReactPixel.pageView();
+        //     Router.events.on('routeChangeComplete', () => {
+        //         ReactPixel.pageView();
+        //     });
+        // });
+    }
     render() {
         const { Component, apollo, pageProps } = this.props;
 
