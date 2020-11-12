@@ -38,15 +38,15 @@ class MyApp extends App {
         // Google Analytics
         TagManager.initialize(tagManagerArgs)
         // Facebook Ad tracking
-        // import('react-facebook-pixel')
-        // .then((x) => x.default)
-        // .then((ReactPixel) => {
-        //     ReactPixel.init('3523595684369421');
-        //     ReactPixel.pageView();
-        //     Router.events.on('routeChangeComplete', () => {
-        //         ReactPixel.pageView();
-        //     });
-        // });
+        import('react-facebook-pixel')
+        .then((x) => x.default)
+        .then((ReactPixel) => {
+            ReactPixel.init('687751288615310');
+            ReactPixel.pageView();
+            Router.events.on('routeChangeComplete', () => {
+                ReactPixel.pageView();
+            });
+        });
     }
     render() {
         const { Component, apollo, pageProps } = this.props;

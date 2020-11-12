@@ -347,6 +347,13 @@ class account extends Component {
                                                     <p>If you have a discount code, you'll be able to apply it before you pay. On mobile, click 'view details' when you reach our payments partner, Stripe.</p>
                                                     <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton newStripeSubscription`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
                                                         e.preventDefault()
+                                                        // facebook ad tracking
+                                                        import('react-facebook-pixel')
+                                                        .then((x) => x.default)
+                                                        .then((ReactPixel) => {
+                                                            ReactPixel.init('687751288615310');
+                                                            ReactPixel.track('InitiateCheckout', {name: me.name})
+                                                        });
                                                         await createStripeSubscription().then( async response => {
                                                             const stripe = await stripePromise;
                                                             const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
@@ -412,6 +419,13 @@ class account extends Component {
                                                     <p>If you have a discount code, you'll be able to apply it before you pay. On mobile, click 'view details' when you reach our payments partner, Stripe.</p>
                                                     <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton newStripeSubscription`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
                                                         e.preventDefault()
+                                                        // facebook ad tracking
+                                                        import('react-facebook-pixel')
+                                                        .then((x) => x.default)
+                                                        .then((ReactPixel) => {
+                                                            ReactPixel.init('687751288615310');
+                                                            ReactPixel.track('InitiateCheckout', {name: me.name})
+                                                        });
                                                         await createStripeSubscription().then( async response => {
                                                             const stripe = await stripePromise;
                                                             const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
@@ -472,7 +486,7 @@ class account extends Component {
                                 <hr/>
                                 <p>Are you a <strong>student?</strong> Are you actively involved in <strong>government</strong> and / or <strong>business?</strong> A <strong>human</strong> interested in the world around you? <strong>Yes?</strong> Then it's essential that you can understand and navigate the defining battle of the next generation - <strong>the battle for the planet</strong>.</p>
                                 <p><strong>Ours to Save</strong> is a new publication borne out of the frustration that the urgent response to Covid-19 wasn't being applied to the climate crisis. Alongside our <Link href="/feed"><a>free interactive map</a></Link>, we publish <strong>full-length op-eds</strong>, covering the climate crisis with a fresh perspective. We expose the <strong>stories behind the headlines</strong>, directly from the <strong>frontline</strong>, with a <strong>solutions-oriented</strong> approach and always providing a platform for <strong>under-represented voices.</strong></p>
-                                <LoginModal>Log in / sign up to subscribe</LoginModal>
+                                <LoginModal>Sign in/up for free trial</LoginModal>
                                 <hr/>
                                 <p>As an Ours to Save member you'll have access to all our <strong>full-length features</strong> - whether we're picking apart the <strong>Green New Deal</strong>, exposing under-reported <strong>Polish wildfires</strong>, or evaluating the progress towards the <strong>Paris environmental goals</strong>. Have a read of some sample journalism and see what you think.</p>
                                 <Query query={BOOSTED_FEATURES_QUERY}>
@@ -492,7 +506,7 @@ class account extends Component {
                                 </Query>
                                 <hr/>
                                 <p>Prices start from <strong>58p each week</strong>, after a 3-day trial period. You can cancel at any time. Once you sign up (or log in), you can pick a plan that suits you.</p>
-                                <LoginModal>Log in / sign up to subscribe</LoginModal>
+                                <LoginModal>Sign in/up for free trial</LoginModal>
                             </PleaseLogin>
                         )
                     }
