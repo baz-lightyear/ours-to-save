@@ -7,11 +7,11 @@ import withData from '../lib/withData';
 import * as gtag from '../lib/gtag'
 import window from 'global' 
 import { endpoint, prodEndpoint } from '../config.js';
-import TagManager from 'react-gtm'
+import TagManager from 'react-gtm-module'
 import '../lib/bootstrap.min.css';
 
 const tagManagerArgs = {
-    id: 'GTM-NCSSVXP'
+    gtmId: 'GTM-NCSSVXP'
 }
 
 Router.events.on('routeChangeComplete', url => gtag.pageview(url))
