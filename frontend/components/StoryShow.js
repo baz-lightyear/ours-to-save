@@ -384,7 +384,7 @@ class StoryShow extends Component {
                                                 <h4 style={{textAlign: "center"}}>Enjoying the crowdsourced map? Delve a little deeper:</h4>
                                                 <div className="featureDiv">
                                                     {((me && me.permissions.includes("PREMIUM")) || this.props.skipPaywall) && 
-                                                        <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
+                                                        <Link href={{pathname: '/feature', query: { id: this.props.feature.id, title: this.props.feature.title }}}>
                                                             <a>
                                                                 <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
                                                                 <div className="text">

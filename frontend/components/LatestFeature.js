@@ -65,7 +65,7 @@ class LatestFeature extends Component {
                     const me = data.me === null ? null : data.me
                     // if (me && me.permissions.includes("PREMIUM")) {
                         return (
-                            <Link href={{pathname: '/feature', query: { id: this.props.feature.id }}}>
+                            <Link href={{pathname: '/feature', query: { id: this.props.feature.id, title: this.props.feature.title }}}>
                                 <a>
                                     <Container>
                                         <div className="content">
