@@ -148,7 +148,8 @@ class referred extends Component {
     state = {
         redeemed: false,
         consent: false,
-        priceId: ""
+        priceId: "",
+        loading: false
     }
     render() {
         return (
@@ -245,15 +246,20 @@ class referred extends Component {
                                                             <p>I consent to the <a href="/terms" target="_blank">terms</a> (opens in new window).</p>
                                                         </label>
                                                         <button className={`${this.state.consent && !(this.state.priceId === "") ? "enabled" : "disabled"} stripePortalButton newStripeSubscription`} disabled={!(this.state.consent && !(this.state.priceId === ""))} onClick={ async (e) => {
+                                                            this.setState({loading: true})
                                                             e.preventDefault()
                                                             await createStripeSubscription().then( async response => {
                                                                 const stripe = await stripePromise;
                                                                 const sessionId = response.data.createStripeSubscription.stripeCheckoutSessionId
+                                                                this.setState({loading: false})
                                                                 await stripe.redirectToCheckout({
                                                                     sessionId
                                                                 });
                                                             })
-                                                        }}>SUBSCRIBE</button>
+                                                        }}>
+                                                            {!this.state.loading && "SUBSCRIBE"}
+                                                            {this.state.loading && <img width="16px" src="loading.gif" alt="loading gif"/>}
+                                                        </button>
                                                     </Container>
                                                 )
                                             }}

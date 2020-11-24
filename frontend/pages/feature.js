@@ -34,6 +34,7 @@ class feature extends Component {
                     <meta property="og:description"        content={this.props.feature.subtitle} key='og:description'/>
                     <meta property="og:image"              content={optimiseCloudinary(this.props.feature.featuredImage, 400)} key='og:image'/>
                     <meta property="og:type"               content="article" key='og:type'/>
+                    <title>{this.props.feature.title}</title>
                 </Head>
                 <FeatureShow feature={this.props.feature}/>
                 {/* <Founders/> */}
