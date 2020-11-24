@@ -24,6 +24,10 @@ const Container = styled.div`
         flex-wrap: wrap;
         justify-content: center;
     }
+    .description {
+        font-family: ${props => props.theme.serif};
+        margin-bottom: 2rem;
+    }
 `;
 
 class features extends Component {
@@ -31,7 +35,10 @@ class features extends Component {
         return (
             <Container>
                 <CategoryTab/>
-                <h1>Analysis & opinion from world-class journalists</h1>
+                <h1>Analysis & opinion</h1>
+                <p className="description">
+                    Go further than the headlines with original & diverse perspectives.
+                </p>
                 <Query query={BOOSTED_FEATURES_QUERY}>
                     {({data, loading, error}) => {
                         if (loading) return <><p style={{textAlign: "center", margin: "1rem"}}>Loading...</p><img src="loading.gif" alt="loading" height="50"  style={{display: "block", margin: "auto"}}/></>;
