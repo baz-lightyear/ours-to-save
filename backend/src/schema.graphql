@@ -5,29 +5,75 @@ type SuccessMessage {
 }
 
 type Mutation {
-  createStory(title: String!, content: String!, address: String!, author: String, image: String): Story
-  createFeature(content: String!, featuredImage: String, address: String!, title: String!, subtitle: String!, bio: String, author: String!, category: String!): Feature
-  signup(email: String! password: String! name: String!): User!
-  signin( email: String! password: String! ): User!
+  createStory(
+    title: String!
+    content: String!
+    address: String!
+    author: String
+    image: String
+  ): Story
+  createFeature(
+    content: String!
+    featuredImage: String
+    address: String!
+    title: String!
+    subtitle: String!
+    bio: String
+    author: String!
+    category: String!
+  ): Feature
+  signup(email: String!, password: String!, name: String!): User!
+  signin(email: String!, password: String!): User!
   requestReset(email: String!): SuccessMessage
-  resetPassword( resetToken: String! password: String! confirmPassword: String!): User!
+  resetPassword(
+    resetToken: String!
+    password: String!
+    confirmPassword: String!
+  ): User!
   upvoteStory(storyId: String!, userId: String!): Story
-  addFeatureComment(content: String, authorId: String, featureId: String): FeatureComment
-  addStoryComment(content: String, authorId: String, storyId: String): StoryComment
-  updateFeature(content: String!, featuredImage: String, address: String, title: String!, subtitle: String!, bio: String, author: String!, category: String!, featureId: String): Feature
+  addFeatureComment(
+    content: String
+    authorId: String
+    featureId: String
+  ): FeatureComment
+  addStoryComment(
+    content: String
+    authorId: String
+    storyId: String
+  ): StoryComment
+  updateFeature(
+    content: String!
+    featuredImage: String
+    address: String
+    title: String!
+    subtitle: String!
+    bio: String
+    author: String!
+    category: String!
+    featureId: String
+  ): Feature
   createStripeBillingSession(userId: String): User
   createStripeSubscription(userId: String, priceId: String): User
   updateReferrer(referrerId: String, referredId: String): User
   addToMailingList(email: String!, name: String!): User
+  verifyGiftVoucher(userId: String, voucherCode: String): Gift
 }
 
 type Query {
-  mapStories(first: Int, where: StoryWhereInput, orderBy: StoryOrderByInput): [Story]!
+  mapStories(
+    first: Int
+    where: StoryWhereInput
+    orderBy: StoryOrderByInput
+  ): [Story]!
   story(id: ID!): Story
   features(where: StoryWhereInput, orderBy: FeatureOrderByInput): [Feature]!
   feature(id: ID!): Feature
   latestFeature(where: StoryWhereInput, orderBy: FeatureOrderByInput): Feature
-  moreStories(where: StoryWhereInput, orderBy: StoryOrderByInput, cursor: String): [Story]
+  moreStories(
+    where: StoryWhereInput
+    orderBy: StoryOrderByInput
+    cursor: String
+  ): [Story]
   feedPreview(orderBy: StoryOrderByInput): [Story]
   categoryFeatures(orderBy: FeatureOrderByInput, category: String): [Feature]
   recentFeatures(orderBy: FeatureOrderByInput): [Feature]

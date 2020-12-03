@@ -1,11 +1,15 @@
 # source: https://ours-to-save-prod-e8112953ab.herokuapp.com
-# timestamp: Tue Sep 29 2020 07:31:53 GMT+0100 (British Summer Time)
+# timestamp: Thu Dec 03 2020 15:49:46 GMT+0000 (Greenwich Mean Time)
 
 type AggregateFeature {
   count: Int!
 }
 
 type AggregateFeatureComment {
+  count: Int!
+}
+
+type AggregateGift {
   count: Int!
 }
 
@@ -1209,6 +1213,443 @@ input FeatureWhereUniqueInput {
   id: ID
 }
 
+type Gift implements Node {
+  id: ID!
+  shortId: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  stripePriceId: String
+  stripeCouponId: String
+  buyerEmail: String
+  redeemed: Boolean
+  redeemedBy: User
+  stripePromotionCode: String
+}
+
+"""A connection to a list of items."""
+type GiftConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [GiftEdge]!
+  aggregate: AggregateGift!
+}
+
+input GiftCreateInput {
+  id: ID
+  shortId: String
+  stripePriceId: String
+  stripeCouponId: String
+  buyerEmail: String
+  redeemed: Boolean
+  stripePromotionCode: String
+  redeemedBy: UserCreateOneInput
+}
+
+"""An edge in a connection."""
+type GiftEdge {
+  """The item at the end of the edge."""
+  node: Gift!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum GiftOrderByInput {
+  id_ASC
+  id_DESC
+  shortId_ASC
+  shortId_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  stripePriceId_ASC
+  stripePriceId_DESC
+  stripeCouponId_ASC
+  stripeCouponId_DESC
+  buyerEmail_ASC
+  buyerEmail_DESC
+  redeemed_ASC
+  redeemed_DESC
+  stripePromotionCode_ASC
+  stripePromotionCode_DESC
+}
+
+type GiftPreviousValues {
+  id: ID!
+  shortId: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  stripePriceId: String
+  stripeCouponId: String
+  buyerEmail: String
+  redeemed: Boolean
+  stripePromotionCode: String
+}
+
+type GiftSubscriptionPayload {
+  mutation: MutationType!
+  node: Gift
+  updatedFields: [String!]
+  previousValues: GiftPreviousValues
+}
+
+input GiftSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GiftSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GiftSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GiftSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: GiftWhereInput
+}
+
+input GiftUpdateInput {
+  shortId: String
+  stripePriceId: String
+  stripeCouponId: String
+  buyerEmail: String
+  redeemed: Boolean
+  stripePromotionCode: String
+  redeemedBy: UserUpdateOneInput
+}
+
+input GiftUpdateManyMutationInput {
+  shortId: String
+  stripePriceId: String
+  stripeCouponId: String
+  buyerEmail: String
+  redeemed: Boolean
+  stripePromotionCode: String
+}
+
+input GiftWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GiftWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GiftWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [GiftWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  shortId: String
+
+  """All values that are not equal to given value."""
+  shortId_not: String
+
+  """All values that are contained in given list."""
+  shortId_in: [String!]
+
+  """All values that are not contained in given list."""
+  shortId_not_in: [String!]
+
+  """All values less than the given value."""
+  shortId_lt: String
+
+  """All values less than or equal the given value."""
+  shortId_lte: String
+
+  """All values greater than the given value."""
+  shortId_gt: String
+
+  """All values greater than or equal the given value."""
+  shortId_gte: String
+
+  """All values containing the given string."""
+  shortId_contains: String
+
+  """All values not containing the given string."""
+  shortId_not_contains: String
+
+  """All values starting with the given string."""
+  shortId_starts_with: String
+
+  """All values not starting with the given string."""
+  shortId_not_starts_with: String
+
+  """All values ending with the given string."""
+  shortId_ends_with: String
+
+  """All values not ending with the given string."""
+  shortId_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  stripePriceId: String
+
+  """All values that are not equal to given value."""
+  stripePriceId_not: String
+
+  """All values that are contained in given list."""
+  stripePriceId_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripePriceId_not_in: [String!]
+
+  """All values less than the given value."""
+  stripePriceId_lt: String
+
+  """All values less than or equal the given value."""
+  stripePriceId_lte: String
+
+  """All values greater than the given value."""
+  stripePriceId_gt: String
+
+  """All values greater than or equal the given value."""
+  stripePriceId_gte: String
+
+  """All values containing the given string."""
+  stripePriceId_contains: String
+
+  """All values not containing the given string."""
+  stripePriceId_not_contains: String
+
+  """All values starting with the given string."""
+  stripePriceId_starts_with: String
+
+  """All values not starting with the given string."""
+  stripePriceId_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripePriceId_ends_with: String
+
+  """All values not ending with the given string."""
+  stripePriceId_not_ends_with: String
+  stripeCouponId: String
+
+  """All values that are not equal to given value."""
+  stripeCouponId_not: String
+
+  """All values that are contained in given list."""
+  stripeCouponId_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripeCouponId_not_in: [String!]
+
+  """All values less than the given value."""
+  stripeCouponId_lt: String
+
+  """All values less than or equal the given value."""
+  stripeCouponId_lte: String
+
+  """All values greater than the given value."""
+  stripeCouponId_gt: String
+
+  """All values greater than or equal the given value."""
+  stripeCouponId_gte: String
+
+  """All values containing the given string."""
+  stripeCouponId_contains: String
+
+  """All values not containing the given string."""
+  stripeCouponId_not_contains: String
+
+  """All values starting with the given string."""
+  stripeCouponId_starts_with: String
+
+  """All values not starting with the given string."""
+  stripeCouponId_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripeCouponId_ends_with: String
+
+  """All values not ending with the given string."""
+  stripeCouponId_not_ends_with: String
+  buyerEmail: String
+
+  """All values that are not equal to given value."""
+  buyerEmail_not: String
+
+  """All values that are contained in given list."""
+  buyerEmail_in: [String!]
+
+  """All values that are not contained in given list."""
+  buyerEmail_not_in: [String!]
+
+  """All values less than the given value."""
+  buyerEmail_lt: String
+
+  """All values less than or equal the given value."""
+  buyerEmail_lte: String
+
+  """All values greater than the given value."""
+  buyerEmail_gt: String
+
+  """All values greater than or equal the given value."""
+  buyerEmail_gte: String
+
+  """All values containing the given string."""
+  buyerEmail_contains: String
+
+  """All values not containing the given string."""
+  buyerEmail_not_contains: String
+
+  """All values starting with the given string."""
+  buyerEmail_starts_with: String
+
+  """All values not starting with the given string."""
+  buyerEmail_not_starts_with: String
+
+  """All values ending with the given string."""
+  buyerEmail_ends_with: String
+
+  """All values not ending with the given string."""
+  buyerEmail_not_ends_with: String
+  redeemed: Boolean
+
+  """All values that are not equal to given value."""
+  redeemed_not: Boolean
+  stripePromotionCode: String
+
+  """All values that are not equal to given value."""
+  stripePromotionCode_not: String
+
+  """All values that are contained in given list."""
+  stripePromotionCode_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripePromotionCode_not_in: [String!]
+
+  """All values less than the given value."""
+  stripePromotionCode_lt: String
+
+  """All values less than or equal the given value."""
+  stripePromotionCode_lte: String
+
+  """All values greater than the given value."""
+  stripePromotionCode_gt: String
+
+  """All values greater than or equal the given value."""
+  stripePromotionCode_gte: String
+
+  """All values containing the given string."""
+  stripePromotionCode_contains: String
+
+  """All values not containing the given string."""
+  stripePromotionCode_not_contains: String
+
+  """All values starting with the given string."""
+  stripePromotionCode_starts_with: String
+
+  """All values not starting with the given string."""
+  stripePromotionCode_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripePromotionCode_ends_with: String
+
+  """All values not ending with the given string."""
+  stripePromotionCode_not_ends_with: String
+  redeemedBy: UserWhereInput
+}
+
+input GiftWhereUniqueInput {
+  id: ID
+  shortId: String
+}
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -1219,31 +1660,37 @@ type Mutation {
   createFeatureComment(data: FeatureCommentCreateInput!): FeatureComment!
   createStoryComment(data: StoryCommentCreateInput!): StoryComment!
   createFeature(data: FeatureCreateInput!): Feature!
+  createGift(data: GiftCreateInput!): Gift!
   createStory(data: StoryCreateInput!): Story!
   createUser(data: UserCreateInput!): User!
   updateFeatureComment(data: FeatureCommentUpdateInput!, where: FeatureCommentWhereUniqueInput!): FeatureComment
   updateStoryComment(data: StoryCommentUpdateInput!, where: StoryCommentWhereUniqueInput!): StoryComment
   updateFeature(data: FeatureUpdateInput!, where: FeatureWhereUniqueInput!): Feature
+  updateGift(data: GiftUpdateInput!, where: GiftWhereUniqueInput!): Gift
   updateStory(data: StoryUpdateInput!, where: StoryWhereUniqueInput!): Story
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteFeatureComment(where: FeatureCommentWhereUniqueInput!): FeatureComment
   deleteStoryComment(where: StoryCommentWhereUniqueInput!): StoryComment
   deleteFeature(where: FeatureWhereUniqueInput!): Feature
+  deleteGift(where: GiftWhereUniqueInput!): Gift
   deleteStory(where: StoryWhereUniqueInput!): Story
   deleteUser(where: UserWhereUniqueInput!): User
   upsertFeatureComment(where: FeatureCommentWhereUniqueInput!, create: FeatureCommentCreateInput!, update: FeatureCommentUpdateInput!): FeatureComment!
   upsertStoryComment(where: StoryCommentWhereUniqueInput!, create: StoryCommentCreateInput!, update: StoryCommentUpdateInput!): StoryComment!
   upsertFeature(where: FeatureWhereUniqueInput!, create: FeatureCreateInput!, update: FeatureUpdateInput!): Feature!
+  upsertGift(where: GiftWhereUniqueInput!, create: GiftCreateInput!, update: GiftUpdateInput!): Gift!
   upsertStory(where: StoryWhereUniqueInput!, create: StoryCreateInput!, update: StoryUpdateInput!): Story!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyFeatureComments(data: FeatureCommentUpdateManyMutationInput!, where: FeatureCommentWhereInput): BatchPayload!
   updateManyStoryComments(data: StoryCommentUpdateManyMutationInput!, where: StoryCommentWhereInput): BatchPayload!
   updateManyFeatures(data: FeatureUpdateManyMutationInput!, where: FeatureWhereInput): BatchPayload!
+  updateManyGifts(data: GiftUpdateManyMutationInput!, where: GiftWhereInput): BatchPayload!
   updateManyStories(data: StoryUpdateManyMutationInput!, where: StoryWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyFeatureComments(where: FeatureCommentWhereInput): BatchPayload!
   deleteManyStoryComments(where: StoryCommentWhereInput): BatchPayload!
   deleteManyFeatures(where: FeatureWhereInput): BatchPayload!
+  deleteManyGifts(where: GiftWhereInput): BatchPayload!
   deleteManyStories(where: StoryWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
@@ -1288,16 +1735,19 @@ type Query {
   featureComments(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FeatureComment]!
   storyComments(where: StoryCommentWhereInput, orderBy: StoryCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [StoryComment]!
   features(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Feature]!
+  gifts(where: GiftWhereInput, orderBy: GiftOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Gift]!
   stories(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Story]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   featureComment(where: FeatureCommentWhereUniqueInput!): FeatureComment
   storyComment(where: StoryCommentWhereUniqueInput!): StoryComment
   feature(where: FeatureWhereUniqueInput!): Feature
+  gift(where: GiftWhereUniqueInput!): Gift
   story(where: StoryWhereUniqueInput!): Story
   user(where: UserWhereUniqueInput!): User
   featureCommentsConnection(where: FeatureCommentWhereInput, orderBy: FeatureCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureCommentConnection!
   storyCommentsConnection(where: StoryCommentWhereInput, orderBy: StoryCommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StoryCommentConnection!
   featuresConnection(where: FeatureWhereInput, orderBy: FeatureOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeatureConnection!
+  giftsConnection(where: GiftWhereInput, orderBy: GiftOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GiftConnection!
   storiesConnection(where: StoryWhereInput, orderBy: StoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
@@ -3095,6 +3545,7 @@ type Subscription {
   featureComment(where: FeatureCommentSubscriptionWhereInput): FeatureCommentSubscriptionPayload
   storyComment(where: StoryCommentSubscriptionWhereInput): StoryCommentSubscriptionPayload
   feature(where: FeatureSubscriptionWhereInput): FeatureSubscriptionPayload
+  gift(where: GiftSubscriptionWhereInput): GiftSubscriptionPayload
   story(where: StorySubscriptionWhereInput): StorySubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }

@@ -72,7 +72,6 @@ type StoryComment {
   story: Story @relation(link: INLINE)
 }
 
-
 type Feature {
   id: ID! @id
   title: String
@@ -92,3 +91,15 @@ type Feature {
   comments: [FeatureComment] @scalarList(strategy: RELATION)
 }
 
+type Gift {
+  id: ID! @id
+  shortId: String @unique
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  stripePriceId: String
+  stripeCouponId: String
+  buyerEmail: String
+  redeemed: Boolean @default(value: false)
+  redeemedBy: User @relation(link: INLINE)
+  stripePromotionCode: String
+}

@@ -5,6 +5,7 @@ const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 const sgMail = require('@sendgrid/mail');
 const stripe = require('../stripe');
+const { once } = require('process');
 const geocodingApiKey = 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw'
 
 const Mutation = {
@@ -375,6 +376,35 @@ const Mutation = {
     })
     return referred
   },
+
+  async verifyGiftVoucher(parent, args, ctx, info) {
+    const gift = ctx.db.query.gift({where: {shortId: args.voucherCode}})
+    const user = ctx.db.query.user({where: {id: args.userId}})
+    if (gift) {
+      if (gift.redeemed) {
+        throw new Error("Sorry, that gift voucher has already been redeemed. If you have any quesitons, get in touch.")
+      } else {
+        // generate special stripe code
+        const stripePromotionCode = await stripe.promotionCodes.create({
+          coupon: gift.stripeCouponId,
+          customer: user.stripeCustomerId,
+          max_redemptions: 1,
+        })
+        // attach the stripePromotionCode to the gift, attach the user and set 'redeemed' to true
+        await ctx.db.mutation.updateGift({
+          where: {id: gift.id},
+          data: {
+            redeemed: true,
+            redeemedBy: {connect: {id: args.userId}},
+            stripePromotionCode: stripePromotionCode,
+          }
+        })
+        return gift
+      }
+    } else {
+      throw new Error("We can't find a gift voucher matching that code. Please try again or get in touch.")
+    }
+  }
 }
 
 module.exports = Mutation;
