@@ -143,11 +143,20 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
             length: 7,
             count: 1
         });
+        let stripeCouponId = ""
+        if (priceId === "price_1HtxGoIcB8KtT8kgkCuCjQ9g") {
+          // £30 off
+          stripeCouponId = "CTbIeDF3"
+        } else if (priceId === "price_1HtxGoIcB8KtT8kgC1UHUCRQ") {
+          // £50 off
+          stripeCouponId = "kOOj28wJ"
+        }
         await db.mutation.createGift({
           data: {
             shortId: voucherCodes[0],
             stripePriceId: priceId,
-            buyerEmail: customer.email
+            buyerEmail: customer.email,
+            stripeCouponId: stripeCouponId,
           }
         })
         // 2. Send an email to the buyer, confirming purchase and a weblink giving special instructions for the gift membership 
@@ -166,9 +175,6 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
         // 2. 
       }
     })
-
-    // we also have access to the email (event.data.object.customer_email but currently set to nil even when you fill it out in the portal)
-
   }
   // 2. customer.subscription.deleted when a subscription is cancelled
   if (event.type === 'customer.subscription.deleted') {
@@ -213,6 +219,7 @@ server.express.use('/createStripeCheckoutSession', bodyParser.raw({type: 'applic
         },
       ],
       mode: 'payment',
+      // the success and cancel urls have to be dynamic. have they come from the redemption page, gift page or account page?
       success_url: `https://www.ourstosave.com/gift_success`,
       cancel_url: `https://www.ourstosave.com/gift`,
     }).catch((err) => console.log(err.message));

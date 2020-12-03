@@ -378,8 +378,8 @@ const Mutation = {
   },
 
   async verifyGiftVoucher(parent, args, ctx, info) {
-    const gift = ctx.db.query.gift({where: {shortId: args.voucherCode}})
-    const user = ctx.db.query.user({where: {id: args.userId}})
+    const gift = await ctx.db.query.gift({where: {shortId: args.voucherCode}})
+    const user = await ctx.db.query.user({where: {id: args.userId}})
     if (gift) {
       if (gift.redeemed) {
         throw new Error("Sorry, that gift voucher has already been redeemed. If you have any quesitons, get in touch.")

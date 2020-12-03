@@ -395,7 +395,7 @@ const VERIFY_GIFT_VOUCHER = gql`
     verifyGiftVoucher(userId: $userId, voucherCode: $voucherCode) {
       id
       stripePriceId
-      stripeRedemptionCode
+      stripePromotionCode
     }
   }
 `
