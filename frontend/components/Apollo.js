@@ -390,6 +390,16 @@ const ADD_TO_MAILING_LIST = gql`
   }
 `
 
+const VERIFY_GIFT_VOUCHER = gql`
+  mutation VERIFY_GIFT_VOUCHER($userId: String!, $voucherCode: String!) {
+    verifyGiftVoucher(userId: $userId, voucherCode: $voucherCode) {
+      id
+      stripePriceId
+      stripeRedemptionCode
+    }
+  }
+`
+
 export { 
   CREATE_FEATURE_MUTATION, 
   CREATE_STORY_MUTATION, 
@@ -415,5 +425,6 @@ export {
   CREATE_STRIPE_SUBSCRIPTION,
   UPDATE_REFERRER_MUTATION,
   GET_MAILING_LIST,
-  ADD_TO_MAILING_LIST
+  ADD_TO_MAILING_LIST,
+  VERIFY_GIFT_VOUCHER
 };
