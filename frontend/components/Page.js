@@ -84,7 +84,6 @@ const Footer = styled.div`
     a {
       margin: 0 0.5rem;
       img {
-        /* display: inline-block; */
         height: 1rem;
         vertical-align: middle;
         position: relative;
@@ -115,10 +114,17 @@ const Footer = styled.div`
     @media (max-width: 600px) {
       flex-direction: column;
       align-items: flex-end;
+      .breaker {
+        display: none;
+      }
     }
+    color: ${props => props.theme.offWhite};
     a {
       color: ${props => props.theme.offWhite};
-      margin-left: 1rem;
+      margin: 0rem 0.5rem;
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
 `;
@@ -195,10 +201,15 @@ class Page extends Component {
                   </span>
                   <span className="contact">
                     <Link href="suggestContent"><a>suggest content</a></Link>
+                    <span className="breaker">·</span>
+                    <Link href="/gift"><a>gift</a></Link>
+                    <span className="breaker">·</span>
                     <Link href="contact"><a>contact</a></Link>
+                    <span className="breaker">·</span>
                     <Link href="/about">
                       <a>about</a>
                     </Link>
+                    <span className="breaker">·</span>
                     <Link href="/supportUs">
                       <a>support us</a>
                     </Link>

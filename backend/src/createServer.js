@@ -42,86 +42,101 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
   if (event.type === 'checkout.session.completed') {
-    // 1.1 find the user
-    const customerId = event.data.object.customer
-    let user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, name, email, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
-    // 1.2. update the user's permissions with "PREMIUM"
-    const newPermissions = user.permissions.filter(p => p !== "PREMIUM")
-    newPermissions.push('PREMIUM')
-    await db.mutation.updateUser(
-      { 
-        where: {id: user.id},
-        data: {
-          permissions: {
-            set: newPermissions
-          }
-        }
-      }
-    ).catch(err => {console.log(err)});
-    // 1.3 send welcome email
-    sgMail.setApiKey(process.env.SENDGRID_API);
-    const msg1 = {
-      to: `${user.email}`,
-      from: 'harry@ourstosave.com',
-      subject: `Ours to Save membership`,
-      text: 'Welcome to Ours to Save membership',
-      template_id: "d-7e434461477145ce88ab1d250c3ab869",
-      html: "Welcome to Ours to Save membership",
-      dynamicTemplateData: {
-        firstName: `${user.name.split(" ")[0]}`,
-        sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.id}">https://www.ourstosave.com/referred?userId=${user.id}</a>`
-      },
-    }
-    sgMail.send(msg1).catch(err => console.log(err.response.body))
-    
-    // 1.4 if the user was referred by someone, then give them both credit in stripe
-    user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, email, name, referredBy {id, stripeCustomerId, email, name}}').catch(err => {console.log(err)})
-    if (user && user.referredBy) {
-      await stripe.customers.createBalanceTransaction(
-        user.stripeCustomerId,
-        {
-          amount: -500,
-          currency: 'gbp',
-        }
-      );
-      await stripe.customers.createBalanceTransaction(
-        user.referredBy.stripeCustomerId,
-        {
-          amount: -500,
-          currency: 'gbp',
-        }
-      );
-      // 1.4.1 send two emails to confirm that credit was received
-      const msg2 = {
-        to: `${user.email}`,
-        from: 'harry@ourstosave.com',
-        subject: 'You earned referral credit',
-        text: 'You earned referral credit',
-        template_id: "d-7bfbb2608d6f412da19d39fca0e02d64",
-        html: "You earned referral credit",
-        dynamicTemplateData: {
-          firstName: `${user.name.split(" ")[0]}`,
-          referredBy: `${user.referredBy.name}`,
-          sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.id}">https://www.ourstosave.com/referred?userId=${user.id}</a>`
-        },
-      }
-      sgMail.send(msg2).catch(err => console.log(err.response.body))
-      const msg3 = {
-        to: `${user.referredBy.email}`,
-        from: 'harry@ourstosave.com',
-        subject: 'You earned referral credit',
-        text: 'You earned referral credit',
-        template_id: "d-1c56c88c04114f31ae63c795f4d34b4c",
-        html: "You earned referral credit",
-        dynamicTemplateData: {
-          firstName: `${user.referredBy.name.split(" ")[0]}`,
-          referred: `${user.name}`,
-          sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.referredBy.id}">https://www.ourstosave.com/referred?userId=${user.referredBy.id}</a>`
+    // If checkout.session.completed, then either we have a new subscription, or someone bought a gift (one-off purchase)
+    // First we test to see which product they bought
+    console.log('you hit the checkout session completed block')
+    console.log('this is the whole event: ')
+    console.log(event)
 
-        },
-      }
-      sgMail.send(msg3).catch(err => console.log(err.response.body))
-    }
+    console.log('this is me trying to find the session')
+
+    const session = event.data.object
+    console.log('session')
+
+    console.log('this is me trying to find the product')
+    const product = session.line_items[0].price.product
+    console.log(product)
+
+    // // 1.1 find the user
+    // const customerId = event.data.object.customer
+    // let user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, name, email, referredBy {id, stripeCustomerId}}').catch(err => {console.log(err)})
+    // // 1.2. update the user's permissions with "PREMIUM"
+    // const newPermissions = user.permissions.filter(p => p !== "PREMIUM")
+    // newPermissions.push('PREMIUM')
+    // await db.mutation.updateUser(
+    //   { 
+    //     where: {id: user.id},
+    //     data: {
+    //       permissions: {
+    //         set: newPermissions
+    //       }
+    //     }
+    //   }
+    // ).catch(err => {console.log(err)});
+    // // 1.3 send welcome email
+    // sgMail.setApiKey(process.env.SENDGRID_API);
+    // const msg1 = {
+    //   to: `${user.email}`,
+    //   from: 'harry@ourstosave.com',
+    //   subject: `Ours to Save membership`,
+    //   text: 'Welcome to Ours to Save membership',
+    //   template_id: "d-7e434461477145ce88ab1d250c3ab869",
+    //   html: "Welcome to Ours to Save membership",
+    //   dynamicTemplateData: {
+    //     firstName: `${user.name.split(" ")[0]}`,
+    //     sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.id}">https://www.ourstosave.com/referred?userId=${user.id}</a>`
+    //   },
+    // }
+    // sgMail.send(msg1).catch(err => console.log(err.response.body))
+    
+    // // 1.4 if the user was referred by someone, then give them both credit in stripe
+    // user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, email, name, referredBy {id, stripeCustomerId, email, name}}').catch(err => {console.log(err)})
+    // if (user && user.referredBy) {
+    //   await stripe.customers.createBalanceTransaction(
+    //     user.stripeCustomerId,
+    //     {
+    //       amount: -500,
+    //       currency: 'gbp',
+    //     }
+    //   );
+    //   await stripe.customers.createBalanceTransaction(
+    //     user.referredBy.stripeCustomerId,
+    //     {
+    //       amount: -500,
+    //       currency: 'gbp',
+    //     }
+    //   );
+    //   // 1.4.1 send two emails to confirm that credit was received
+    //   const msg2 = {
+    //     to: `${user.email}`,
+    //     from: 'harry@ourstosave.com',
+    //     subject: 'You earned referral credit',
+    //     text: 'You earned referral credit',
+    //     template_id: "d-7bfbb2608d6f412da19d39fca0e02d64",
+    //     html: "You earned referral credit",
+    //     dynamicTemplateData: {
+    //       firstName: `${user.name.split(" ")[0]}`,
+    //       referredBy: `${user.referredBy.name}`,
+    //       sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.id}">https://www.ourstosave.com/referred?userId=${user.id}</a>`
+    //     },
+    //   }
+    //   sgMail.send(msg2).catch(err => console.log(err.response.body))
+    //   const msg3 = {
+    //     to: `${user.referredBy.email}`,
+    //     from: 'harry@ourstosave.com',
+    //     subject: 'You earned referral credit',
+    //     text: 'You earned referral credit',
+    //     template_id: "d-1c56c88c04114f31ae63c795f4d34b4c",
+    //     html: "You earned referral credit",
+    //     dynamicTemplateData: {
+    //       firstName: `${user.referredBy.name.split(" ")[0]}`,
+    //       referred: `${user.name}`,
+    //       sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.referredBy.id}">https://www.ourstosave.com/referred?userId=${user.referredBy.id}</a>`
+
+    //     },
+    //   }
+    //   sgMail.send(msg3).catch(err => console.log(err.response.body))
+    // }
   }
   // 2. customer.subscription.deleted when a subscription is cancelled
   if (event.type === 'customer.subscription.deleted') {
@@ -154,6 +169,27 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
   res.end()
 });
 
+server.express.use('/createStripeCheckoutSession', bodyParser.raw({type: 'application/json'}), async (req, res, next) => { 
+  const event = req.headers.event
+  if (event && event === "createStripeCheckoutSession") {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price: req.headers.price_id,
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `https://www.ourstosave.com/gift_success`,
+      cancel_url: `https://www.ourstosave.com/gift`,
+    }).catch((err) => console.log(err.message));
+    if (session) {res.set('sessionId', session.id)}
+  }
+  next()
+})
+
+
 server.express.use(cookieParser());
 server.express.use(bodyParser());
 
@@ -175,6 +211,7 @@ server.start(
     cors: {
       credentials: true,
       origin: process.env.FRONTEND_URL,
+      exposedHeaders: "sessionId"
     },
   },
   deets => {

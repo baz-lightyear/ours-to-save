@@ -18,7 +18,6 @@ class feature extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query: `{ feature(id: "${id}") { id title subtitle createdAt author bio content featuredImage latitude longitude category comments { id createdAt approved content author { name }}}}` }),
         })
-        
         const payload = await res.json()
         const feature = payload.data.feature
         return { feature };

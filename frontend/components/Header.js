@@ -206,6 +206,9 @@ class Header extends Component {
                     <Link href="/feed">
                       <a>map</a>
                     </Link>
+                    <Link href="/gift">
+                      <a>gift</a>
+                    </Link>
                     <Link href="/features">
                       <a>features</a>
                     </Link>
@@ -229,6 +232,9 @@ class Header extends Component {
                         </Link>
                         <Link href="/feed">
                           <a>map</a>
+                        </Link>
+                        <Link href="/gift">
+                          <a>gift</a>
                         </Link>
                         <div id="account">
                           { me && <Signout/>}
