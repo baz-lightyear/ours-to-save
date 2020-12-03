@@ -51,11 +51,14 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     console.log('this is me trying to find the session')
 
     const session = event.data.object
-    console.log('session')
+    console.log(session)
 
     console.log('this is me trying to find the product')
     const product = session.line_items[0].price.product
     console.log(product)
+
+
+    // we also have access to the email (event.data.object.customer_email but currently set to nil even when you fill it out in the portal)
 
     // // 1.1 find the user
     // const customerId = event.data.object.customer
