@@ -53,10 +53,10 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     const session = event.data.object
     console.log(session)
 
-    console.log('this is me trying to find the product')
-    const product = session.line_items[0].price.product
-    console.log(product)
-
+    stripe.checkout.sessions.listLineItems(session.id, { limit: 5 }, (err, lineItems) => {
+      console.log('this is me trying to find the line items')
+      console.log(lineItems)
+    }
 
     // we also have access to the email (event.data.object.customer_email but currently set to nil even when you fill it out in the portal)
 
