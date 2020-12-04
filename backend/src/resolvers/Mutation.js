@@ -319,24 +319,7 @@ const Mutation = {
     return feature
   },
 
-  async createStripeBillingSession(parent, args, ctx, info) {
-    let user = await ctx.db.query.user({where: {id: args.userId}})
-    let session = await stripe.billingPortal.sessions.create({
-      customer: user.stripeCustomerId,
-      return_url: 'https://www.ourstosave.com/account',
-    });
-    user = await ctx.db.mutation.updateUser(
-      {
-        where: {id: user.id},
-        data: {
-          stripeBillingSessionUrl: session.url,
-        }
-      }, 
-    )
-    return user
-  },
-
-  async createStripeSubscription(parent, args, ctx, info) {
+  async createStripeCustomer(parent, args, ctx, info) {
     let user = await ctx.db.query.user({where: {id: args.userId}})
     if (!user.stripeCustomerId) {
       let customer = await stripe.customers.create({email: user.email})
@@ -345,27 +328,6 @@ const Mutation = {
         data: {stripeCustomerId: customer.id,}
       })
     }
-    let session = await stripe.checkout.sessions.create({
-      customer: user.stripeCustomerId,
-      payment_method_types: ['card'],
-      line_items: [{
-        price: args.priceId,
-        quantity: 1,
-      }],
-      subscription_data: {
-        trial_from_plan: true,
-      },
-      mode: 'subscription',
-      success_url: 'https://www.ourstosave.com/account',
-      cancel_url: 'https://www.ourstosave.com/account',
-      allow_promotion_codes: true
-    });
-    user = await ctx.db.mutation.updateUser({
-      where: {id: user.id},
-      data: {
-        stripeCheckoutSessionId: session.id,
-      }
-    })
     return user
   },
 
@@ -374,12 +336,28 @@ const Mutation = {
       where: {id: args.referredId},
       data: {referredBy: {connect: {id: args.referrerId}}}
     })
+    // we also want to generate a stripe customer if there is none already. We can't just rely on doing in in the usual way because we need there to be one when we create the customer-facing promotion code.
+    if (!referred.stripeCustomerId) {
+      let customer = await stripe.customers.create({email: referred.email})
+      referred = await ctx.db.mutation.updateUser({
+        where: {id: args.referredId},
+        data: {stripeCustomerId: customer.id,}
+      })
+    }
     return referred
   },
 
   async verifyGiftVoucher(parent, args, ctx, info) {
     const gift = await ctx.db.query.gift({where: {shortId: args.voucherCode}})
-    const user = await ctx.db.query.user({where: {id: args.userId}})
+    let user = await ctx.db.query.user({where: {id: args.userId}})
+    // normally we'd create the stripe customer in the create stripe customer method above, but here we create a stripe customer if one doesn't already exist
+    if (!user.stripeCustomerId) {
+      let customer = await stripe.customers.create({email: user.email})
+      user = await ctx.db.mutation.updateUser({
+        where: {id: user.id},
+        data: {stripeCustomerId: customer.id,}
+      })
+    }
     if (gift) {
       if (gift.redeemed) {
         throw new Error("Sorry, that gift voucher has already been redeemed. If you have any quesitons, get in touch.")
@@ -391,15 +369,15 @@ const Mutation = {
           max_redemptions: 1,
         })
         // attach the stripePromotionCode to the gift, attach the user and set 'redeemed' to true
-        await ctx.db.mutation.updateGift({
+        const updatedGift = await ctx.db.mutation.updateGift({
           where: {id: gift.id},
           data: {
             redeemed: true,
             redeemedBy: {connect: {id: args.userId}},
-            stripePromotionCode: stripePromotionCode,
+            stripePromotionCode: stripePromotionCode.code,
           }
         })
-        return gift
+        return updatedGift
       }
     } else {
       throw new Error("We can't find a gift voucher matching that code. Please try again or get in touch.")

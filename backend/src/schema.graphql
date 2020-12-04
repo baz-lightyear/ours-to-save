@@ -52,8 +52,7 @@ type Mutation {
     category: String!
     featureId: String
   ): Feature
-  createStripeBillingSession(userId: String): User
-  createStripeSubscription(userId: String, priceId: String): User
+  createStripeCustomer(userId: String): User
   updateReferrer(referrerId: String, referredId: String): User
   addToMailingList(email: String!, name: String!): User
   verifyGiftVoucher(userId: String, voucherCode: String): Gift

@@ -45,11 +45,13 @@ const Container = styled.div`
   .links {
     display: flex;
     margin-right: 1rem;
+    color: ${props => props.theme.offWhite};
+    .breaker {
+      margin: 0rem 0.5rem;
+    }
     a {
-      margin: 0;
-      margin-left: 2rem;
-      font-size: 1.2rem;
       color: ${props => props.theme.offWhite};
+      margin: 0;
       &:hover {
         opacity: 0.7;
       }
@@ -57,8 +59,6 @@ const Container = styled.div`
     #account {
       button {
         margin: 0;
-        margin-left: 2rem;
-        font-size: 1.2rem;
         font-weight: normal;
         color: ${props => props.theme.offWhite};
         &:hover {
@@ -72,14 +72,14 @@ const Container = styled.div`
       }
     }
   }
-  @media (min-width: 951px) {
+  @media (min-width: 651px) {
     .flex {
       .mobileBurger {
         display: none;
       }
     }
   }
-  @media (max-width: 950px) {
+  @media (max-width: 650px) {
     .flex {
       .logo {
         margin-left: 0.5rem !important;
@@ -203,17 +203,23 @@ class Header extends Component {
                     <Link href="/news">
                       <a>news</a>
                     </Link>
+                    <span className="breaker">·</span>
                     <Link href="/feed">
                       <a>map</a>
                     </Link>
+                    <span className="breaker">·</span>
+
                     {/* <Link href="/gift">
                       <a>gift</a>
-                    </Link> */}
+                    </Link>
+                    <span className="breaker">·</span>*/}
                     <Link href="/features">
                       <a>features</a>
                     </Link>
+                    <span className="breaker">·</span>
                     { me && me.permissions.includes("PREMIUM") && <Link href="/account"><a>account</a></Link>}
                     { (!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a>subscribe</a></Link>}
+                    <span className="breaker">·</span>
                     <div id="account">
                       { me && <Signout/>}
                       { !me && <LoginModal>log in / sign up</LoginModal>}

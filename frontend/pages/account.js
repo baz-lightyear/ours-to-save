@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CURRENT_USER_QUERY, CREATE_STRIPE_BILLING_SESSION, CREATE_STRIPE_SUBSCRIPTION, BOOSTED_FEATURES_QUERY, GET_MAILING_LIST, ADD_TO_MAILING_LIST} from '../components/Apollo';
+import { CURRENT_USER_QUERY, CREATE_STRIPE_CUSTOMER, BOOSTED_FEATURES_QUERY, GET_MAILING_LIST, ADD_TO_MAILING_LIST} from '../components/Apollo';
 import LoginModal from '../components/LoginModal'
 import Router from 'next/router'
 import styled from 'styled-components';
@@ -304,7 +304,7 @@ class account extends Component {
                                 {/* create a subcription */}
                                 
                                 {!me.permissions.includes("PREMIUM") &&
-                                    <Mutation mutation={CREATE_STRIPE_SUBSCRIPTION} variables={{userId: me.id, priceId: this.state.priceId}}>
+                                    <Mutation mutation={CREATE_STRIPE_CUSTOMER} variables={{userId: me.id, priceId: this.state.priceId}}>
                                         {(createStripeSubscription, {error, loading}) => {
                                             return (
                                                 <div id="newSubscriptionDiv">

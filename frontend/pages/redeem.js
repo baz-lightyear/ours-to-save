@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
 import Cookies from 'universal-cookie';
-import { loadStripe } from '@stripe/stripe-js';
-import { CURRENT_USER_QUERY, VERIFY_GIFT_VOUCHER, CREATE_STRIPE_BILLING_SESSION, CREATE_STRIPE_SUBSCRIPTION} from '../components/Apollo';
+import { CURRENT_USER_QUERY, VERIFY_GIFT_VOUCHER } from '../components/Apollo';
 import LoginModal from '../components/LoginModal'
 import Error from '../components/Error'
-import { endpoint, prodEndpoint } from '../config.js';
+import { visitStripe } from '../lib/utils'
 
 const cookies = new Cookies()
-const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
 
 const Container = styled.div`
     .loadingButton {
@@ -25,16 +23,6 @@ class redeem extends Component {
         voucherCode: "",
         showProduct: false,
         promoCode: ""
-    }
-    visitStripe = async (priceId) => {
-        const url = process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint
-        const res = await fetch(`${url}/createStripeCheckoutSession`, {
-            method: 'GET',
-            headers: ({ 'Content-Type': 'application/json', 'event': 'createStripeCheckoutSession', 'price_id': priceId}),
-        })        
-        const sessionId = res.headers.get('sessionId')
-        const stripe = await stripePromise;
-        await stripe.redirectToCheckout({sessionId})
     }
     render() {
         return (
@@ -61,10 +49,11 @@ class redeem extends Component {
                                                             onSubmit={async e => {
                                                                 e.preventDefault();
                                                                 await verifyGiftVoucher().then(response => {
+                                                                    console.log(response)
                                                                     this.setState({
                                                                         showProduct: true, 
-                                                                        priceId: response.data.stripePriceId, 
-                                                                        promoCode: stripePromotionCode
+                                                                        priceId: response.data.verifyGiftVoucher.stripeSubscriptionPriceId, 
+                                                                        promoCode: response.data.verifyGiftVoucher.stripePromotionCode
                                                                     })
                                                                 });
                                                             }}
@@ -98,16 +87,19 @@ class redeem extends Component {
                                                 <p>great! just enter the code "{this.state.promoCode}" when you hit the stripe portal and your gift voucher will apply</p>
 
                                                 <button onClick={ async (e) => {
-                                                    this.setState({loading: true})
-                                                    e.preventDefault()
-                                                    this.visitStripe(this.state.priceId)
+                                                    const options = {
+                                                        priceId: this.state.priceId,
+                                                        mode: "subscription", 
+                                                        stripeCustomerId: me.stripeCustomerId,
+                                                        successRoute: '/news'
+                                                    }
+                                                    visitStripe(options)
                                                 }}>
-                                                        {!this.state.loading && "SUBSCRIBE"}
-                                                        {this.state.loading && <img width="16px" src="loading.gif" alt="loading gif"/>}
-                                                    </button>
+                                                    {!this.state.loading && "SUBSCRIBE"}
+                                                    {this.state.loading && <img width="16px" src="loading.gif" alt="loading gif"/>}
+                                                </button>
                                             </>
                                         }
-                                        {/* then give them 6 months product (create it) button or yearly (if 12 months) button  - you can tell from the price id*/}
                                     </>
                                 )
                             } else {

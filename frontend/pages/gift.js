@@ -1,33 +1,58 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { loadStripe } from '@stripe/stripe-js';
-import { endpoint, prodEndpoint } from '../config.js';
-const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
+import { visitStripe } from '../lib/utils'
 
 const Container = styled.div`
+    width: 95%;
+    max-width: 1000px;
+    margin: 1rem auto;
     .products {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
         .product {
-            border: solid 1px black;
+            font-family: ${props => props.theme.serif};
+            background-color: ${props => props.theme.yellow};
+            box-shadow: 0px 0px 12px lightgrey;
             padding: 0.5rem;
             margin: 0.5rem;
+            text-align: center;
+            width: 18rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            ul {
+                color: ${props => props.theme.green};
+                list-style-type: "✔";
+                text-align: left;
+                padding-left: 0px;
+                margin-left: 1rem;
+                .inner {
+                    color: ${props => props.theme.black};
+                    position: relative;
+                    left: 8px;
+                    padding-right: 1rem;
+                }
+            }
+            button {
+                margin-bottom: 6px;
+                font-family: ${props => props.theme.sansSerif};
+                padding: 0.5rem;
+                width: 95%;
+                font-weight: normal;
+                background-color: ${props => props.theme.green};
+                color: ${props => props.theme.offWhite};
+                border: none;
+                &:hover {
+                    border: none;
+                    background-color: ${props => props.theme.black};
+                }
+            }
         }
     }
 `;
 
 class gift extends Component {
-
-    visitStripe = async (priceId) => {
-        const url = process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint
-        const res = await fetch(`${url}/createStripeCheckoutSession`, {
-            method: 'GET',
-            headers: ({ 'Content-Type': 'application/json', 'event': 'createStripeCheckoutSession', 'price_id': priceId}),
-        })        
-        const sessionId = res.headers.get('sessionId')
-        const stripe = await stripePromise;
-        await stripe.redirectToCheckout({sessionId})
-    }
-
     render() {
         return (
             <Container>
@@ -35,48 +60,108 @@ class gift extends Component {
                 <p>Some marketing spiel</p>
                 <div className="products">
                     <div className="product">
-                        <h4>Product name</h4>
-                        <ul>
-                            <li>✔️ feature 1</li>
-                            <li>✔️ feature 2</li>
-                            <li>✔️ feature 3</li>
-                            <li>✔️ feature 4</li>
-                        </ul>
-                        <h5>Price: £0.00</h5>
-                        <button onClick={() => this.visitStripe("price_1HtxGoIcB8KtT8kgC1UHUCRQ")}>consent & buy</button>
+                        <div className="top">
+                            <h3>Gift 6 months</h3>
+                            <ul>
+                                <li><span className='inner'>6 months' full access to original journalism covering the biggest issue of our times</span></li>
+                                <li><span className='inner'>Support independent journalism</span></li>
+                                <li><span className='inner'>Diverse ideas and representative writing panel</span></li>
+                            </ul>
+                        </div>
+                        <div className="bottom">
+                            <h5>£30</h5>
+                            <button 
+                                onClick={() => {
+                                    const options = {
+                                        priceId: "price_1HtxGoIcB8KtT8kgkCuCjQ9g",
+                                        mode: "payment", 
+                                        successRoute: "/giftSuccess", 
+                                    }
+                                    visitStripe(options)
+                                }}
+                            >
+                                checkout
+                            </button>
+                        </div>
                     </div>
                     <div className="product">
-                        <h4>Product name</h4>
-                        <ul>
-                            <li>✔️ feature 1</li>
-                            <li>✔️ feature 2</li>
-                            <li>✔️ feature 3</li>
-                            <li>✔️ feature 4</li>
-                        </ul>
-                        <h5>Price: £0.00</h5>
-                        <button onClick={() => this.visitStripe("enterIdHere")}>consent & buy</button>
+                        <div className="top">
+                            <h3>12 months</h3>
+                            <ul>
+                                <li><span className='inner'>12 months' full access to original journalism covering the biggest issue of our times</span></li>
+                                <li><span className='inner'>Support independent journalism</span></li>
+                                <li><span className='inner'>Diverse ideas and representative writing panel</span></li>
+                            </ul>
+                        </div>
+                        <div className="bottom">
+                            <h5>£50</h5>
+                            <button 
+                                onClick={() => {
+                                    const options = {
+                                        priceId: "price_1HuOQtIcB8KtT8kgpPvYZFca",
+                                        mode: "payment", 
+                                        successRoute: "/giftSuccess", 
+                                    }
+                                    visitStripe(options)
+                                }}
+                            >
+                                checkout
+                            </button>
+                        </div>
                     </div>
                     <div className="product">
-                        <h4>Product name</h4>
-                        <ul>
-                            <li>✔️ feature 1</li>
-                            <li>✔️ feature 2</li>
-                            <li>✔️ feature 3</li>
-                            <li>✔️ feature 4</li>
-                        </ul>
-                        <h5>Price: £0.00</h5>
-                        <button onClick={() => this.visitStripe("enterIdHere")}>consent & buy</button>
+                        <div className="top">
+                            <h3>6 months POSTER</h3>
+                            <ul>
+                                <li><span className='inner'>6 months' full access to original journalism covering the biggest issue of our times</span></li>
+                                <li><span className='inner'>Support independent journalism</span></li>
+                                <li><span className='inner'>Diverse ideas and representative writing panel</span></li>
+                                <li><span className='inner'>Beautifully designed poster yadda yadda yadda by yadda yadda yadda</span></li>
+                            </ul>
+                        </div>
+                        <div className="bottom">
+                            <h5>£35</h5>
+                            <button 
+                                onClick={() => {
+                                    const options = {
+                                        priceId: "price_1HuOTUIcB8KtT8kg0WAes53y",
+                                        mode: "payment", 
+                                        successRoute: "/giftSuccess", 
+                                        addressInstruction: "includeShippingAddress"
+                                    }
+                                    visitStripe(options)
+                                }}
+                            >
+                                checkout
+                            </button>
+                        </div>
                     </div>
                     <div className="product">
-                        <h4>Test gift</h4>
-                        <ul>
-                            <li>✔️ feature 1</li>
-                            <li>✔️ feature 2</li>
-                            <li>✔️ feature 3</li>
-                            <li>✔️ feature 4</li>
-                        </ul>
-                        <h5>Price: £1</h5>
-                        <button onClick={() => this.visitStripe("price_1HuGUDIcB8KtT8kggcognJ4b")}>consent & buy</button>
+                        <div className="top">
+                            <h3>12 months POSTER</h3>
+                            <ul>
+                                <li><span className='inner'>12 months' full access to original journalism covering the biggest issue of our times</span></li>
+                                <li><span className='inner'>Support independent journalism</span></li>
+                                <li><span className='inner'>Diverse ideas and representative writing panel</span></li>
+                                <li><span className='inner'>Beautifully designed poster yadda yadda yadda by yadda yadda yadda</span></li>
+                            </ul>
+                        </div>
+                        <div className="bottom">
+                            <h5>£55</h5>
+                            <button 
+                                onClick={() => {
+                                    const options = {
+                                        priceId: "price_1HuOTDIcB8KtT8kgLPqC3Vie",
+                                        mode: "payment", 
+                                        successRoute: "/giftSuccess", 
+                                        addressInstruction: "includeShippingAddress"
+                                    }
+                                    visitStripe(options)
+                                }}
+                            >
+                                checkout
+                            </button>
+                        </div>
                     </div>
                 </div>
                 this is where you can buy a gift card

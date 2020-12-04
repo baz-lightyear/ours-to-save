@@ -21,8 +21,6 @@ type User {
   featureComments: [FeatureComment] @scalarList(strategy: RELATION)
   upvotedStories: [Story] @scalarList(strategy: RELATION)
   stripeCustomerId: String @unique
-  stripeBillingSessionUrl: String
-  stripeCheckoutSessionId: String
   referredBy: User @relation(link: INLINE)
   stripeCustomerBalance: Float
   cookieToken: String
@@ -36,7 +34,6 @@ type FeatureComment {
   approved: Boolean @default(value: true)
   content: String
   feature: Feature @relation(link: INLINE)
-  # replyTo: Comment @relation(link: INLINE)
 }
 
 type Story {
@@ -96,7 +93,8 @@ type Gift {
   shortId: String @unique
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  stripePriceId: String
+  stripeGiftPriceId: String
+  stripeSubscriptionPriceId: String
   stripeCouponId: String
   buyerEmail: String
   redeemed: Boolean @default(value: false)

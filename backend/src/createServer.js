@@ -48,11 +48,10 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     // If checkout.session.completed, then either we have a new subscription, or someone bought a gift (one-off purchase)
     // First we test to see which product they bought
     const session = event.data.object
-    const customer = stripe.customers.retrieve(session.customer)
+    const customer = await stripe.customers.retrieve(session.customer)
     stripe.checkout.sessions.listLineItems(session.id, { limit: 5 }, async (err, lineItems) => {
       const productId = lineItems.data[0].price.product
-      const priceId = lineItems.data[0].price.id
-      
+      const priceId = lineItems.data[0].price.id      
       // Is the product an ongoing subscription?
       if (productId === "prod_Hnaem0Bw2rh4Oy") {
         // 1.1 find the user
@@ -86,16 +85,9 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
         }
         sgMail.send(msg1).catch(err => console.log(err.response.body))
         
-        // 1.4 if the user was referred by someone, then give them both credit in stripe
+        // 1.4 if the user was referred by someone, then give the referrer credit in stripe
         user = await db.query.user( {where: {stripeCustomerId: customerId}}, '{id, permissions, stripeCustomerId, email, name, referredBy {id, stripeCustomerId, email, name}}').catch(err => {console.log(err)})
         if (user && user.referredBy) {
-          await stripe.customers.createBalanceTransaction(
-            user.stripeCustomerId,
-            {
-              amount: -500,
-              currency: 'gbp',
-            }
-          );
           await stripe.customers.createBalanceTransaction(
             user.referredBy.stripeCustomerId,
             {
@@ -103,22 +95,8 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
               currency: 'gbp',
             }
           );
-          // 1.4.1 send two emails to confirm that credit was received
-          const msg2 = {
-            to: `${user.email}`,
-            from: 'harry@ourstosave.com',
-            subject: 'You earned referral credit',
-            text: 'You earned referral credit',
-            template_id: "d-7bfbb2608d6f412da19d39fca0e02d64",
-            html: "You earned referral credit",
-            dynamicTemplateData: {
-              firstName: `${user.name.split(" ")[0]}`,
-              referredBy: `${user.referredBy.name}`,
-              sharingCode: `<a href="https://www.ourstosave.com/referred?userId=${user.id}">https://www.ourstosave.com/referred?userId=${user.id}</a>`
-            },
-          }
-          sgMail.send(msg2).catch(err => console.log(err.response.body))
-          const msg3 = {
+          // 1.4.1 send an emails to referrer to confirm that credit was received
+          const referrerMessage = {
             to: `${user.referredBy.email}`,
             from: 'harry@ourstosave.com',
             subject: 'You earned referral credit',
@@ -132,29 +110,32 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
     
             },
           }
-          sgMail.send(msg3).catch(err => console.log(err.response.body))
+          sgMail.send(referrerMessage).catch(err => console.log(err.response.body))
         }
-
       }
       // Is the product a gift subscription?
       if (productId === "prod_IUxBIIVOWbZ6sk") {
         // 1. Create a new Gift
-        const voucherCodes = voucherCodes.generate({
+        const voucherCodesArray = await voucherCodes.generate({
             length: 7,
             count: 1
         });
         let stripeCouponId = ""
-        if (priceId === "price_1HtxGoIcB8KtT8kgkCuCjQ9g") {
-          // £30 off
+        let subscriptionPriceId = ""
+        if (priceId === "price_1HuOTUIcB8KtT8kg0WAes53y" || priceId === "price_1HtxGoIcB8KtT8kgkCuCjQ9g") {
+          // £30 off and 6 month subscription
           stripeCouponId = "CTbIeDF3"
-        } else if (priceId === "price_1HtxGoIcB8KtT8kgC1UHUCRQ") {
-          // £50 off
+          subscriptionPriceId = "price_1HuKSKIcB8KtT8kgtBLDBqjR"
+        } else if (priceId === "price_1HuOTDIcB8KtT8kgLPqC3Vie" || priceId === "price_1HuOQtIcB8KtT8kgpPvYZFca") {
+          // £50 off and a yearly subscription
           stripeCouponId = "kOOj28wJ"
+          subscriptionPriceId = "price_1HdklpIcB8KtT8kgJVP0lRJX"
         }
-        await db.mutation.createGift({
+        const gift = await db.mutation.createGift({
           data: {
-            shortId: voucherCodes[0],
-            stripePriceId: priceId,
+            shortId: voucherCodesArray[0],
+            stripeGiftPriceId: priceId,
+            stripeSubscriptionPriceId: subscriptionPriceId,
             buyerEmail: customer.email,
             stripeCouponId: stripeCouponId,
           }
@@ -163,16 +144,15 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
         const giftEmail = {
           to: `${customer.email}`,
           from: 'harry@ourstosave.com',
-          subject: ``,
+          subject: '',
           text: '',
           template_id: "",
           html: "",
           dynamicTemplateData: {
-            voucherCode: `${voucherCodes[0]}`
+            voucherCode: `${gift.shortId}`
           },
         }
         sgMail.send(giftEmail).catch(err => console.log(err.response.body))
-        // 2. 
       }
     })
   }
@@ -207,10 +187,22 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
   res.end()
 });
 
+server.express.use('/getReferralPromotionCode', bodyParser.raw({type: 'application/json'}), async (req, res, next) => { 
+  if (req.headers.event && req.headers.event === "getReferralPromotionCode") {
+    const referralPromotionCode = await stripe.promotionCodes.create({
+      coupon: 'ZiwJgPnv',
+      customer: req.headers.stripe_customer_id,
+      max_redemptions: 1,
+    }).catch((err) => console.log(err.message));
+    if (referralPromotionCode) {res.set('referral_promotion_code', referralPromotionCode.code)}
+  }
+  next()
+});
+
 server.express.use('/createStripeCheckoutSession', bodyParser.raw({type: 'application/json'}), async (req, res, next) => { 
   const event = req.headers.event
   if (event && event === "createStripeCheckoutSession") {
-    const session = await stripe.checkout.sessions.create({
+    const sessionOptions = {
       payment_method_types: ['card'],
       line_items: [
         {
@@ -218,15 +210,36 @@ server.express.use('/createStripeCheckoutSession', bodyParser.raw({type: 'applic
           quantity: 1,
         },
       ],
-      mode: 'payment',
-      // the success and cancel urls have to be dynamic. have they come from the redemption page, gift page or account page?
-      success_url: `https://www.ourstosave.com/gift_success`,
-      cancel_url: `https://www.ourstosave.com/gift`,
-    }).catch((err) => console.log(err.message));
+      success_url: req.headers.success_page,
+      cancel_url: `https://www.ourstosave.com`,
+      mode: req.headers.mode
+    }
+    if (req.headers.mode === "subscription") {
+      sessionOptions.subscription_data = {trial_from_plan: true}
+      sessionOptions.allow_promotion_codes = true 
+      sessionOptions.customer = req.headers.stripe_customer_id
+    }
+    // if you need billing address, add billing address
+    if (req.headers.address_instruction && req.headers.address_instruction === 'includeShippingAddress') {
+      sessionOptions.shipping_address_collection = {allowed_countries: ["GB"]}
+    }
+    const session = await stripe.checkout.sessions.create(sessionOptions).catch((err) => console.log(err.message));
     if (session) {res.set('sessionId', session.id)}
   }
   next()
-})
+});
+
+server.express.use('/createStripeBillingSession', bodyParser.raw({type: 'application/json'}), async (req, res, next) => { 
+  const event = req.headers.event
+  if (event && event === "createStripeBillingSession") {
+    let billingSession = await stripe.billingPortal.sessions.create({
+      customer: req.headers.stripe_customer_id,
+      return_url: 'https://www.ourstosave.com/account',
+    });
+    if (billingSession) {res.set('billingSessionUrl', billingSession.url)}
+  }
+  next()
+});
 
 
 server.express.use(cookieParser());
@@ -250,7 +263,7 @@ server.start(
     cors: {
       credentials: true,
       origin: process.env.FRONTEND_URL,
-      exposedHeaders: "sessionId"
+      exposedHeaders: "sessionId, referral_promotion_code, billingSessionUrl",
     },
   },
   deets => {

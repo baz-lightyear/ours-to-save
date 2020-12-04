@@ -1,5 +1,5 @@
 # source: https://ours-to-save-prod-e8112953ab.herokuapp.com
-# timestamp: Thu Dec 03 2020 15:49:46 GMT+0000 (Greenwich Mean Time)
+# timestamp: Fri Dec 04 2020 11:12:23 GMT+0000 (Greenwich Mean Time)
 
 type AggregateFeature {
   count: Int!
@@ -1218,7 +1218,8 @@ type Gift implements Node {
   shortId: String
   createdAt: DateTime!
   updatedAt: DateTime!
-  stripePriceId: String
+  stripeGiftPriceId: String
+  stripeSubscriptionPriceId: String
   stripeCouponId: String
   buyerEmail: String
   redeemed: Boolean
@@ -1239,7 +1240,8 @@ type GiftConnection {
 input GiftCreateInput {
   id: ID
   shortId: String
-  stripePriceId: String
+  stripeGiftPriceId: String
+  stripeSubscriptionPriceId: String
   stripeCouponId: String
   buyerEmail: String
   redeemed: Boolean
@@ -1265,8 +1267,10 @@ enum GiftOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
-  stripePriceId_ASC
-  stripePriceId_DESC
+  stripeGiftPriceId_ASC
+  stripeGiftPriceId_DESC
+  stripeSubscriptionPriceId_ASC
+  stripeSubscriptionPriceId_DESC
   stripeCouponId_ASC
   stripeCouponId_DESC
   buyerEmail_ASC
@@ -1282,7 +1286,8 @@ type GiftPreviousValues {
   shortId: String
   createdAt: DateTime!
   updatedAt: DateTime!
-  stripePriceId: String
+  stripeGiftPriceId: String
+  stripeSubscriptionPriceId: String
   stripeCouponId: String
   buyerEmail: String
   redeemed: Boolean
@@ -1328,7 +1333,8 @@ input GiftSubscriptionWhereInput {
 
 input GiftUpdateInput {
   shortId: String
-  stripePriceId: String
+  stripeGiftPriceId: String
+  stripeSubscriptionPriceId: String
   stripeCouponId: String
   buyerEmail: String
   redeemed: Boolean
@@ -1338,7 +1344,8 @@ input GiftUpdateInput {
 
 input GiftUpdateManyMutationInput {
   shortId: String
-  stripePriceId: String
+  stripeGiftPriceId: String
+  stripeSubscriptionPriceId: String
   stripeCouponId: String
   buyerEmail: String
   redeemed: Boolean
@@ -1478,46 +1485,86 @@ input GiftWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
-  stripePriceId: String
+  stripeGiftPriceId: String
 
   """All values that are not equal to given value."""
-  stripePriceId_not: String
+  stripeGiftPriceId_not: String
 
   """All values that are contained in given list."""
-  stripePriceId_in: [String!]
+  stripeGiftPriceId_in: [String!]
 
   """All values that are not contained in given list."""
-  stripePriceId_not_in: [String!]
+  stripeGiftPriceId_not_in: [String!]
 
   """All values less than the given value."""
-  stripePriceId_lt: String
+  stripeGiftPriceId_lt: String
 
   """All values less than or equal the given value."""
-  stripePriceId_lte: String
+  stripeGiftPriceId_lte: String
 
   """All values greater than the given value."""
-  stripePriceId_gt: String
+  stripeGiftPriceId_gt: String
 
   """All values greater than or equal the given value."""
-  stripePriceId_gte: String
+  stripeGiftPriceId_gte: String
 
   """All values containing the given string."""
-  stripePriceId_contains: String
+  stripeGiftPriceId_contains: String
 
   """All values not containing the given string."""
-  stripePriceId_not_contains: String
+  stripeGiftPriceId_not_contains: String
 
   """All values starting with the given string."""
-  stripePriceId_starts_with: String
+  stripeGiftPriceId_starts_with: String
 
   """All values not starting with the given string."""
-  stripePriceId_not_starts_with: String
+  stripeGiftPriceId_not_starts_with: String
 
   """All values ending with the given string."""
-  stripePriceId_ends_with: String
+  stripeGiftPriceId_ends_with: String
 
   """All values not ending with the given string."""
-  stripePriceId_not_ends_with: String
+  stripeGiftPriceId_not_ends_with: String
+  stripeSubscriptionPriceId: String
+
+  """All values that are not equal to given value."""
+  stripeSubscriptionPriceId_not: String
+
+  """All values that are contained in given list."""
+  stripeSubscriptionPriceId_in: [String!]
+
+  """All values that are not contained in given list."""
+  stripeSubscriptionPriceId_not_in: [String!]
+
+  """All values less than the given value."""
+  stripeSubscriptionPriceId_lt: String
+
+  """All values less than or equal the given value."""
+  stripeSubscriptionPriceId_lte: String
+
+  """All values greater than the given value."""
+  stripeSubscriptionPriceId_gt: String
+
+  """All values greater than or equal the given value."""
+  stripeSubscriptionPriceId_gte: String
+
+  """All values containing the given string."""
+  stripeSubscriptionPriceId_contains: String
+
+  """All values not containing the given string."""
+  stripeSubscriptionPriceId_not_contains: String
+
+  """All values starting with the given string."""
+  stripeSubscriptionPriceId_starts_with: String
+
+  """All values not starting with the given string."""
+  stripeSubscriptionPriceId_not_starts_with: String
+
+  """All values ending with the given string."""
+  stripeSubscriptionPriceId_ends_with: String
+
+  """All values not ending with the given string."""
+  stripeSubscriptionPriceId_not_ends_with: String
   stripeCouponId: String
 
   """All values that are not equal to given value."""

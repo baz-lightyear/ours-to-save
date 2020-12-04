@@ -337,20 +337,11 @@ const ADD_STORY_COMMENT = gql`
   }
 `;
 
-const CREATE_STRIPE_BILLING_SESSION = gql`
-mutation CREATE_STRIPE_BILLING_SESSION($userId: String!) {
-  createStripeBillingSession(userId: $userId) {
-    id
-    stripeBillingSessionUrl
-  }
-}
-`
 
-const CREATE_STRIPE_SUBSCRIPTION = gql`
-mutation CREATE_STRIPE_SUBSCRIPTION($userId: String!, $priceId: String) {
-  createStripeSubscription(userId: $userId, priceId: $priceId) {
+const CREATE_STRIPE_CUSTOMER = gql`
+mutation CREATE_STRIPE_CUSTOMER($userId: String!) {
+  createStripeCustomer(userId: $userId) {
     id
-    stripeCheckoutSessionId
   }
 }
 `
@@ -358,6 +349,7 @@ const UPDATE_REFERRER_MUTATION = gql`
 mutation UPDATE_REFERRER_MUTATION($referrerId: String!, $referredId: String) {
   updateReferrer(referrerId: $referrerId, referredId: $referredId) {
     id
+    stripeCustomerId
     referredBy {
       name
     }
@@ -394,7 +386,7 @@ const VERIFY_GIFT_VOUCHER = gql`
   mutation VERIFY_GIFT_VOUCHER($userId: String!, $voucherCode: String!) {
     verifyGiftVoucher(userId: $userId, voucherCode: $voucherCode) {
       id
-      stripePriceId
+      stripeSubscriptionPriceId
       stripePromotionCode
     }
   }
@@ -421,8 +413,7 @@ export {
   ADD_FEATURE_COMMENT,
   ADD_STORY_COMMENT,
   UPDATE_FEATURE_MUTATION,
-  CREATE_STRIPE_BILLING_SESSION,
-  CREATE_STRIPE_SUBSCRIPTION,
+  CREATE_STRIPE_CUSTOMER,
   UPDATE_REFERRER_MUTATION,
   GET_MAILING_LIST,
   ADD_TO_MAILING_LIST,

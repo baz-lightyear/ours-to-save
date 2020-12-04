@@ -6,6 +6,7 @@ import Signin from './Signin';
 import RequestReset from './RequestReset';
 
 const Container = styled.div`
+
 `;
 const Forms = styled.div`
   border-radius: 6px;
@@ -39,34 +40,6 @@ const Forms = styled.div`
     button {
       letter-spacing: 2px;
       margin-top: 1rem;
-    }
-  }
-  .google {
-    button {
-      cursor: pointer;
-      background-color: white;
-      border: none;
-      color: ${props => props.theme.black};
-      border-top: 1px solid ${props => props.theme.lightblue};
-      border-bottom-left-radius: 6px;
-      border-bottom-right-radius: 6px;
-      border-top-left-radius: 0px;
-      border-top-right-radius: 0px;
-      height: 5.5rem;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      &:hover {
-        opacity: 0.8;
-        box-shadow: none;
-      }
-      &:focus {
-        /* outline: none; */
-      }
-      img {
-        padding: 0rem 0.5rem 0rem 0rem;
-      }
     }
   }
   .signup {
@@ -158,13 +131,17 @@ const StyledModal = styled.div`
         background-color: transparent;
         border: none;
         cursor: pointer;
+      }
+    .close {
+      &:hover {
+        border: none;
+      }
     }
 `;
 
 class LoginModal extends Component {
   state = {
     show: false,
-    google: true,
     signin: true,
     signup: false,
     reset: false,
@@ -177,7 +154,6 @@ class LoginModal extends Component {
   handleClose = () => {
     this.setState({
       show: false,
-      google: true,
       signin: true,
       signup: false,
       reset: false,
@@ -186,7 +162,6 @@ class LoginModal extends Component {
 
   handlePass = () => {
     this.setState({
-      google: false,
       signin: false,
       signup: false,
       reset: true,
@@ -194,7 +169,6 @@ class LoginModal extends Component {
   }
   handleSignup = () => {
     this.setState({
-      google: false,
       signin: false,
       signup: true,
       reset: false,
@@ -202,7 +176,6 @@ class LoginModal extends Component {
   }
   handleSignin = () => {
     this.setState({
-      google: true,
       signin: true,
       signup: false,
       reset: false,
@@ -220,7 +193,12 @@ class LoginModal extends Component {
             </Modal.Header>
             <Modal.Body>
               <Forms>
-                <p id="explanation">To get the best out of Ours to Save, you'll need to sign in or sign up.</p>
+                {this.props.specialMessage && 
+                  <p id="explanation">{this.props.specialMessage}</p>
+                }
+                {!this.props.specialMessage && 
+                  <p id="explanation">To get the best out of Ours to Save, you'll need to sign in or sign up.</p>
+                }
                 <div className={this.state.signin ? "signin" : "hide" }>
                   <Signin/>
                   <div className="text">
