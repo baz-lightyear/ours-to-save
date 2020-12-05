@@ -123,7 +123,7 @@ class redeem extends Component {
                                         {!this.state.showProduct && 
                                             <>
                                                 <p>To active your gift membership, first we need to find the right gift subscription. Please enter the 7-digit code for your subscription - it will have been sent via email to the person who bought the gift subscription.</p>
-                                                <Mutation mutation={VERIFY_GIFT_VOUCHER} variables={{userId: me.id, voucherCode: this.state.voucherCode}}>
+                                                <Mutation mutation={VERIFY_GIFT_VOUCHER} variables={{userId: me.id, voucherCode: this.state.voucherCode}} refetchQueries={[{ query: CURRENT_USER_QUERY, variables: {token: cookies.get('token')}}]}>
                                                     {(verifyGiftVoucher, {error, loading}) => {
                                                         return (
                                                             <form

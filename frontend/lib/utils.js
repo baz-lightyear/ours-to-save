@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { loadStripe } from '@stripe/stripe-js';
-import { endpoint, prodEndpoint } from '../config.js';
+import { endpoint, prodEndpoint, frontEndpoint, prodFrontEndpoint } from '../config.js';
 import Swal from 'sweetalert2';
 const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
 
@@ -28,13 +28,15 @@ const visitStripe = async (options) => {
         showLoaderOnConfirm: true,
         preConfirm: async () => {
             const url = process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint
+            const frontUrl = process.env.NODE_ENV === 'development' ? frontEndpoint : prodFrontEndpoint
+
             const res = await fetch(`${url}/createStripeCheckoutSession`, {
                 method: 'GET',
                 headers: ({ 
                     'Content-Type': 'application/json', 
                     'event': 'createStripeCheckoutSession', 
                     'price_id': options.priceId,
-                    "success_page": `${url + options.successRoute}`,
+                    "success_page": `${frontUrl + options.successRoute}`,
                     "mode": options.mode,
                     "stripe_customer_id": options.stripeCustomerId,
                     'address_instruction': options.addressInstruction,
