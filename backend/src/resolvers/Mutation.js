@@ -360,7 +360,7 @@ const Mutation = {
     }
     if (gift) {
       if (gift.redeemed) {
-        throw new Error("Sorry, that gift voucher has already been redeemed. If you have any quesitons, get in touch.")
+        throw new Error("Sorry, that gift voucher has already been redeemed. If you have any questions, get in touch.")
       } else {
         // generate special stripe code
         const stripePromotionCode = await stripe.promotionCodes.create({

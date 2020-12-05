@@ -144,10 +144,10 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
         const giftEmail = {
           to: `${customer.email}`,
           from: 'harry@ourstosave.com',
-          subject: '',
-          text: '',
-          template_id: "",
-          html: "",
+          subject: 'Instructions for setting up Ours to Save gift membership',
+          text: 'Thanks for supporting independent journalism',
+          template_id: "d-29d7e1ba082042bf8259b88749351243",
+          html: "Thanks for supporting independent journalism",
           dynamicTemplateData: {
             voucherCode: `${gift.shortId}`
           },
