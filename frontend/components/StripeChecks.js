@@ -11,7 +11,7 @@ class StripeChecks extends Component {
             <>
                 {/* First we need to log them in if they are not already logged in */}
                 {!this.props.me && 
-                    <LoginModal specialMessage="pleas login dicked">checkout</LoginModal>
+                    <LoginModal specialMessage="To checkout, first you'll need to sign up with your email address and set up a password.">checkout</LoginModal>
                 }
                 
                 {/* Then, if there's a referrer, we need to update the referrer in order to catch it in the webhook. We also need to genreate a user-facing promotion code to be applied at checkout */}
@@ -36,18 +36,18 @@ class StripeChecks extends Component {
                                         })
                                         const promoCode = res.headers.get('referral_promotion_code')
                                         Swal.fire({
-                                            title: 'here is your code',
-                                            html: `its really important pls make a note of it, we wont show it again ${promoCode}`,
+                                            title: 'Copy and paste!',
+                                            html: `Here's your discount code - <strong>${promoCode}</strong>. You'll be able to enter it when you check out, before you pay. Make a note of it before you shut this popup - we can't show it to you again.`,
                                             icon: 'success',
-                                            confirmButtonText: `Noted`,
+                                            confirmButtonText: `Ok`,
                                             confirmButtonColor: '#329094',
                                         }).then(() => {
                                             this.props.closeReferralDialogue()
                                         })
                                     }}
                                 >
-                                    {loading && <img src="loading.gif" alt=""/>}
-                                    {!loading && "Generate discount code"}
+                                    {loading && <img width="24px" src="greyLoading.gif" alt="loading gif"/>}
+                                    {!loading && "get discount code"}
                                 </button>
                             )
                         }}

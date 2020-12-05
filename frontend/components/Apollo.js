@@ -342,6 +342,7 @@ const CREATE_STRIPE_CUSTOMER = gql`
 mutation CREATE_STRIPE_CUSTOMER($userId: String!) {
   createStripeCustomer(userId: $userId) {
     id
+    stripeCustomerId
   }
 }
 `

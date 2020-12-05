@@ -85,7 +85,7 @@ class Signup extends Component {
                 />
               </label>
               <p style={{textAlign: "center"}}><small>I consent to the <Link href="/terms"><a target="_blank">terms</a></Link> (opens in new window).</small></p>
-              <button type="submit">SIGNUP</button>
+              <button type="submit">SIGN UP</button>
             </fieldset>
           </form>
         )}

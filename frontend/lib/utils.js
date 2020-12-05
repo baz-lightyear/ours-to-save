@@ -18,16 +18,15 @@ const timeFromNow = (time) => {
 const visitStripe = async (options) => {
     // this method creates a Stripe Checkout Session. Since there are lots of different types of session we want to create, we take the argument 'options' which is a set of key-value pairs
     Swal.fire({
-        title: 'heres a title',
-        html: `here's a descriptoin her's a description pls check the terms <a href="https://www.ourstosave.com/terms" target="_blank">link</a>`,
+        title: 'Nearly there',
+        html: `You'll be redirected to our payments partner to enter card details. By clicking, you confirm your acceptance of the <a href="https://www.ourstosave.com/terms" target="_blank">terms</a> (opens in new window).`,
         icon: 'info',
         showCancelButton: true,
-        confirmButtonText: `Do it`,
-        cancelButtonText: `Don't do it`,
+        confirmButtonText: `Proceed`,
+        cancelButtonText: `Back`,
         confirmButtonColor: '#329094',
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-        // this all needs some loading prompts
+        showLoaderOnConfirm: true,
+        preConfirm: async () => {
             const url = process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint
             const res = await fetch(`${url}/createStripeCheckoutSession`, {
                 method: 'GET',
@@ -42,6 +41,11 @@ const visitStripe = async (options) => {
                 }),
             })        
             const sessionId = res.headers.get('sessionId')
+            return sessionId
+        },
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            const sessionId = result.value
             const stripe = await stripePromise;
             await stripe.redirectToCheckout({sessionId})
         }

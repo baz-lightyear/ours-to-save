@@ -135,7 +135,7 @@ class about extends Component {
                         <h3>How does it work?</h3>
                         <p>Our climate map is free for all to access. You can scroll over the pins or down the feed, checking out stories from your neighbourhood and much further afield. <br/><br/>
 
-                        On our news page you’ll find in-depth investigations of the issues raised on the map, features and op-eds by prominent and emerging journalists. As of September 2020, we will introduce a small monthly fee (provisionally £3) for our Founding Members to access these in-depth investigations. </p>
+                        On our news page you’ll find in-depth investigations of the issues raised on the map, features and op-eds by prominent and emerging journalists. As of September 2020, we will introduce a small monthly fee (provisionally £5) for our Founding Members to access these in-depth investigations. </p>
                     </div>
                 </div>
                 <div className="section3">

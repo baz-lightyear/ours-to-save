@@ -58,7 +58,7 @@ class supportUs extends Component {
                 <h1>Support us</h1>
                 <p>If you like what you see here, please consider supporting us.</p>
                 <p>One of the biggest things you can do is to <span className="green">tell your friends</span>. Sharing the website or a particular feature on social media is massively helpful.</p>
-                <p>We want to make Ours to Save <span className="green">the best it can be</span>  – to make the climate crisis tangible and prove that it’s solvable if we approach it together. To do this, we will start charging a monthly subscription fee - provisionally £3. Members will be able to read longer content from world-class journalists, will be supporting our campaigns, investigations and overall democratisation of environmentalism – and will form an integral part of the Ours to Save community. <span className="green">The map will always be free for all.</span></p>
+                <p>We want to make Ours to Save <span className="green">the best it can be</span>  – to make the climate crisis tangible and prove that it’s solvable if we approach it together. To do this, we will start charging a monthly subscription fee - provisionally £5. Members will be able to read longer content from world-class journalists, will be supporting our campaigns, investigations and overall democratisation of environmentalism – and will form an integral part of the Ours to Save community. <span className="green">The map will always be free for all.</span></p>
                 <p>If you’d like to make a one-off donation, please email Harry at <a href="mailto: harry@ourstosave.com">harry@ourstosave.com</a> and we'll take it from there.</p>
                 {/* <Founders/> */}
             </Container>

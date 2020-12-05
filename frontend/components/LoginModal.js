@@ -142,8 +142,8 @@ const StyledModal = styled.div`
 class LoginModal extends Component {
   state = {
     show: false,
-    signin: true,
-    signup: false,
+    signin: false,
+    signup: true,
     reset: false,
   }
 

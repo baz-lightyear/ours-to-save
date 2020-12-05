@@ -209,10 +209,10 @@ class Header extends Component {
                     </Link>
                     <span className="breaker">·</span>
 
-                    {/* <Link href="/gift">
+                    <Link href="/gift">
                       <a>gift</a>
                     </Link>
-                    <span className="breaker">·</span>*/}
+                    <span className="breaker">·</span>
                     <Link href="/features">
                       <a>features</a>
                     </Link>
@@ -239,9 +239,9 @@ class Header extends Component {
                         <Link href="/feed">
                           <a>map</a>
                         </Link>
-                        {/* <Link href="/gift">
+                        <Link href="/gift">
                           <a>gift</a>
-                        </Link> */}
+                        </Link>
                         <div id="account">
                           { me && <Signout/>}
                           { !me && <LoginModal>log in / sign up</LoginModal>}

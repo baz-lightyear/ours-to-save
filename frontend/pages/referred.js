@@ -1,28 +1,16 @@
 import React, { Component } from 'react';
-import { Query, Mutation } from 'react-apollo';
-import { CURRENT_USER_QUERY, UPDATE_REFERRER_MUTATION, CREATE_STRIPE_CUSTOMER } from '../components/Apollo'
+import { Query } from 'react-apollo';
+import { CURRENT_USER_QUERY } from '../components/Apollo'
 import Subscribe from '../components/Subscribe'
-import Error from '../components/Error'
-
-import { loadStripe } from '@stripe/stripe-js';
 import Cookies from 'universal-cookie'
 import styled from 'styled-components';
 import Link from 'next/link'
 
-const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
 const cookies = new Cookies()
-
-const PleaseLogin = styled.div`
-    width: 95%;
-    margin: auto;
-    text-align: center;
-    button {
-    }
-`;
 
 const SelfReferral = styled.div`
     width: 95%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: auto;
     text-align: center; 
     .code {
@@ -36,30 +24,22 @@ const SelfReferral = styled.div`
 
 const Premium = styled.div`
     width: 95%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: auto;
     text-align: center;  
 `;
 
 const Container = styled.div`
     width: 95%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: auto;
-    .redeem {
-        text-align: center; 
-        font-family: ${props => props.theme.serif}; 
-        button {
-            font-family: ${props => props.theme.sansSerif};
-            text-transform: uppercase;
-            display: block;
-            margin: auto;
-            cursor: pointer;
-            letter-spacing: 2px;
-            padding: 0.5rem 1rem;
-            &:hover {
-                box-shadow: 0px 0px 4px 0px ${props => props.theme.grey};
-            }
-        }
+    font-family: ${props => props.theme.serif};
+    .explanation {
+        margin: 1rem;
+        padding: 2rem;
+        background-color: ${props => props.theme.yellow};
+        border-radius: 2rem;
+        font-family: ${props => props.theme.sansSerif};
     }
 `;
 
@@ -105,8 +85,11 @@ class referred extends Component {
                     if (!me || (me && !me.permissions.includes("PREMIUM"))) {
                         return (
                             <Container>
-                                <p>Yeah so youve been referred well done. yadda yadda. this is what it means; this is what you get. </p>
-                                <p>just pick ur product and we'll generate a unique code for you which you can then apply at checkout</p>
+                                <div className="explanation">
+                                    <p>You've been referred for a discounted Ours to Save membership, giving you £5 off your first subscription payment - effectively making your first month free.</p>
+                                    <p style={{marginBottom: 0}}>Pick a monthly or annual subscription, sign up and generate a unique promotion code which you can then enter at checkout. Once you've finished, we'll add £5 of credit to the account of the nice person who referred you.</p>
+                                </div>
+                                <hr/>
                                 <Subscribe me={me} referred={true} referrerId={this.props.referrerId}/>
                             </Container>
                         )
