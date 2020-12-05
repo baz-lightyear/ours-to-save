@@ -76,7 +76,7 @@ const Container = styled.div`
         @media (max-width: 800px) {
             flex-direction: column;
             align-items: center;
-            .imgContainer, .info {
+            .posterWrapper, .info {
                 width: 100%;
                 img {
                     margin: 2rem auto;
