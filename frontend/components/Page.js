@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
 import Head from 'next/head';
+import CookieConsent from "react-cookie-consent";
 import Header from './Header';
 import Founders from './Founders';
 
@@ -111,7 +112,7 @@ const Footer = styled.div`
     padding: 0.5rem 0;
     margin-right: 1rem;
     display: flex;
-    @media (max-width: 600px) {
+    @media (max-width: 650px) {
       flex-direction: column;
       align-items: flex-end;
       .breaker {
@@ -183,6 +184,18 @@ class Page extends Component {
                 <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>                
                 <Header />
                 <span className="flexGrow">{this.props.children}</span>
+                
+                <CookieConsent 
+                  buttonText="ok"
+                  cookieName="GDPR"
+                  style={{ background: theme.yellow, borderTop: `solid 2px ${theme.black}`, display: "block"  }}
+                  buttonStyle={{ color: theme.offWhite, background: theme.green, marginTop: "0", padding: "0.5rem 2rem" }}
+                  contentStyle={{ color: "black", marginBottom: "0", marginTop: "0"}}
+                >
+                  <h2>Privacy policy</h2>
+                  <p>In order to make <em>Ours to Save</em> as useful as possible, we collect select information on our users. By using the site, you agree to the terms of our <Link href="/terms"><a target="_blank">privacy policy</a></Link>.</p>
+                </CookieConsent>
+                
                 <Founders/>
                 <Footer>
                   <span className="socialLinks">
@@ -202,7 +215,6 @@ class Page extends Component {
                   <span className="contact">
                     <Link href="suggestContent"><a>suggest content</a></Link>
                     <span className="breaker">·</span>
-                    <Link href="/gift"><a>gift</a></Link>
                     <span className="breaker">·</span>
                     <Link href="contact"><a>contact</a></Link>
                     <span className="breaker">·</span>
@@ -212,6 +224,10 @@ class Page extends Component {
                     <span className="breaker">·</span>
                     <Link href="/supportUs">
                       <a>support us</a>
+                    </Link>
+                    <span className="breaker">·</span>
+                    <Link href="/terms">
+                      <a>terms</a>
                     </Link>
                   </span>
                 </Footer>

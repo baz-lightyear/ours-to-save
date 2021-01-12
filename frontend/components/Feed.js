@@ -25,8 +25,8 @@ class Feed extends Component {
         return (
             <Container>
                 <div id="feedHeader">
-                    <h2>Live, crowdsourced news feed</h2>
-                    <p>The front page of climate change, in real time.</p>
+                    <h2>Crowdsourced climate news</h2>
+                    <p>The front page of the climate crisis.</p>
                     <p>Add <Link href="/addStory"><a>here</a></Link>.</p>
                 </div>
                 {this.props.stories.map((element, i) => {

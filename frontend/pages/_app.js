@@ -2,13 +2,14 @@ import App, {Container} from 'next/app';
 import Router from 'next/router'
 import { ApolloProvider } from 'react-apollo';
 import React from 'react';
+import window from 'global' 
+import TagManager from 'react-gtm-module'
 import Page from '../components/Page';
 import withData from '../lib/withData';
 import * as gtag from '../lib/gtag'
-import window from 'global' 
 import { endpoint, prodEndpoint } from '../config.js';
-import TagManager from 'react-gtm-module'
 import '../lib/bootstrap.min.css';
+
 
 const tagManagerArgs = {
     gtmId: 'GTM-NCSSVXP'
