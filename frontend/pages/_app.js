@@ -7,9 +7,7 @@ import TagManager from 'react-gtm-module'
 import Page from '../components/Page';
 import withData from '../lib/withData';
 import * as gtag from '../lib/gtag'
-import { endpoint, prodEndpoint } from '../config.js';
 import '../lib/bootstrap.min.css';
-
 
 const tagManagerArgs = {
     gtmId: 'GTM-NCSSVXP'

@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
 import Head from 'next/head';
-import CookieConsent from "react-cookie-consent";
 import Header from './Header';
 import Founders from './Founders';
+import Cookies from 'universal-cookie';
+import { Query } from 'react-apollo'
+import { CURRENT_USER_QUERY } from './Apollo'
+import * as gtag from '../lib/gtag'
 
+const cookies = new Cookies()
 
 const theme = {
   yellow: '#FFEFCA',
@@ -130,7 +134,40 @@ const Footer = styled.div`
   }
 `;
 
+const GDPR = styled.div`
+  position: fixed;
+  z-index: 10;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(100,100,100,0.5);
+  display: flex;
+  align-items: center;
+  .popup {
+    text-align: center;
+    border-radius: 4px;
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    padding: 1rem;
+    background: ${props => props.theme.yellow};
+    h2 {
+      margin-top: 0;
+    }
+    button {
+      color: ${props => props.theme.offWhite};
+      background: ${props => props.theme.green};
+      border: none;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+`
+
 class Page extends Component {
+  state = {
+    cookieConsent: !!cookies.get("GDPR"),
+  }
   render() {
     return (
         <ThemeProvider theme={theme}>
@@ -182,55 +219,72 @@ class Page extends Component {
                 {/* This is for sharing on facebook */}
                 <div id="fb-root"></div>
                 <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>                
-                <Header />
-                <span className="flexGrow">{this.props.children}</span>
-                
-                <CookieConsent 
-                  buttonText="ok"
-                  cookieName="GDPR"
-                  style={{ background: theme.yellow, borderTop: `solid 2px ${theme.black}`, display: "block"  }}
-                  buttonStyle={{ color: theme.offWhite, background: theme.green, marginTop: "0", padding: "0.5rem 2rem" }}
-                  contentStyle={{ color: "black", marginBottom: "0", marginTop: "0"}}
-                >
-                  <h2>Privacy policy</h2>
-                  <p>In order to make <em>Ours to Save</em> as useful as possible, we collect select information on our users. By using the site, you agree to the terms of our <Link href="/terms"><a target="_blank">privacy policy</a></Link>.</p>
-                </CookieConsent>
-                
-                <Founders/>
-                <Footer>
-                  <span className="socialLinks">
-                    <a href="https://twitter.com/ourstosave" target="_blank">
-                      <img className="twitter" src="twitter.png" alt="twitter logo"/>
-                    </a>
-                    {/* <a href="https://www.facebook.com/ourstosave" target="_blank">
-                      <img src="facebook.png" alt="facebook logo"/>
-                    </a> */}
-                    <a href="https://www.linkedin.com/company/ours-to-save/" target="_blank">
-                      <img src="linkedin.svg" alt="linkedin logo"/>
-                    </a>
-                    <a href="https://www.instagram.com/ours.tosave/?utm_source=ig_embed&utm_campaign=loading" target="_blank">
-                      <img src="instagram.svg" alt="instagram logo"/>
-                    </a>
-                  </span>
-                  <span className="contact">
-                    <Link href="suggestContent"><a>suggest content</a></Link>
-                    <span className="breaker">·</span>
-                    <span className="breaker">·</span>
-                    <Link href="contact"><a>contact</a></Link>
-                    <span className="breaker">·</span>
-                    <Link href="/about">
-                      <a>about</a>
-                    </Link>
-                    <span className="breaker">·</span>
-                    <Link href="/supportUs">
-                      <a>support us</a>
-                    </Link>
-                    <span className="breaker">·</span>
-                    <Link href="/terms">
-                      <a>terms</a>
-                    </Link>
-                  </span>
-                </Footer>
+                {this.state.cookieConsent || 
+                  <GDPR>
+                    <div className="popup">
+                      <h2>Before we begin...</h2>
+                      <p>In order to make <em>Ours to Save</em> as useful as possible, and like most online news websites, we collect limited information on our members and visitors. By proceeding, you agree to the terms of our <Link href="/terms"><a target="_blank">privacy policy</a></Link>.</p>
+                      <button onClick={() => {
+                        cookies.set("GDPR", "Consented", {
+                          maxAge: 1000 * 60 * 60 * 24 * 365,
+                        })
+                        this.setState({cookieConsent: true})
+                      }}>ok</button>
+                    </div>
+                  </GDPR>
+                }
+                <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
+                  {({data, error, loading}) => {
+                      if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                      if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+                      const me = data.me === null ? null : data.me
+                      if (me) {
+                        // send user-specific info to GA
+                        gtag.setUserId(me.id)
+                      }
+                      return (
+                        <>
+                          <Header />
+                          <span className="flexGrow">{this.props.children}</span>          
+                          <Founders/>
+                          <Footer>
+                            <span className="socialLinks">
+                              <a href="https://twitter.com/ourstosave" target="_blank">
+                                <img className="twitter" src="twitter.png" alt="twitter logo"/>
+                              </a>
+                              {/* <a href="https://www.facebook.com/ourstosave" target="_blank">
+                                <img src="facebook.png" alt="facebook logo"/>
+                              </a> */}
+                              <a href="https://www.linkedin.com/company/ours-to-save/" target="_blank">
+                                <img src="linkedin.svg" alt="linkedin logo"/>
+                              </a>
+                              <a href="https://www.instagram.com/ours.tosave/?utm_source=ig_embed&utm_campaign=loading" target="_blank">
+                                <img src="instagram.svg" alt="instagram logo"/>
+                              </a>
+                            </span>
+                            <span className="contact">
+                              <Link href="suggestContent"><a>suggest content</a></Link>
+                              <span className="breaker">·</span>
+                              <span className="breaker">·</span>
+                              <Link href="contact"><a>contact</a></Link>
+                              <span className="breaker">·</span>
+                              <Link href="/about">
+                                <a>about</a>
+                              </Link>
+                              <span className="breaker">·</span>
+                              <Link href="/supportUs">
+                                <a>support us</a>
+                              </Link>
+                              <span className="breaker">·</span>
+                              <Link href="/terms">
+                                <a>terms</a>
+                              </Link>
+                            </span>
+                          </Footer>
+                        </>
+                      )
+                  }}
+                </Query>
             </StyledPage>
             <GlobalStyle/>
         </ThemeProvider>

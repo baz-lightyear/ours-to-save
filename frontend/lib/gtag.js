@@ -15,3 +15,9 @@ export const event = ({ action, category, label, value }) => {
     value: value,
   })
 }
+
+export const setUserId = userId => {
+  window.gtag('config', GA_TRACKING_ID, {
+    'user_id': userId
+  });
+}

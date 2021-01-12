@@ -2,7 +2,7 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import React from 'react'
 import { GA_TRACKING_ID } from '../lib/gtag'
-
+import Cookies from 'universal-cookie';
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
@@ -11,7 +11,6 @@ export default class MyDocument extends Document {
     const styleTags = sheet.getStyleElement();
     return { ...page, styleTags };
   }
-
   render() {
     return (
       <html>

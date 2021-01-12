@@ -115,7 +115,6 @@ const Forms = styled.div`
 const StyledModal = styled.div`
     padding: 0.5rem;
     border-radius: 4px;
-    max-height: 100vh;
     max-width: 100%;
     font-family: ${props => props.theme.sansSerif};
     .modal-body{
