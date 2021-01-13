@@ -181,7 +181,10 @@ const GDPR = styled.div`
 
 class Page extends Component {
   state = {
-    cookieConsent: !!cookies.get("GDPR"),
+    cookieConsent: true,
+  }
+  componentDidMount() {
+    this.setState({cookieConsent: !!cookies.get("GDPR")})
   }
   render() {
     return (
