@@ -36,7 +36,7 @@ export default class MyDocument extends Document {
             }}
           />
           {this.props.styleTags}
-          {hotjar.initialize(hotjarId, hotjarSnippetVersion);}
+          {hotjar.initialize(hotjarId, hotjarSnippetVersion)}
         </Head>
         <body>
           <Main />
