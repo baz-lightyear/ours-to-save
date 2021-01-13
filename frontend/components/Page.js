@@ -149,7 +149,7 @@ const GDPR = styled.div`
     max-width: 400px;
     margin: auto;
     padding: 1rem;
-    background: ${props => props.theme.yellow};
+    background: ${props => props.theme.offWhite};
     h2 {
       margin-top: 0;
     }

@@ -2,7 +2,10 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import React from 'react'
 import { GA_TRACKING_ID } from '../lib/gtag'
-import Cookies from 'universal-cookie';
+import { hotjar } from 'react-hotjar';
+
+const hotjarId = 2194548
+const hotjarSnippetVersion = 6
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
@@ -33,6 +36,7 @@ export default class MyDocument extends Document {
             }}
           />
           {this.props.styleTags}
+          {hotjar.initialize(hotjarId, hotjarSnippetVersion);}
         </Head>
         <body>
           <Main />
