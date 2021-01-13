@@ -4,8 +4,8 @@ import React from 'react'
 import { GA_TRACKING_ID } from '../lib/gtag'
 import { hotjar } from 'react-hotjar';
 
-const hotjarId = 2194548
-const hotjarSnippetVersion = 6
+const hotjarId = "2194548"
+const hotjarSnippetVersion = "6"
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
@@ -36,7 +36,9 @@ export default class MyDocument extends Document {
             }}
           />
           {this.props.styleTags}
-          {hotjar.initialize(hotjarId, hotjarSnippetVersion)}
+
+          {/* This is Hotjar config - we have to edit the basic code to make it work with Next. See https://github.com/abdalla/react-hotjar/issues/26 */}
+          {(typeof window !== "undefined") && hotjar.initialize(hotjarId, hotjarSnippetVersion)}
         </Head>
         <body>
           <Main />
