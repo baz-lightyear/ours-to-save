@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
 import Head from 'next/head';
+import PrivacyTerms from './PrivacyTerms'
 import Header from './Header';
 import Founders from './Founders';
 import Cookies from 'universal-cookie';
 import { Query } from 'react-apollo'
 import { CURRENT_USER_QUERY } from './Apollo'
 import * as gtag from '../lib/gtag'
+
 
 const cookies = new Cookies()
 
@@ -146,11 +148,11 @@ const GDPR = styled.div`
     text-align: center;
     border-radius: 4px;
     width: 90%;
-    max-width: 400px;
+    max-width: 800px;
     margin: auto;
     padding: 1rem;
     background: ${props => props.theme.offWhite};
-    h2 {
+    #title {
       margin-top: 0;
     }
     button {
@@ -160,6 +162,19 @@ const GDPR = styled.div`
       &:hover {
         opacity: 0.8;
       }
+      margin-top: 0;
+    }
+    summary:focus {
+      outline: none;
+    }
+    .termsDiv {
+      margin-top: 1rem;
+      font-size: 12px;
+      text-align: left;
+      max-height: 200px;
+      overflow: scroll;
+      padding: 0rem 0.5rem;
+      background-color: ${props => props.theme.yellow};
     }
   }
 `
@@ -219,17 +234,23 @@ class Page extends Component {
                 {/* This is for sharing on facebook */}
                 <div id="fb-root"></div>
                 <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>                
-                {this.state.cookieConsent || 
+                {(this.state.cookieConsent) ||
                   <GDPR>
                     <div className="popup">
-                      <h2>Before we begin...</h2>
-                      <p>In order to make <em>Ours to Save</em> as useful as possible, and like most online news websites, we collect limited information on our members and visitors. By proceeding, you agree to the terms of our <Link href="/terms"><a target="_blank">privacy policy</a></Link>.</p>
+                      <h2 id="title">Before we begin...</h2>
+                      <p>In order to make <em>Ours to Save</em> as useful as possible, and like most online news websites, we collect limited information on our members and visitors. By proceeding, you agree to the terms of our privacy policy.</p>
                       <button onClick={() => {
                         cookies.set("GDPR", "Consented", {
                           maxAge: 1000 * 60 * 60 * 24 * 365,
                         })
                         this.setState({cookieConsent: true})
                       }}>ok</button>
+                      <details>
+                        <summary>See full privacy policy</summary>
+                        <div className="termsDiv">
+                          <PrivacyTerms/>
+                        </div>
+                      </details>
                     </div>
                   </GDPR>
                 }
