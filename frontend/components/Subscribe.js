@@ -43,9 +43,43 @@ const Container = styled.div`
             }
         }
     }
+    .posterInfo {
+        display: flex;
+        .info {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .posterWrapper {
+            padding: 0rem 1rem;
+            width: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img {
+                height: 260px;
+                box-shadow: 0px 0px 10px lightgray;
+            }
+        }
+        @media (max-width: 800px) {
+            flex-direction: column;
+            align-items: center;
+            .posterWrapper, .info {
+                width: 100%;
+                img {
+                    margin: 2rem auto;
+                }
+            }
+        }
+    }
     .infoWrapper {
         text-align: center;
         .moreInfo {
+            width: 80%;
+            @media (max-width: 600px) {
+                width: 95%;
+            }
             background-color: white;
             padding: 1rem;
             margin: 1rem auto;
@@ -54,6 +88,12 @@ const Container = styled.div`
             .icon {
                 font-size: 2rem;
                 margin-right: 1rem;
+            }
+            a {
+                color: ${props => props.theme.green};
+                &:hover {
+                    opacity: 0.7;
+                }
             }
         }
     }
@@ -94,10 +134,21 @@ class Subscribe extends Component {
                         <li><span className="inner">Regular profiles of <strong>climate movers and shakers</strong>, and original op-eds on the stories that matter.</span></li>
                         <li><span className="inner">An <strong>ad-free experience</strong> and the quality you'd expect from an <strong>independent</strong> publisher.</span></li>
                         <li><span className="inner">A <strong>diverse</strong> collection of voices - this is a global crisis after all.</span></li>
+                        <li><span className="inner"><strong>Limited edition A4 print</strong> produced in London by Duplikat Press, leaders in eco-friendly risograph printing (UK only).</span></li>
                         <li><span className="inner">All the other stuff: our proprietary interactive, crowdsourced news <strong>map</strong>; an email <strong>newsletter</strong>; a monthly <strong>podcast</strong> (with special episodes just for members)</span></li>
                     </ul>
                     <div className="imgContainer">
-                        <img src="threeDevices.png" alt="screenshots of Ours to Save website on different devices"/>
+                        <img src="threeDevicesAndPoster.png" alt="screenshots of Ours to Save website on different devices"/>
+                    </div>
+                </div>
+                <h2>Limited Edition Risograph Prints</h2>
+                <div className="posterInfo">
+                    <div className="posterWrapper">
+                        <img src="Poster.png" alt="ours to save on a poster" className="poster"/>
+                    </div>
+                    <div className="info">
+                        <p>New members can claim a complimentary <strong>Ours to Save print</strong>, designed by <a href="https://abigailannaswan.myportfolio.com/" target="_blank">Abigail Anna Swan</a>. The seafoam & orange inks are printed on  A4 recycled riso paper in London by <a href="https://www.duplikat.co.uk/" target="_blank">Duplikat Press</a> - leaders in the exceptionally eco-friendly risograph printing method.</p>
+                        <p>They're available to ship anywhere within the United Kingdom (delivery will take 2-3 business days) but if you really want one sent elsewhere, please get in touch. Shipping information is collected via email, after checkout.</p>
                     </div>
                 </div>
                 <hr/>

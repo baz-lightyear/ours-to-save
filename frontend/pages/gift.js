@@ -150,14 +150,14 @@ class gift extends Component {
                 <div className="infoWrapper">
                     <div className="moreInfo"><span className="icon">ℹ</span><em>Once purchased we'll email you with special instructions on setting up their gift membership.</em></div>
                 </div>
-                <h2>Christmas 2020 Limited Edition Prints</h2>
+                <h2>Limited Edition Risograph Prints</h2>
                 <div className="posterInfo">
                     <div className="posterWrapper">
                         <img src="Poster.png" alt="ours to save on a poster" className="poster"/>
                     </div>
                     <div className="info">
-                        <p>Upgrade your present to be extra special with a limited edition <strong>Ours to Save print</strong>, designed by <a href="https://abigailannaswan.myportfolio.com/" target="_blank">Abigail Anna Swan</a>. The seafoam & orange inks are printed on  A4 recycled riso paper in London by <a href="https://www.duplikat.co.uk/" target="_blank">Duplikat Press</a> - leaders in the exceptionally eco-friendly risograph printing method.</p>
-                        <p>They're available to ship anywhere within the United Kingdom but if you really want one sent elsewhere, please get in touch. For delivery by Christmas we recommend you order by <strong>20th December</strong> in order to ensure they arrive on time.</p>
+                        <p>Upgrade your gift to be extra special with a limited edition <strong>Ours to Save print</strong>, designed by <a href="https://abigailannaswan.myportfolio.com/" target="_blank">Abigail Anna Swan</a>. The seafoam & orange inks are printed on  A4 recycled riso paper in London by <a href="https://www.duplikat.co.uk/" target="_blank">Duplikat Press</a> - leaders in the exceptionally eco-friendly risograph printing method.</p>
+                        <p>They're available to ship anywhere within the United Kingdom (delivery will take 2-3 business days) but if you really want one sent elsewhere, please get in touch.</p>
                     </div>
                 </div>
                 <hr/>
@@ -168,13 +168,13 @@ class gift extends Component {
                         </div>
                         <div className="middle">
                             <img src="threeDevices.png" alt=""/>
-                            <h5>£30</h5>
+                            <h5>£25</h5>
                         </div>
                         <div className="bottom">
                             <button 
                                 onClick={() => {
                                     const options = {
-                                        priceId: "price_1HtxGoIcB8KtT8kgkCuCjQ9g",
+                                        priceId: "price_1I9Kh1IcB8KtT8kg9izLCkSV",
                                         mode: "payment", 
                                         successRoute: "/giftSuccess", 
                                     }
@@ -191,13 +191,13 @@ class gift extends Component {
                         </div>
                         <div className="middle">
                             <img src="threeDevicesAndPoster.png" alt=""/>
-                            <h5>£35</h5>
+                            <h5>£30</h5>
                         </div>
                         <div className="bottom">
                             <button 
                                 onClick={() => {
                                     const options = {
-                                        priceId: "price_1HuOTUIcB8KtT8kg0WAes53y",
+                                        priceId: "price_1I9KhQIcB8KtT8kgHGnrPSH5",
                                         mode: "payment", 
                                         successRoute: "/giftSuccess", 
                                         addressInstruction: "includeShippingAddress"
@@ -215,13 +215,13 @@ class gift extends Component {
                         </div>
                         <div className="middle">
                             <img src="threeDevices.png" alt=""/>
-                            <h5>£50</h5>
+                            <h5>£45</h5>
                         </div>
                         <div className="bottom">
                             <button 
                                 onClick={() => {
                                     const options = {
-                                        priceId: "price_1HuOQtIcB8KtT8kgpPvYZFca",
+                                        priceId: "price_1I9KhfIcB8KtT8kgQQzmw4ue",
                                         mode: "payment", 
                                         successRoute: "/giftSuccess", 
                                     }
@@ -238,13 +238,13 @@ class gift extends Component {
                         </div>
                         <div className="middle">
                             <img src="threeDevicesAndPoster.png" alt=""/>
-                            <h5>£55</h5>
+                            <h5>£50</h5>
                         </div>
                         <div className="bottom">
                             <button 
                                 onClick={() => {
                                     const options = {
-                                        priceId: "price_1HuOTDIcB8KtT8kgLPqC3Vie",
+                                        priceId: "price_1I9KhpIcB8KtT8kgLWexVd33",
                                         mode: "payment", 
                                         successRoute: "/giftSuccess", 
                                         addressInstruction: "includeShippingAddress"

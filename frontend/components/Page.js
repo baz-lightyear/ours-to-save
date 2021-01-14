@@ -289,7 +289,6 @@ class Page extends Component {
                             <span className="contact">
                               <Link href="suggestContent"><a>suggest content</a></Link>
                               <span className="breaker">·</span>
-                              <span className="breaker">·</span>
                               <Link href="contact"><a>contact</a></Link>
                               <span className="breaker">·</span>
                               <Link href="/about">

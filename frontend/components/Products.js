@@ -60,7 +60,7 @@ class Products extends Component {
                             <h2>Pay monthly</h2>
                         </div>
                         <div className="middle">
-                            <img src="threeDevices.png" alt=""/>
+                            <img src="threeDevicesAndPoster.png" alt=""/>
                             <h5>£5 / month</h5>
                             <small><strong>£1.15</strong> / week after your 3-day free trial ends</small>
                         </div>
@@ -99,7 +99,7 @@ class Products extends Component {
                                 <h2>Pay annually</h2>
                             </div>
                             <div className="middle">
-                                <img src="threeDevices.png" alt=""/>
+                                <img src="threeDevicesAndPoster.png" alt=""/>
                                 <h5>£50 / year</h5>
                                 <small><strong>£0.95</strong> / week after your 3-day free trial ends</small>
                             </div>
