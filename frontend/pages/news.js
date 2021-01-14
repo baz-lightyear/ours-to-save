@@ -136,9 +136,12 @@ class news extends Component {
                                     }}
                                 </Query>
                             </div>
-                            <div className="login">
+                            <Link href="/features">
+                                <button style={{margin: "1rem auto 2rem auto", display: "block"}}>browse all features</button>
+                            </Link>
+                            {/* <div className="login">
                                 {!me && <LoginModal>log in / sign up</LoginModal>}
-                            </div>
+                            </div> */}
                             </>
                         )
                     }}
