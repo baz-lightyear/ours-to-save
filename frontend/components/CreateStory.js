@@ -4,7 +4,7 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import Error from './Error';
-import StoryEditor from './StoryEditor';
+import RichtextEditor from './RichtextEditor';
 
 import {CREATE_STORY_MUTATION, MAP_STORIES_QUERY} from './Apollo';
 import { optimiseCloudinary } from '../lib/utils'
@@ -14,10 +14,10 @@ const Form = styled.form`
         width: 100%;
         font-family: ${props => props.theme.serif};
         opacity: 0.5;
-        border: none;
-        border-bottom: 4px solid ${props => props.theme.green};
+        border: solid 1px ${props => props.theme.black};
         margin-bottom: 1rem;
-        background-color: #9fc8ca59;
+        background-color: ${props => props.theme.offWhite};
+        padding-left: 0.5rem;
         &:focus {
             outline: none;
             opacity: 1;
@@ -41,38 +41,6 @@ const Form = styled.form`
         display: block;
         margin: auto;
     }
-    .morality {
-        display: flex;
-        justify-content: space-between;
-        div {
-            width: 33%;
-            cursor: pointer;
-            text-align: center;
-            padding: 8px;
-            height: 6rem;
-            display: flex;
-            align-items: center;
-            background-color: ${props => props.theme.green};
-            border-radius: 4px;
-            opacity: 0.5;
-            margin-bottom: 1rem;
-            &.middleMorality {
-                margin: 1rem;
-            }
-            p {
-                font-size: 1rem;
-                width: 100%;
-                margin-bottom: 0;
-                color: white;
-            }
-            &:hover {
-                opacity: 0.8;
-            }
-        }
-        .clicked {
-            opacity: 1 !important;
-        }
-    }
     .submit {
         text-align: center;
         #submit {
@@ -93,28 +61,20 @@ const Form = styled.form`
             }
         }
     }
+    .forbidden {
+        color: red;
+    }
 `;
 
 class CreateStory extends Component {
     state = {
         title: '',
-        content: '',
+        value: [{type: 'paragraph', children: [{ text: "" }]}],
         address: '',
-        // morality: '',
         author: '',
-        // interestedInFeatureEmail: '',
         image: '',
         loading: false,
         charCount: 0
-    };
-    setMoralityGood = () => {
-        this.setState({morality: "good"})
-    };
-    setMoralityBad = () => {
-        this.setState({morality: "bad"})
-    };
-    setMoralityBetween = () => {
-        this.setState({morality: "inbetween"})
     };
     handleChange = e => {
         const { name, type, value } = e.target;
@@ -140,28 +100,35 @@ class CreateStory extends Component {
             loading: false
         });
     };
-    saveContent = string => {
-        this.setState({content: string})
+    setValue = value => {
+        this.setState({value: value})
     }
     setChars = (chars) => {
         this.setState({charCount: chars})
     }
     render() {
         return (
-            <Mutation mutation={CREATE_STORY_MUTATION} variables={this.state} refetchQueries={[{ query: MAP_STORIES_QUERY }]}>
+            <Mutation mutation={CREATE_STORY_MUTATION} refetchQueries={[{ query: MAP_STORIES_QUERY }]}>
                 {(createStory, { loading, error }) => (
                     <Form
                         data-test="form"
                         onSubmit={async e => {
                             e.preventDefault();
-                            await createStory();
+                            const string = JSON.stringify(this.state.value)
+                            await createStory({ variables: { 
+                                title: this.state.title,
+                                content: string,
+                                address: this.state.address,
+                                author: this.state.author,
+                                image: this.state.image,
+                            }})
                             Swal.fire({
                                 title: 'Thanks for submitting',
                                 text: "Once your post is reviewed you'll be able to see it on the map",
                                 icon: 'success',
                                 confirmButtonColor: '#329094'
                             })
-                            this.setState({ title: "", content: "", address: "", author: "", morality: "", interestedInFeatureEmail: ""})
+                            this.setState({ title: "", content: "", address: "", author: "", interestedInFeatureEmail: ""})
                             // this.closeModal()
                             Router.push({
                                 pathname: '/feed',
@@ -170,7 +137,7 @@ class CreateStory extends Component {
                     >
                         <div>
                             <fieldset disabled={loading} aria-busy={loading} >
-                                <label htmlFor="title">Summarise what happened<super>*</super></label>
+                                <label htmlFor="title">Summarise what happened<sup>*</sup></label>
                                 <br/>
                                 <input
                                     type="text"
@@ -178,17 +145,24 @@ class CreateStory extends Component {
                                     name="title"
                                     placeholder=""
                                     required
-                                    maxlength="100"
+                                    maxLength="100"
                                     value={this.state.title}
                                     onChange={this.handleChange}
                                 />
                                 <br/>
 
-                                <label htmlFor="content">Share some of the details:<super>*</super></label>
+                                <label htmlFor="content">Share some of the details:<sup>*</sup></label>
                                 <br/>
-                                <small>It's great if you can refer to a source too. </small>
-
-                                <StoryEditor saveContent={this.saveContent} setChars={this.setChars}/>
+                                <small>It's great if you can refer to a source too. <span className={this.state.charCount > 500 ? "forbidden" : ""}>Characters remaining: {500 - this.state.charCount}</span></small>
+                                <br/>
+                                <br/>
+                                <RichtextEditor 
+                                    value={this.state.value} 
+                                    setValue={this.setValue}
+                                    setChars={this.setChars} 
+                                    contentType="story" 
+                                />
+                                <br/>
                                 <label htmlFor="file">
                                     If you like, add a picture.
                                 </label>
@@ -203,7 +177,7 @@ class CreateStory extends Component {
                                 {this.state.image && (
                                 <img width="100" src={optimiseCloudinary(this.state.image, 400)} alt="Upload Preview" id="image"/>
                                 )}
-                                <label htmlFor="address">Where did this happen?<super>*</super>
+                                <label htmlFor="address">Where did this happen?<sup>*</sup>
                                     <br/>
                                 </label>
                                 <br/>
