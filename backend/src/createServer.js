@@ -46,6 +46,18 @@ server.express.use('/stripe/webhooks', bodyParser.raw({type: 'application/json'}
   if (event.type === 'checkout.session.completed') {
     sgMail.setApiKey(process.env.SENDGRID_API);
     // If checkout.session.completed, then either we have a new subscription, or someone bought a gift (one-off purchase)
+
+    // either way we let Harry know...
+    const harryMsg = {
+      to: `harry@ourstosave.com`,
+      from: 'harry@ourstosave.com',
+      subject: `Stripe notification`,
+      text: 'test',
+      template_id: "d-2550c398544946bbb38bed44e5b1f32e",
+      html: "test",
+    }
+    sgMail.send(harryMsg).catch(err => console.log(err.response.body))
+
     // First we test to see which product they bought
     const session = event.data.object
     const customer = await stripe.customers.retrieve(session.customer)
