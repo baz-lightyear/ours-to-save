@@ -13,7 +13,7 @@ import {
     FacebookIcon,
     TwitterIcon,
 } from "react-share";
-import {optimiseCloudinary, timeFromNow} from '../lib/utils';
+import {optimiseCloudinary, timeFromNow, convertRichText} from '../lib/utils';
 import { CURRENT_USER_QUERY, UPVOTE_STORY, ADD_STORY_COMMENT } from './Apollo';
 import Link from 'next/link'
 import Moment from 'react-moment'
@@ -287,26 +287,7 @@ class StoryShow extends Component {
                             </div>
                             {this.props.story.image && <img className="image" src={optimiseCloudinary(this.props.story.image, 600)} alt={this.props.story.title} />}
                             <div className="content">
-                                {JSON.parse(this.props.story.content).map((element, index) => {
-                                    return (
-                                        <p key={index}>
-                                            {element.children.map((leaf, index) => {
-                                                if (leaf.type === "link") {
-                                                    if (leaf.children[0].italic) {
-                                                        return (<a href={leaf.url} target="_blank" className="link" key={index}><em>{leaf.children[0].text}</em></a>)
-                                                    } else {
-                                                        return (<a href={leaf.url} target="_blank" className="link" key={index}>{leaf.children[0].text}</a>)
-                                                    }
-                                                }
-                                                return (
-                                                    <span key={index}>
-                                                        {leaf.text}
-                                                    </span>
-                                                )
-                                            })}
-                                        </p>
-                                    )
-                                })}
+                                {convertRichText(this.props.story.content, this.props.story.title)}
                             </div>
                             <div className="comments">
                                 <hr/>

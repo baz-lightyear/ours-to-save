@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import Head from 'next/head';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
 import { CURRENT_USER_QUERY, ADD_FEATURE_COMMENT } from './Apollo'
@@ -20,9 +19,8 @@ import Map from './Map';
 import FeedPreview from './FeedPreview';
 import CategorySuggestions from './CategorySuggestions';
 
-import {optimiseCloudinary} from '../lib/utils';
+import {optimiseCloudinary, convertRichText } from '../lib/utils';
 import Link from 'next/link';
-import Paywall from './Paywall'
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 
@@ -235,115 +233,8 @@ class FeatureShow extends Component {
                                         <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
                                     </div>
                                 </div>
-                                {JSON.parse(this.props.feature.content).slice(0, 3).map((element, index) => {
-                                    if (element.type === "paragraph") {
-                                        return (
-                                            <p key={index} className="paragraph">
-                                                {element.children.map((leaf, index) => {
-                                                    if (leaf.type === "link") {
-                                                        return (<a href={leaf.url} target="_blank" className="link" key={index}>{leaf.children[0].text}</a>)
-                                                    }
-                                                    if (leaf.italic && leaf.bold) {
-                                                        return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
-                                                    }
-                                                    if (leaf.italic) {
-                                                        return (<span key={index}><em>{leaf.text}</em></span>)
-                                                    }
-                                                    if (leaf.bold) {
-                                                        return (<span key={index}><strong>{leaf.text}</strong></span>)
-                                                    }
-                                                    return (<span key={index}>{leaf.text}</span>)
-                                                    // links too
-                                                })}
-                                            </p>
-                                        )
-                                    }
-                                    if (element.type === "block-quote") {
-                                        return (
-                                            <blockquote key={index}>
-                                                {element.children.map((leaf, index) => {
-                                                    if (leaf.italic && leaf.bold) {
-                                                        return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
-                                                    }
-                                                    if (leaf.italic) {
-                                                        return (<span key={index}><em>{leaf.text}</em></span>)
-                                                    }
-                                                    if (leaf.bold) {
-                                                        return (<span key={index}><strong>{leaf.text}</strong></span>)
-                                                    }
-                                                    return (<span key={index}>{leaf.text}</span>)
-                                                    // links too
-                                                })}
-                                            </blockquote>
-                                        )
-                                    }
-                                    if (element.type === "image") {
-                                        return (
-                                            <img key={index} src={optimiseCloudinary(element.url, 800)} className="image" alt={`an image about ${this.props.feature.title}`}/>
-                                        )
-                                    }
-                                })}
 
-                                {/* if the user is logged in, show the rest of the paragraphs */}
-
-                                {JSON.parse(this.props.feature.content).slice(3, this.props.feature.content.length).map((element, index) => {
-                                    if (element.type === "paragraph") {
-                                        return (
-                                            <p key={index} className="paragraph">
-                                                {element.children.map((leaf, index) => {
-                                                    if (leaf.type === "link") {
-                                                        if (leaf.children[0].italic) {
-                                                            return (<a href={leaf.url} target="_blank" className="link" key={index}><em>{leaf.children[0].text}</em></a>)
-                                                        } else {
-                                                            return (<a href={leaf.url} target="_blank" className="link" key={index}>{leaf.children[0].text}</a>)
-                                                        }
-                                                    }
-                                                    if (leaf.italic && leaf.bold) {
-                                                        return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
-                                                    }
-                                                    if (leaf.italic) {
-                                                        return (<span key={index}><em>{leaf.text}</em></span>)
-                                                    }
-                                                    if (leaf.bold) {
-                                                        return (<span key={index}><strong>{leaf.text}</strong></span>)
-                                                    }
-                                                    return (<span key={index}>{leaf.text}</span>)
-                                                    // links too
-                                                })}
-                                            </p>
-                                        )
-                                    }
-                                    if (element.type === "block-quote") {
-                                        return (
-                                            <blockquote key={index}>
-                                                {element.children.map((leaf, index) => {
-                                                    if (leaf.italic && leaf.bold) {
-                                                        return (<span key={index}><em><strong>{leaf.text}</strong></em></span>)
-                                                    }
-                                                    if (leaf.italic) {
-                                                        return (<span key={index}><em>{leaf.text}</em></span>)
-                                                    }
-                                                    if (leaf.bold) {
-                                                        return (<span key={index}><strong>{leaf.text}</strong></span>)
-                                                    }
-                                                    return (<span key={index}>{leaf.text}</span>)
-                                                    // links too
-                                                })}
-                                            </blockquote>
-                                        )
-                                    }
-                                    if (element.type === "image") {
-                                        return (
-                                            <img key={index} src={optimiseCloudinary(element.url, 800)} className="image" alt={`an image about ${this.props.feature.title}`}/>
-                                        )
-                                    }
-                                })}
-
-                                {/* if the user is not logged in, don't show the rest of the paragraphs */}
-                                
-                                {/* {!me && 
-                                    <Paywall/>
-                                } */}
+                                {convertRichText(this.props.feature.content, this.props.feature.title)}
 
                                 <p className="bio endOfArticle"><em>{this.props.feature.bio}</em></p>
                                 <div className="comments">

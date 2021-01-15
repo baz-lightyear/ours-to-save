@@ -362,6 +362,7 @@ const RichtextEditor = props => {
                 </div>
                 <Editable
                     className="editable"
+                    style={props.contentType === "story" && {minHeight: "10rem"}}
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     placeholder="Tell the story..."

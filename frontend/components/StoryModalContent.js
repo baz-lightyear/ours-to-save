@@ -10,7 +10,7 @@ import {
     FacebookIcon,
     TwitterIcon,
 } from "react-share";
-import {optimiseCloudinary} from '../lib/utils';
+import {optimiseCloudinary, convertRichText} from '../lib/utils';
 import { Query, Mutation } from 'react-apollo';
 import { MODAL_STORY_QUERY, ADD_STORY_COMMENT, CURRENT_USER_QUERY, MAP_STORIES_QUERY } from './Apollo'
 import StoryModalUpvote from './StoryModalUpvote'
@@ -149,22 +149,7 @@ class StoryShow extends Component {
                                         </div>
                                         {story.image && <img className="image" src={optimiseCloudinary(story.image, 600)} alt={story.title} />}
                                         <div className="content">
-                                            {JSON.parse(story.content).map((element, index) => {
-                                                return (
-                                                    <p key={index}>
-                                                        {element.children.map((leaf, index) => {
-                                                            if (leaf.type === "link") {
-                                                                return <a href={leaf.url} target="_blank" key={index}>{leaf.children[0].text}</a>
-                                                            }
-                                                            return (
-                                                                <span key={index}>
-                                                                    {leaf.text}
-                                                                </span>
-                                                            )
-                                                        })}
-                                                    </p>
-                                                )
-                                            })}
+                                            {convertRichText(story.content, story.title)}
                                         </div>
                                         <div className="comments">
                                             <hr/>

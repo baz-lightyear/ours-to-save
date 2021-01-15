@@ -2,6 +2,8 @@ import moment from 'moment'
 import { loadStripe } from '@stripe/stripe-js';
 import { endpoint, prodEndpoint, frontEndpoint, prodFrontEndpoint } from '../config.js';
 import Swal from 'sweetalert2';
+import parse from 'html-react-parser';
+
 const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
 
 const optimiseCloudinary = (url, width) => {
@@ -54,8 +56,91 @@ const visitStripe = async (options) => {
     })
 }
 
+const convertRichText = (string, title) => {
+    const leafToHtml = (leaf, index) => {
+        // we just go through the rules, wrapping the content one-by-one and return whatever is at the end
+        let text = ""
+        if (leaf.type === "link") {
+            text = leaf.children[0].text
+        } else {
+            text = leaf.text
+        }
+        let htmlString = `<span key=${index}>${text}</span>`
+        if (leaf.italic) {
+            htmlString = `<em key=${index}>${htmlString}</em>`
+        }
+        if (leaf.bold) {
+            htmlString = `<strong key=${index}>${htmlString}</strong>`
+        }
+        if (leaf.underline) {
+            htmlString = `<u key=${index}>${htmlString}</u>`
+        }
+        if (leaf.type === "link") {
+            htmlString = `<a href=${leaf.url} target="_blank" className="link" key=${index}>${htmlString}</a>`
+        }                                      
+        return parse(htmlString)
+    }
+    return (
+        JSON.parse(string).map((element, index) => {
+            if (element.type === "paragraph") {
+                return (
+                    <p key={index} className="paragraph">
+                        {element.children.map((leaf, index) => leafToHtml(leaf, index))}
+                    </p>
+                )
+            }
+            if (element.type === "heading") {
+                return (
+                    <h3 key={index} className="paragraph">
+                        {element.children.map((leaf, index) => leafToHtml(leaf, index))}
+                    </h3>
+                )
+            }
+            if (element.type === "block-quote") {
+                return (
+                    <blockquote key={index}>
+                        {element.children.map((leaf, index) => leafToHtml(leaf, index))}
+                    </blockquote>
+                )
+            }
+            if (element.type === "image") {
+                return (
+                    <img key={index} src={optimiseCloudinary(element.url, 800)} className="image" alt={`an image about ${title}`}/>
+                )
+            }
+            if (element.type === "numbered-list") {
+                return (
+                    <ol key={index}>
+                        {element.children.map((listItem, listItemIndex) => {
+                            return (
+                                <li key={listItemIndex}>
+                                    {listItem.children.map((leaf, index) => leafToHtml(leaf, index))}
+                                </li>
+                            )
+                        })}
+                    </ol>
+                )
+            }
+            if (element.type === "bulleted-list") {
+                return (
+                    <ul key={index}>
+                        {element.children.map((listItem, listItemIndex) => {
+                            return (
+                                <li key={listItemIndex}>
+                                    {listItem.children.map((leaf, index) => leafToHtml(leaf, index))}
+                                </li>
+                            )
+                        })}
+                    </ul>
+                )
+            }
+        })
+    )
+}
+
 export { 
     optimiseCloudinary,
     timeFromNow,
-    visitStripe
+    visitStripe,
+    convertRichText
 }
