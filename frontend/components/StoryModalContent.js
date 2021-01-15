@@ -12,7 +12,7 @@ import {
 } from "react-share";
 import {optimiseCloudinary, convertRichText} from '../lib/utils';
 import { Query, Mutation } from 'react-apollo';
-import { MODAL_STORY_QUERY, ADD_STORY_COMMENT, CURRENT_USER_QUERY, MAP_STORIES_QUERY } from './Apollo'
+import { MODAL_STORY_QUERY, ADD_STORY_COMMENT, CURRENT_USER_QUERY, MAP_STORIES_QUERY } from '../lib/Apollo'
 import StoryModalUpvote from './StoryModalUpvote'
 import Comment from './Comment'
 import Cookies from 'universal-cookie';

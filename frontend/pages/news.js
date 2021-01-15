@@ -6,7 +6,7 @@ import LatestFeature from '../components/LatestFeature.js'
 import FeatureCard from '../components/FeatureCard.js'
 import Link from 'next/link';
 import { Query } from 'react-apollo'
-import { LATEST_FEATURE_QUERY, RECENT_FEATURES_QUERY, BOOSTED_FEATURES_QUERY, CURRENT_USER_QUERY } from '../components/Apollo'
+import { LATEST_FEATURE_QUERY, RECENT_FEATURES_QUERY, BOOSTED_FEATURES_QUERY, CURRENT_USER_QUERY } from '../lib/Apollo'
 import LoginModal from '../components/LoginModal';
 import Cookies from 'universal-cookie';
 import Founders from '../components/Founders';

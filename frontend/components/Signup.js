@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import Error from './Error';
-import { SIGNUP_MUTATION, CURRENT_USER_QUERY } from './Apollo';
+import { SIGNUP_MUTATION, CURRENT_USER_QUERY } from '../lib/Apollo';
 import Swal from 'sweetalert2';
 import Router from 'next/router'
 import Cookies from 'universal-cookie';

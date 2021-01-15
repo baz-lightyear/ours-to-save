@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import LoginModal from '../components/LoginModal'
-import { CURRENT_USER_QUERY } from '../components/Apollo';
+import { CURRENT_USER_QUERY } from '../lib/Apollo';
 import Fade from 'react-reveal'
 import { Query } from 'react-apollo'
 import Cookies from 'universal-cookie';

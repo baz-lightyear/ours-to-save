@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
 import Swal from 'sweetalert2';
-import { CURRENT_USER_QUERY, UPVOTE_STORY } from './Apollo';
+import { CURRENT_USER_QUERY, UPVOTE_STORY } from '../lib/Apollo';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies()

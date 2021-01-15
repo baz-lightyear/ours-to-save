@@ -19,7 +19,7 @@ import Map from '../components/Map'
 import FeatureCard from '../components/FeatureCard'
 import FeedPreview from '../components/FeedPreview'
 import { Query, Mutation } from 'react-apollo';
-import { RECENT_FEATURES_QUERY, CURRENT_USER_QUERY, UPVOTE_STORY } from '../components/Apollo'
+import { RECENT_FEATURES_QUERY, CURRENT_USER_QUERY, UPVOTE_STORY } from '../lib/Apollo'
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies()

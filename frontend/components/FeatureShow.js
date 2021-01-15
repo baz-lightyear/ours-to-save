@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
-import { CURRENT_USER_QUERY, ADD_FEATURE_COMMENT } from './Apollo'
+import { CURRENT_USER_QUERY, ADD_FEATURE_COMMENT } from '../lib/Apollo'
 import Moment from 'react-moment';
 import Comment from './Comment';
 import Router from 'next/router';

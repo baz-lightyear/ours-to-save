@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Link from 'next/link'
 import { optimiseCloudinary } from '../lib/utils'
 import { Query } from 'react-apollo'
-import { CURRENT_USER_QUERY } from './Apollo'
+import { CURRENT_USER_QUERY } from '../lib/Apollo'
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies()

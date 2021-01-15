@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Query } from 'react-apollo';
-import { FEATURES_QUERY, BOOSTED_FEATURES_QUERY } from '../components/Apollo';
+import { FEATURES_QUERY, BOOSTED_FEATURES_QUERY } from '../lib/Apollo';
 import LatestFeature from '../components/LatestFeature';
 import FeatureCard from '../components/FeatureCard';
 import CategoryTab from '../components/CategoryTab';

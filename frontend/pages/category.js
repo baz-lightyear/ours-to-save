@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo'
-import { CATEGORY_FEATURES_QUERY } from '../components/Apollo'
+import { CATEGORY_FEATURES_QUERY } from '../lib/Apollo'
 import FeatureCard from '../components/FeatureCard'
 import LatestFeature from '../components/LatestFeature'
 import CategoryTab from '../components/CategoryTab';

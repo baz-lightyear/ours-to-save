@@ -7,7 +7,7 @@ import Header from './Header';
 import Founders from './Founders';
 import Cookies from 'universal-cookie';
 import { Query } from 'react-apollo'
-import { CURRENT_USER_QUERY } from './Apollo'
+import { CURRENT_USER_QUERY } from '../lib/Apollo'
 import * as gtag from '../lib/gtag'
 
 

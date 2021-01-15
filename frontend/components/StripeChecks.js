@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { UPDATE_REFERRER_MUTATION } from './Apollo';
+import { UPDATE_REFERRER_MUTATION } from '../lib/Apollo';
 import LoginModal from './LoginModal'
 import { Mutation } from 'react-apollo'
 import Swal from 'sweetalert2';

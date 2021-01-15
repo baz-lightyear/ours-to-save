@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import Router from 'next/router'
 import Error from './Error';
-import { CURRENT_USER_QUERY, SIGNIN_MUTATION } from './Apollo';
+import { CURRENT_USER_QUERY, SIGNIN_MUTATION } from '../lib/Apollo';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies()

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CURRENT_USER_QUERY, GET_MAILING_LIST, ADD_TO_MAILING_LIST} from '../components/Apollo';
+import { CURRENT_USER_QUERY, GET_MAILING_LIST, ADD_TO_MAILING_LIST} from '../lib/Apollo';
 import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
 import Link from 'next/link'
@@ -26,6 +26,7 @@ const Container = styled.div`
         border-radius: 4px;
         text-align: center;
         display: inline-block;
+        overflow-wrap: anywhere;
     }
     #addToMailingDiv {
         padding: 1rem;
@@ -94,7 +95,7 @@ class account extends Component {
                                     <h2>Earn credits</h2>
                                     <p>Currently you're billed for your Ours To Save premium membership, but you can add credit to your account which will be discounted from any future payments. You currently have £{(-1*(me.stripeCustomerBalance/100)) | 0} credit in your account.</p>
                                     <p>We want your help to spread the word about Ours To Save and make it the best it can be. For that reason we're running a referral scheme where <strong>you can earn £5 of credit</strong> for every new friend you sign up. Just send them the following unique link and once they set up a paid subscription, <strong>you'll both earn £5 of credit.</strong></p>
-                                    <p className='code'><a href={`https://www.ourstosave.com/referred?userId=${me.id}`}>https://www.ourstosave.com/referred?userId={me.id}</a></p>
+                                    <p className='code'><a href={`https://www.ourstosave.com/referred?userId=${me.id}`}><span>https://www.ourstosave.com/</span>referred?userId={me.id}</a></p>
                                     <h2>Manage subscription</h2>
                                     <p>To manage, cancel or view details about your subscription, please visit our payments partner, <em>Stripe</em>.</p>
                                     <button 

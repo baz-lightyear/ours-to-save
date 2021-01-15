@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { CURRENT_USER_QUERY } from '../components/Apollo'
+import { CURRENT_USER_QUERY } from '../lib/Apollo'
 import Subscribe from '../components/Subscribe'
 import Cookies from 'universal-cookie'
 import styled from 'styled-components';
@@ -19,6 +19,7 @@ const SelfReferral = styled.div`
         border-radius: 4px;
         text-align: center;
         font-family: ${props => props.theme.serif};
+        overflow-wrap: anywhere;
     }
 `;
 
@@ -68,7 +69,7 @@ class referred extends Component {
                                 <h2>Hi, {me.name}</h2>
                                 <p>Are you trying to refer yourself?</p>
                                 <p>This url is only valid as a referral link for your friends. Copy the url and send it to your friends.</p>
-                                <p className='code'><a href={`https://www.ourstosave.com/referred?userId=${this.props.referrerId}`}>https://www.ourstosave.com/referred?userId={this.props.referrerId}</a></p>
+                                <p className='code'><a href={`https://www.ourstosave.com/referred?userId=${this.props.referrerId}`}><span>https://www.ourstosave.com/</span>referred?userId={this.props.referrerId}</a></p>
                             </SelfReferral>
                         )
                     }

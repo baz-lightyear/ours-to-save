@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { RESET_MUTATION, CURRENT_USER_QUERY } from '../components/Apollo'
+import { RESET_MUTATION, CURRENT_USER_QUERY } from '../lib/Apollo'
 import Cookies from 'universal-cookie';
 import Error from '../components/Error'
 import Router from 'next/router'

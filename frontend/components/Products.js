@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { visitStripe } from '../lib/utils';
-import { CREATE_STRIPE_CUSTOMER } from './Apollo';
+import { CREATE_STRIPE_CUSTOMER } from '../lib/Apollo';
 import StripeChecks from './StripeChecks'
 import { Mutation } from 'react-apollo'
 

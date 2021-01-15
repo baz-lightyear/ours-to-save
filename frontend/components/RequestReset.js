@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import Error from './Error';
 import Swal from 'sweetalert2';
-import { REQUEST_RESET_MUTATION } from "./Apollo";
+import { REQUEST_RESET_MUTATION } from "../lib/Apollo";
 
 
 class RequestReset extends Component {

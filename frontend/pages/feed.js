@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Feed from '../components/Feed';
-import { MORE_STORIES_QUERY, FEATURES_QUERY } from '../components/Apollo';
+import { MORE_STORIES_QUERY, FEATURES_QUERY } from '../lib/Apollo';
 import Map from '../components/Map';
 
 import {Query} from 'react-apollo';

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import Router from 'next/router'
 import styled from 'styled-components';
-import { CREATE_FEATURE_MUTATION, UPDATE_FEATURE_MUTATION } from './Apollo';
+import { CREATE_FEATURE_MUTATION, UPDATE_FEATURE_MUTATION } from '../lib/Apollo';
 import RichtextEditor from './RichtextEditor';
 
 

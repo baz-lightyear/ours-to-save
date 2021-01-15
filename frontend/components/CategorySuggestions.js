@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo'
-import { CATEGORY_FEATURES_QUERY } from './Apollo'
+import { CATEGORY_FEATURES_QUERY } from '../lib/Apollo'
 import FeatureCard from './FeatureCard';
 import styled from 'styled-components'
 import Link from 'next/link';

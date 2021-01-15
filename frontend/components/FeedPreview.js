@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FEED_PREVIEW_QUERY } from '../components/Apollo';
+import { FEED_PREVIEW_QUERY } from '../lib/Apollo';
 import {Query} from 'react-apollo';
 import styled from 'styled-components';
 import Moment from 'react-moment';

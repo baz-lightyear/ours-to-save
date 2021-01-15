@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
 import Router from 'next/router'
 import Error from './Error';
-import { CURRENT_USER_QUERY, RESET_MUTATION } from './Apollo';
+import { CURRENT_USER_QUERY, RESET_MUTATION } from '../lib/Apollo';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies()

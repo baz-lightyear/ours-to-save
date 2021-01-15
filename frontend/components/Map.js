@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import {Query} from 'react-apollo';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
-import {MAP_STORIES_QUERY} from './Apollo';
+import {MAP_STORIES_QUERY} from '../lib/Apollo';
 import Marker from './Marker';
 
 
@@ -53,7 +53,7 @@ class Map extends Component {
     state = {
         address: "",
         center: {lat: 51, lng: 0},
-        zoom: 3
+        zoom: 5
     }
     mapOptions = { styles: [
       {
@@ -170,7 +170,7 @@ class Map extends Component {
     }
     render() {
         return (
-            <Query query={MAP_STORIES_QUERY} variables={{first: 50}}>
+            <Query query={MAP_STORIES_QUERY} variables={{first: 999}}>
                 {({ data, error, loading }) => {
                     if (loading) return <img src="loading.gif" alt="loading" height="50"  style={{margin: "auto", display: "block"}}/>;
                     if (error) return null;
@@ -192,14 +192,18 @@ class Map extends Component {
                             </Form> */}
 
                             <GoogleMapReact
-                                bootstrapURLKeys={{ key: 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw' }}
-                                defaultZoom={this.state.zoom}
-                                zoom={this.state.zoom}
-                                options={this.mapOptions}
-                                center={this.state.center}
-                                id="map"
+                              bootstrapURLKeys={{ key: 'AIzaSyCHnPOc-JR_LcJqiu40yHIW-PlaGMtf0hw' }}
+                              defaultZoom={this.state.zoom}
+                              zoom={this.state.zoom}
+                              options={this.mapOptions}
+                              center={this.state.center}
+                              onTilesLoaded={() => {
+                                console.log('hi')
+                                this.setState({renderMarkers: true})
+                              }}
+                              id="map"
                             >
-                                {data.mapStories.map(story => <Marker lng={story.longitude} lat={story.latitude} key={story.id} story={story}/>)}                               
+                              {this.state.renderMarkers && data.mapStories.map(story => <Marker lng={story.longitude} lat={story.latitude} key={story.id} story={story}/>)}                               
                             </GoogleMapReact>
                         </div>
                     )

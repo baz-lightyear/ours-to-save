@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Link from 'next/link'
 import {Query} from 'react-apollo'
 import FeatureCard from './FeatureCard'
-import { BOOSTED_FEATURES_QUERY } from './Apollo.js';
+import { BOOSTED_FEATURES_QUERY } from '../lib/Apollo.js';
 
 const Container = styled.div`
     text-align: left;

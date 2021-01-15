@@ -14,7 +14,7 @@ import {
     TwitterIcon,
 } from "react-share";
 import {optimiseCloudinary, timeFromNow, convertRichText} from '../lib/utils';
-import { CURRENT_USER_QUERY, UPVOTE_STORY, ADD_STORY_COMMENT } from './Apollo';
+import { CURRENT_USER_QUERY, UPVOTE_STORY, ADD_STORY_COMMENT } from '../lib/Apollo';
 import Link from 'next/link'
 import Moment from 'react-moment'
 import Cookies from 'universal-cookie';
@@ -269,7 +269,7 @@ class StoryShow extends Component {
                             <div className="storyHeader">
                                 <div className="left">
                                     <div className="date">
-                                        {timeFromNow(this.props.story.createdAt)}
+                                        {/* {timeFromNow(this.props.story.createdAt)} */}
                                     </div>
                                     <h3 className="title">{this.props.story.title}</h3>
                                     <h3 className="author">{this.props.story.author} ﹒ {this.props.story.country}</h3>

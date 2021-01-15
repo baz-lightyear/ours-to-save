@@ -17,6 +17,12 @@ const StyledHeader = styled.div`
     opacity: 0.5;
 `;
 
+const MoreStyle = styled.div`
+  button:hover {
+    border: none;
+  }
+`
+
 function StoryModal(props) {
     const [show, setShow] = useState(false);
   
@@ -32,15 +38,17 @@ function StoryModal(props) {
           </span>
     
           <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <StyledHeader>
-                <span>{props.story.country}</span>
-                <span>﹒</span>
-                <span className="dates">
-                  {timeFromNow(props.story.createdAt)}
-                </span>  
-              </StyledHeader>
-            </Modal.Header>
+            <MoreStyle>
+              <Modal.Header closeButton>
+                <StyledHeader>
+                  <span>{props.story.country}</span>
+                  <span>﹒</span>
+                  <span className="dates">
+                    {timeFromNow(props.story.createdAt)}
+                  </span>  
+                </StyledHeader>
+              </Modal.Header>
+            </MoreStyle>
             <Modal.Body>
               <StoryModalContent id={props.story.id}/>
             </Modal.Body>

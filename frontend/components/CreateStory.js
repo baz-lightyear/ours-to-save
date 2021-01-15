@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import Error from './Error';
 import RichtextEditor from './RichtextEditor';
 
-import {CREATE_STORY_MUTATION, MAP_STORIES_QUERY} from './Apollo';
+import {CREATE_STORY_MUTATION, MAP_STORIES_QUERY} from '../lib/Apollo';
 import { optimiseCloudinary } from '../lib/utils'
 
 const Form = styled.form`

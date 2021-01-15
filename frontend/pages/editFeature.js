@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FeatureEditor from '../components/FeatureEditor'
 import { endpoint, prodEndpoint } from '../config.js';
 import styled from 'styled-components'
-import { CURRENT_USER_QUERY } from '../components/Apollo';
+import { CURRENT_USER_QUERY } from '../lib/Apollo';
 import { Query } from 'react-apollo'
 import Link from 'next/link'
 import Cookies from 'universal-cookie';

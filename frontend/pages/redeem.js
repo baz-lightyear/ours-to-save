@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
 import Cookies from 'universal-cookie';
-import { CURRENT_USER_QUERY, VERIFY_GIFT_VOUCHER } from '../components/Apollo';
+import { CURRENT_USER_QUERY, VERIFY_GIFT_VOUCHER } from '../lib/Apollo';
 import LoginModal from '../components/LoginModal'
 import Error from '../components/Error'
 import { visitStripe } from '../lib/utils'

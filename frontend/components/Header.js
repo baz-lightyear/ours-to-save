@@ -4,7 +4,7 @@ import Router from 'next/router';
 import React, { Component } from 'react';
 import Signout from './Signout';
 import LoginModal from './LoginModal';
-import { CURRENT_USER_QUERY } from './Apollo';
+import { CURRENT_USER_QUERY } from '../lib/Apollo';
 import { Query } from 'react-apollo'
 import Cookies from 'universal-cookie';
 
