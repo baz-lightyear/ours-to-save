@@ -237,7 +237,7 @@ class Page extends Component {
                 {/* This is for sharing on facebook */}
                 <div id="fb-root"></div>
                 <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>                
-                {(this.state.cookieConsent) ||
+                {/* {(this.state.cookieConsent) ||
                   <GDPR>
                     <div className="popup">
                       <h2 id="title">Before we begin...</h2>
@@ -256,7 +256,7 @@ class Page extends Component {
                       </details>
                     </div>
                   </GDPR>
-                }
+                } */}
                 <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
                   {({data, error, loading}) => {
                       if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
