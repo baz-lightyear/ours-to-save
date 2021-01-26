@@ -23,6 +23,8 @@ import {optimiseCloudinary, convertRichText } from '../lib/utils';
 import Link from 'next/link';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
+import * as gtag from '../lib/gtag'
+
 
 const cookies = new Cookies()
 
@@ -211,6 +213,11 @@ class FeatureShow extends Component {
                     if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
                     if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
                     const me = data.me === null ? null : data.me
+
+                    // We didn't fire a user id request to Analytics at the Page component to allow Open Graph crawlers to hit the feature fetch request, so we have to manually do it here.
+                    if (me) {
+                        gtag.setUserId(me.id)
+                    }
                     return (
                         <Container>
                             <div className="banner" style={{backgroundImage: `url(${optimiseCloudinary(this.props.feature.featuredImage, 1200)})`}}>

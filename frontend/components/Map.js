@@ -198,7 +198,6 @@ class Map extends Component {
                               options={this.mapOptions}
                               center={this.state.center}
                               onTilesLoaded={() => {
-                                console.log('hi')
                                 this.setState({renderMarkers: true})
                               }}
                               id="map"

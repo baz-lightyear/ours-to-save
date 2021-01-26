@@ -2,12 +2,17 @@ import App, {Container} from 'next/app';
 import Router from 'next/router'
 import { ApolloProvider } from 'react-apollo';
 import React from 'react';
+import Cookies from 'universal-cookie';
 import window from 'global' 
 import TagManager from 'react-gtm-module'
+import { endpoint, prodEndpoint } from '../config.js';
 import Page from '../components/Page';
 import withData from '../lib/withData';
 import * as gtag from '../lib/gtag'
 import '../lib/bootstrap.min.css';
+
+const cookies = new Cookies()
+
 
 const tagManagerArgs = {
     gtmId: 'GTM-NCSSVXP'

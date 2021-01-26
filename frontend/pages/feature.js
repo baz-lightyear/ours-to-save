@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { endpoint, prodEndpoint } from '../config.js';
 import FeatureShow from '../components/FeatureShow';
 import { optimiseCloudinary } from '../lib/utils'
-import Founders from '../components/Founders';
 
 
 class feature extends Component {

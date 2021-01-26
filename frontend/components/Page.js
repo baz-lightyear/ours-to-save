@@ -257,58 +257,106 @@ class Page extends Component {
                     </div>
                   </GDPR>
                 }
-                {/* <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
-                  {({data, error, loading}) => {
-                      if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
-                      if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
-                      const me = data.me === null ? null : data.me
-                      if (me) {
-                        // send user-specific info to GA
-                        gtag.setUserId(me.id)
-                      }
-                      return ( */}
-                        <>
-                          <Header />
-                          <span className="flexGrow">{this.props.children}</span>          
-                          <Founders/>
-                          <Footer>
-                            <span className="socialLinks">
-                              <a href="https://twitter.com/ourstosave" target="_blank">
-                                <img className="twitter" src="twitter.png" alt="twitter logo"/>
-                              </a>
-                              {/* <a href="https://www.facebook.com/ourstosave" target="_blank">
-                                <img src="facebook.png" alt="facebook logo"/>
-                              </a> */}
-                              <a href="https://www.linkedin.com/company/ours-to-save/" target="_blank">
-                                <img src="linkedin.svg" alt="linkedin logo"/>
-                              </a>
-                              <a href="https://www.instagram.com/ours.tosave/?utm_source=ig_embed&utm_campaign=loading" target="_blank">
-                                <img src="instagram.svg" alt="instagram logo"/>
-                              </a>
-                            </span>
-                            <span className="contact">
-                              <Link href="suggestContent"><a>suggest content</a></Link>
-                              <span className="breaker">·</span>
-                              <Link href="contact"><a>contact</a></Link>
-                              <span className="breaker">·</span>
-                              <Link href="/about">
-                                <a>about</a>
-                              </Link>
-                              <span className="breaker">·</span>
-                              <Link href="/supportUs">
-                                <a>support us</a>
-                              </Link>
-                              <span className="breaker">·</span>
-                              <Link href="/terms">
-                                <a>terms</a>
-                              </Link>
-                            </span>
-                          </Footer>
-                        </>
-                      {/* )
-                  }}
-                </Query> */}
-            </StyledPage>
+                
+                {/* If we put an Apollo Query before the feature page fetch, Open Graph crawlers won't see the particular page queries. But we also need the user id for analytics purposes */}
+                {/* Option 1: figure out how to access the client side cookies on the server side, and catch them in an initial props lifecycle method. This seems unlikely */}
+                {/* Option 2: ignore the current user if the incoming request is from an open graph crawler. You can identify the request through user-agent attributes. But then we need to create a manual list of all the crawler agents for Facebook, Instagram, Reddit, Twitter, LinkedIn, Snapchat, Pinterest, Tumblr...and any others that are used such as all the ones in China. Or if Pipt ever becomes a thing. */}
+                {/* Option 3: (HACKY BUT SCALABLE) - if the page we're about to render is the feature page, don't do a current user query. Then, on the feature page, once initial props is set, call gtag.setUserId(USER_ID) for analytics purposes. */}
+                {/* Option 3 it is: */}
+                {this.props.children.props.feature === undefined && 
+                  <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
+                    {({data, error, loading}) => {
+                        if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                        if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+                        const me = data.me === null ? null : data.me
+                        if (me) {
+                          // send user-specific info to GA
+                          gtag.setUserId(me.id)
+                        }
+                        return (
+                          <>
+                            <Header />
+                            <span className="flexGrow">{this.props.children}</span>          
+                            <Founders/>
+                            <Footer>
+                              <span className="socialLinks">
+                                <a href="https://twitter.com/ourstosave" target="_blank">
+                                  <img className="twitter" src="twitter.png" alt="twitter logo"/>
+                                </a>
+                                {/* <a href="https://www.facebook.com/ourstosave" target="_blank">
+                                  <img src="facebook.png" alt="facebook logo"/>
+                                </a> */}
+                                <a href="https://www.linkedin.com/company/ours-to-save/" target="_blank">
+                                  <img src="linkedin.svg" alt="linkedin logo"/>
+                                </a>
+                                <a href="https://www.instagram.com/ours.tosave/?utm_source=ig_embed&utm_campaign=loading" target="_blank">
+                                  <img src="instagram.svg" alt="instagram logo"/>
+                                </a>
+                              </span>
+                              <span className="contact">
+                                <Link href="suggestContent"><a>suggest content</a></Link>
+                                <span className="breaker">·</span>
+                                <Link href="contact"><a>contact</a></Link>
+                                <span className="breaker">·</span>
+                                <Link href="/about">
+                                  <a>about</a>
+                                </Link>
+                                <span className="breaker">·</span>
+                                <Link href="/supportUs">
+                                  <a>support us</a>
+                                </Link>
+                                <span className="breaker">·</span>
+                                <Link href="/terms">
+                                  <a>terms</a>
+                                </Link>
+                              </span>
+                            </Footer>
+                          </>
+                        )
+                    }}
+                  </Query>
+                }
+                {this.props.children.props.feature !== undefined && 
+                  <>
+                    <Header />
+                    <span className="flexGrow">{this.props.children}</span>          
+                    <Founders/>
+                    <Footer>
+                      <span className="socialLinks">
+                        <a href="https://twitter.com/ourstosave" target="_blank">
+                          <img className="twitter" src="twitter.png" alt="twitter logo"/>
+                        </a>
+                        {/* <a href="https://www.facebook.com/ourstosave" target="_blank">
+                          <img src="facebook.png" alt="facebook logo"/>
+                        </a> */}
+                        <a href="https://www.linkedin.com/company/ours-to-save/" target="_blank">
+                          <img src="linkedin.svg" alt="linkedin logo"/>
+                        </a>
+                        <a href="https://www.instagram.com/ours.tosave/?utm_source=ig_embed&utm_campaign=loading" target="_blank">
+                          <img src="instagram.svg" alt="instagram logo"/>
+                        </a>
+                      </span>
+                      <span className="contact">
+                        <Link href="suggestContent"><a>suggest content</a></Link>
+                        <span className="breaker">·</span>
+                        <Link href="contact"><a>contact</a></Link>
+                        <span className="breaker">·</span>
+                        <Link href="/about">
+                          <a>about</a>
+                        </Link>
+                        <span className="breaker">·</span>
+                        <Link href="/supportUs">
+                          <a>support us</a>
+                        </Link>
+                        <span className="breaker">·</span>
+                        <Link href="/terms">
+                          <a>terms</a>
+                        </Link>
+                      </span>
+                    </Footer>
+                  </>
+                }
+              </StyledPage>
             <GlobalStyle/>
         </ThemeProvider>
     );
