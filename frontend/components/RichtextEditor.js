@@ -6,6 +6,7 @@ import imageExtensions from 'image-extensions'
 import isUrl from 'is-url';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
+import { optimiseCloudinary } from '../lib/utils';
 
 
 const Container = styled.div`
@@ -53,6 +54,48 @@ const Container = styled.div`
         .image {
             margin: 1rem;
             max-width: 90%;
+        }
+        .recommendationCard {
+            &:hover {
+                box-shadow: 0px 0px 4px rgba(50,50,50,0.3);
+            }
+            background-color: ${props => props.theme.yellow};
+            margin-bottom: 2rem;
+            display: flex;
+            height: min-content;
+            .left {
+                padding: 0rem 1rem;
+                width: 70%;
+                .recommendationHeader {
+                    margin-top: 1rem;
+                    font-family: ${props => props.theme.sansSerif};
+                    opacity: 0.8;
+                }
+                .recommendationTitle {
+                    font-size: 1.5rem;
+                }
+                .recommendationAuthor {
+                    font-family: ${props => props.theme.sansSerif};
+                    color: ${props => props.theme.green};
+                    font-weight: bold;
+                }
+            }
+            .right {
+                width: 30%;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            @media (max-width: 600px) {
+                .left {
+                    width: 100%;
+                }
+                .right {
+                    display: none;
+                }
+            }
         }
     }
 `
@@ -132,9 +175,16 @@ const RecommendedArticle = ({attributes, children, element}) => {
     return (
         <div {...attributes}>
             <div contentEditable={false}>
-                <hr/>
-                <p>This will be a recommended article</p>
-                <hr/>
+                <div className="recommendationCard">
+                    <div className="left">
+                        <p className="recommendationHeader">More from Ours to Save</p>
+                        <p className="recommendationTitle">Automatically generated article</p>
+                        <p className="recommendationAuthor"><strong>Barry Smingdon</strong></p>
+                    </div>
+                    <div className="right">
+                        <img src={optimiseCloudinary("https://live.staticflickr.com/6168/6186385291_82e28579b5_b.jpg", 400)}/>
+                    </div>
+                </div>
             </div>
         </div>
     )
