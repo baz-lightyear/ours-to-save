@@ -85,7 +85,7 @@ const wrapLink = (editor, url) => {
 const listTypes = ['numbered-list', 'bulleted-list']
 
 
-// Element, Lead and ImageElement are functional components. They are the building blocks of 'value', the JSON object we are creating which represents rich text
+// Element, Leaf and ImageElement are functional components. They are the building blocks of 'value', the JSON object we are creating which represents rich text
 
 // Element is used to determine whether the item in the rich text JSON is just text, a blockquote, a link or an image
 const Element = props => {
@@ -106,6 +106,8 @@ const Element = props => {
             return <ImageElement {...props} />
         case 'link':
             return <a {...attributes} href={element.url}>{children}</a>
+        case 'recommended-article':
+            return <RecommendedArticle {...props} />
         default:
             return <p {...attributes}>{children}</p>
     }
@@ -123,6 +125,19 @@ const Leaf = ({ attributes, children, leaf }) => {
         children = <u>{children}</u>
     }
     return <span {...attributes}>{children}</span>
+}
+
+// RecommendedArticle is used to insert recommended articles into the rich text JSON
+const RecommendedArticle = ({attributes, children, element}) => {
+    return (
+        <div {...attributes}>
+            <div contentEditable={false}>
+                <hr/>
+                <p>This will be a recommended article</p>
+                <hr/>
+            </div>
+        </div>
+    )
 }
 
 // ImageElement is used to insert images the rich text JSON
@@ -333,7 +348,6 @@ const RichtextEditor = props => {
                         let count = 0
                         value.forEach(element => {
                             element.children.forEach(child => {
-                                console.log(child.type)
                                 if (child.type === "link" || child.type === "list-item") {
                                     count += child.children[0].text.length
                                 } else {
@@ -357,6 +371,7 @@ const RichtextEditor = props => {
                         <> 
                             <BlockButton format="heading" icon="richTextToolbar/heading.png" />
                             <BlockButton format="block-quote" icon="richTextToolbar/quote.png" />
+                            <BlockButton format="recommended-article" icon="richTextToolbar/bubble.png"/>
                         </> 
                     }
                 </div>

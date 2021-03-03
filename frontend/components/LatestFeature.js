@@ -40,7 +40,7 @@ const Container = styled.div`
         }
     }
     img {
-        height: 400px;
+        min-height: 400px;
         width: 66%;
         object-fit: cover;
     }

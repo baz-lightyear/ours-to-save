@@ -79,4 +79,10 @@ type Query {
   boostedFeatures(orderBy: FeatureOrderByInput): [Feature]
   me(token: String): User
   mailingList: [User]
+  recommendedFeatures(
+    featureId: String
+    count: Int
+    where: FeatureWhereInput
+    orderBy: FeatureOrderByInput
+  ): [Feature]
 }

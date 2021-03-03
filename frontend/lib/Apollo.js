@@ -176,6 +176,19 @@ const FEATURES_QUERY = gql`
   }
 `;
 
+const RECOMMENDED_FEATURES_QUERY = gql`
+  query RECOMMENDED_FEATURES_QUERY($count: Int, $featureId: String) {
+    recommendedFeatures(count: $count, where: {approved: true}, orderBy: createdAt_DESC, featureId: $featureId) {
+      id
+      title
+      subtitle
+      author
+      createdAt
+      featuredImage
+    }
+  }
+`
+
 const CREATE_FEATURE_MUTATION = gql`
   mutation CREATE_FEATURE_MUTATION(
     $content: String! 
@@ -418,5 +431,6 @@ export {
   UPDATE_REFERRER_MUTATION,
   GET_MAILING_LIST,
   ADD_TO_MAILING_LIST,
-  VERIFY_GIFT_VOUCHER
+  VERIFY_GIFT_VOUCHER,
+  RECOMMENDED_FEATURES_QUERY
 };

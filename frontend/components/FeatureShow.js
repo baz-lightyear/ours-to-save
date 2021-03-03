@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Query, Mutation } from 'react-apollo';
-import { CURRENT_USER_QUERY, ADD_FEATURE_COMMENT } from '../lib/Apollo'
+import { CURRENT_USER_QUERY, ADD_FEATURE_COMMENT, RECOMMENDED_FEATURES_QUERY } from '../lib/Apollo'
 import Moment from 'react-moment';
 import Comment from './Comment';
 import Router from 'next/router';
@@ -92,6 +92,51 @@ const Container = styled.div`
             font-weight: 700;
             &:hover {
                 opacity: 1;
+            }
+        }
+        .recommendationLinkWrap {
+            color: ${props => props.theme.black};
+            .recommendationCard {
+                &:hover {
+                    box-shadow: 0px 0px 4px rgba(50,50,50,0.3);
+                }
+                background-color: ${props => props.theme.yellow};
+                margin-bottom: 2rem;
+                display: flex;
+                height: min-content;
+                .left {
+                    padding: 0rem 1rem;
+                    width: 70%;
+                    .recommendationHeader {
+                        margin-top: 1rem;
+                        font-family: ${props => props.theme.sansSerif};
+                        opacity: 0.8;
+                    }
+                    .recommendationTitle {
+                        font-size: 1.5rem;
+                    }
+                    .recommendationAuthor {
+                        font-family: ${props => props.theme.sansSerif};
+                        color: ${props => props.theme.green};
+                        font-weight: bold;
+                    }
+                }
+                .right {
+                    width: 30%;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+                @media (max-width: 600px) {
+                    .left {
+                        width: 100%;
+                    }
+                    .right {
+                        display: none;
+                    }
+                }
             }
         }
         blockquote {
@@ -210,7 +255,7 @@ class FeatureShow extends Component {
         return (
             <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
                 {({data, loading, error}) => {
-                    if (loading) return <p style={{margin: "1rem", textAlign: "center"}}>Loading...</p>;
+                    if (loading) return <><p style={{textAlign: "center", margin: "1rem"}}>Loading...</p><img src="loading.gif" alt="loading" height="50"  style={{display: "block", margin: "auto"}}/></>;
                     if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
                     const me = data.me === null ? null : data.me
 
@@ -219,93 +264,106 @@ class FeatureShow extends Component {
                         gtag.setUserId(me.id)
                     }
                     return (
-                        <Container>
-                            <div className="banner" style={{backgroundImage: `url(${optimiseCloudinary(this.props.feature.featuredImage, 1200)})`}}>
-                                <div className="opacityBanner">
-                                    <h1>{this.props.feature.title}</h1>
-                                    <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>
-                                </div>
-                            </div>
-                            <div className="filler"></div>
-                            <div id="content">
-                                {me && me.permissions.includes("EDITOR") && <Link href={{pathname: '/editFeature', query: { id: this.props.feature.id }}}><p style={{textAlign: "right"}}><a style={{cursor: "pointer"}}>Edit feature ✏️ </a></p></Link>}
-                                <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
-                                <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
-                                <p className="author">{this.props.feature.author}</p>
-                                <div className="sharing" id="topSharing">
-                                    <p>No paywalls when you share this <strong>Ours to Save</strong> feature:</p>
-                                    <div className="icons">
-                                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                                    </div>
-                                </div>
-
-                                {convertRichText(this.props.feature.content, this.props.feature.title)}
-
-                                <p className="bio endOfArticle"><em>{this.props.feature.bio}</em></p>
-                                <div className="comments">
-                                    <h4 style={{textAlign: "center"}}>Comments</h4>
-                                    {this.props.feature.comments.filter(c => c.approved ).map(c => {
-                                        return <Comment key={c.id} comment={c}/>
-                                    })}
-                                    {this.props.feature.comments.filter(c => c.approved ).length === 0 && 
-                                        <p><em>No comments yet. Start the conversation: </em></p>
-                                    }
-                                    <div className="addComment">
-                                        <Mutation mutation={ADD_FEATURE_COMMENT} >
-                                            {(addFeatureComment, { loading, error }) => (
-                                                <form
-                                                    data-test="form"
-                                                    onSubmit={async e => {
-                                                        e.preventDefault();
-                                                        if (me) {
-                                                            await addFeatureComment({variables: {
-                                                                content: this.state.commentContent,
-                                                                authorId: me.id,
-                                                                featureId: this.props.feature.id
-                                                            }});
-                                                            Router.reload();
-                                                        } else {
-                                                            Swal.fire({
-                                                                title: `Join us`,
-                                                                text: `Log in or sign up and you can comment, upvote and gain access to special content.`,
-                                                                icon: 'warning',
-                                                                confirmButtonColor: '#4B4C53',
-                                                            })
-                                                        }
-                                                    }}
-                                                >
-                                                    <label htmlFor="comment"><strong>Add comment</strong> <br/>{!me && <small>Log in or sign up to comment</small>}</label>
-                                                    <textarea name="comment" type="text" placeholder="Keep it respectful" value={this.state.commentContent} onChange={this.handleChange}/>
-                                                    <button>submit</button>
-                                                </form>
-                                            )}
-                                        </Mutation>
-                                    </div>
-                                </div>
-                                <div className="sharing" id="bottomSharing">
-                                    <p>No paywalls when you share this <strong>Ours to Save</strong> feature:</p>
-                                    <div className="icons">
-                                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="moreInfo">
-                                <p id="homepage">If you found that interesting, you'll love everything else we have to offer. <br/>Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
-                                <CategorySuggestions category={this.props.feature.category} feature={this.props.feature}/>
-                                <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
-                                <div id="feedPreview">
-                                    <Map/>
-                                    <div id="previewWrapper">
-                                        <FeedPreview/>
-                                    </div>
-                                </div>
-                            </div>
-                        </Container>
+                        // We need to generate a list of recommended articles. We only take as many articles as the feature needs, based on how many article recommendations it has
+                        <Query query={RECOMMENDED_FEATURES_QUERY} variables={{featureId: this.props.feature.id, count: JSON.parse(this.props.feature.content).filter(e => e.type === "recommended-article").length}}>
+                            {({data, loading, error}) => {
+                                if (loading) return <><p style={{textAlign: "center", margin: "1rem"}}>Loading...</p><img src="loading.gif" alt="loading" height="50"  style={{display: "block", margin: "auto"}}/></>;
+                                if (error) return <p style={{margin: "1rem auto"}}>Error: {error.message}</p>;
+                                let recommendedFeatures = []
+                                if (data) {
+                                    recommendedFeatures = data.recommendedFeatures
+                                    return (
+                                        <Container>
+                                            <div className="banner" style={{backgroundImage: `url(${optimiseCloudinary(this.props.feature.featuredImage, 1200)})`}}>
+                                                <div className="opacityBanner">
+                                                    <h1>{this.props.feature.title}</h1>
+                                                    <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>
+                                                </div>
+                                            </div>
+                                            <div className="filler"></div>
+                                            <div id="content">
+                                                {me && me.permissions.includes("EDITOR") && <Link href={{pathname: '/editFeature', query: { id: this.props.feature.id }}}><p style={{textAlign: "right"}}><a style={{cursor: "pointer"}}>Edit feature ✏️ </a></p></Link>}
+                                                <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
+                                                <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
+                                                <p className="author">{this.props.feature.author}</p>
+                                                <div className="sharing" id="topSharing">
+                                                    <p>No paywalls when you share this <strong>Ours to Save</strong> feature:</p>
+                                                    <div className="icons">
+                                                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                                                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                                                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
+                                                    </div>
+                                                </div>
+        
+                                                {convertRichText(this.props.feature.content, this.props.feature.title, recommendedFeatures)}
+        
+                                                <p className="bio endOfArticle"><em>{this.props.feature.bio}</em></p>
+                                                <div className="comments">
+                                                    <h4 style={{textAlign: "center"}}>Comments</h4>
+                                                    {this.props.feature.comments.filter(c => c.approved ).map(c => {
+                                                        return <Comment key={c.id} comment={c}/>
+                                                    })}
+                                                    {this.props.feature.comments.filter(c => c.approved ).length === 0 && 
+                                                        <p><em>No comments yet. Start the conversation: </em></p>
+                                                    }
+                                                    <div className="addComment">
+                                                        <Mutation mutation={ADD_FEATURE_COMMENT} >
+                                                            {(addFeatureComment, { loading, error }) => (
+                                                                <form
+                                                                    data-test="form"
+                                                                    onSubmit={async e => {
+                                                                        e.preventDefault();
+                                                                        if (me) {
+                                                                            await addFeatureComment({variables: {
+                                                                                content: this.state.commentContent,
+                                                                                authorId: me.id,
+                                                                                featureId: this.props.feature.id
+                                                                            }});
+                                                                            Router.reload();
+                                                                        } else {
+                                                                            Swal.fire({
+                                                                                title: `Join us`,
+                                                                                text: `Log in or sign up and you can comment, upvote and gain access to special content.`,
+                                                                                icon: 'warning',
+                                                                                confirmButtonColor: '#4B4C53',
+                                                                            })
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    <label htmlFor="comment"><strong>Add comment</strong> <br/>{!me && <small>Log in or sign up to comment</small>}</label>
+                                                                    <textarea name="comment" type="text" placeholder="Keep it respectful" value={this.state.commentContent} onChange={this.handleChange}/>
+                                                                    <button>submit</button>
+                                                                </form>
+                                                            )}
+                                                        </Mutation>
+                                                    </div>
+                                                </div>
+                                                <div className="sharing" id="bottomSharing">
+                                                    <p>No paywalls when you share this <strong>Ours to Save</strong> feature:</p>
+                                                    <div className="icons">
+                                                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                                                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                                                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+        
+                                            <div id="moreInfo">
+                                                <p id="homepage">If you found that interesting, you'll love everything else we have to offer. <br/>Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
+                                                <CategorySuggestions category={this.props.feature.category} feature={this.props.feature}/>
+                                                <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
+                                                <div id="feedPreview">
+                                                    <Map/>
+                                                    <div id="previewWrapper">
+                                                        <FeedPreview/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Container>
+                                    )
+                                }
+                            }}
+                        </Query>
                     )
                 }}
             </Query>

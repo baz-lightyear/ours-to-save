@@ -3,6 +3,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { endpoint, prodEndpoint, frontEndpoint, prodFrontEndpoint } from '../config.js';
 import Swal from 'sweetalert2';
 import parse from 'html-react-parser';
+import Link from 'next/link';
+
 
 const stripePromise = loadStripe('pk_live_51HDyyHIcB8KtT8kgeO0eGq0SflBIGCgTzMSDWIlXyG4Am9Q01lpNjl7zS40e93dK5j94lOyGnaR2bBnf8K6bSpyv00bGnVCPMR')
 
@@ -56,7 +58,8 @@ const visitStripe = async (options) => {
     })
 }
 
-const convertRichText = (string, title) => {
+const convertRichText = (string, title, recommendedFeatures) => {
+    const featureArray = recommendedFeatures
     const leafToHtml = (leaf, index) => {
         // we just go through the rules, wrapping the content one-by-one and return whatever is at the end
         let text = ""
@@ -132,6 +135,26 @@ const convertRichText = (string, title) => {
                             )
                         })}
                     </ul>
+                )
+            }
+            if (element.type === "recommended-article") {
+                const feature = featureArray[0]
+                featureArray.shift()
+                return (
+                    <Link href={{pathname: '/feature', query: { id: feature.id, title: feature.title }}}>
+                        <a className="recommendationLinkWrap">
+                            <div key={index} className="recommendationCard">
+                                <div className="left">
+                                    <p className="recommendationHeader">More from Ours to Save</p>
+                                    <p className="recommendationTitle">{feature.title}</p>
+                                    <p className="recommendationAuthor"><strong>{feature.author}</strong></p>
+                                </div>
+                                <div className="right">
+                                    <img src={optimiseCloudinary(feature.featuredImage, 400)} alt={feature.title}/>
+                                </div>
+                            </div>
+                        </a>
+                    </Link>
                 )
             }
         })
