@@ -8,7 +8,7 @@ import { BOOSTED_FEATURES_QUERY } from '../lib/Apollo.js';
 
 const Container = styled.div`
     text-align: left;
-    .banner {
+    .subscribeBanner {
         display: flex;
         .benefits {
             width: 50%;
@@ -129,7 +129,7 @@ class Subscribe extends Component {
                 <h5>Become a member of <strong>Ours to Save</strong> for full access to dedicated climate news, analysis & opinion</h5>
                 <hr/>
                 <h2>Members enjoy full access to the following benefits:</h2>
-                <div className="banner">
+                <div className="subscribeBanner">
                     <ul className="benefits">
                         <li><span className="inner">Regular profiles of <strong>climate movers and shakers</strong>, and original op-eds on the stories that matter.</span></li>
                         <li><span className="inner">An <strong>ad-free experience</strong> and the quality you'd expect from an <strong>independent</strong> publisher.</span></li>
@@ -156,6 +156,8 @@ class Subscribe extends Component {
                 <Products me={this.props.me} referred={this.props.referred} referrerId={this.props.referrerId}/>
                 <div className="infoWrapper">
                     <div className="moreInfo"><span className="icon">ℹ</span><em>Cancel anytime. Promotion codes can be applied at checkout. We also offer <Link href="/gift">gift options</Link>.</em></div>
+                    <div className="moreInfo"><span className="icon">ℹ</span><em>Are you a student, receiving income support or otherwise unable to afford a full membership? To keep climate journalism accessible to as many people as possible, we offer reduced rates for low-income readers. To set this up, please email <a href="mailto:harry@ourstosave.com" target="_blank">harry@ourstosave.com</a>.</em></div>
+
                 </div>
                 <hr/>
                 <h2>Try some sample journalism for free</h2>
@@ -168,7 +170,7 @@ class Subscribe extends Component {
                             <div className="sampleFeatures">
                                 {data.boostedFeatures.map(feature => {
                                     return (
-                                        <FeatureCard feature={feature} key={feature.id} skipPaywall={true}/>
+                                        <FeatureCard feature={feature} key={feature.id}/>
                                     )
                                 })}
                             </div>

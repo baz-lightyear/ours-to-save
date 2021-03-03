@@ -4,6 +4,7 @@ import { Query, Mutation } from 'react-apollo';
 import { CURRENT_USER_QUERY, ADD_FEATURE_COMMENT, RECOMMENDED_FEATURES_QUERY } from '../lib/Apollo'
 import Moment from 'react-moment';
 import Comment from './Comment';
+import Subscribe from './Subscribe'
 import Router from 'next/router';
 import {
     EmailShareButton,
@@ -62,17 +63,17 @@ const Container = styled.div`
             height: 80vh;
         }
     }
+    .explanation {
+        font-family: ${props => props.theme.sansSerif};
+        padding: 0.5rem;
+        background-color: ${props => props.theme.yellow};
+        border-radius: 4px;
+        text-align: center;
+    }
     #content {
         width: 95%;
         max-width: 800px;
         margin: auto;
-        .explanation {
-            font-family: ${props => props.theme.sansSerif};
-            padding: 0.5rem;
-            background-color: ${props => props.theme.yellow};
-            border-radius: 4px;
-            text-align: center;
-        }
         .date {
             text-align: right;
             margin-bottom: 0;
@@ -241,16 +242,134 @@ const Container = styled.div`
             }
         }
     }
+    #subscribeWrapper {
+        width: 95%;
+        max-width: 1000px;
+        margin: 1rem auto;
+        font-family: ${props => props.theme.serif};
+        text-align: center;
+    }
 `;
 
-
-class FeatureShow extends Component {
+class ContainerWrapper extends Component {
     state = {
         commentContent: ""
     }
     handleChange = (e) => {
         this.setState({commentContent: e.target.value})
-    } 
+    }
+    render() {
+        const {feature, me, recommendedFeatures, freeArticles, paywall} = this.props
+
+        return (
+            <Container>
+                <div className="banner" style={{backgroundImage: `url(${optimiseCloudinary(feature.featuredImage, 1200)})`}}>
+                    <div className="opacityBanner">
+                        <h1>{feature.title}</h1>
+                        <h3 className="subtitle"><em>{feature.subtitle}</em></h3>
+                    </div>
+                </div>
+                <div className="filler"></div>
+                <div id="content">
+                    {me && me.permissions.includes("EDITOR") && <Link href={{pathname: '/editFeature', query: { id: feature.id }}}><p style={{textAlign: "right"}}><a style={{cursor: "pointer"}}>Edit feature ✏️ </a></p></Link>}
+                    {(freeArticles < 5 && freeArticles > 0) && <p className="explanation">You're reading {freeArticles} of your 5 free articles this month. For unlimited access, <Link href="/account"><a>join us</a></Link>. <br/><br/> New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>}
+                    <p className="date"><Moment date={feature.createdAt} format="Do MMM YYYY"/></p>
+                    <p className="author">{feature.author}</p>
+                    <div className="sharing" id="topSharing">
+                        <div className="icons">
+                            <EmailShareButton url={`https://www.ourstosave.com/feature?id=${feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                            <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                            <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
+                        </div>
+                    </div>
+
+                    {paywall && convertRichText(feature.content, feature.title, recommendedFeatures, true)}
+
+                    {paywall || 
+                        <>
+                            {convertRichText(feature.content, feature.title, recommendedFeatures, false)}
+
+                            <p className="bio endOfArticle"><em>{feature.bio}</em></p>
+                            <div className="comments">
+                                <h4 style={{textAlign: "center"}}>Comments</h4>
+                                {feature.comments.filter(c => c.approved ).map(c => {
+                                    return <Comment key={c.id} comment={c}/>
+                                })}
+                                {feature.comments.filter(c => c.approved ).length === 0 && 
+                                    <p><em>No comments yet. Start the conversation: </em></p>
+                                }
+                                <div className="addComment">
+                                    <Mutation mutation={ADD_FEATURE_COMMENT} >
+                                        {(addFeatureComment, { loading, error }) => (
+                                            <form
+                                                data-test="form"
+                                                onSubmit={async e => {
+                                                    e.preventDefault();
+                                                    if (me) {
+                                                        await addFeatureComment({variables: {
+                                                            content: this.state.commentContent,
+                                                            authorId: me.id,
+                                                            featureId: feature.id
+                                                        }});
+                                                        Router.reload();
+                                                    } else {
+                                                        Swal.fire({
+                                                            title: `Join us`,
+                                                            text: `Log in or sign up and you can comment, upvote and gain access to special content.`,
+                                                            icon: 'warning',
+                                                            confirmButtonColor: '#4B4C53',
+                                                        })
+                                                    }
+                                                }}
+                                            >
+                                                <label htmlFor="comment"><strong>Add comment</strong> <br/>{!me && <small>Log in or sign up to comment</small>}</label>
+                                                <textarea name="comment" type="text" placeholder="Keep it respectful" value={this.state.commentContent} onChange={this.handleChange}/>
+                                                <button>submit</button>
+                                            </form>
+                                        )}
+                                    </Mutation>
+                                </div>
+                            </div>
+                            <div className="sharing" id="bottomSharing">
+                                <div className="icons">
+                                    <EmailShareButton url={`https://www.ourstosave.com/feature?id=${feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
+                                    <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
+                                    <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
+                                </div>
+                            </div>
+                        </>
+                    }
+                </div>
+
+                {paywall || 
+                    <div id="moreInfo">
+                        <p id="homepage">If you found that interesting, you'll love everything else we have to offer. <br/>Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
+                        <CategorySuggestions category={feature.category} feature={feature}/>
+                        <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
+                        <div id="feedPreview">
+                            <Map/>
+                            <div id="previewWrapper">
+                                <FeedPreview/>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {paywall && 
+                    <>
+                        <p className="explanation"><br/>   <strong style={{fontSize: "1.5rem"}}>You've read all your free articles this month.</strong><br/> <br/> To access the rest of this article, please consider supporting quality journalism. <br/><br/></p>
+                        <div id="subscribeWrapper">
+                            <br/>
+                            <Subscribe me={me}/>
+                        </div>
+                    </>
+                }
+            </Container>
+        )
+    }
+}
+
+
+class FeatureShow extends Component {
     render() {
         return (
             <Query query={CURRENT_USER_QUERY} variables={{token: cookies.get('token')}}>
@@ -272,95 +391,39 @@ class FeatureShow extends Component {
                                 let recommendedFeatures = []
                                 if (data) {
                                     recommendedFeatures = data.recommendedFeatures
-                                    return (
-                                        <Container>
-                                            <div className="banner" style={{backgroundImage: `url(${optimiseCloudinary(this.props.feature.featuredImage, 1200)})`}}>
-                                                <div className="opacityBanner">
-                                                    <h1>{this.props.feature.title}</h1>
-                                                    <h3 className="subtitle"><em>{this.props.feature.subtitle}</em></h3>
-                                                </div>
-                                            </div>
-                                            <div className="filler"></div>
-                                            <div id="content">
-                                                {me && me.permissions.includes("EDITOR") && <Link href={{pathname: '/editFeature', query: { id: this.props.feature.id }}}><p style={{textAlign: "right"}}><a style={{cursor: "pointer"}}>Edit feature ✏️ </a></p></Link>}
-                                                <p className="explanation">New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
-                                                <p className="date"><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/></p>
-                                                <p className="author">{this.props.feature.author}</p>
-                                                <div className="sharing" id="topSharing">
-                                                    <p>No paywalls when you share this <strong>Ours to Save</strong> feature:</p>
-                                                    <div className="icons">
-                                                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                                                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                                                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                                                    </div>
-                                                </div>
-        
-                                                {convertRichText(this.props.feature.content, this.props.feature.title, recommendedFeatures)}
-        
-                                                <p className="bio endOfArticle"><em>{this.props.feature.bio}</em></p>
-                                                <div className="comments">
-                                                    <h4 style={{textAlign: "center"}}>Comments</h4>
-                                                    {this.props.feature.comments.filter(c => c.approved ).map(c => {
-                                                        return <Comment key={c.id} comment={c}/>
-                                                    })}
-                                                    {this.props.feature.comments.filter(c => c.approved ).length === 0 && 
-                                                        <p><em>No comments yet. Start the conversation: </em></p>
-                                                    }
-                                                    <div className="addComment">
-                                                        <Mutation mutation={ADD_FEATURE_COMMENT} >
-                                                            {(addFeatureComment, { loading, error }) => (
-                                                                <form
-                                                                    data-test="form"
-                                                                    onSubmit={async e => {
-                                                                        e.preventDefault();
-                                                                        if (me) {
-                                                                            await addFeatureComment({variables: {
-                                                                                content: this.state.commentContent,
-                                                                                authorId: me.id,
-                                                                                featureId: this.props.feature.id
-                                                                            }});
-                                                                            Router.reload();
-                                                                        } else {
-                                                                            Swal.fire({
-                                                                                title: `Join us`,
-                                                                                text: `Log in or sign up and you can comment, upvote and gain access to special content.`,
-                                                                                icon: 'warning',
-                                                                                confirmButtonColor: '#4B4C53',
-                                                                            })
-                                                                        }
-                                                                    }}
-                                                                >
-                                                                    <label htmlFor="comment"><strong>Add comment</strong> <br/>{!me && <small>Log in or sign up to comment</small>}</label>
-                                                                    <textarea name="comment" type="text" placeholder="Keep it respectful" value={this.state.commentContent} onChange={this.handleChange}/>
-                                                                    <button>submit</button>
-                                                                </form>
-                                                            )}
-                                                        </Mutation>
-                                                    </div>
-                                                </div>
-                                                <div className="sharing" id="bottomSharing">
-                                                    <p>No paywalls when you share this <strong>Ours to Save</strong> feature:</p>
-                                                    <div className="icons">
-                                                        <EmailShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><EmailIcon round={true}></EmailIcon></EmailShareButton>
-                                                        <FacebookShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><FacebookIcon round={true}></FacebookIcon></FacebookShareButton>
-                                                        <TwitterShareButton url={`https://www.ourstosave.com/feature?id=${this.props.feature.id}`}><TwitterIcon round={true}></TwitterIcon></TwitterShareButton>
-                                                    </div>
-                                                </div>
-                                            </div>
-        
-                                            <div id="moreInfo">
-                                                <p id="homepage">If you found that interesting, you'll love everything else we have to offer. <br/>Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
-                                                <CategorySuggestions category={this.props.feature.category} feature={this.props.feature}/>
-                                                <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
-                                                <div id="feedPreview">
-                                                    <Map/>
-                                                    <div id="previewWrapper">
-                                                        <FeedPreview/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Container>
-                                    )
+                                    
+                                    // Paywall logic
+                                    if (me && me.permissions.includes("PREMIUM")) {
+                                        return (
+                                            // surface everything
+                                            <ContainerWrapper feature={this.props.feature} me={me}  recommendedFeatures={recommendedFeatures}/>
+                                        )
+                                    } else {
+                                        // Read the cookies to see how many articles they've read
+                                        const paywallCookie = cookies.get('paywallCookie')
+                                        // If there is no cookie, start a new cookie and show page
+                                        if (!paywallCookie) {
+                                            cookies.set("paywallCookie", 1, {
+                                                maxAge: 1000 * 60 * 60 * 24 * 30,
+                                            })
+                                            return (
+                                                <ContainerWrapper feature={this.props.feature}  me={me} freeArticles={parseInt(paywallCookie) + 1} recommendedFeatures={recommendedFeatures}/>
+                                            )
+                                        }
+                                        // If they've read >n, modify cookie and show page
+                                        if (paywallCookie < 5) {
+                                            cookies.set("paywallCookie", parseInt(paywallCookie) + 1)
+                                            return (
+                                                <ContainerWrapper feature={this.props.feature}  me={me} freeArticles={parseInt(paywallCookie) + 1} recommendedFeatures={recommendedFeatures}/>
+                                            )
+                                        }
+                                        // If they've read >=n, show the first few paragraphs and render the subscribe page
+                                        if (paywallCookie >= 5) {
+                                            return (
+                                                <ContainerWrapper feature={this.props.feature}  me={me} paywall={true} recommendedFeatures={recommendedFeatures}/>
+                                            )
+                                        }
+                                    }
                                 }
                             }}
                         </Query>

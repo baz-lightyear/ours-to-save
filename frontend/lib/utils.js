@@ -58,7 +58,7 @@ const visitStripe = async (options) => {
     })
 }
 
-const convertRichText = (string, title, recommendedFeatures) => {
+const convertRichText = (string, title, recommendedFeatures, previewOnly) => {
     const featureArray = recommendedFeatures
     const leafToHtml = (leaf, index) => {
         // we just go through the rules, wrapping the content one-by-one and return whatever is at the end
@@ -83,8 +83,12 @@ const convertRichText = (string, title, recommendedFeatures) => {
         }                                      
         return parse(htmlString)
     }
+    let parsed = JSON.parse(string)
+    if (previewOnly) {
+        parsed = parsed.slice(0, 5)
+    }
     return (
-        JSON.parse(string).map((element, index) => {
+        parsed.map((element, index) => {
             if (element.type === "paragraph") {
                 return (
                     <p key={index} className="paragraph">

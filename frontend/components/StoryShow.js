@@ -364,37 +364,19 @@ class StoryShow extends Component {
                                             <SuggestedFeature>
                                                 <h4 style={{textAlign: "center"}}>Enjoying the crowdsourced map? Delve a little deeper:</h4>
                                                 <div className="featureDiv">
-                                                    {((me && me.permissions.includes("PREMIUM")) || this.props.skipPaywall) && 
-                                                        <Link href={{pathname: '/feature', query: { id: this.props.feature.id, title: this.props.feature.title }}}>
-                                                            <a>
-                                                                <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
-                                                                <div className="text">
-                                                                    <div className="info">
-                                                                        <h4>{this.props.feature.title}</h4>
-                                                                        <p className="category">{this.props.feature.category}</p>
-                                                                        <p className="subtitle">{this.props.feature.subtitle}</p>
-                                                                    </div>
-                                                                    <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/>﹒<span>{this.props.feature.author}</span></small>
+                                                    <Link href={{pathname: '/feature', query: { id: this.props.feature.id, title: this.props.feature.title }}}>
+                                                        <a>
+                                                            <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
+                                                            <div className="text">
+                                                                <div className="info">
+                                                                    <h4>{this.props.feature.title}</h4>
+                                                                    <p className="category">{this.props.feature.category}</p>
+                                                                    <p className="subtitle">{this.props.feature.subtitle}</p>
                                                                 </div>
-                                                            </a>
-                                                        </Link>
-                                                    }
-                                                    {!this.props.skipPaywall && (!me || !(me.permissions.includes("PREMIUM"))) && 
-                                                        <Link href='/account'>
-                                                            <a>
-                                                                <img src={optimiseCloudinary(this.props.feature.featuredImage, 600)} alt={this.props.feature.title}/>
-                                                                <p className="membersOnly">subscribe for access</p>
-                                                                <div className="text">
-                                                                    <div className="info">
-                                                                        <h4>{this.props.feature.title}</h4>
-                                                                        <p className="category">{this.props.feature.category}</p>
-                                                                        <p className="subtitle">{this.props.feature.subtitle}</p>
-                                                                    </div>
-                                                                    <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/>﹒<span>{this.props.feature.author}</span></small>
-                                                                </div>
-                                                            </a>
-                                                        </Link>
-                                                    }
+                                                                <small><Moment date={this.props.feature.createdAt} format="Do MMM YYYY"/>﹒<span>{this.props.feature.author}</span></small>
+                                                            </div>
+                                                        </a>
+                                                    </Link>
                                                 </div>
                                             </SuggestedFeature>
                                         )
