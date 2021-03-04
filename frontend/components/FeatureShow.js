@@ -393,7 +393,7 @@ class FeatureShow extends Component {
                                     recommendedFeatures = data.recommendedFeatures
                                     
                                     // Paywall logic
-                                    if (me && me.permissions.includes("PREMIUM")) {
+                                    if ((me && me.permissions.includes("PREMIUM")) || this.props.feature.alwaysFree) {
                                         return (
                                             // surface everything
                                             <ContainerWrapper feature={this.props.feature} me={me}  recommendedFeatures={recommendedFeatures}/>
@@ -411,14 +411,14 @@ class FeatureShow extends Component {
                                             )
                                         }
                                         // If they've read >n, modify cookie and show page
-                                        if (paywallCookie < 5) {
+                                        if (paywallCookie <= 5) {
                                             cookies.set("paywallCookie", parseInt(paywallCookie) + 1)
                                             return (
                                                 <ContainerWrapper feature={this.props.feature}  me={me} freeArticles={parseInt(paywallCookie) + 1} recommendedFeatures={recommendedFeatures}/>
                                             )
                                         }
                                         // If they've read >=n, show the first few paragraphs and render the subscribe page
-                                        if (paywallCookie >= 5) {
+                                        if (paywallCookie > 5) {
                                             return (
                                                 <ContainerWrapper feature={this.props.feature}  me={me} paywall={true} recommendedFeatures={recommendedFeatures}/>
                                             )

@@ -30,6 +30,9 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 class MyApp extends App {
+    state = {
+        showJoinMailingList: true
+    }
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {};
         if(Component.getInitialProps) {
@@ -57,7 +60,7 @@ class MyApp extends App {
 
         return (
             <ApolloProvider client={this.props.apollo}>
-                <Page>
+                <Page showJoinMailingList={this.state.showJoinMailingList} close={() => {this.setState({showJoinMailingList: false})}}>
                     <Component {...pageProps} />
                 </Page>
             </ApolloProvider>

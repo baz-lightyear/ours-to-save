@@ -86,6 +86,7 @@ type Feature {
   category: String
   leading: Boolean @default(value: false)
   comments: [FeatureComment] @scalarList(strategy: RELATION)
+  alwaysFree: Boolean @default(value: false)
 }
 
 type Gift {

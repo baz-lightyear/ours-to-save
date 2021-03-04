@@ -199,6 +199,7 @@ const CREATE_FEATURE_MUTATION = gql`
     $bio: String
     $category: String!
     $featuredImage: String!
+    $alwaysFree: Boolean
   ) {
     createFeature( 
       content: $content 
@@ -209,6 +210,7 @@ const CREATE_FEATURE_MUTATION = gql`
       subtitle: $subtitle
       category: $category
       featuredImage: $featuredImage
+      alwaysFree: $alwaysFree
     ) {
       id
     }
@@ -226,6 +228,8 @@ const UPDATE_FEATURE_MUTATION = gql`
     $category: String!
     $featureId: String!
     $featuredImage: String!
+    $alwaysFree: Boolean
+
   ) {
     updateFeature( 
       content: $content 
@@ -237,6 +241,7 @@ const UPDATE_FEATURE_MUTATION = gql`
       category: $category
       featureId: $featureId
       featuredImage: $featuredImage
+      alwaysFree: $alwaysFree
     ) {
       id
     }

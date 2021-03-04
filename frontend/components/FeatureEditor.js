@@ -43,6 +43,8 @@ const FeatureEditor = (props) => {
     const [author, setAuthor] = useState(props.authorName)
     const [category, setCategory] = useState(props.category)
     const [featuredImage, setFeaturedImage] = useState(props.featuredImage)
+    const [alwaysFree, setAlwaysFree] = useState(props.alwaysFree)
+
     const [error, setError] = useState("")
     const [createFeature] = useMutation(CREATE_FEATURE_MUTATION);
     const [updateFeature] = useMutation(UPDATE_FEATURE_MUTATION);
@@ -63,7 +65,8 @@ const FeatureEditor = (props) => {
                         content: string, 
                         // address: address,
                         featureId: props.featureId,
-                        featuredImage: featuredImage
+                        featuredImage: featuredImage,
+                        alwaysFree: alwaysFree
                     }}).catch(err => {
                         setError(err.message)
                     })
@@ -82,7 +85,8 @@ const FeatureEditor = (props) => {
                         category: category,
                         content: string, 
                         address: address,
-                        featuredImage: featuredImage
+                        featuredImage: featuredImage,
+                        alwaysFree: alwaysFree
                     }}).catch(err => {
                         setError(err.message)
                     })
@@ -114,6 +118,11 @@ const FeatureEditor = (props) => {
                     <option value="inspiration">Inspiration</option>
                     <option value="conservation">Conservation</option>
                 </select>
+                <span style={{marginRight: "1rem"}}><strong>Override automated paywall?</strong></span>
+                <input style={{width: "auto"}} type="checkbox" name="alwaysFree" value={alwaysFree} onChange={(event) => {
+                    setAlwaysFree(event.target.checked)
+                }}/>
+                <br/>
                 <h3>Text editor:</h3>
                 <p>When you add an image, you <strong>must not</strong> just copy an image into here. Instead, you <em>copy and paste the url of the image</em>. Otherwise the file is too big and our server can't process it. Visit Cloudinary <a href="https://cloudinary.com/console/c-db68a86aed67bfc082fda25d3ead23" target="_blank">here</a> (opens in new tab).</p>    
                 

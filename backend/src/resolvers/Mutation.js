@@ -55,6 +55,7 @@ const Mutation = {
           category: args.category,
           approved: false,
           featuredImage: args.featuredImage,
+          alwaysFree: args.alwaysFree
         },
       },
       info
@@ -314,6 +315,7 @@ const Mutation = {
         author: args.author,
         category: args.category,
         featuredImage: args.featuredImage,
+        alwaysFree: args.alwaysFree
       }
     })
     return feature

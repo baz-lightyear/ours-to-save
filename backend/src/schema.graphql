@@ -21,6 +21,7 @@ type Mutation {
     bio: String
     author: String!
     category: String!
+    alwaysFree: Boolean
   ): Feature
   signup(email: String!, password: String!, name: String!): User!
   signin(email: String!, password: String!): User!
@@ -51,6 +52,7 @@ type Mutation {
     author: String!
     category: String!
     featureId: String
+    alwaysFree: Boolean
   ): Feature
   createStripeCustomer(userId: String): User
   updateReferrer(referrerId: String, referredId: String): User

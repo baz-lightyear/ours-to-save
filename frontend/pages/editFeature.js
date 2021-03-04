@@ -31,7 +31,7 @@ class editFeature extends Component {
         const res = await fetch(`${url}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: `{ feature(id: "${id}") { id title subtitle createdAt author bio content featuredImage latitude longitude address category comments { id createdAt approved content author { name }}}}` }),
+            body: JSON.stringify({ query: `{ feature(id: "${id}") { id title subtitle createdAt author bio content featuredImage latitude longitude address category alwaysFree comments { id createdAt approved content author { name }}}}` }),
         })
         
         const payload = await res.json()
@@ -62,6 +62,7 @@ class editFeature extends Component {
                                         updating={true}
                                         featureId={this.props.feature.id}
                                         featuredImage={this.props.feature.featuredImage}
+                                        alwaysFree={this.props.feature.alwaysFree}
                                     />
                                 </>
                             }

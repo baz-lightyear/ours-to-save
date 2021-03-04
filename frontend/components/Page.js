@@ -183,7 +183,6 @@ const GDPR = styled.div`
 class Page extends Component {
   state = {
     cookieConsent: true,
-    showJoinMailingList: true
   }
   componentDidMount() {
     this.setState({cookieConsent: !!cookies.get("GDPR")})
@@ -277,7 +276,7 @@ class Page extends Component {
                         }
                         return (
                           <>
-                            {this.state.showJoinMailingList && !me && <JoinMailingList close={() => this.setState({showJoinMailingList: false})}/>}
+                            {this.props.showJoinMailingList && !me && <JoinMailingList close={() => this.props.close()}/>}
                             <Header />
                             <span className="flexGrow">{this.props.children}</span>          
                             <Founders/>
