@@ -277,7 +277,7 @@ class Page extends Component {
                         }
                         return (
                           <>
-                            {this.state.showJoinMailingList && <JoinMailingList close={() => this.setState({showJoinMailingList: false})}/>}
+                            {this.state.showJoinMailingList && !me && <JoinMailingList close={() => this.setState({showJoinMailingList: false})}/>}
                             <Header />
                             <span className="flexGrow">{this.props.children}</span>          
                             <Founders/>

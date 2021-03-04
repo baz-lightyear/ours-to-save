@@ -72,14 +72,14 @@ const Container = styled.div`
       }
     }
   }
-  @media (min-width: 651px) {
+  @media (min-width: 701px) {
     .flex {
       .mobileBurger {
         display: none;
       }
     }
   }
-  @media (max-width: 650px) {
+  @media (max-width: 700px) {
     .flex {
       .logo {
         margin-left: 0.5rem !important;

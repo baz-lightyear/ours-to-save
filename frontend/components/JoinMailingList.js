@@ -6,7 +6,132 @@ import Swal from 'sweetalert2';
 
 
 const Container = styled.div`
-    display: flex;
+    .filler {
+        height: 80px;
+        width: 100%;
+    }
+    #joinMailingDiv {
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        background-color: ${props => props.theme.yellow};
+        height: 80px;
+        width: 100%;
+        position: fixed;
+        z-index: 4;
+        #mailingCopy {
+            /* background-color: turquoise; */
+            margin-right: 1rem;
+            h6 {
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+            span {
+            }
+        }
+        form {
+            height: 100%;
+            /* background-color: pink; */
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            fieldset {
+                /* background-color: purple; */
+                display: flex;
+                align-items: flex-end;
+                label {
+                    margin: 0px;
+                    margin-right: 0.5rem;
+                    /* background-color: blue; */
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 0.8rem;
+                    font-weight: bold;
+                    input {
+                        border-radius: 0;
+                        outline: none;
+                        border: solid 1px grey;
+                        background-color: ${props => props.theme.offWhite};
+                        font-size: 1rem;
+                        font-weight: normal;
+                    }
+                }
+                #joinMailingButton {
+                    background-color: ${props => props.theme.green};
+                    color: ${props => props.theme.offWhite};
+                    height: 28px;
+                    border: none;
+                    padding: 0px 0.5rem;
+                    font-weight: normal;
+                    margin: 0;
+                    &:hover {
+                        background-color: ${props => props.theme.black};
+                    }
+                }
+            }
+        }
+        #shutMailing {
+            position: absolute;
+            right: 0.5rem;
+            top: 4px;
+            border: none;
+            padding: 0rem;
+            margin: 0rem;
+            min-width: min-content;
+            opacity: 0.5;
+            color: ${props => props.theme.black};
+            img {
+                height: 1rem;
+            }
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+    @media (max-width: 1000px) {
+        .filler {
+            height: 120px;
+        }
+        #joinMailingDiv {
+            flex-direction: column;
+            height: 120px;
+            align-items: flex-start;
+            form {
+                width: 100%;
+                fieldset {
+                    width: 100%;
+                    label {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+    @media (max-width: 720px) {
+        .filler {
+            height: 200px;
+        }
+        #joinMailingDiv {
+            height: 200px;
+            form {
+                fieldset {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    label {
+                        margin-bottom: 4px;
+                    }
+                }
+            }
+        }
+    }
+    @media (max-width: 600px) {
+        .filler {
+            height: 220px;
+        }
+        #joinMailingDiv {
+            height: 220px;
+        }
+    }
 `
 
 class JoinMailingList extends Component {
@@ -21,13 +146,16 @@ class JoinMailingList extends Component {
     render() {
         return (
             <Container>
-                <Mutation mutation={ADD_TO_MAILING_LIST} variables={{name: this.state.mailingListName, email: this.state.mailingListEmail}}>
-                    {/* get email and full name and add to mailing list */}
-                    {(addToMailingList, {error, loading}) => {
-                        return (
-                            <div id="addToMailingDiv">
-                                <hr/>
-                                <h4>Add someone to the mailing list</h4>
+                <div id="joinMailingDiv">
+                    <button id="shutMailing" onClick={() => this.props.close()}><img src="x.png"/></button>
+                    <div id="mailingCopy">
+                        <h6>Receive email updates</h6>
+                        <span>No spam, just the latest climate movers and shakers in your inbox.</span>
+                    </div>
+                    <Mutation mutation={ADD_TO_MAILING_LIST} variables={{name: this.state.mailingListName, email: this.state.mailingListEmail}}>
+                        {/* get email and full name and add to mailing list */}
+                        {(addToMailingList, {error, loading}) => {
+                            return (
                                 <form
                                     method="post"
                                     onSubmit={async e => {
@@ -35,18 +163,24 @@ class JoinMailingList extends Component {
                                         await addToMailingList().then(response => {
                                             this.setState({ mailingListName: '', mailingListEmail: '' });
                                             Swal.fire({
-                                                title: `something nice`,
-                                                text: `something nice`,
+                                                title: `You're all set`,
+                                                text: `We've added you to our mailing list. Keep an eye on your junk folder in case we end up in the bin!`,
                                                 icon: 'success',
+                                                confirmButtonColor: '#4B4C53',
+                                            })
+                                        }, error => {
+                                            Swal.fire({
+                                                title: `Don't worry`,
+                                                text: error.message.replace('GraphQL error: ', ''),
+                                                icon: 'warning',
                                                 confirmButtonColor: '#4B4C53',
                                             })
                                         });
                                     }}
                                 >
                                     <fieldset disabled={loading} aria-busy={loading}>
-                                        {error && <p>{error.message}</p>}
                                         <label htmlFor="name">
-                                            <strong>Full name:</strong>
+                                            <span>Full name:</span>
                                             <input
                                                 type="text"
                                                 required
@@ -56,7 +190,7 @@ class JoinMailingList extends Component {
                                             />
                                         </label>
                                         <label htmlFor="email">
-                                            <strong>Email:</strong>
+                                            <span>Email:</span>
                                             <input
                                                 type="email"
                                                 required
@@ -65,14 +199,14 @@ class JoinMailingList extends Component {
                                                 onChange={this.handleChange}
                                             />
                                         </label>
-                                        <button type="submit">Add to Mailing List</button>
+                                        <button id="joinMailingButton" type="submit"><strong>JOIN</strong></button>
                                     </fieldset>
                                 </form>
-                            </div>
-                        )
-                    }}
-                </Mutation>
-                <button onClick={() => this.props.close()}>x</button>
+                            )
+                        }}
+                    </Mutation>
+                </div>
+                <div className="filler"></div>
             </Container>
         );
     }
