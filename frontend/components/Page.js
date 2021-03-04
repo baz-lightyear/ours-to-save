@@ -3,6 +3,7 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
 import Head from 'next/head';
 import PrivacyTerms from './PrivacyTerms'
+import JoinMailingList from './JoinMailingList'
 import Header from './Header';
 import Founders from './Founders';
 import Cookies from 'universal-cookie';
@@ -182,6 +183,7 @@ const GDPR = styled.div`
 class Page extends Component {
   state = {
     cookieConsent: true,
+    showJoinMailingList: true
   }
   componentDidMount() {
     this.setState({cookieConsent: !!cookies.get("GDPR")})
@@ -275,6 +277,7 @@ class Page extends Component {
                         }
                         return (
                           <>
+                            {this.state.showJoinMailingList && <JoinMailingList close={() => this.setState({showJoinMailingList: false})}/>}
                             <Header />
                             <span className="flexGrow">{this.props.children}</span>          
                             <Founders/>

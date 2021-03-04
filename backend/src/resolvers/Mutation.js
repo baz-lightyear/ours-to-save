@@ -67,7 +67,7 @@ const Mutation = {
       where: {email: args.email}
     })
     if (existingUser) {
-      throw new Error("That email is already on the database")
+      throw new Error(`That email is already signed up!`)
     } else {
       // format data
       const formattedName = args.name.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
