@@ -61,6 +61,7 @@ const visitStripe = async (options) => {
 const convertRichText = (string, title, recommendedFeatures, previewOnly) => {
     const featureArray = recommendedFeatures
     const leafToHtml = (leaf, index) => {
+        console.log(leaf)
         // we just go through the rules, wrapping the content one-by-one and return whatever is at the end
         let text = ""
         if (leaf.type === "link") {
@@ -80,6 +81,10 @@ const convertRichText = (string, title, recommendedFeatures, previewOnly) => {
         }
         if (leaf.type === "link") {
             htmlString = `<a href=${leaf.url} target="_blank" className="link" key=${index}>${htmlString}</a>`
+            // for italics in links, the JSON structure is a bit unique
+            if (leaf.children[0].italic) {
+                htmlString = `<em key=${index}>${htmlString}</em>`
+            }
         }                                      
         return parse(htmlString)
     }
@@ -144,22 +149,24 @@ const convertRichText = (string, title, recommendedFeatures, previewOnly) => {
             if (element.type === "recommended-article") {
                 const feature = featureArray[0]
                 featureArray.shift()
-                return (
-                    <Link href={{pathname: '/feature', query: { id: feature.id, title: feature.title }}}>
-                        <a className="recommendationLinkWrap">
-                            <div key={index} className="recommendationCard">
-                                <div className="left">
-                                    <p className="recommendationHeader">More from Ours to Save</p>
-                                    <p className="recommendationTitle">{feature.title}</p>
-                                    <p className="recommendationAuthor"><strong>{feature.author}</strong></p>
+                if (feature) {
+                    return (
+                        <Link href={{pathname: '/feature', query: { id: feature.id, title: feature.title }}}>
+                            <a className="recommendationLinkWrap">
+                                <div key={index} className="recommendationCard">
+                                    <div className="left">
+                                        <p className="recommendationHeader">More from Ours to Save</p>
+                                        <p className="recommendationTitle">{feature.title}</p>
+                                        <p className="recommendationAuthor"><strong>{feature.author}</strong></p>
+                                    </div>
+                                    <div className="right">
+                                        <img src={optimiseCloudinary(feature.featuredImage, 400)} alt={feature.title}/>
+                                    </div>
                                 </div>
-                                <div className="right">
-                                    <img src={optimiseCloudinary(feature.featuredImage, 400)} alt={feature.title}/>
-                                </div>
-                            </div>
-                        </a>
-                    </Link>
-                )
+                            </a>
+                        </Link>
+                    )
+                }
             }
         })
     )
