@@ -407,7 +407,7 @@ class FeatureShow extends Component {
                                                 maxAge: 1000 * 60 * 60 * 24 * 30,
                                             })
                                             return (
-                                                <ContainerWrapper feature={this.props.feature}  me={me} freeArticles={parseInt(paywallCookie) + 1} recommendedFeatures={recommendedFeatures}/>
+                                                <ContainerWrapper feature={this.props.feature}  me={me} freeArticles={1} recommendedFeatures={recommendedFeatures}/>
                                             )
                                         }
                                         // If they've read >n, modify cookie and show page
