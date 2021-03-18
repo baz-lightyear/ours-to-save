@@ -276,10 +276,9 @@ class Page extends Component {
                         }
                         return (
                           <>
-                            {this.props.showJoinMailingList && !me && <JoinMailingList close={() => this.props.close()}/>}
                             <Header />
-                            <span className="flexGrow">{this.props.children}</span>          
-                            <Founders/>
+                            <span className="flexGrow">{this.props.children}</span> 
+                            {this.props.showJoinMailingList && !me && <JoinMailingList close={() => this.props.close()}/>}         
                             <Footer>
                               <span className="socialLinks">
                                 <a href="https://twitter.com/ourstosave" target="_blank">
@@ -304,15 +303,16 @@ class Page extends Component {
                                   <a>about</a>
                                 </Link>
                                 <span className="breaker">·</span>
-                                <Link href="/supportUs">
+                                {/* <Link href="/supportUs">
                                   <a>support us</a>
                                 </Link>
-                                <span className="breaker">·</span>
+                                <span className="breaker">·</span> */}
                                 <Link href="/terms">
                                   <a>terms</a>
                                 </Link>
                               </span>
                             </Footer>
+                            <Founders/>
                           </>
                         )
                     }}
@@ -322,7 +322,6 @@ class Page extends Component {
                   <>
                     <Header />
                     <span className="flexGrow">{this.props.children}</span>          
-                    <Founders/>
                     <Footer>
                       <span className="socialLinks">
                         <a href="https://twitter.com/ourstosave" target="_blank">
@@ -347,15 +346,16 @@ class Page extends Component {
                           <a>about</a>
                         </Link>
                         <span className="breaker">·</span>
-                        <Link href="/supportUs">
+                        {/* <Link href="/supportUs">
                           <a>support us</a>
                         </Link>
-                        <span className="breaker">·</span>
+                        <span className="breaker">·</span> */}
                         <Link href="/terms">
                           <a>terms</a>
                         </Link>
                       </span>
                     </Footer>
+                    <Founders/>
                   </>
                 }
               </StyledPage>

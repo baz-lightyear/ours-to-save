@@ -200,23 +200,23 @@ class Header extends Component {
                     </Link>
                   </div>
                   <div className="links">
-                    <Link href="/news">
+                    <Link href="/features">
                       <a>news</a>
                     </Link>
                     <span className="breaker">·</span>
-                    <Link href="/feed">
+                    {/* <Link href="/feed">
                       <a>map</a>
                     </Link>
-                    <span className="breaker">·</span>
+                    <span className="breaker">·</span> */}
 
                     <Link href="/gift">
                       <a>gift</a>
                     </Link>
                     <span className="breaker">·</span>
-                    <Link href="/features">
+                    {/* <Link href="/features">
                       <a>features</a>
                     </Link>
-                    <span className="breaker">·</span>
+                    <span className="breaker">·</span> */}
                     { me && me.permissions.includes("PREMIUM") && <Link href="/account"><a>account</a></Link>}
                     { (!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a>subscribe</a></Link>}
                     <span className="breaker">·</span>
@@ -233,12 +233,12 @@ class Header extends Component {
                       <div className="dropdown">
                         { me && me.permissions.includes("PREMIUM") && <Link href="/account"><a>account</a></Link>}
                         { (!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a>subscribe</a></Link>}
-                        <Link href="/news">
+                        <Link href="/features">
                           <a>news</a>
                         </Link>
-                        <Link href="/feed">
+                        {/* <Link href="/feed">
                           <a>map</a>
-                        </Link>
+                        </Link> */}
                         <Link href="/gift">
                           <a>gift</a>
                         </Link>
@@ -246,10 +246,10 @@ class Header extends Component {
                           { me && <Signout/>}
                           { !me && <LoginModal>log in / sign up</LoginModal>}
                         </div>
-                        <Link href="/features">
+                        {/* <Link href="/features">
                           <a className="featuresButton">features</a>
-                        </Link>
-                        <Link href={{pathname: '/category', query: { category: "innovation" }}}>
+                        </Link> */}
+                        {/* <Link href={{pathname: '/category', query: { category: "innovation" }}}>
                           <a className="category">innovation ·</a>
                         </Link>
                         <Link href={{pathname: '/category', query: { category: "conservation" }}}>
@@ -260,7 +260,7 @@ class Header extends Component {
                         </Link>
                         <Link href={{pathname: '/category', query: { category: "power" }}}>
                           <a className="category featuresButton">power ·</a>
-                        </Link>
+                        </Link> */}
                       </div>
                     </div>
                   </div>

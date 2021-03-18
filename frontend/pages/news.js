@@ -87,7 +87,7 @@ class news extends Component {
                                     <FeedPreview/>
                                 </div>
                             </div>
-                            <h2 id="aAndO">Analysis & opinion from world-class journalists</h2>
+                            <h2 id="aAndO">Analysis & opinion</h2>
                             <div id="latestFeature">
                                 <Query query={LATEST_FEATURE_QUERY}>
                                     {({data, loading, error}) => {

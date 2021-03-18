@@ -110,7 +110,8 @@ const Container = styled.div`
         }
         #contentModes {
             display: flex;
-            justify-content: space-around;
+            /* justify-content: space-around; */
+            justify-content: center;
             flex-wrap: wrap;
             .mode {
                 width: 18rem;
@@ -306,7 +307,7 @@ class index extends Component {
                                         <p><em>Ours to Save</em> is a new kind of publication that makes it easier to engage with the climate crisis, by harnessing the power of <strong>technology</strong> and <strong>community</strong>.</p>
                                         <div className="CTAs">
                                             {/* <Link href="/feed"><a><button id="browse">explore free map</button></a></Link> */}
-                                            <Link href="/news"><a><button id="browse">explore stories</button></a></Link>
+                                            <Link href="/features"><a><button id="browse">explore stories</button></a></Link>
                                             {(!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a><button>become a member</button></a></Link>}
                                             {me && me.permissions.includes("PREMIUM") && <Link href="/features"><a><button>browse features</button></a></Link>}
                                         </div> 
@@ -338,7 +339,7 @@ class index extends Component {
                             <div id="features">
                                 <h3 style={{textAlign: "center"}}>We're a new kind of publication</h3>
                                 <div id="contentModes">
-                                    <Fade bottom>
+                                    {/* <Fade bottom>
                                         <Link href="/feed">
                                             <a>
                                                 <div id="feed" className="mode">
@@ -347,7 +348,7 @@ class index extends Component {
                                                 </div>
                                             </a>
                                         </Link>
-                                    </Fade>
+                                    </Fade> */}
                                     <Fade bottom>
 
                                         <Link href="/features">
@@ -365,14 +366,14 @@ class index extends Component {
                                             <a>
                                                 <div id="podcast" className="mode">
                                                     <img className="illustration" id="airpods" src="airpods.svg" alt="black illustration of airpods"/>
-                                                    <p>Make sense of the weekly stories and hear directly from climate movers-and-shakers with our weekly <strong>podcast</strong>.</p>
+                                                    <p>Make sense of the weekly stories and hear directly from climate movers-and-shakers with our <strong>podcast</strong>.</p>
                                                 </div>
                                             </a>
                                         </Link>
                                     </Fade>
                                 </div>
                                 <div className="CTAs">
-                                    <Link href="/news"><a><button id="browse">explore stories</button></a></Link>
+                                    <Link href="/features"><a><button id="browse">explore stories</button></a></Link>
                                     {(!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a><button>become a member</button></a></Link>}
                                     {me && me.permissions.includes("PREMIUM") && <Link href="/features"><a><button>browse features</button></a></Link>}
                                 </div> 
@@ -415,7 +416,7 @@ class index extends Component {
                                     </Link>
                                 </div>
                                 <div className="CTAs">
-                                    <Link href="/news"><a><button id="browse">explore stories</button></a></Link>
+                                    <Link href="/features"><a><button id="browse">explore stories</button></a></Link>
                                     {(!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a><button>become a member</button></a></Link>}
                                     {me && me.permissions.includes("PREMIUM") && <Link href="/features"><a><button>browse features</button></a></Link>}
                                 </div>                       

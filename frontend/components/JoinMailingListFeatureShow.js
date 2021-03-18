@@ -11,14 +11,14 @@ const Container = styled.div`
         width: 100%;
     }
     #joinMailingDiv {
-        padding: 0.5rem;
+        font-family: ${props => props.theme.sansSerif};
+        border-radius: 4px;
+        padding: 1rem;
         display: flex;
         align-items: center;
         background-color: ${props => props.theme.yellow};
         width: 100%;
-        /* position: fixed; */
         position: relative;
-        z-index: 4;
         #mailingCopy {
             /* background-color: turquoise; */
             margin-right: 1rem;
@@ -136,7 +136,7 @@ const Container = styled.div`
     }
 `
 
-class JoinMailingList extends Component {
+class JoinMailingListFeatureShow extends Component {
     state = {
         mailingListEmail: "",
         mailingListName: "",
@@ -149,7 +149,6 @@ class JoinMailingList extends Component {
         return (
             <Container>
                 <div id="joinMailingDiv">
-                    <button id="shutMailing" onClick={() => this.props.close()}><img src="x.png"/></button>
                     <div id="mailingCopy">
                         <h4>Receive email updates</h4>
                         <span>No spam, just the latest climate movers and shakers in your inbox.</span>
@@ -208,10 +207,11 @@ class JoinMailingList extends Component {
                         }}
                     </Mutation>
                 </div>
+                <br/>
                 {/* <div className="filler"></div> */}
             </Container>
         );
     }
 }
 
-export default JoinMailingList;
+export default JoinMailingListFeatureShow;

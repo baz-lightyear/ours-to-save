@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import Subscribe from '../components/Subscribe';
 import Link from 'next/link'
 import Founders from '../components/Founders';
 
@@ -122,9 +123,10 @@ class about extends Component {
                     <div className="text">
                         <h3>Who are we?</h3>
                         <p>Climate change is already happening. But there are a lot of people already on the case. <br/><br/>
-                        Inspired by the impact of rolling news coverage during the covid-19 pandemic, we want to replicate this level of urgency for another crisis – one that’s just around the corner, but that we still largely have the power to prevent. <br/><br/>
+                        Inspired by the impact of rolling news coverage during the Covid-19 pandemic, we want to replicate this level of urgency for another crisis – one that’s just around the corner, but that we still largely have the power to prevent. <br/><br/>
                         We want to make it easier to visualise where we’re making progress and where we’re failing, and therefore possible to hold the powerful to account and lift up those fighting back from the grassroots. <br/><br/>
-                        So, we’ve made an interactive platform for crowdsourced, global climate news - which is constantly updated by our brilliant team of volunteers, and open to contributions from anyone else who has something to say.</p>
+                        {/* So, we’ve made an interactive platform for crowdsourced, global climate news - which is constantly updated by our brilliant team of volunteers, and open to contributions from anyone else who has something to say. */}
+                        </p>
 
                     </div>
                     <div className="imgDiv"></div>
@@ -133,21 +135,24 @@ class about extends Component {
                     <div className="imgDiv"></div>
                     <div className="text">
                         <h3>How does it work?</h3>
-                        <p>Our climate map is free for all to access. You can scroll over the pins or down the feed, checking out stories from your neighbourhood and much further afield. <br/><br/>
+                        {/* <p>Our climate map is free for all to access. You can scroll over the pins or down the feed, checking out stories from your neighbourhood and much further afield. <br/><br/>
 
-                        On our news page you’ll find in-depth investigations of the issues raised on the map, features and op-eds by prominent and emerging journalists. As of September 2020, we will introduce a small monthly fee (provisionally £5) for our Founding Members to access these in-depth investigations. </p>
+                        On our news page you’ll find in-depth investigations of the issues raised on the map, features and op-eds by prominent and emerging journalists. As of September 2020, we will introduce a small monthly fee (provisionally £5) for our Founding Members to access these in-depth investigations. </p> */}
+                        <p>We commission content from all around the globe, highlighting stories that otherwise would go untold. Our editorial agenda is solutions-oriented, investigative and motivated by a genuine concern for the planet and our shared future.</p>
+                        <p>Since our launch in Spring 2020, we've partnered with heaps of likeminded organisations and are looking forward to spreading our message and impact as we grow.</p>
                     </div>
                 </div>
                 <div className="section3">
                     <div className="text">
-                        <h3>Get in touch</h3>
-                        <p>If you’d like to submit a snippet of breaking news, you can do so <Link href="addStory"><a><strong>here</strong></a></Link>.<br/><br/>
+                        <h3>What's the catch?</h3>
+                        {/* <p>If you’d like to submit a snippet of breaking news, you can do so <Link href="addStory"><a><strong>here</strong></a></Link>.<br/><br/> */}
 
-                        We accept pitches - for short profiles and longer in-depth features - at the end of every month for the month ahead. Please email <span className="green"><strong><a href="mailto:hello@ourstosave.com">hello@ourstosave.com</a></strong></span> with a bit about yourself and your idea.</p>
+                        {/* We accept pitches - for short profiles and longer in-depth features - at the end of every month for the month ahead. Please email <span className="green"><strong><a href="mailto:hello@ourstosave.com">hello@ourstosave.com</a></strong></span> with a bit about yourself and your idea.</p> */}
+                        <p>In order to support high quality climate journalism, we offer a limited amount of free content to everyone. If you'd like unlimited access to climate crisis news and want to support a mission-oriented publication, consider <Link href="/account"><a>subscribing</a></Link>!</p>
                     </div>
                     <div className="imgDiv"></div>
                 </div>
-                <div className="section4">
+                {/* <div className="section4">
                     <div className="imgDiv"></div>
                     <div className="text">
                         <h3>Just so you know –</h3>
@@ -155,9 +160,10 @@ class about extends Component {
 
                         All of our features are edited before publication.</p>
                     </div>
-                </div>
+                </div> */}
                 {/* <Founders/> */}
             </Container>
+
             </>
         );
     }

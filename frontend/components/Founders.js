@@ -7,6 +7,12 @@ const Container = styled.div`
     padding: 0.5rem;
     width: 100vw;
     font-family: ${props => props.theme.serif};
+    h3 {
+        font-size: 0.9rem;
+    }
+    p {
+        font-size: 0.7rem;
+    }
 `;
 
 const Filler = styled.div

@@ -25,6 +25,7 @@ import Link from 'next/link';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import * as gtag from '../lib/gtag'
+import JoinMailingListFeatureShow from './JoinMailingListFeatureShow';
 
 
 const cookies = new Cookies()
@@ -290,6 +291,8 @@ class ContainerWrapper extends Component {
                             {convertRichText(feature.content, feature.title, recommendedFeatures, false)}
 
                             <p className="bio endOfArticle"><em>{feature.bio}</em></p>
+                            {me || <JoinMailingListFeatureShow/>}
+
                             <div className="comments">
                                 <h4 style={{textAlign: "center"}}>Comments</h4>
                                 {feature.comments.filter(c => c.approved ).map(c => {
@@ -345,13 +348,13 @@ class ContainerWrapper extends Component {
                     <div id="moreInfo">
                         <p id="homepage">If you found that interesting, you'll love everything else we have to offer. <br/>Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
                         <CategorySuggestions category={feature.category} feature={feature}/>
-                        <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
+                        {/* <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
                         <div id="feedPreview">
                             <Map/>
                             <div id="previewWrapper">
                                 <FeedPreview/>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 }
                 {paywall && 
