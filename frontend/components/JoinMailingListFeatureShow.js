@@ -16,7 +16,7 @@ const Container = styled.div`
         padding: 1rem;
         display: flex;
         align-items: center;
-        background-color: white;
+        background-color: ${props => props.theme.offWhite};
         width: 100%;
         position: relative;
         #mailingCopy {
@@ -53,14 +53,14 @@ const Container = styled.div`
                         border-radius: 0;
                         outline: none;
                         border: solid 1px grey;
-                        background-color: ${props => props.theme.offWhite};
+                        background-color: white;
                         font-size: 1rem;
                         font-weight: normal;
                     }
                 }
                 #joinMailingButton {
                     background-color: ${props => props.theme.green};
-                    color: ${props => props.theme.offWhite};
+                    color: white;
                     height: 28px;
                     border: none;
                     padding: 0px 0.5rem;

@@ -11,7 +11,7 @@ class StripeChecks extends Component {
             <>
                 {/* First we need to log them in if they are not already logged in */}
                 {!this.props.me && 
-                    <LoginModal specialMessage="To checkout, first you'll need to sign up with your email address and set up a password.">checkout</LoginModal>
+                    <LoginModal specialMessage="To checkout, first you'll need to sign up with your email address and set up a password.">start 14-day free trial</LoginModal>
                 }
                 
                 {/* Then, if there's a referrer, we need to update the referrer in order to catch it in the webhook. We also need to genreate a user-facing promotion code to be applied at checkout */}

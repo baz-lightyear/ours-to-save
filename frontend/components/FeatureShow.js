@@ -346,7 +346,7 @@ class ContainerWrapper extends Component {
 
                 {paywall || 
                     <div id="moreInfo">
-                        <p id="homepage">If you found that interesting, you'll love everything else we have to offer. <br/>Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>
+                        {!me && <p id="homepage">If you found that interesting, you'll love everything else we have to offer. <br/>Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>}
                         <CategorySuggestions category={feature.category} feature={feature}/>
                         {/* <h2 style={{textAlign: "center", margin: "2rem auto"}}>Crowdsourced map</h2>
                         <div id="feedPreview">

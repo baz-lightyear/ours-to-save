@@ -59,7 +59,7 @@ const Container = styled.div`
         cursor: pointer;
         font-family: ${props => props.theme.sansSerif};
         background-color: ${props => props.theme.green};
-        color: ${props => props.theme.offWhite};
+        color: white;
         padding: 0.5rem 1rem;
         &:hover {
             box-shadow: 0px 0px 4px 0px ${props => props.theme.grey};
@@ -148,7 +148,7 @@ class account extends Component {
                                         }} 
                                     </Query>
                                     <Mutation mutation={ADD_TO_MAILING_LIST} variables={{name: this.state.mailingListName, email: this.state.mailingListEmail}}>
-                                        {/* get email and full name and add to mailing list */}
+                                        {/* get email and full name and add to mailing list
                                         {(addToMailingList, {error, loading}) => {
                                             return (
                                                 <div id="addToMailingDiv">
@@ -196,7 +196,7 @@ class account extends Component {
                                                     </form>
                                                 </div>
                                             )
-                                        }}
+                                        }} */}
                                     </Mutation>
                                 </div>
                             }

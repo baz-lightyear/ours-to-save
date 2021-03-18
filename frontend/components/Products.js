@@ -32,7 +32,7 @@ const Container = styled.div`
             button {
                 margin: 1rem 0 6px 0;
                 font-family: ${props => props.theme.sansSerif};
-                font-weight: bolder;
+                font-weight: normal;
                 padding: 0.5rem;
                 width: 95%;
                 background-color: ${props => props.theme.green};
@@ -62,7 +62,7 @@ class Products extends Component {
                         <div className="middle">
                             <img src="threeDevicesAndPoster.png" alt=""/>
                             <h5>£5 / month</h5>
-                            <small><strong>£1.15</strong> / week after your 3-day free trial ends</small>
+                            <small><strong>£1.15</strong> / week after your 14-day free trial ends</small>
                         </div>
                         <div className="bottom">
                             {/* There are a series of checks we need to take the user through before we take them to the stripe checkout page */}
@@ -84,7 +84,7 @@ class Products extends Component {
                                                     visitStripe(options)
                                                 }}
                                             >
-                                                {!loading && "checkout"}
+                                                {!loading && "start 14-day free trial"}
                                                 {loading && <img width="24px" src="greyLoading.gif" alt="loading gif"/>}
                                             </button>
                                         )
@@ -101,7 +101,7 @@ class Products extends Component {
                             <div className="middle">
                                 <img src="threeDevicesAndPoster.png" alt=""/>
                                 <h5>£50 / year</h5>
-                                <small><strong>£0.95</strong> / week after your 3-day free trial ends</small>
+                                <small><strong>£0.95</strong> / week after your 14-day free trial ends</small>
                             </div>
                             <div className="bottom">
                                 <StripeChecks me={this.props.me} referred={this.props.referred} referrerId={this.props.referrerId} showReferralDialogue={this.state.showReferralDialogue} closeReferralDialogue={() => {this.setState({showReferralDialogue: false})}}/>
@@ -121,7 +121,7 @@ class Products extends Component {
                                                         visitStripe(options)
                                                     }}
                                                 >
-                                                    {!loading && "checkout"}
+                                                    {!loading && "start 14-day free trial"}
                                                     {loading && <img width="24px" src="greyLoading.gif" alt="loading gif"/>}
                                                 </button>
                                             )
