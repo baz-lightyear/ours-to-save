@@ -67,7 +67,7 @@ const Container = styled.div`
     .explanation {
         font-family: ${props => props.theme.sansSerif};
         padding: 0.5rem;
-        background-color: ${props => props.theme.yellow};
+        background-color: ${props => props.theme.offWhite};
         border-radius: 4px;
         text-align: center;
     }
@@ -102,7 +102,7 @@ const Container = styled.div`
                 &:hover {
                     box-shadow: 0px 0px 4px rgba(50,50,50,0.3);
                 }
-                background-color: ${props => props.theme.yellow};
+                background-color: ${props => props.theme.offWhite};
                 margin-bottom: 2rem;
                 display: flex;
                 height: min-content;

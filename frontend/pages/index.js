@@ -32,9 +32,9 @@ const Container = styled.div`
                         margin: 1rem;
                         border: solid 2px ${props => props.theme.green};
                         background-color: ${props => props.theme.green};
-                        color: ${props => props.theme.offWhite};
+                        color: white;
                         &:hover {
-                            color: ${props => props.theme.offWhite};
+                            color: white;
                             border: solid 2px ${props => props.theme.black};
                             background-color: ${props => props.theme.black};
                         }
@@ -120,8 +120,8 @@ const Container = styled.div`
                 padding: 1rem;
                 height: 20rem;
                 color: ${props => props.theme.black};
-                background-color: ${props => props.theme.yellow};
-                background-image: url(littlePluses.png);                
+                background-color: ${props => props.theme.offWhite};
+                /* background-image: url(littlePluses.png);                 */
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
@@ -168,9 +168,9 @@ const Container = styled.div`
                 margin: 1rem;
                 border: solid 2px ${props => props.theme.green};
                 background-color: ${props => props.theme.green};
-                color: ${props => props.theme.offWhite};
+                color: white;
                 &:hover {
-                    color: ${props => props.theme.offWhite};
+                    color: white;
                     border: solid 2px ${props => props.theme.black};
                     background-color: ${props => props.theme.black};
                 }
@@ -269,9 +269,9 @@ const Container = styled.div`
                 margin: 1rem;
                 border: solid 2px ${props => props.theme.green};
                 background-color: ${props => props.theme.green};
-                color: ${props => props.theme.offWhite};
+                color: white;
                 &:hover {
-                    color: ${props => props.theme.offWhite};
+                    color: white;
                     border: solid 2px ${props => props.theme.black};
                     background-color: ${props => props.theme.black};
                 }

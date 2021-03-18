@@ -60,8 +60,8 @@ class category extends Component {
                     return (
                         <Container>
                             <CategoryTab category={this.props.category}/>
-                            <h1>{this.props.category}</h1>
-                            <p className="description">{this.describe(this.props.category)}</p>
+                            {/* <h1>{this.props.category}</h1> */}
+                            {/* <p className="description">{this.describe(this.props.category)}</p> */}
                             <div id="latestFeature">
                                 <LatestFeature feature={features[0]}/>
                             </div>

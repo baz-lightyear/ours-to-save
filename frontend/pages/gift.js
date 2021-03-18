@@ -90,7 +90,7 @@ const Container = styled.div`
         justify-content: center;
         .product {
             font-family: ${props => props.theme.serif};
-            background-color: ${props => props.theme.yellow};
+            background-color: ${props => props.theme.offWhite};
             box-shadow: 0px 0px 12px lightgrey;
             padding: 0.5rem;
             margin: 1rem;

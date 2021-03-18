@@ -10,8 +10,8 @@ const cookies = new Cookies()
 
 const Container = styled.div`
     display: flex;
-    background-color: ${props => props.theme.yellow};
-    background-image: url(littlePluses.png);                
+    background-color: ${props => props.theme.offWhite};
+    /* background-image: url(littlePluses.png);                  */
     .content {
         padding: 1rem;
         font-family: ${props => props.theme.serif};

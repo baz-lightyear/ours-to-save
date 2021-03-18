@@ -80,7 +80,7 @@ const Container = styled.div`
             @media (max-width: 600px) {
                 width: 95%;
             }
-            background-color: white;
+            background-color: ${props => props.theme.offWhite};
             padding: 1rem;
             margin: 1rem auto;
             display: inline-flex;

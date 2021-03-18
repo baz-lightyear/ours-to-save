@@ -15,7 +15,7 @@ const SelfReferral = styled.div`
     text-align: center; 
     .code {
         padding: 1rem;
-        background-color: ${props => props.theme.yellow};
+        background-color: ${props => props.theme.offWhite};
         border-radius: 4px;
         text-align: center;
         font-family: ${props => props.theme.serif};
@@ -38,7 +38,7 @@ const Container = styled.div`
     .explanation {
         margin: 1rem;
         padding: 2rem;
-        background-color: ${props => props.theme.yellow};
+        background-color: ${props => props.theme.offWhite};
         border-radius: 2rem;
         font-family: ${props => props.theme.sansSerif};
     }

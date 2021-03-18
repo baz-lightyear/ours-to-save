@@ -28,7 +28,7 @@ const SuggestedFeature = styled.div`
     .featureDiv {
 
         a {
-            background-color: ${props => props.theme.yellow};
+            background-color: ${props => props.theme.offWhite};
             background-image: url(littlePluses.png);
             position: relative;
             color: ${props => props.theme.black};

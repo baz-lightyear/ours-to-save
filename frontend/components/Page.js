@@ -27,7 +27,7 @@ const theme = {
 };
 
 const StyledPage = styled.div`
-  background: ${props => props.theme.offWhite};
+  /* background: ${props => props.theme.offWhite}; */
   color: ${props => props.theme.black};
   display: flex;
   flex-direction: column;
@@ -105,16 +105,6 @@ const Footer = styled.div`
       }
     }
   }
-  .authors {
-    margin: 0 2rem;
-    color: ${theme.offWhite};
-    a {
-      color: ${theme.offWhite};
-      &:hover {
-        opacity: 0.5;
-      }
-    }
-  }
   .contact {
     padding: 0.5rem 0;
     margin-right: 1rem;
@@ -126,9 +116,9 @@ const Footer = styled.div`
         display: none;
       }
     }
-    color: ${props => props.theme.offWhite};
+    color: white;
     a {
-      color: ${props => props.theme.offWhite};
+      color: white;
       margin: 0rem 0.5rem;
       &:hover {
         opacity: 0.8;
@@ -152,12 +142,12 @@ const GDPR = styled.div`
     max-width: 800px;
     margin: auto;
     padding: 1rem;
-    background: ${props => props.theme.offWhite};
+    background: white;
     #title {
       margin-top: 0;
     }
     button {
-      color: ${props => props.theme.offWhite};
+      color: white;
       background: ${props => props.theme.green};
       border: none;
       &:hover {
@@ -175,7 +165,7 @@ const GDPR = styled.div`
       max-height: 200px;
       overflow: scroll;
       padding: 0rem 0.5rem;
-      background-color: ${props => props.theme.yellow};
+      background-color: ${props => props.theme.offWhite};
     }
   }
 `

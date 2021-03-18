@@ -4,21 +4,19 @@ import Link from 'next/link'
 
 const Container = styled.div`
     display: flex;
-    /* justify-content: space-between; */
-    border-bottom: solid 1px ${props => props.theme.lightgreen};
+    padding: 0rem 1rem;
     a {
         color: ${props => props.theme.black};
         text-decoration: none;
-        padding: 1rem 0;
+        padding: 1rem 0 0.5rem 0;
         margin: 0 1rem 0 0;
-        font-weight: bolder;
-        opacity: 0.8;
         &:hover {
             opacity: 1;
+            color: ${props => props.theme.green};
         }
         &.active {
             color: ${props => props.theme.green};
-            border-bottom: solid 4px ${props => props.theme.green};
+            border-bottom: solid 2px ${props => props.theme.green};
         }
     }
     @media (max-width: 600px) {

@@ -10,7 +10,6 @@ const Container = styled.div`
     padding: 1rem 0;
     textarea, input {
         padding: 0.5rem;
-        background-color: ${props => props.theme.offWhite};
         width: 100%;
         margin: 1rem auto;
         font-family: ${props => props.theme.serif};
@@ -19,7 +18,6 @@ const Container = styled.div`
     }
     select {
         margin: 1rem;
-        background-color: ${props => props.theme.offWhite};
         border-radius: 4px;
         border: solid 1px;
     }

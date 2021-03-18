@@ -16,7 +16,7 @@ const Container = styled.div`
         padding: 1rem;
         display: flex;
         align-items: center;
-        background-color: ${props => props.theme.yellow};
+        background-color: white;
         width: 100%;
         position: relative;
         #mailingCopy {

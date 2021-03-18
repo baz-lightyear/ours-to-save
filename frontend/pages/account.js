@@ -22,7 +22,7 @@ const Container = styled.div`
     text-align: center;
     .code {
         padding: 1rem;
-        background-color: ${props => props.theme.yellow};
+        background-color: ${props => props.theme.offWhite};
         border-radius: 4px;
         text-align: center;
         display: inline-block;

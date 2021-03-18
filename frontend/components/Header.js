@@ -12,6 +12,9 @@ const cookies = new Cookies()
 
 
 const Container = styled.div`
+  #featuresTabDropdown {
+    /* border-bottom: solid 1px grey; */
+  }
   .filler {
     height: 40px;
     width: 100%;
@@ -30,7 +33,7 @@ const Container = styled.div`
     margin-left: 1rem;
     font-size: 1.3rem;
     a {
-      color: ${props => props.theme.offWhite};
+      color: white;
       &:hover {
         opacity: 0.7;
       }
@@ -45,12 +48,12 @@ const Container = styled.div`
   .links {
     display: flex;
     margin-right: 1rem;
-    color: ${props => props.theme.offWhite};
+    color: white;
     .breaker {
       margin: 0rem 0.5rem;
     }
     a {
-      color: ${props => props.theme.offWhite};
+      color: white;
       margin: 0;
       &:hover {
         opacity: 0.7;
@@ -60,7 +63,7 @@ const Container = styled.div`
       button {
         margin: 0;
         font-weight: normal;
-        color: ${props => props.theme.offWhite};
+        color: white;
         &:hover {
           opacity: 0.7;
         }
@@ -117,28 +120,31 @@ const Container = styled.div`
         }
         div {
           .dropdown {
+            text-align: left;
             display: flex;
             flex-direction: column;
             border-bottom: solid 6px ${props => props.theme.green};
             a {
-              padding: 0 0.5rem 0 1rem;
-              /* border-bottom: solid 1px ${props => props.theme.lightgreen};; */
+              border-top: solid 1px #eaeaea;
+              padding: 0 0.5rem;
               text-decoration: none;
               color: ${props => props.theme.black};
               line-height: 2;
             }
             .category {
               background-color: white;
+              padding-left: 1.5rem;
+              border-top: solid 1px #eaeaea;
             }
             .featuresButton {
-              border-bottom: solid 1px ${props => props.theme.lightgreen};
+              border-bottom: solid 1px #eaeaea;
             }
             #account {
               button {
                 margin: 0;
                 padding: 0;
                 padding-right: 0.5rem;
-                padding-left: 14px;
+                padding-left: 0.5rem;
                 font-weight: normal;
                 color: ${props => props.theme.black};
                 line-height: 2;
@@ -231,35 +237,35 @@ class Header extends Component {
                     </div>
                     <div className={this.state.toggle}>
                       <div className="dropdown">
-                        { me && me.permissions.includes("PREMIUM") && <Link href="/account"><a>account</a></Link>}
-                        { (!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a>subscribe</a></Link>}
                         <Link href="/features">
-                          <a>news</a>
+                          <a id="featuresTabDropdown">news</a>
                         </Link>
-                        {/* <Link href="/feed">
-                          <a>map</a>
-                        </Link> */}
-                        <Link href="/gift">
-                          <a>gift</a>
+                        <Link href={{pathname: '/category', query: { category: "innovation" }}}>
+                          <a className="category">innovation</a>
+                        </Link>
+                        <Link href={{pathname: '/category', query: { category: "conservation" }}}>
+                          <a className="category">conservation</a>
+                        </Link>
+                        <Link href={{pathname: '/category', query: { category: "inspiration" }}}>
+                          <a className="category">inspiration</a>
+                        </Link>
+                        <Link href={{pathname: '/category', query: { category: "power" }}}>
+                          <a className="category featuresButton">power</a>
                         </Link>
                         <div id="account">
                           { me && <Signout/>}
                           { !me && <LoginModal>account</LoginModal>}
                         </div>
+                        { me && me.permissions.includes("PREMIUM") && <Link href="/account"><a>account</a></Link>}
+                        { (!me || !(me.permissions.includes("PREMIUM"))) && <Link href="/account"><a>subscribe</a></Link>}
+                        <Link href="/gift">
+                          <a>gift</a>
+                        </Link>
+                        {/* <Link href="/feed">
+                          <a>map</a>
+                        </Link> */}
                         {/* <Link href="/features">
                           <a className="featuresButton">features</a>
-                        </Link> */}
-                        {/* <Link href={{pathname: '/category', query: { category: "innovation" }}}>
-                          <a className="category">innovation ·</a>
-                        </Link>
-                        <Link href={{pathname: '/category', query: { category: "conservation" }}}>
-                          <a className="category">conservation ·</a>
-                        </Link>
-                        <Link href={{pathname: '/category', query: { category: "inspiration" }}}>
-                          <a className="category">inspiration ·</a>
-                        </Link>
-                        <Link href={{pathname: '/category', query: { category: "power" }}}>
-                          <a className="category featuresButton">power ·</a>
                         </Link> */}
                       </div>
                     </div>

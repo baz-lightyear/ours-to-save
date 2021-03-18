@@ -14,7 +14,7 @@ const Container = styled.div`
         padding: 1rem;
         display: flex;
         align-items: center;
-        background-color: ${props => props.theme.yellow};
+        background-color: ${props => props.theme.offWhite};
         width: 100%;
         /* position: fixed; */
         position: relative;
@@ -53,7 +53,7 @@ const Container = styled.div`
                         border-radius: 0;
                         outline: none;
                         border: solid 1px grey;
-                        background-color: ${props => props.theme.offWhite};
+                        background-color: white;
                         font-size: 1rem;
                         font-weight: normal;
                     }

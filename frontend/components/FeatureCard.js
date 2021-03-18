@@ -18,8 +18,7 @@ const Container = styled.div`
     @media (max-width: 700px) {
         width: 100%;
     }
-    background-color: ${props => props.theme.yellow};
-    background-image: url(littlePluses.png);
+    background-color: ${props => props.theme.offWhite};
     margin: 1rem;
     border-radius: 2px;
     /* border: solid 1px ${props => props.theme.lightgreen}; */
