@@ -222,7 +222,7 @@ class Header extends Component {
                     <span className="breaker">·</span>
                     <div id="account">
                       { me && <Signout/>}
-                      { !me && <LoginModal>log in / sign up</LoginModal>}
+                      { !me && <LoginModal>account</LoginModal>}
                     </div>
                   </div>
                   <div className='mobileBurger' onClick={this.toggle}>
@@ -244,7 +244,7 @@ class Header extends Component {
                         </Link>
                         <div id="account">
                           { me && <Signout/>}
-                          { !me && <LoginModal>log in / sign up</LoginModal>}
+                          { !me && <LoginModal>account</LoginModal>}
                         </div>
                         {/* <Link href="/features">
                           <a className="featuresButton">features</a>

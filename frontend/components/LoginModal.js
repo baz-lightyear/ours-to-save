@@ -6,7 +6,6 @@ import Signin from './Signin';
 import RequestReset from './RequestReset';
 
 const Container = styled.div`
-
 `;
 const Forms = styled.div`
   border-radius: 6px;
@@ -30,12 +29,33 @@ const Forms = styled.div`
       text-decoration: underline;
     }
   }
+  .tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    .tab {
+      padding: 0.5rem;
+      font-weight: bolder;
+      text-align: center;
+      width: 50%;
+      &.active {
+        border-radius: 8px 8px 0px 0px;
+        border-left: solid 2px ${props => props.theme.lightblue};
+        border-top: solid 2px ${props => props.theme.lightblue};
+        border-right: solid 2px ${props => props.theme.lightblue};
+      }
+      &.inactive {
+        color: #666666;
+        border-left: solid 2px white;
+        border-top: solid 2px white;
+        border-right: solid 2px white;
+        border-bottom: solid 2px ${props => props.theme.lightblue};
+        cursor: pointer;
+      }
+    }
+  }
   .signin {
     margin: 1rem auto;
     width: 80%;
-    p {
-      margin-top: 0.2rem;
-    }
 
     button {
       letter-spacing: 2px;
@@ -196,19 +216,33 @@ class LoginModal extends Component {
                   <p id="explanation">{this.props.specialMessage}</p>
                 }
                 {!this.props.specialMessage && 
-                  <p id="explanation">To get the best out of Ours to Save, you'll need to sign in or sign up.</p>
+                  <p id="explanation">To get the best out of Ours to Save, you'll need to log in or sign up.</p>
                 }
                 <div className={this.state.signin ? "signin" : "hide" }>
+                  <div className="tabs">
+                    <div className="inactive tab" onClick={this.handleSignup}>
+                      SIGN UP
+                    </div>
+                    <div className="active tab">
+                      LOG IN
+                    </div>
+                  </div>
                   <Signin/>
                   <div className="text">
                     <span onClick={this.handlePass}>Forgotten password?</span>
-                    <p>Don't have an account? <span onClick={this.handleSignup}>Sign up</span></p>
                   </div>
                 </div>
                 <div className={this.state.signup ? "signup" : "hide" }>
+                  <div className="tabs">
+                    <div className="active tab">
+                      SIGN UP
+                    </div>
+                    <div className="inactive tab" onClick={this.handleSignin}>
+                      LOG IN
+                    </div>
+                  </div>
                   <Signup/>
                   <div className="text">
-                    <p>Already have an account? <span onClick={this.handleSignin}>Login</span></p>
                   </div>
                 </div>
                 <div className={this.state.reset ? "reset" : "hide" }>

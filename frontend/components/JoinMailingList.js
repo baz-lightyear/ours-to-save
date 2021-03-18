@@ -11,7 +11,7 @@ const Container = styled.div`
         width: 100%;
     }
     #joinMailingDiv {
-        padding: 0.5rem;
+        padding: 1rem;
         display: flex;
         align-items: center;
         background-color: ${props => props.theme.yellow};
@@ -74,8 +74,8 @@ const Container = styled.div`
         }
         #shutMailing {
             position: absolute;
-            right: 0.5rem;
-            top: 4px;
+            right: 1rem;
+            top: 8px;
             border: none;
             padding: 0rem;
             margin: 0rem;

@@ -291,7 +291,7 @@ class ContainerWrapper extends Component {
                             {convertRichText(feature.content, feature.title, recommendedFeatures, false)}
 
                             <p className="bio endOfArticle"><em>{feature.bio}</em></p>
-                            {me || <JoinMailingListFeatureShow/>}
+                            {!me && <JoinMailingListFeatureShow/>}
 
                             <div className="comments">
                                 <h4 style={{textAlign: "center"}}>Comments</h4>
