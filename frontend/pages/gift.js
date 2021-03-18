@@ -46,7 +46,7 @@ const Container = styled.div`
         text-align: center;
         font-family: ${props => props.theme.sansSerif};
         .moreInfo {
-            background-color: white;
+            background-color: ${props => props.theme.offWhite};
             padding: 1rem;
             margin: 1rem auto;
             display: inline-flex;
