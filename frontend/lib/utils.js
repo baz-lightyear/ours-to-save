@@ -90,7 +90,7 @@ const convertRichText = (string, title, recommendedFeatures, previewOnly) => {
     }
     let parsed = JSON.parse(string)
     if (previewOnly) {
-        parsed = parsed.slice(0, 5)
+        parsed = parsed.slice(0, 10)
     }
     return (
         parsed.map((element, index) => {
