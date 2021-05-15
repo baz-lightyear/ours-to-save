@@ -6,6 +6,7 @@ import Signin from './Signin';
 import RequestReset from './RequestReset';
 
 const Container = styled.div`
+  display: inline-block;
 `;
 const Forms = styled.div`
   border-radius: 6px;
@@ -204,7 +205,8 @@ class LoginModal extends Component {
   render() {
     return (
       <Container>
-        <button onClick={this.handleShow}>{this.props.children}</button>
+        {this.props.noButton && <span onClick={this.handleShow}>{this.props.children}</span>}
+        {this.props.noButton || <button onClick={this.handleShow}>{this.props.children}</button>}
         <Modal show={this.state.show} onHide={this.handleClose}>
           <StyledModal>
             <Modal.Header closeButton>

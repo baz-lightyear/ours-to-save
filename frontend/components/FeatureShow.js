@@ -26,6 +26,8 @@ import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import * as gtag from '../lib/gtag'
 import JoinMailingListFeatureShow from './JoinMailingListFeatureShow';
+import LoginModal from './LoginModal';
+
 
 
 const cookies = new Cookies()
@@ -73,7 +75,7 @@ const Container = styled.div`
     }
     #content {
         width: 95%;
-        max-width: 800px;
+        max-width: 700px;
         margin: auto;
         .date {
             text-align: right;
@@ -84,6 +86,7 @@ const Container = styled.div`
             margin-bottom: 1rem;
         }
         .paragraph {
+            line-height: 2;
             text-align: justify;
             margin-bottom: 2rem;
         }
@@ -250,6 +253,13 @@ const Container = styled.div`
         font-family: ${props => props.theme.serif};
         text-align: center;
     }
+    #paywallLogIn {
+        color: ${props => props.theme.green};
+        cursor: pointer;
+        &:hover {
+            font-weight: bold;
+        }
+    }
 `;
 
 class ContainerWrapper extends Component {
@@ -273,7 +283,7 @@ class ContainerWrapper extends Component {
                 <div className="filler"></div>
                 <div id="content">
                     {me && me.permissions.includes("EDITOR") && <Link href={{pathname: '/editFeature', query: { id: feature.id }}}><p style={{textAlign: "right"}}><a style={{cursor: "pointer"}}>Edit feature ✏️ </a></p></Link>}
-                    {(freeArticles < 5 && freeArticles > 0) && <p className="explanation">You're reading {freeArticles} of your 5 free articles this month. For unlimited access, <Link href="/account"><a>join us</a></Link>. <br/><br/> New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>}
+                    {(freeArticles <= 5 && freeArticles > 0) && <p className="explanation">You're reading {freeArticles} of your 5 free articles this month. For unlimited access, <Link href="/account"><a>join us</a></Link>. <br/><br/> New to <em>Ours to Save</em>? Find out how we're taking a different approach to reporting the climate crisis <Link href="/account"><a>here</a></Link>.</p>}
                     <p className="date"><Moment date={feature.createdAt} format="Do MMM YYYY"/></p>
                     <p className="author">{feature.author}</p>
                     <div className="sharing" id="topSharing">
@@ -359,7 +369,7 @@ class ContainerWrapper extends Component {
                 }
                 {paywall && 
                     <>
-                        <p className="explanation"><br/>   <strong style={{fontSize: "1.5rem"}}>You've read all your free articles this month.</strong><br/> <br/> To access the rest of this article, please consider supporting quality journalism. <br/><br/></p>
+                        <p className="explanation"><br/>   <strong style={{fontSize: "1.5rem"}}>You've read all your free articles this month.</strong><br/> <br/> To access the rest of this article, please <LoginModal noButton={true}><span id="paywallLogIn">log in</span></LoginModal> or consider supporting quality journalism: <br/><br/></p>
                         <div id="subscribeWrapper">
                             <br/>
                             <Subscribe me={me}/>

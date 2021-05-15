@@ -14,8 +14,6 @@ const Container = styled.div`
         font-family: ${props => props.theme.sansSerif};
         border-radius: 4px;
         padding: 1rem;
-        display: flex;
-        align-items: center;
         background-color: ${props => props.theme.offWhite};
         width: 100%;
         position: relative;
@@ -41,7 +39,9 @@ const Container = styled.div`
                 /* background-color: purple; */
                 display: flex;
                 align-items: flex-end;
+                width: 100%;
                 label {
+                    flex-grow: 1;
                     margin: 0px;
                     margin-right: 0.5rem;
                     /* background-color: blue; */

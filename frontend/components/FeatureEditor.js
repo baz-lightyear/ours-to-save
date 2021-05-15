@@ -31,6 +31,10 @@ const Container = styled.div`
     }
 `;
 
+const hasARecommendedArticle = (value) => {
+    return value.filter(e => e.type === "recommended-article").length > 0
+}
+
 const FeatureEditor = (props) => {
     // 'value' is here used as a name for the content of the article itself
     const [value, setValue] = useState(JSON.parse(props.content))
@@ -52,48 +56,52 @@ const FeatureEditor = (props) => {
             <form onSubmit={ async e => {
                 e.preventDefault();
                 setError("")
-                const string = JSON.stringify(value)
-                if (props.updating) {
-                    const feature = await updateFeature({ variables: {
-                        title: title,
-                        subtitle: subtitle,
-                        bio: bio,
-                        author: author,
-                        category: category,
-                        content: string, 
-                        // address: address,
-                        featureId: props.featureId,
-                        featuredImage: featuredImage,
-                        alwaysFree: alwaysFree
-                    }}).catch(err => {
-                        setError(err.message)
-                    })
-                    if (feature) {
-                        Router.push({
-                            pathname: `/feature`,
-                            query: { id: props.featureId },
+                if (hasARecommendedArticle(value)) {
+                    const string = JSON.stringify(value)
+                    if (props.updating) {
+                        const feature = await updateFeature({ variables: {
+                            title: title,
+                            subtitle: subtitle,
+                            bio: bio,
+                            author: author,
+                            category: category,
+                            content: string, 
+                            // address: address,
+                            featureId: props.featureId,
+                            featuredImage: featuredImage,
+                            alwaysFree: alwaysFree
+                        }}).catch(err => {
+                            setError(err.message)
                         })
+                        if (feature) {
+                            Router.push({
+                                pathname: `/feature`,
+                                query: { id: props.featureId },
+                            })
+                        }
+                    } else {
+                        const feature = await createFeature({ variables: { 
+                            title: title,
+                            subtitle: subtitle,
+                            bio: bio,
+                            author: author,
+                            category: category,
+                            content: string, 
+                            address: address,
+                            featuredImage: featuredImage,
+                            alwaysFree: alwaysFree
+                        }}).catch(err => {
+                            setError(err.message)
+                        })
+                        if (feature) {
+                            window.alert('Uploaded to database - approve in Prisma')
+                            Router.push({
+                                pathname: '/',
+                            });
+                        };
                     }
                 } else {
-                    const feature = await createFeature({ variables: { 
-                        title: title,
-                        subtitle: subtitle,
-                        bio: bio,
-                        author: author,
-                        category: category,
-                        content: string, 
-                        address: address,
-                        featuredImage: featuredImage,
-                        alwaysFree: alwaysFree
-                    }}).catch(err => {
-                        setError(err.message)
-                    })
-                    if (feature) {
-                        window.alert('Uploaded to database - approve in Prisma')
-                        Router.push({
-                            pathname: '/',
-                        });
-                    };
+                    window.alert('Where are the recommended articles Flossie...? 😢')
                 }
             }}>
 

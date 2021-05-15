@@ -61,7 +61,6 @@ const visitStripe = async (options) => {
 const convertRichText = (string, title, recommendedFeatures, previewOnly) => {
     const featureArray = recommendedFeatures
     const leafToHtml = (leaf, index) => {
-        console.log(leaf)
         // we just go through the rules, wrapping the content one-by-one and return whatever is at the end
         let text = ""
         if (leaf.type === "link") {

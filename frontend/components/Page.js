@@ -186,7 +186,7 @@ class Page extends Component {
                   <meta charSet="utf-8" />
                   <meta name="application-name" content="Ours to save"/>
                   <meta name="author" content="Flossie Wildblood and Harry Kingdon" />
-                  <meta name="description" content="Crowdsourced, breaking news on the climate - use our interactive map"/>
+                  <meta name="description" content="Independent solutions journalism responding to the climate crisis"/>
 
                   <link href="https://fonts.googleapis.com/css?family=Poppins:300,700&display=swap" rel="stylesheet" />
                   <link href="https://fonts.googleapis.com/css?family=Martel:300,700&display=swap" rel="stylesheet"/>
@@ -196,7 +196,7 @@ class Page extends Component {
 
                   <meta property="og:url"                content="https://ourstosave.com" key="og:url"/>
                   <meta property="og:title"              content="Ours to Save" key="og:title"/>
-                  <meta property="og:description"        content="Crowdsourced, breaking news on the climate - use our interactive map" key="og:description"/>
+                  <meta property="og:description"        content="Independent solutions journalism responding to the climate crisis" key="og:description"/>
                   <meta property="og:image"              content="https://images.unsplash.com/photo-1559294824-627e9738df81?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80" key="og:image"/>
                   <meta property="og:type"               content="website" key="og:type"/>
                   <meta property="og:locale" content="en_GB" />

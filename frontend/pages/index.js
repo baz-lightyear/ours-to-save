@@ -304,7 +304,7 @@ class index extends Component {
                                 <div className="text">
                                     <div className="textWrapper">
                                         <h1>It's ours to save.</h1>
-                                        <p><em>Ours to Save</em> is a new kind of publication that makes it easier to engage with the climate crisis, by harnessing the power of <strong>technology</strong> and <strong>community</strong>.</p>
+                                        <p><em>Ours to Save</em> is a new kind of publication that makes it easier to engage with the climate crisis. Our journalism is <strong>international</strong>, <strong>independent</strong> and <strong>solutions-oriented</strong>.</p>
                                         <div className="CTAs">
                                             {/* <Link href="/feed"><a><button id="browse">explore free map</button></a></Link> */}
                                             {/* <Link href="/features"><a><button id="browse">explore stories</button></a></Link> */}

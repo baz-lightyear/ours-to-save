@@ -43,6 +43,7 @@ const Container = styled.div`
         min-height: 400px;
         width: 66%;
         object-fit: cover;
+        flex-shrink: 0;
     }
     &:hover {
         box-shadow: 0px 0px 4px rgba(50,50,50,0.3);
